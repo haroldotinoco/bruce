@@ -3,12 +3,13 @@
  * Keys use dotted event names (e.g. `opportunity.advanced`).
  */
 export const DEFAULT_EVENT_ROUTING: Record<string, string[]> = {
-  'opportunity.advanced': ['add-venture', 'bruce-core'],
+  'opportunity.advanced': ['add-venture'],
   'venture.qualified': ['brand-aid', 'builder'],
+  'brand-aid.pipeline.completed': [],
   'builder.pipeline.completed': ['gtm'],
   'gtm.pipeline.completed': ['startup-ops'],
   'startup-ops.pipeline.completed': ['portfolio'],
-  'portfolio.pipeline.completed': ['bruce-memory'],
+  'portfolio.pipeline.completed': ['bruce-memory', 'bruce-core'],
 };
 
 export function resolveSubscribers(

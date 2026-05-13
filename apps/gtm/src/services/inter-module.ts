@@ -1,44 +1,12 @@
 import type { InterModuleEvent } from '@bruce/contracts';
+import {
+  buildGtmAgentInputFromBuilderToGtmHandoff,
+  resolveModuleHandoffEnvelope,
+  validateBuilderToGtmHandoff,
+} from '@bruce/handoff';
 import { logger } from '@bruce/logger';
 import { getRedisClient } from '@bruce/redis';
 import { startGtmPipeline } from './pipeline.service.js';
-
-/** Minimal channel-strategist payload when triggered after builder completes */
-function defaultGtmInputFromBuilder(_payload: Record<string, unknown>): Record<string, unknown> {
-  return {
-    product: {
-      name: 'VentureProduct',
-      category: 'b2b-saas',
-      value_proposition: 'Ship faster with BruceAI',
-      competitive_positioning: 'Integrated venture stack',
-      price_point_usd: 12000,
-    },
-    target_audience: {
-      primary_persona: 'Technical founder',
-      secondary_personas: ['Product lead'],
-      geography: ['US', 'EU'],
-      company_size: { min_headcount: 10, max_headcount: 500 },
-      media_consumption: ['LinkedIn', 'Twitter'],
-      psychographics: 'Early adopters',
-    },
-    resources: {
-      monthly_budget_usd: 5000,
-      team_size: 1,
-      existing_capabilities: ['content'],
-      founder_network: 'moderate',
-    },
-    market_context: {
-      competitors: [{ name: 'Generic SaaS', estimated_active_channels: ['linkedin', 'content'] }],
-      market_trends: ['AI adoption'],
-      time_to_revenue_days: 60,
-    },
-    goals: {
-      target_mqls_per_month: 10,
-      target_signups_per_month: 20,
-      timeline_weeks: 6,
-    },
-  };
-}
 
 export async function handleBuilderPipelineCompleted(event: InterModuleEvent): Promise<void> {
   const ventureId = event.venture_id?.trim();
@@ -60,7 +28,15 @@ export async function handleBuilderPipelineCompleted(event: InterModuleEvent): P
   if (dedupe) return;
   await redis.set(accountKey, 'gtm', 'intermodule', event.event_id, 'done', true, 604800);
 
-  const agentInput = defaultGtmInputFromBuilder(event.payload);
+  const envelope = resolveModuleHandoffEnvelope(event.payload as Record<string, unknown>, 'gtm');
+  if (!envelope) {
+    throw new Error('builder.pipeline.completed missing gtm handoff envelope');
+  }
+  const validation = validateBuilderToGtmHandoff(envelope.payload);
+  if (!validation.ok || !validation.normalized) {
+    throw new Error(`builder-to-gtm handoff invalid: ${validation.errors?.join('; ')}`);
+  }
+  const agentInput = buildGtmAgentInputFromBuilderToGtmHandoff(validation.normalized);
   await startGtmPipeline({
     accountId: accountKey,
     ventureId,

@@ -424,6 +424,13 @@ export async function ventureAdditionWorkflow(input: {
       ventureId: venture_id,
       pipelineId: dossierId,
       output: dossier,
+      vol2,
+      vol3,
+      vol5,
+      vol6,
+      vol8,
+      correlationId,
+      temporalWorkflowId: wfId,
       projectNickname,
     });
 

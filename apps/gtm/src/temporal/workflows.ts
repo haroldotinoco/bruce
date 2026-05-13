@@ -100,6 +100,8 @@ export async function gtmPipelineWorkflow(input: {
       accountId: account_id,
       ventureId: venture_id,
       result,
+      agentInput: agent_input,
+      correlationId,
     });
 
     const finalResult = { result, observability_run_id: obsRunId };

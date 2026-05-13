@@ -1,23 +1,8 @@
 import type { InterModuleEvent } from '@bruce/contracts';
+import { resolveModuleHandoffEnvelope } from '@bruce/handoff';
 import { logger } from '@bruce/logger';
 import { getRedisClient } from '@bruce/redis';
 import { startBruceMemoryPipeline } from './pipeline.service.js';
-
-function minimalLearningInput(ventureId: string): Record<string, unknown> {
-  return {
-    learning_record: {
-      venture_id: ventureId,
-      venture_name: 'Venture',
-      source_module: 'portfolio',
-      learning_type: 'operational_signal',
-      outcome: 'success',
-      narrative: 'Automated ingestion from portfolio pipeline.',
-      quantitative_data: { conversion_rate: 0.08 },
-      confidence: 70,
-      applicability_tags: ['general'],
-    },
-  };
-}
 
 export async function handlePortfolioPipelineCompleted(event: InterModuleEvent): Promise<void> {
   const ventureId = event.venture_id?.trim();
@@ -39,10 +24,14 @@ export async function handlePortfolioPipelineCompleted(event: InterModuleEvent):
   if (dedupe) return;
   await redis.set(accountKey, 'bruce-memory', 'intermodule', event.event_id, 'done', true, 604800);
 
+  const envelope = resolveModuleHandoffEnvelope(event.payload as Record<string, unknown>, 'bruce-memory');
+  if (!envelope) {
+    throw new Error('portfolio.pipeline.completed missing bruce-memory handoff envelope');
+  }
   await startBruceMemoryPipeline({
     accountId: accountKey,
     ventureId,
-    agentInput: minimalLearningInput(ventureId),
+    agentInput: envelope.payload,
     correlationId: event.correlation_id,
   });
   logger.info({ venture_id: ventureId }, '[bruce-memory] pipeline started from portfolio.pipeline.completed');

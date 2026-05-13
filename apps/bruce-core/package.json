@@ -22,6 +22,7 @@
     "@bruce/db": "workspace:*",
     "@bruce/env": "workspace:*",
     "@bruce/events": "workspace:*",
+    "@bruce/handoff": "workspace:*",
     "@bruce/logger": "workspace:*",
     "@bruce/observability": "workspace:*",
     "@bruce/stripe-client": "workspace:*",

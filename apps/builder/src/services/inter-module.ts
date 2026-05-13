@@ -1,32 +1,12 @@
 import type { InterModuleEvent } from '@bruce/contracts';
+import {
+  buildBuilderAgentInputFromVentureToBuilderHandoff,
+  resolveModuleHandoffEnvelope,
+  validateVentureToBuilderHandoff,
+} from '@bruce/handoff';
 import { logger } from '@bruce/logger';
 import { getRedisClient } from '@bruce/redis';
 import { startBuilderPipeline } from './pipeline.service.js';
-
-/** Minimal valid-shaped input for solution-architect when triggered from venture.qualified */
-function defaultBuilderInputFromQualification(_payload: Record<string, unknown>): Record<string, unknown> {
-  return {
-    functional_spec: {
-      core_features: [
-        { feature_id: 'FT-001', name: 'Core API', description: 'REST API for the product' },
-      ],
-      integrations: [],
-      non_functional_requirements: { uptime_sla: '99%', response_time_p99: '800ms', data_retention: '1 year' },
-    },
-    bdd_spec: { features: [{ feature_name: 'Smoke', scenario_count: 1 }] },
-    tech_stack_requirements: {
-      backend_preference: 'Node.js',
-      database_preference: 'PostgreSQL',
-      cloud_provider: 'AWS',
-    },
-    scalability_requirements: {
-      initial_users: 10,
-      growth_forecast_months: 6,
-      peak_concurrent_users: 100,
-    },
-    compliance_requirements: [],
-  };
-}
 
 export async function handleVentureQualified(event: InterModuleEvent): Promise<void> {
   const ventureId = event.venture_id?.trim();
@@ -48,7 +28,15 @@ export async function handleVentureQualified(event: InterModuleEvent): Promise<v
   if (dedupe) return;
   await redis.set(accountKey, 'builder', 'intermodule', event.event_id, 'done', true, 604800);
 
-  const agentInput = defaultBuilderInputFromQualification(event.payload);
+  const envelope = resolveModuleHandoffEnvelope(event.payload as Record<string, unknown>, 'builder');
+  if (!envelope) {
+    throw new Error('venture.qualified missing builder handoff envelope');
+  }
+  const validation = validateVentureToBuilderHandoff(envelope.payload);
+  if (!validation.ok || !validation.normalized) {
+    throw new Error(`venture-to-builder handoff invalid: ${validation.errors?.join('; ')}`);
+  }
+  const agentInput = buildBuilderAgentInputFromVentureToBuilderHandoff(validation.normalized);
   await startBuilderPipeline({
     accountId: accountKey,
     ventureId,

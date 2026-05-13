@@ -2,7 +2,15 @@ import { and, eq, sql } from 'drizzle-orm';
 import { getAgentRunner } from '@bruce/agent-runtime';
 import { schema, withAccountContext } from '@bruce/db';
 import { emitEvent, getEventBus } from '@bruce/events';
-import { renderStructuringInsightsMd, renderVentureDossierSummaryMd } from '@bruce/handoff';
+import {
+  buildVentureToBrandHandoff,
+  buildVentureToBuilderHandoff,
+  createValidatedModuleHandoffEnvelope,
+  renderStructuringInsightsMd,
+  renderVentureDossierSummaryMd,
+  validateVentureToBrandHandoff,
+  validateVentureToBuilderHandoff,
+} from '@bruce/handoff';
 import { logger } from '@bruce/logger';
 import { writeDeliverable, writeProjectKnowledgeDoc } from '@bruce/project-store';
 import { getRedisClient } from '@bruce/redis';
@@ -707,9 +715,57 @@ export async function emitVentureStructuringCompleted(params: {
   ventureId: string;
   pipelineId: string;
   output: unknown;
+  vol2: unknown;
+  vol3: unknown;
+  vol5: unknown;
+  vol6: unknown;
+  vol8: unknown;
+  correlationId?: string;
+  temporalWorkflowId?: string;
   projectNickname?: string;
 }): Promise<void> {
   const eventBus = getEventBus();
+  const brandPayload = buildVentureToBrandHandoff({
+    ventureId: params.ventureId,
+    vol2: asRecord(params.vol2),
+    vol3: asRecord(params.vol3),
+    vol6: asRecord(params.vol6),
+  });
+  const builderPayload = buildVentureToBuilderHandoff({
+    ventureId: params.ventureId,
+    vol2: asRecord(params.vol2),
+    vol3: asRecord(params.vol3),
+    vol5: asRecord(params.vol5),
+    vol8: asRecord(params.vol8),
+  });
+  const correlationId = params.correlationId ?? crypto.randomUUID();
+  const contextRefs = [
+    { ref_type: 'artifact' as const, ref_id: params.pipelineId, description: 'Approved venture dossier' },
+  ];
+  const brandHandoff = createValidatedModuleHandoffEnvelope({
+    fromModule: 'add-venture',
+    toModule: 'brand-aid',
+    ventureId: params.ventureId,
+    payload: brandPayload,
+    correlationId,
+    workflowExecutionId: params.temporalWorkflowId,
+    triggeredBy: 'workflow_step',
+    targetSchema: 'venture-to-brand.schema.json',
+    contextRefs,
+    validator: validateVentureToBrandHandoff,
+  });
+  const builderHandoff = createValidatedModuleHandoffEnvelope({
+    fromModule: 'add-venture',
+    toModule: 'builder',
+    ventureId: params.ventureId,
+    payload: builderPayload,
+    correlationId,
+    workflowExecutionId: params.temporalWorkflowId,
+    triggeredBy: 'workflow_step',
+    targetSchema: 'venture-to-builder.schema.json',
+    contextRefs,
+    validator: validateVentureToBuilderHandoff,
+  });
   await eventBus.emit({
     type: 'add-venture.structuring.completed',
     accountId: params.accountId,
@@ -729,10 +785,15 @@ export async function emitVentureStructuringCompleted(params: {
       account_id: params.accountId,
       pipeline_id: params.pipelineId,
       output: params.output,
+      handoffs: {
+        'brand-aid': brandHandoff,
+        builder: builderHandoff,
+      },
       project_nickname: params.projectNickname,
     },
     {
       ventureId: params.ventureId,
+      correlationId,
       warnWhenNoSubscribers: false,
     },
   );

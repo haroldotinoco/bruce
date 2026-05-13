@@ -4,6 +4,7 @@ import { getAgentRunner } from '@bruce/agent-runtime';
 import { schema, withAccountContext } from '@bruce/db';
 import { emitEvent, getEventBus } from '@bruce/events';
 import {
+  createValidatedModuleHandoffEnvelope,
   handoffValidationFailedTotal,
   isHandoffStrictValidationEnabled,
   renderOpportunityHandoffMd,
@@ -642,6 +643,18 @@ export async function emitOpportunityAdvancedInterModule(params: {
     }
   }
 
+  const handoffEnvelope = createValidatedModuleHandoffEnvelope({
+    fromModule: 'opportunity',
+    toModule: 'add-venture',
+    ventureId: parseVentureUuid(ventureId) ?? ventureId,
+    payload: handoffRecord,
+    correlationId: correlationId ?? crypto.randomUUID(),
+    workflowExecutionId: temporalWorkflowId,
+    triggeredBy: 'workflow_step',
+    targetSchema: 'opportunity-to-venture.schema.json',
+    validator: validateOpportunityToVentureHandoff,
+  });
+
   if (projectNickname) {
     try {
       const pr = results && typeof results === 'object' ? (results as Record<string, unknown>) : {};
@@ -689,11 +702,12 @@ export async function emitOpportunityAdvancedInterModule(params: {
       scan_id: scanId,
       results,
       venture_handoff: handoffRecord,
+      handoff: handoffEnvelope,
       project_nickname: projectNickname,
     },
     {
       ventureId: parseVentureUuid(ventureId) ?? ventureId,
-      correlationId,
+      correlationId: handoffEnvelope.metadata.correlation_id,
       warnWhenNoSubscribers: false,
     }
   );

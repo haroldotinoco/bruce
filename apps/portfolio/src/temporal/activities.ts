@@ -1,5 +1,12 @@
 import { getAgentRunner } from '@bruce/agent-runtime';
 import { emitEvent } from '@bruce/events';
+import {
+  buildBruceMemoryInputFromPortfolioDecisionHandoff,
+  buildPortfolioToBruceCoreHandoff,
+  createModuleHandoffEnvelope,
+  createValidatedModuleHandoffEnvelope,
+  validatePortfolioToBruceCoreHandoff,
+} from '@bruce/handoff';
 import { logger } from '@bruce/logger';
 import { getRedisClient } from '@bruce/redis';
 
@@ -42,12 +49,53 @@ export async function emitPortfolioPipelineCompleted(params: {
   accountId: string;
   ventureId: string;
   result: unknown;
+  agentInput: Record<string, unknown>;
+  correlationId: string;
 }): Promise<void> {
+  const sourceHandoff =
+    params.agentInput.source_handoff && typeof params.agentInput.source_handoff === 'object'
+      ? (params.agentInput.source_handoff as Record<string, unknown>)
+      : {};
+  const bruceCorePayload = buildPortfolioToBruceCoreHandoff({
+    ventureId: params.ventureId,
+    result: params.result as Record<string, unknown>,
+    sourceHandoff,
+  });
+  const bruceCoreHandoff = createValidatedModuleHandoffEnvelope({
+    fromModule: 'portfolio',
+    toModule: 'bruce-core',
+    ventureId: params.ventureId,
+    payload: bruceCorePayload,
+    correlationId: params.correlationId,
+    triggeredBy: 'workflow_step',
+    targetSchema: 'portfolio-to-bruce-core.schema.json',
+    validator: validatePortfolioToBruceCoreHandoff,
+  });
+  const bruceMemoryHandoff = createModuleHandoffEnvelope({
+    fromModule: 'portfolio',
+    toModule: 'bruce-memory',
+    ventureId: params.ventureId,
+    payload: buildBruceMemoryInputFromPortfolioDecisionHandoff(bruceCorePayload),
+    correlationId: params.correlationId,
+    triggeredBy: 'workflow_step',
+  });
   await emitEvent(
     'portfolio.pipeline.completed',
     'portfolio',
-    { account_id: params.accountId, result: params.result },
-    { ventureId: params.ventureId, warnWhenNoSubscribers: false }
+    {
+      account_id: params.accountId,
+      result: params.result,
+      source_handoff: sourceHandoff,
+      handoffs: {
+        'bruce-core': bruceCoreHandoff,
+        'bruce-memory': bruceMemoryHandoff,
+      },
+    },
+    {
+      ventureId: params.ventureId,
+      correlationId: params.correlationId,
+      warnWhenNoSubscribers: false,
+    }
   );
 }
 

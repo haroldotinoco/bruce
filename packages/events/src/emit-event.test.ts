@@ -23,7 +23,7 @@ describe('emitEvent', () => {
       { ventureId: '550e8400-e29b-41d4-a716-446655440000', correlationId: 'corr-1' },
     );
 
-    expect(mockAdd).toHaveBeenCalledTimes(2);
+    expect(mockAdd).toHaveBeenCalledTimes(1);
     const firstCall = mockAdd.mock.calls[0];
     expect(firstCall?.[0]).toBe('opportunity:opportunity.advanced');
     expect(firstCall?.[1]).toMatchObject({
@@ -46,5 +46,17 @@ describe('emitEvent', () => {
     expect(mockAdd).toHaveBeenCalledTimes(2);
     const subscribers = mockAdd.mock.calls.map((c) => (c[1] as { subscriber: string }).subscriber);
     expect(subscribers.sort()).toEqual(['brand-aid', 'builder']);
+  });
+
+  it('fan-out: portfolio.pipeline.completed targets bruce-memory and bruce-core', async () => {
+    const { emitEvent } = await import('./emit-event.js');
+
+    await emitEvent('portfolio.pipeline.completed', 'portfolio', { result: {} }, {
+      ventureId: '550e8400-e29b-41d4-a716-446655440000',
+    });
+
+    expect(mockAdd).toHaveBeenCalledTimes(2);
+    const subscribers = mockAdd.mock.calls.map((c) => (c[1] as { subscriber: string }).subscriber);
+    expect(subscribers.sort()).toEqual(['bruce-core', 'bruce-memory']);
   });
 });

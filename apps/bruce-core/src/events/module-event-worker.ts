@@ -1,11 +1,25 @@
 import type { InterModuleEvent } from '@bruce/contracts';
+import {
+  resolveModuleHandoffEnvelope,
+  validatePortfolioToBruceCoreHandoff,
+} from '@bruce/handoff';
 import { createModuleEventWorker } from '@bruce/events';
 import { logger } from '@bruce/logger';
 
 export function startBruceCoreModuleEventWorker(): void {
   createModuleEventWorker('bruce-core', async (event: InterModuleEvent) => {
-    if (event.event_type !== 'opportunity.advanced') {
+    if (event.event_type !== 'portfolio.pipeline.completed') {
       return;
+    }
+
+    const payload = event.payload as Record<string, unknown>;
+    const envelope = resolveModuleHandoffEnvelope(payload, 'bruce-core');
+    if (!envelope) {
+      throw new Error('portfolio.pipeline.completed missing bruce-core handoff envelope');
+    }
+    const validation = validatePortfolioToBruceCoreHandoff(envelope.payload);
+    if (!validation.ok) {
+      throw new Error(`portfolio-to-bruce-core handoff invalid: ${validation.errors?.join('; ')}`);
     }
 
     logger.info(
@@ -13,8 +27,10 @@ export function startBruceCoreModuleEventWorker(): void {
         correlation_id: event.correlation_id,
         event_id: event.event_id,
         venture_id: event.venture_id,
+        decision: validation.normalized?.decision,
+        confidence_score: validation.normalized?.confidence_score,
       },
-      '[bruce-core] opportunity.advanced received (stub)',
+      '[bruce-core] portfolio decision handoff received',
     );
   });
 }

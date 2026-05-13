@@ -1,5 +1,10 @@
 import { getAgentRunner } from '@bruce/agent-runtime';
 import { emitEvent } from '@bruce/events';
+import {
+  buildStartupOpsToPortfolioHandoff,
+  createValidatedModuleHandoffEnvelope,
+  validateStartupOpsToPortfolioHandoff,
+} from '@bruce/handoff';
 import { logger } from '@bruce/logger';
 import { getRedisClient } from '@bruce/redis';
 
@@ -42,12 +47,42 @@ export async function emitStartupOpsPipelineCompleted(params: {
   accountId: string;
   ventureId: string;
   result: unknown;
+  agentInput: Record<string, unknown>;
+  correlationId: string;
 }): Promise<void> {
+  const sourceHandoff =
+    params.agentInput.source_handoff && typeof params.agentInput.source_handoff === 'object'
+      ? (params.agentInput.source_handoff as Record<string, unknown>)
+      : {};
+  const portfolioPayload = buildStartupOpsToPortfolioHandoff({
+    ventureId: params.ventureId,
+    result: params.result as Record<string, unknown>,
+    sourceHandoff,
+  });
+  const handoff = createValidatedModuleHandoffEnvelope({
+    fromModule: 'startup-ops',
+    toModule: 'portfolio',
+    ventureId: params.ventureId,
+    payload: portfolioPayload,
+    correlationId: params.correlationId,
+    triggeredBy: 'workflow_step',
+    targetSchema: 'startup-ops-to-portfolio.schema.json',
+    validator: validateStartupOpsToPortfolioHandoff,
+  });
   await emitEvent(
     'startup-ops.pipeline.completed',
     'startup-ops',
-    { account_id: params.accountId, result: params.result },
-    { ventureId: params.ventureId, warnWhenNoSubscribers: false }
+    {
+      account_id: params.accountId,
+      result: params.result,
+      source_handoff: sourceHandoff,
+      handoff,
+    },
+    {
+      ventureId: params.ventureId,
+      correlationId: params.correlationId,
+      warnWhenNoSubscribers: false,
+    }
   );
 }
 

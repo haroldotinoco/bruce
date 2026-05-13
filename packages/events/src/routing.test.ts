@@ -13,6 +13,9 @@ describe('resolveSubscribers', () => {
     expect(resolveSubscribers('venture.qualified')).toEqual(
       DEFAULT_EVENT_ROUTING['venture.qualified'],
     );
+    expect(resolveSubscribers('portfolio.pipeline.completed')).toEqual(
+      DEFAULT_EVENT_ROUTING['portfolio.pipeline.completed'],
+    );
   });
 
   it('returns empty array for unknown types without explicit subscribers', () => {

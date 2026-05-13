@@ -2,6 +2,7 @@ import type { InterModuleEvent } from '@bruce/contracts';
 import {
   handoffValidationFailedTotal,
   isHandoffStrictValidationEnabled,
+  resolveModuleHandoffEnvelope,
   resolveOpportunityFromInterModulePayload,
   validateOpportunityToVentureHandoff,
 } from '@bruce/handoff';
@@ -23,7 +24,8 @@ export async function handleOpportunityAdvancedEvent(event: InterModuleEvent): P
     typeof event.payload.account_id === 'string' ? event.payload.account_id : ventureId;
 
   const payload = event.payload as Record<string, unknown>;
-  const opportunity = resolveOpportunityFromInterModulePayload(payload);
+  const envelope = resolveModuleHandoffEnvelope(payload, 'add-venture');
+  const opportunity = envelope ? envelope.payload : resolveOpportunityFromInterModulePayload(payload);
   const validation = validateOpportunityToVentureHandoff(opportunity);
   if (!validation.ok) {
     handoffValidationFailedTotal.labels('add_venture_consume').inc();

@@ -1,26 +1,12 @@
 import type { InterModuleEvent } from '@bruce/contracts';
+import {
+  buildBrandAidAgentInputFromVentureToBrandHandoff,
+  resolveModuleHandoffEnvelope,
+  validateVentureToBrandHandoff,
+} from '@bruce/handoff';
 import { logger } from '@bruce/logger';
 import { getRedisClient } from '@bruce/redis';
 import { startBrandAidPipeline } from './pipeline.service.js';
-
-function defaultMarketInputFromQualification(payload: Record<string, unknown>): Record<string, unknown> {
-  const out = payload.output;
-  const title =
-    typeof out === 'object' && out !== null && typeof (out as { title?: string }).title === 'string'
-      ? (out as { title: string }).title
-      : 'Qualified venture';
-  return {
-    venture_hypothesis: `${title} — brand positioning research (from venture.qualified)`,
-    competitors: [
-      { name: 'Competitor A', website: 'example.com', category: 'direct' },
-      { name: 'Competitor B', website: 'example.org', category: 'adjacent' },
-    ],
-    customer_segment: 'Early-stage B2B buyers',
-    research_focus: ['brand messaging', 'positioning'],
-    geographic_scope: 'global',
-    timeframe: 'last_12_months',
-  };
-}
 
 export async function handleVentureQualified(event: InterModuleEvent): Promise<void> {
   const ventureId = event.venture_id?.trim();
@@ -42,7 +28,15 @@ export async function handleVentureQualified(event: InterModuleEvent): Promise<v
   if (dedupe) return;
   await redis.set(accountKey, 'brand-aid', 'intermodule', event.event_id, 'done', true, 604800);
 
-  const agentInput = defaultMarketInputFromQualification(event.payload);
+  const envelope = resolveModuleHandoffEnvelope(event.payload as Record<string, unknown>, 'brand-aid');
+  if (!envelope) {
+    throw new Error('venture.qualified missing brand-aid handoff envelope');
+  }
+  const validation = validateVentureToBrandHandoff(envelope.payload);
+  if (!validation.ok || !validation.normalized) {
+    throw new Error(`venture-to-brand handoff invalid: ${validation.errors?.join('; ')}`);
+  }
+  const agentInput = buildBrandAidAgentInputFromVentureToBrandHandoff(validation.normalized);
   await startBrandAidPipeline({
     accountId: accountKey,
     ventureId,
