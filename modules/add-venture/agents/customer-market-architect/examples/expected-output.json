@@ -1,0 +1,113 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "volume_number": 2,
+  "volume_title": "Customer & Market Architecture",
+  "customer_segments": [
+    {
+      "segment_name": "Large Bank Compliance Teams",
+      "priority_rank": 1,
+      "segment_size_customers": 150,
+      "segment_tam_usd": 7500000,
+      "customer_archetypes": ["Chief Compliance Officer at $100B+ bank", "AI Governance Lead at Top 50 bank"],
+      "primary_pain_points": ["Cannot demonstrate AI compliance to Federal Reserve", "Manual audit processes for 50+ models", "Regulatory scrutiny on unexplainable AI decisions"],
+      "willingness_to_pay_range": {
+        "min_annual_usd": 150000,
+        "max_annual_usd": 500000,
+        "median_annual_usd": 250000
+      }
+    },
+    {
+      "segment_name": "Mid-Market Bank Risk Teams",
+      "priority_rank": 2,
+      "segment_size_customers": 800,
+      "segment_tam_usd": 24000000,
+      "customer_archetypes": ["Compliance Manager at $10-50B bank"],
+      "primary_pain_points": ["Need to audit models but lack tools", "Growing regulatory pressure", "Spreadsheet-based compliance"],
+      "willingness_to_pay_range": {
+        "min_annual_usd": 50000,
+        "max_annual_usd": 150000,
+        "median_annual_usd": 75000
+      }
+    }
+  ],
+  "jtbd_map": {
+    "functional_jobs": [
+      "Monitor AI model performance and behavior in production",
+      "Document AI model decisions for regulatory audit",
+      "Prove model explainability to regulators",
+      "Quickly remediate non-compliant models"
+    ],
+    "emotional_jobs": [
+      "Feel confident organization meets regulatory requirements",
+      "Reduce anxiety about regulatory enforcement action",
+      "Demonstrate proactive compliance approach to board"
+    ],
+    "social_jobs": [
+      "Show peers their organization is compliance leader",
+      "Demonstrate to regulators that governance is strong"
+    ],
+    "job_hierarchy": [
+      {
+        "job": "Prove model explainability to regulators",
+        "priority": "primary",
+        "alternative_solutions": ["Manual model audits", "Regulatory consultants", "In-house audit team"]
+      },
+      {
+        "job": "Monitor AI model performance in production",
+        "priority": "secondary",
+        "alternative_solutions": ["Existing monitoring tools adapted", "Manual monitoring"]
+      }
+    ]
+  },
+  "decision_maker_map": {
+    "primary_buyer_title": "Chief Compliance Officer / Chief Risk Officer",
+    "primary_buyer_motivation": "Regulatory risk reduction, audit readiness, budget for compliance",
+    "end_user_title": "AI Governance Lead / Compliance Analyst",
+    "end_user_motivation": "Faster audit processes, easier documentation, reduced manual work",
+    "stakeholders": [
+      {
+        "role": "Chief Technology Officer",
+        "influence_level": "strong_influencer",
+        "success_criteria": "Integrates with existing model deployment infrastructure"
+      },
+      {
+        "role": "Regulatory Counsel",
+        "influence_level": "approver",
+        "success_criteria": "Meets regulatory requirements, provides audit trail"
+      }
+    ],
+    "buying_approval_workflow": "Compliance Officer → Risk Committee approval → Procurement",
+    "typical_sales_cycle_months": 4
+  },
+  "market_architecture": {
+    "total_addressable_segment": 950,
+    "revenue_concentration": "80% of Year 1 revenue from top 30 large banks",
+    "geographic_distribution": "Concentrated in financial hubs (NYC, SF, London, Singapore)",
+    "competitive_positioning": "Uncontested at enterprise level; some point solutions exist",
+    "barriers_to_entry": ["Regulatory expertise required", "Integration complexity with model stacks", "Customer switching costs once embedded in compliance process"]
+  },
+  "assumptions": [
+    "Regulators will continue to increase AI compliance scrutiny for next 3+ years",
+    "Banks will prioritize integrated compliance platforms vs. point solutions",
+    "Willingness-to-pay is driven by regulatory risk (model volatility increases price tolerance)",
+    "Large bank compliance teams will evaluate dedicated tools vs. building in-house",
+    "Mid-market banks will lag large bank adoption by 12-18 months"
+  ],
+  "data_gaps": [
+    "Exact number of banks currently deploying AI models (estimated from report)",
+    "Budget allocation for AI compliance vs. general compliance",
+    "Detailed buying committee structure at top 50 banks",
+    "Secondary segment willingness-to-pay validation needed"
+  ],
+  "confidence_score": 72,
+  "confidence_rationale": "Primary segment definition is clear with strong willingness-to-pay signals. Regulatory drivers are well-documented. JTBD grounded in actual compliance challenges. Decision-maker mapping reasonable but needs validation on secondary influencers. Secondary segment prioritization less certain; confidence slightly lower due to unknown adoption timeline.",
+  "key_sections": [
+    "Primary Segment Deep-Dive",
+    "Jobs-to-be-Done Framework",
+    "Secondary & Tertiary Segments",
+    "Decision-Maker vs. User Mapping",
+    "Market Architecture"
+  ],
+  "execution_timestamp": "2026-04-06T10:15:00Z",
+  "agent_id": "customer-market-architect"
+}

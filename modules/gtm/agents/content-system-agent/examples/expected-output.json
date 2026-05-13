@@ -1,0 +1,200 @@
+{
+  "messaging_system": {
+    "core_narrative": "DataShield is the only Salesforce-native insider threat prevention platform. We protect customer data and compliance standing without deploying external DLP infrastructure.",
+    "narrative_supporting_pillars": [
+      {
+        "pillar": "Salesforce-Native Architecture",
+        "proof_points": [
+          "Zero external integrations or data movement required",
+          "Single admin console for all Salesforce security",
+          "Deploys in <2 hours vs. 8+ weeks for traditional DLP"
+        ]
+      },
+      {
+        "pillar": "Insider Threat Prevention",
+        "proof_points": [
+          "AI detects anomalous data access patterns in real-time",
+          "Alerts security teams before data leaves Salesforce",
+          "Average incident response time <2 hours vs. 48+ hours industry average"
+        ]
+      },
+      {
+        "pillar": "Compliance Confidence",
+        "proof_points": [
+          "Pre-built audit reports for SOX, GDPR, HIPAA",
+          "Complete audit trail for every data access event",
+          "Automated compliance notifications for policy violations"
+        ]
+      }
+    ],
+    "competitive_positioning": {
+      "vs_Varonis": "Varonis is post-acquisition underfunding mid-market; DataShield is Salesforce-focused with 40% lower cost",
+      "vs_Imperva": "Imperva requires external cloud infrastructure; DataShield is Salesforce-native with zero deployment friction",
+      "vs_traditional_DLP": "Traditional DLP monitors all data; DataShield focuses on insider threats in Salesforce, the highest-value target"
+    },
+    "objection_handlers": [
+      {
+        "objection": "We already have a DLP solution",
+        "response": "Traditional DLP is designed for email/network. DataShield is Salesforce-specific, catching insider threats that generic solutions miss."
+      },
+      {
+        "objection": "Insider threats aren't our biggest risk",
+        "response": "68% of data breaches involve insiders (Verizon DBIR). Even one breach costs $4.3M average. Prevention is cheaper than response."
+      },
+      {
+        "objection": "We can't afford another vendor",
+        "response": "DataShield costs 40% less than Varonis and replaces expensive manual compliance work. ROI typically <6 months."
+      }
+    ]
+  },
+  "content_calendar_structure": {
+    "monthly_volume": 18,
+    "channel_breakdown": {
+      "linkedin": 8,
+      "blog": 4,
+      "newsletter": 3,
+      "twitter": 2,
+      "industry-publication": 1
+    },
+    "content_mix": {
+      "awareness": 35,
+      "consideration": 40,
+      "decision": 25
+    },
+    "themes_by_month": {
+      "Month 1": [
+        "Insider threat landscape and costs",
+        "Salesforce security best practices",
+        "Compliance automation trends"
+      ],
+      "Month 2": [
+        "Case study: Preventing insider data theft",
+        "AI-powered threat detection deep dive",
+        "Competitive landscape analysis (Varonis vs. DLP)"
+      ],
+      "Month 3": [
+        "ROI calculation for insider threat prevention",
+        "Compliance readiness for audits",
+        "Product feature deep dives"
+      ]
+    }
+  },
+  "copywriting_templates": [
+    {
+      "template_id": "linkedin-case-study-v1",
+      "channel": "linkedin",
+      "type": "case-study",
+      "template": "We just prevented {{company_name}} from a {{data_type}} breach worth ${{financial_impact}}. Here's how:\n\nThe Problem: {{company_name}}'s {{persona}} team was handling {{use_case}} manually, with no visibility into {{specific_risk}}.\n\nThe Solution: DataShield deployed in {{timeline}}. It immediately detected {{threat_detected}}.\n\nThe Result: {{company_name}} now has {{business_outcome}}.\n\nKey Learnings:\n1. {{learning_1}}\n2. {{learning_2}}\n3. {{learning_3}}\n\nWhat would {{threat_prevented}} have cost you?",
+      "character_limit": 1300,
+      "usage_examples": [
+        "We just prevented SalesForce-heavy SaaS company from a customer-data breach worth $2.4M. Here's how:\n\nThe Problem: TechCorp's customer success team was exporting customer lists manually with no visibility into who accessed what.\n\nThe Solution: DataShield deployed in 4 hours. It immediately detected an admin downloading 50K customer records.\n\nThe Result: TechCorp now has real-time insider threat alerts and a complete audit trail.\n\nKey Learnings:\n1. Insider threats happen faster than you think (3 minutes from access to export)\n2. Your best employees are your biggest risk (insider threats often come from trusted roles)\n3. Prevention is 100x cheaper than breach response\n\nWhat would one insider breach have cost you?"
+      ],
+      "approval_requirements": [
+        "product",
+        "legal"
+      ]
+    },
+    {
+      "template_id": "linkedin-thought-leadership-v1",
+      "channel": "linkedin",
+      "type": "thought-leadership",
+      "template": "Quick take on {{topic}}:\n\nConventional wisdom says {{old_assumption}}.\n\nBut the data shows {{surprising_insight}}.\n\nWhy this matters: {{implication_for_ciso}}.\n\nThe shift we're seeing: {{market_trend}}.\n\n{{call_to_action}}",
+      "character_limit": 800,
+      "usage_examples": [
+        "Quick take on insider threats:\n\nConventional wisdom says they're rare and you should focus on external breaches.\n\nBut the data shows insiders are involved in 68% of breaches and cause 4x more damage.\n\nWhy this matters: Your compliance spend is probably focused on the wrong threat.\n\nThe shift we're seeing: Forward-thinking CISOs are building insider threat detection into their Salesforce stack, not waiting for the next breach.\n\nWhat percentage of your security budget goes to insider threat prevention?"
+      ],
+      "approval_requirements": [
+        "brand",
+        "legal"
+      ]
+    },
+    {
+      "template_id": "blog-how-to-v1",
+      "channel": "blog",
+      "type": "how-to",
+      "template": "# How to {{goal}} Without {{pain_point}}\n\n{{company_name}} was struggling with {{initial_challenge}}. Here's how they {{achieved_outcome}}.\n\n## Step 1: {{first_step}}\n{{explanation}}\n\n## Step 2: {{second_step}}\n{{explanation}}\n\n## Step 3: {{third_step}}\n{{explanation}}\n\n## Results\n{{outcome_metrics}}\n\n{{cta_paragraph}}",
+      "character_limit": 2000,
+      "usage_examples": [
+        "# How to Detect Insider Threats Without Slowing Down Your Business\n\nFintech startup SecureBank was struggling with insider risk while keeping their compliance team sane. Here's how they built insider threat detection into their Salesforce without adding overhead.\n\n## Step 1: Identify Your High-Risk Data\nSecureBank's Head of Compliance mapped their Salesforce instance: customer bank accounts (Tier 1), transaction history (Tier 2), email communications (Tier 3).\n\nKey insight: Not all data is equally risky. Focus on what could cause >$1M loss if breached.\n\n## Step 2: Set Behavioral Baselines\nDataShield analyzed 30 days of normal access patterns. It learned that: Finance analysts access 50-100 accounts/day, admins access 500+, and customer service reps access 5-10.\n\nAnything outside this baseline triggers investigation.\n\n## Step 3: Enable Automated Response\nWhen anomalies are detected (e.g., customer service rep accessing 1,000 accounts in 5 minutes), DataShield automatically:\n- Notifies SecureBank's security team\n- Logs the full access trail\n- Generates a compliance report\n\n## Results\nSecureBank now detects insider threats in <2 minutes vs. 48+ hours with manual auditing. Their compliance team saves 20 hours/week on log analysis.\n\nReady to detect insider threats in your Salesforce? Start with a free 30-day trial."
+      ],
+      "approval_requirements": [
+        "product"
+      ]
+    },
+    {
+      "template_id": "twitter-stat-callout-v1",
+      "channel": "twitter",
+      "type": "stat-callout",
+      "template": "{{stat_headline}}\n\nWhy it matters: {{implication}}\n\nWhat we're seeing: {{trend_observation}}\n\n#DataSecurity #{{industry_hashtag}}",
+      "character_limit": 280,
+      "usage_examples": [
+        "68% of breaches involve insiders.\n\nWhy it matters: Your compliance spend is probably focused on the wrong threat.\n\nWhat we're seeing: CISOs are building insider threat detection into their tech stack.\n\n#DataSecurity #InfoSec"
+      ],
+      "approval_requirements": [
+        "brand"
+      ]
+    },
+    {
+      "template_id": "newsletter-product-update-v1",
+      "channel": "newsletter",
+      "type": "announcement",
+      "template": "## Product Update: {{feature_name}}\n\nWe just shipped {{what_changed}}.\n\n**Why we built it**: {{user_request_or_insight}}\n\n**What changed**: {{feature_description}}\n\n**For you**: {{benefit_to_customer}}\n\nTry it in your Salesforce instance starting {{date}}.",
+      "character_limit": 600,
+      "usage_examples": [
+        "## Product Update: Compliance Report Automation\n\nWe just shipped automated compliance report generation for SOX, GDPR, HIPAA.\n\n**Why we built it**: Every quarter, our customers were manually generating 200+ page compliance reports. Their legal teams were drowning.\n\n**What changed**: DataShield now auto-generates compliance reports with audit trails, policy violation summaries, and executive dashboards in one click.\n\n**For you**: 15 hours/week of compliance work automated. Reports are audit-ready, not rough drafts.\n\nTry it in your Salesforce instance starting April 15th."
+      ],
+      "approval_requirements": [
+        "product",
+        "legal"
+      ]
+    }
+  ],
+  "content_library_plan": {
+    "core_assets": [
+      {
+        "asset_name": "Insider Threat Landscape Report",
+        "description": "Data-driven guide to insider threats, costs, and prevention strategies (5,000 words)",
+        "owner": "Content Team",
+        "target_publish_date": "Week 1"
+      },
+      {
+        "asset_name": "DataShield vs. Varonis Comparison",
+        "description": "Objective feature and cost comparison (2,000 words)",
+        "owner": "Product + Content Team",
+        "target_publish_date": "Week 2"
+      },
+      {
+        "asset_name": "3 Case Studies",
+        "description": "Real customer stories (500 words each)",
+        "owner": "Content Team",
+        "target_publish_date": "Week 3-5"
+      },
+      {
+        "asset_name": "ROI Calculator",
+        "description": "Interactive tool showing breach cost vs. DataShield investment",
+        "owner": "Product Team",
+        "target_publish_date": "Week 2"
+      }
+    ],
+    "supporting_assets": [
+      "Infographic: Insider Threat Statistics",
+      "Webinar: Building Insider Threat Programs",
+      "Email Sequence: Top 5 Insider Threat Indicators",
+      "Compliance Checklist: SOX/GDPR/HIPAA"
+    ],
+    "production_timeline": "Week 1-2: Plan and assign. Week 2-3: Draft core assets. Week 3-4: Review and revise. Week 4-5: Publish and distribute. Weeks 6+: Ongoing 2x-weekly publishing using templates."
+  },
+  "approval_workflow": {
+    "process": "1) Content draft created by writer using template. 2) Internal review by marketing lead (24h turnaround). 3) Product team review for accuracy (24h). 4) Legal review for competitive claims and compliance language (24h). 5) Publish. Escalate to General Counsel if >$M financial claims or competitor disparagement.",
+    "turnaround_time_hours": 48,
+    "escalation_criteria": [
+      "Competitive positioning that names competitor negatively",
+      "Unsubstantiated financial claims (ROI, cost savings) >$100K",
+      "Compliance statements that could create legal liability"
+    ]
+  },
+  "distribution_strategy": {
+    "repurposing_plan": "Blog post (2,000 words) → LinkedIn article + 3 LinkedIn posts + 4 tweets + 1 newsletter section + 1 email. Each repurpose is 20% of original effort. One core asset generates 1 month of content.",
+    "amplification_plan": "Core assets amplified with paid LinkedIn ads ($2K/month). Case studies amplified in email campaigns. Product updates in newsletter + product-led channels. Thought leadership organic only initially, paid boost if engagement <500 likes."
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "weekly-governance-agent",
+  "purpose": "Synthesize weekly GTM performance data into executive-level reports with clear decision recommendations and risk flags for governance",
+  "agent_type": "executive-reporter",
+  "input_types": [
+    "weekly_performance_data",
+    "gtm_targets",
+    "campaign_status",
+    "budget_status"
+  ],
+  "output_types": [
+    "executive_report",
+    "decision_framework",
+    "risk_assessment"
+  ],
+  "external_dependencies": [
+    "campaign_manager_output",
+    "analytics_agent_output"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.5,
+    "max_tokens": 4096,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "latency_seconds": 20,
+    "accuracy_percent": 95
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "snapshot_id": "snapshot-complify-20260406-1430",
+  "venture_id": "complify-ai-saas",
+  "collected_at": "2026-04-06T14:30:00Z",
+  "time_range": {
+    "start": "2026-04-06T08:30:00Z",
+    "end": "2026-04-06T14:30:00Z"
+  },
+  "completeness_percent": 82,
+  "sources_status": {
+    "mixpanel": {
+      "status": "success",
+      "metric_count": 7,
+      "last_updated": "2026-04-06T14:25:00Z"
+    },
+    "stripe": {
+      "status": "success",
+      "metric_count": 6,
+      "last_updated": "2026-04-06T14:20:00Z"
+    },
+    "amplitude": {
+      "status": "success",
+      "metric_count": 4,
+      "last_updated": "2026-04-06T14:28:00Z"
+    }
+  },
+  "metrics": {
+    "product": {
+      "dau": {
+        "value": 3240,
+        "previous_value": 3180,
+        "deviation_percent": 1.89,
+        "deviation_flag": false,
+        "source": "mixpanel"
+      },
+      "wau": {
+        "value": 8950,
+        "previous_value": 8620,
+        "deviation_percent": 3.83,
+        "deviation_flag": false,
+        "source": "mixpanel"
+      },
+      "mau": {
+        "value": 12400,
+        "previous_value": 11800,
+        "deviation_percent": 5.08,
+        "deviation_flag": false,
+        "source": "mixpanel"
+      },
+      "new_signups": {
+        "value": 285,
+        "previous_value": 267,
+        "deviation_percent": 6.74,
+        "deviation_flag": false,
+        "source": "mixpanel"
+      },
+      "activation_rate": {
+        "value": 68.5,
+        "previous_value": 66.2,
+        "deviation_percent": 3.47,
+        "deviation_flag": false,
+        "source": "mixpanel"
+      },
+      "d7_retention": {
+        "value": 52.3,
+        "previous_value": 51.8,
+        "deviation_percent": 0.96,
+        "deviation_flag": false,
+        "source": "mixpanel"
+      },
+      "d30_retention": {
+        "value": 38.7,
+        "previous_value": 37.2,
+        "deviation_percent": 4.03,
+        "deviation_flag": false,
+        "source": "mixpanel"
+      },
+      "onboarding_completion_rate": {
+        "value": 71.2,
+        "previous_value": 69.5,
+        "deviation_percent": 2.44,
+        "deviation_flag": false,
+        "source": "amplitude"
+      }
+    },
+    "revenue": {
+      "mrr": {
+        "value": 28500,
+        "previous_value": 27100,
+        "deviation_percent": 5.16,
+        "deviation_flag": false,
+        "source": "stripe"
+      },
+      "arr": {
+        "value": 342000,
+        "previous_value": 325200,
+        "deviation_percent": 5.16,
+        "deviation_flag": false,
+        "source": "stripe"
+      },
+      "new_mrr": {
+        "value": 4200,
+        "previous_value": 3800,
+        "deviation_percent": 10.53,
+        "deviation_flag": false,
+        "source": "stripe"
+      },
+      "churned_mrr": {
+        "value": 2800,
+        "previous_value": 2450,
+        "deviation_percent": 14.29,
+        "deviation_flag": false,
+        "source": "stripe"
+      },
+      "mrr_growth_rate": {
+        "value": 4.9,
+        "previous_value": 4.2,
+        "deviation_percent": 16.67,
+        "deviation_flag": false,
+        "source": "stripe"
+      },
+      "customer_count": {
+        "value": 124,
+        "previous_value": 118,
+        "deviation_percent": 5.08,
+        "deviation_flag": false,
+        "source": "stripe"
+      },
+      "new_customers": {
+        "value": 12,
+        "previous_value": 10,
+        "deviation_percent": 20.0,
+        "deviation_flag": true,
+        "source": "stripe"
+      },
+      "churned_customers": {
+        "value": 6,
+        "previous_value": 4,
+        "deviation_percent": 50.0,
+        "deviation_flag": true,
+        "source": "stripe"
+      }
+    },
+    "acquisition": {
+      "cac": {
+        "value": 285,
+        "previous_value": 310,
+        "deviation_percent": -8.06,
+        "deviation_flag": false,
+        "source": "stripe"
+      },
+      "cac_by_channel": {
+        "organic": 0,
+        "paid_search": 320,
+        "content": 180,
+        "partnerships": 450
+      },
+      "ltv": {
+        "value": 2850,
+        "previous_value": 2680,
+        "deviation_percent": 6.34,
+        "deviation_flag": false,
+        "source": "stripe"
+      },
+      "ltv_cac_ratio": {
+        "value": 10.0,
+        "previous_value": 8.6,
+        "deviation_percent": 16.28,
+        "deviation_flag": false,
+        "source": "stripe"
+      }
+    },
+    "financial": {
+      "burn_rate": {
+        "value": 45000,
+        "previous_value": 48000,
+        "deviation_percent": -6.25,
+        "deviation_flag": false,
+        "source": "amplitude"
+      },
+      "runway_months": {
+        "value": 8.2,
+        "previous_value": 7.8,
+        "deviation_percent": 5.13,
+        "deviation_flag": false,
+        "source": "amplitude"
+      },
+      "gross_margin": {
+        "value": 78.5,
+        "previous_value": 76.2,
+        "deviation_percent": 3.02,
+        "deviation_flag": false,
+        "source": "stripe"
+      }
+    }
+  }
+}

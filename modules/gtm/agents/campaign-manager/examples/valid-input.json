@@ -1,0 +1,44 @@
+{
+  "campaign_objective": {
+    "name": "DataShield CISO LinkedIn ABM Campaign Q2",
+    "channel": "paid-linkedin",
+    "goal": "Generate 15 qualified demos (MQL to SQL conversion) from target CISO personas in US market",
+    "timeline_days": 30
+  },
+  "target_audience": {
+    "persona": "Chief Information Security Officer (CISO) at mid-market SaaS (100-1000 employees)",
+    "segment_size": 8500,
+    "geographic_focus": [
+      "United States"
+    ],
+    "exclusions": [
+      "Existing DataShield customers",
+      "Competitors (Varonis, Imperva, competitors)"
+    ]
+  },
+  "budget": {
+    "total_usd": 12000,
+    "currency": "USD",
+    "allocation_strategy": "performance-based"
+  },
+  "success_metric": {
+    "metric_type": "cost-per-lead",
+    "target_value": 400,
+    "secondary_metrics": [
+      "Click-through rate >= 2.5%",
+      "Conversion rate (lead form) >= 5%",
+      "Quality score >= 7/10"
+    ]
+  },
+  "ab_test_config": {
+    "variable_to_test": "messaging",
+    "control_version": "DataShield prevents insider threats in your Salesforce",
+    "test_variant": "Insider threats cost companies $15.4M average. DataShield stops them.",
+    "confidence_level": 0.95
+  },
+  "constraints": {
+    "kill_threshold_cac_multiplier": 2,
+    "minimum_days_before_decision": 7,
+    "daily_spend_cap": 500
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "visual-system-designer",
+  "purpose": "Design complete visual system: color palette, typography, and design tokens",
+  "input_types": [
+    "creative_direction",
+    "brand_archetype"
+  ],
+  "output_types": [
+    "visual_system"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": "google/gemma-4-26b-a4b-it:free",
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.6,
+    "max_tokens": 6144,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

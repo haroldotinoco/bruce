@@ -1,0 +1,37 @@
+{
+  "learning_record": {
+    "venture_id": "v-003",
+    "venture_name": "Logify",
+    "source_module": "portfolio",
+    "learning_type": "kill_postmortem",
+    "outcome": "failure",
+    "narrative": "Logify failed to achieve traction in B2B logistics software market despite 10 weeks of operation. Founding team lacked logistics domain expertise and struggled to understand buyer psychology. Core go-to-market hypothesis (direct-to-shipper sales model) was disproven by consistently low conversion rates (3% vs industry benchmark 8-12% for logistics SaaS). Customer acquisition cost of $2,800 exceeded lifetime value of $3,600, resulting in unsustainable CAC/LTV ratio of 0.78. Market analysis post-mortem revealed switching costs and competitive entrenchment significantly higher than initial assessment. Supply chain software category requires deep domain expertise and established customer relationships before product investment. Geographic focus on US freight consolidation did not provide sufficient differentiation against incumbent solutions with 10+ year customer relationships.",
+    "quantitative_data": {
+      "cac": 2800,
+      "ltv": 3600,
+      "cac_ltv_ratio": 0.78,
+      "conversion_rate": 0.03,
+      "industry_benchmark_conversion": 0.10,
+      "weeks_to_assessment": 10,
+      "monthly_growth": 0.03,
+      "customer_count": 8,
+      "blended_cac_cost": 2800
+    },
+    "confidence": 89,
+    "applicability_tags": [
+      "supply_chain",
+      "logistics",
+      "saas",
+      "gtm_failure",
+      "domain_expertise_required",
+      "high_cac",
+      "market_fit_failure",
+      "buyer_psychology",
+      "b2b"
+    ],
+    "sector": "Supply Chain / Logistics",
+    "stage": "early",
+    "timestamp": "2026-04-05T15:00:00Z",
+    "related_ventures": ["v-004", "v-005"]
+  }
+}

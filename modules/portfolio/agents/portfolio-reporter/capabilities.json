@@ -1,0 +1,24 @@
+{
+  "name": "portfolio-reporter",
+  "purpose": "Compose comprehensive portfolio governance report synthesizing all cycle outputs into clear, actionable narrative for stakeholders",
+  "input_types": [
+    "portfolio_snapshot",
+    "risk_assessment",
+    "allocation_decisions",
+    "governance_decisions"
+  ],
+  "output_types": [
+    "governance_report"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.5,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

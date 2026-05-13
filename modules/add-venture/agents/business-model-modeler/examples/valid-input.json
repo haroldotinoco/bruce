@@ -1,0 +1,20 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "opportunity_id": "opp-ai-compliance-v1",
+  "briefing": {},
+  "vol_1_opportunity": {},
+  "vol_2_customer_market": {
+    "customer_segments": [
+      {
+        "segment_name": "Large Bank Compliance Teams",
+        "segment_size_customers": 150,
+        "willingness_to_pay_range": {
+          "median_annual_usd": 250000
+        }
+      }
+    ]
+  },
+  "vol_3_value_proposition": {
+    "core_value_proposition": "ComplianceAI provides an integrated platform that automatically documents model behavior, generates regulatory reports, and provides explainability evidence—enabling them to audit 50+ models in weeks instead of months"
+  }
+}

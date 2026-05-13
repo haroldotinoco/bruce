@@ -1,0 +1,72 @@
+{
+  "scan_themes": [
+    "healthcare-admin",
+    "fintech-compliance",
+    "saas-infrastructure",
+    "sustainability-tech"
+  ],
+  "filters": {
+    "min_tam": 10000000,
+    "max_tam": 10000000000,
+    "geographic_focus": [
+      "US",
+      "Canada",
+      "UK",
+      "Germany",
+      "France"
+    ],
+    "industry_verticals": [
+      "healthcare",
+      "financial-services",
+      "enterprise-software",
+      "supply-chain",
+      "sustainability"
+    ],
+    "minimum_discovery_confidence": 0.6,
+    "auto_reject_criteria": [
+      "illegal_activities",
+      "exploitation_and_safety",
+      "mature_monopolies",
+      "requires_500m_capital_raise"
+    ]
+  },
+  "geography": [
+    "North America",
+    "Western Europe"
+  ],
+  "date_range": {
+    "start_date": "2024-03-30",
+    "end_date": "2024-04-06"
+  },
+  "source_preferences": {
+    "primary_sources": [
+      "techcrunch.com",
+      "venturebeat.com",
+      "gartner.com",
+      "mckinsey.com",
+      "sec.gov"
+    ],
+    "secondary_sources": [
+      "linkedin.com",
+      "crunchbase.com",
+      "pitchbook.com"
+    ],
+    "specialized_sources": [
+      "industry_association_reports",
+      "academic_research",
+      "government_statistics",
+      "patent_filings"
+    ]
+  },
+  "quality_requirements": {
+    "minimum_sources_per_opportunity": 2,
+    "minimum_signal_independence": "multiple_independent_sources",
+    "geographic_diversity_required": true,
+    "vertical_diversity_required": true
+  },
+  "volume_targets": {
+    "target_minimum": 8,
+    "target_maximum": 25,
+    "hold_excess_for_next_cycle": true
+  }
+}

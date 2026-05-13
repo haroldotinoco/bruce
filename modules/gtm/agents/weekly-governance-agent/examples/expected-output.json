@@ -1,0 +1,169 @@
+{
+  "week_ending_date": "2024-04-20",
+  "report_title": "GTM Weekly Report - Week of April 15-20, 2024",
+  "executive_summary": "DataShield GTM is performing on-plan through week 3 of the quarter. Paid LinkedIn ABM campaign is outperforming target CAC ($350 vs. $400 target) with stable lead volume (7 leads/week, on pace for monthly target). However, partnerships channel is declining in productivity (2.5 → 1.5 leads/week), suggesting either partner disengagement or seasonal effect that requires investigation. Content marketing CAC is currently 2.5x target, but this is expected early in content maturation cycle (4-6 week lag). Overall, month-to-date spend of $16.3K is on budget ($17K monthly allocation). We recommend scaling the winning LinkedIn campaign by 25% while investigating partnership channel decline before week 4 budget allocation.",
+  "gtm_health_score": {
+    "overall_score": 72,
+    "trend": "stable",
+    "vs_target": "on-track"
+  },
+  "performance_vs_targets": [
+    {
+      "metric": "Monthly Revenue Pace",
+      "weekly_value": 13500,
+      "target": 13500,
+      "actual_month_to_date": 54000,
+      "status": "on-track",
+      "trend": "stable",
+      "commentary": "Week 3 pace ($13.5K) is exactly on target monthly run rate. 4 weeks of month remain, so $54K monthly target achievable if pace holds."
+    },
+    {
+      "metric": "Monthly Lead Pace",
+      "weekly_value": 10,
+      "target": 9.5,
+      "actual_month_to_date": 31,
+      "status": "on-track",
+      "trend": "stable",
+      "commentary": "Week 3 generated 10 leads (marketing, partnerships, content combined). Month-to-date 31 leads. Target is 38 for month, so need 7 more leads in week 4. Achievable with current spend pace."
+    },
+    {
+      "metric": "Blended CAC",
+      "weekly_value": 410,
+      "target": 400,
+      "actual_month_to_date": 526,
+      "status": "at-risk",
+      "trend": "improving",
+      "commentary": "Week 3 CAC ($410) slightly above target, but trending better than prior weeks ($540 MTD avg). LinkedIn scaling will lower blended CAC further. Content's high CAC is dragging overall metric, but content typically improves over time."
+    },
+    {
+      "metric": "Marketing ROI",
+      "weekly_value": 5.5,
+      "target": 5.0,
+      "actual_month_to_date": 3.3,
+      "status": "on-track",
+      "trend": "improving",
+      "commentary": "Week 3 ROAS (revenue from campaigns / spend) is 5.5x. This reflects conversion of earlier-month leads to revenue. MTD ROAS of 3.3x is lower because early-month leads are still closing."
+    }
+  ],
+  "channel_performance_summary": [
+    {
+      "channel": "paid-linkedin",
+      "weekly_leads": 7,
+      "cac": 350,
+      "trend": "stable",
+      "status": "healthy",
+      "commentary": "LinkedIn ABM performing best. CAC of $350 is 12.5% better than target. Steady volume (7 leads/week for past 2 weeks). Recommend scaling budget allocation from $2.5K to $3.1K/week."
+    },
+    {
+      "channel": "partnerships",
+      "weekly_leads": 2,
+      "cac": 375,
+      "trend": "declining",
+      "status": "needs-action",
+      "commentary": "Partnership leads declining from 2.5/week (week 1-2) to 1.5/week (week 3). CAC ($375) still acceptable but volume drop is concerning. Requires investigation: partner engagement, seasonal effect, or competitive loss?"
+    },
+    {
+      "channel": "content-marketing",
+      "weekly_leads": 1,
+      "cac": 1000,
+      "trend": "stable",
+      "status": "at-risk",
+      "commentary": "Content CAC (1000) is 2.5x target. However, content has 4-6 week maturation curve, so early performance is not predictive. Hold current $1K/week spend. Assess again in week 6-8 after content SEO benefits accrue."
+    }
+  ],
+  "key_decisions_needed": [
+    {
+      "decision": "Scale winning LinkedIn ABM campaign?",
+      "options": [
+        "Increase LinkedIn budget 25% to $3.1K/week (use budget reallocated from partnerships)",
+        "Hold current LinkedIn budget, reallocate savings to partnerships investigation",
+        "Aggressive scale: increase to $4K/week using monthly contingency reserve"
+      ],
+      "recommendation": "Scale to $3.1K/week. LinkedIn is outperforming CAC target by 12.5% with stable volume. Scaling at 25% is conservative and uses budget reallocated from underperforming partnerships. Expected impact: +2-3 additional leads/week, reducing blended CAC to ~$380.",
+      "impact_if_approved": "+2-3 leads/week (+$800-1200 MRR if converted at current rate). Increases probability of hitting 38-lead monthly target from 70% to 90%.",
+      "timeframe": "immediately"
+    },
+    {
+      "decision": "Investigate or pause partnerships channel?",
+      "options": [
+        "Pause partnerships (reallocate $750/week to LinkedIn or experiments)",
+        "Investigate root cause: poor partner engagement, seasonal market shift, or messaging mismatch. Hold budget, pause for 1 week while investigating.",
+        "Pivot partnerships focus from current 5 partners to 2-3 highest-performing partners only. Concentrate effort."
+      ],
+      "recommendation": "Investigate root cause before pausing. Partnership channel has potential (when performing, CAC is $375 vs. $400 target) but something shifted this week. Hypothesis: partner engagement dropped or market-specific seasonal effect (end of Q1 budgets?). Recommend: (1) Call top 3 partners to assess engagement level. (2) Check if message/positioning changed. (3) Review competitor activity. Hold budget for 1 week while investigating, then decide scale/pivot/pause. Cost of learning: $750.",
+      "impact_if_approved": "If investigation reveals engagement issue, we can refresh partnership strategy and reverse decline. If seasonal, we expect recovery next week.",
+      "timeframe": "by-eow"
+    },
+    {
+      "decision": "Content marketing strategy: continue or pivot?",
+      "options": [
+        "Continue current $1K/week spend, accept high early CAC as content matures",
+        "Reduce to $500/week (cut volume in half, reduce CAC risk while content matures)",
+        "Pivot content focus from current topics to proof-point content (ROI calculator, comparison) that may convert faster"
+      ],
+      "recommendation": "Continue $1K/week spend but pivot focus. Current content CAC ($1000) is too high for current stage, but this is expected. However, we can improve velocity by shifting to proof-point content (ROI calculator, competitive comparison) rather than awareness content. This may reduce early CAC by 30-50%. Pilot 1 proof-point asset this week, measure performance.",
+      "impact_if_approved": "If proof-point content converts at 5% (vs. current 0.5%), CAC drops to $200. This unlocks content as channel.",
+      "timeframe": "by-end-of-week"
+    }
+  ],
+  "risk_flags": [
+    {
+      "risk": "Partnership channel productivity declining (2.5 → 1.5 leads/week). If decline continues, could miss monthly lead target.",
+      "severity": "medium",
+      "action": "Investigate cause immediately (week 4). If root cause is disengagement, escalate to head of partnerships for relationship refresh. If seasonal, communicate to executive team that July may underperform. Plan mitigation (scale LinkedIn, accelerate growth experiments)."
+    },
+    {
+      "risk": "Blended CAC is $410 vs. $400 target. If content continues at $1000 CAC, blended CAC will remain elevated and may not hit unit economics target.",
+      "severity": "low",
+      "action": "Monitor weekly. Content CAC should improve by week 6-8 as SEO and organic lift compound. If still >$800 by week 8, reduce content spend to $500/week."
+    },
+    {
+      "risk": "Monthly lead target of 38 leads requires 7 more leads in week 4. Current pace (10/week) means we'll hit 40 total, but this assumes pace holds. Weather, holidays, or partner engagement drop could reduce week 4 volume.",
+      "severity": "low",
+      "action": "Monitor daily in week 4. If leads are tracking below 2/day by mid-week, activate backup experiment (increased content promotion budget) to boost volume."
+    }
+  ],
+  "budget_status": {
+    "monthly_budget": 17000,
+    "mtd_spend": 16300,
+    "mtd_spend_percent": 95.9,
+    "weekly_burn_rate": 4075,
+    "remaining_budget": 700,
+    "on_track": true,
+    "commentary": "Spend is on pace ($4.075K/week vs. $4.25K weekly target). Month-to-date spend of $16.3K is 95.9% of monthly budget. Only $700 remaining contingency. If we scale LinkedIn by 25% (+$650/week) and reallocate from partnerships (-$750/week), we'll stay within budget. Recommend this reallocation."
+  },
+  "next_week_priorities": [
+    {
+      "priority": "Investigate partnership channel lead decline. Call top 3 partners, assess engagement level and message/positioning fit.",
+      "owner": "Head of Partnerships",
+      "due_date": "2024-04-22"
+    },
+    {
+      "priority": "Approve LinkedIn budget increase from $2.5K to $3.1K/week. Execute scaling in ad platform by Wednesday EOD.",
+      "owner": "CMO",
+      "due_date": "2024-04-24"
+    },
+    {
+      "priority": "Create first proof-point content asset (ROI calculator). Brief design/content team by Tuesday EOD, launch by Friday EOD.",
+      "owner": "Content Lead",
+      "due_date": "2024-04-26"
+    },
+    {
+      "priority": "Monitor daily lead volume in week 4 (target: 2+ leads/day). Alert CMO if trending below 1.5 leads/day by Wednesday.",
+      "owner": "Marketing Ops",
+      "due_date": "2024-04-30"
+    },
+    {
+      "priority": "Prepare for monthly close report. Collect week 4 performance data, calculate final month results, prepare month 2 roadmap.",
+      "owner": "Analytics",
+      "due_date": "2024-05-01"
+    }
+  ],
+  "metrics_snapshot": {
+    "monthly_revenue_pace": 54000,
+    "monthly_lead_pace": 38,
+    "blended_cac": 410,
+    "marketing_roas": 3.3,
+    "pipeline_coverage_ratio": 1.4
+  }
+}

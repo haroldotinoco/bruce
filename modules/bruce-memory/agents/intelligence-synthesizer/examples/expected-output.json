@@ -1,0 +1,64 @@
+{
+  "snapshot_id": "snap-20260401-march",
+  "period_start": "2026-03-01",
+  "period_end": "2026-03-31",
+  "key_patterns": [
+    {
+      "pattern_id": "pat-001",
+      "statement": "B2B SaaS ventures with CAC/LTV ratio <0.2 show 2-3x faster growth trajectory than those with ratio >0.5",
+      "confidence": 0.87,
+      "evidence_count": 8,
+      "action_implication": "Prioritize unit economics validation by week 8 post-launch. Ventures achieving <0.2 ratios should receive growth capital; those >0.5 require fundamental GTM rethinking."
+    },
+    {
+      "pattern_id": "pat-004",
+      "statement": "Developer-first GTM (community, open source, documentation) shows 3-4x better CAC efficiency than direct enterprise sales for infrastructure and SaaS tools",
+      "confidence": 0.81,
+      "evidence_count": 5,
+      "action_implication": "For developer-facing ventures, recommend developer community building in first 3 months before enterprise sales hiring. Budget 15-20% of early marketing spend to community and documentation."
+    },
+    {
+      "pattern_id": "pat-002",
+      "statement": "Healthcare software ventures require 3-6 months longer sales cycle than average B2B SaaS, increasing cash burn 40-60%",
+      "confidence": 0.72,
+      "evidence_count": 5,
+      "action_implication": "For healthcare ventures, model 6-month sales cycles minimum. Add 40% contingency to runway calculations and prioritize early regulatory consulting."
+    }
+  ],
+  "strategic_implications": [
+    "Current portfolio is heavily weighted toward B2B SaaS (6/12 ventures). Unit economics validation should be a venture approval gate; ventures failing to achieve <0.3 CAC/LTV by week 12 should be paused for GTM overhaul.",
+    "Healthcare and regulated verticals require 40-60% more runway than standard SaaS. Future healthcare venture proposals should include regulatory timeline and procurement cycle analysis.",
+    "Developer-first GTM is proving more efficient than enterprise sales for developer tools and infrastructure. Recommend shifting allocation of early marketing spend away from enterprise sales hiring.",
+    "Pattern data from March shows strong alignment with 2025 hypothesis around domain expertise in supply chain software (kill postmortem confirms). Continue to require customer advisory board validation before structuring verticals with high switching costs."
+  ],
+  "emerging_signals": [
+    {
+      "signal": "Climate tech ventures showing longer runway to revenue than projected (12-18 months vs 9 months expectation)",
+      "first_observed": "2026-03-15",
+      "confidence": 0.58,
+      "watch_criteria": "Monitor next 2 climate tech launches; if pattern holds, increase runway assumptions by 3-6 months for climate ventures"
+    },
+    {
+      "signal": "Founding teams with prior exit experience showing 20% faster time-to-product launch",
+      "first_observed": "2026-03-10",
+      "confidence": 0.65,
+      "watch_criteria": "Continue tracking founder background across new ventures; validate if prior exit experience correlates with execution speed"
+    }
+  ],
+  "contradicted_patterns": [
+    {
+      "pattern_id": "pat-defunct-001",
+      "pattern_statement": "Land-and-expand pricing model shows better CAC/LTV ratios than per-seat pricing",
+      "contradiction_evidence": "Recent ventures (CloudSync Pro, MediLink) both using per-usage and per-license models achieving better ratios (0.05-0.1) than previous land-and-expand ventures (0.25-0.35)"
+    }
+  ],
+  "thesis_updates": [
+    "Unit economics validation should be completed by week 8 post-launch (updated from week 12). Ventures failing threshold should undergo GTM audit before continued funding.",
+    "Developer-first GTM now recognized as primary go-to-market strategy for infrastructure and SaaS tools category. Recommend shifting marketing allocation.",
+    "Healthcare and regulated verticals require 40-60% additional runway beyond standard SaaS assumptions. Add regulatory consulting to structuring playbook.",
+    "Founder experience (prior exits) correlates with faster execution. Consider prioritizing founder background in future evaluations."
+  ],
+  "patterns_total_in_store": 17,
+  "learnings_ingested_this_period": 47,
+  "created_at": "2026-04-01T06:00:00Z"
+}

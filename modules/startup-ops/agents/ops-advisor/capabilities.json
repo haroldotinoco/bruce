@@ -1,0 +1,57 @@
+{
+  "agent_id": "ops-advisor",
+  "name": "Ops Advisor",
+  "description": "Translates health scores and anomalies into prioritized, actionable recommendations",
+  "version": "1.0.0",
+  "capabilities": [
+    {
+      "id": "health_interpretation",
+      "name": "Health Interpretation",
+      "description": "Analyze health scores to identify root cause areas needing attention"
+    },
+    {
+      "id": "anomaly_prioritization",
+      "name": "Anomaly Prioritization",
+      "description": "Rank anomalies by business impact to surface most important issues"
+    },
+    {
+      "id": "recommendation_generation",
+      "name": "Recommendation Generation",
+      "description": "Generate specific, actionable recommendations addressing identified issues"
+    },
+    {
+      "id": "urgency_assessment",
+      "name": "Urgency Assessment",
+      "description": "Classify recommendations as immediate, this week, or next cycle"
+    },
+    {
+      "id": "impact_estimation",
+      "name": "Impact Estimation",
+      "description": "Estimate expected business outcome from recommended actions"
+    },
+    {
+      "id": "risk_summarization",
+      "name": "Risk Summarization",
+      "description": "Synthesize risk picture into executive summary"
+    },
+    {
+      "id": "context_awareness",
+      "name": "Context Awareness",
+      "description": "Consider venture stage, hypothesis, and kill criteria in recommendations"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "max_recommendations",
+      "description": "Output maximum 5 recommendations"
+    },
+    {
+      "id": "specificity",
+      "description": "Every action must be specific enough for same-day execution"
+    },
+    {
+      "id": "execution_timeout",
+      "description": "Complete within 120 seconds"
+    }
+  ]
+}

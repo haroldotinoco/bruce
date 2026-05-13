@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GTM Decision",
+  "description": "Weekly governance decision on channel continuation, scaling, pausing, or killing",
+  "type": "object",
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "description": "Unique decision identifier"
+    },
+    "venture_id": {
+      "type": "string"
+    },
+    "period": {
+      "type": "string",
+      "format": "date",
+      "description": "Week ending date"
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "type": "string"
+          },
+          "current_status": {
+            "type": "string",
+            "enum": ["active", "paused", "testing", "killed"]
+          },
+          "decision": {
+            "type": "string",
+            "enum": ["continue", "scale", "pause", "kill", "test"],
+            "description": "Action to take on this channel"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Why this decision was made"
+          },
+          "budget_delta": {
+            "type": "number",
+            "description": "Budget change in dollars (positive = increase, negative = decrease)"
+          },
+          "expected_impact": {
+            "type": "string",
+            "description": "Expected impact of this decision"
+          }
+        },
+        "required": ["channel", "decision", "rationale"]
+      }
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": ["on_track", "needs_attention", "critical"],
+      "description": "Overall GTM health status"
+    },
+    "key_findings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Key insights from analysis"
+    },
+    "next_review_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Next governance review date"
+    },
+    "recommended_experiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "experiment_name": {
+            "type": "string"
+          },
+          "hypothesis": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Suggested growth experiments for next period"
+    }
+  },
+  "required": ["decision_id", "venture_id", "period", "decisions", "overall_status"]
+}

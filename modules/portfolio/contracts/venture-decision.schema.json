@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Venture Decision",
+  "description": "Governance decision on venture trajectory (scale, iterate, pause, kill, continue)",
+  "type": "object",
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "description": "Unique identifier for this decision",
+      "pattern": "^dec_[a-z0-9]{12}$"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture being decided on"
+    },
+    "venture_name": {
+      "type": "string",
+      "description": "Venture name for reference"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["scale", "iterate", "pause", "kill", "continue"],
+      "description": "The governance decision"
+    },
+    "decision_enum_details": {
+      "type": "object",
+      "description": "Details of each decision type",
+      "properties": {
+        "scale": {
+          "description": "Venture is performing well and should increase investment, team, and resources"
+        },
+        "iterate": {
+          "description": "Venture shows some traction but needs pivots; continue with current resources while implementing changes"
+        },
+        "pause": {
+          "description": "External blocker or market timing issue; pause work but maintain skeleton crew; revisit in 30-90 days"
+        },
+        "kill": {
+          "description": "No viable path to success; shut down operations and extract learnings"
+        },
+        "continue": {
+          "description": "Venture is on track; maintain current trajectory and resources"
+        }
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Detailed explanation for the decision"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confidence level in this decision (0-100)"
+    },
+    "supporting_data_refs": {
+      "type": "array",
+      "description": "References to data supporting this decision",
+      "items": {
+        "type": "string"
+      }
+    },
+    "key_metrics_considered": {
+      "type": "object",
+      "description": "Key metrics that influenced the decision",
+      "properties": {
+        "mrr": { "type": "number" },
+        "mrr_growth_pct": { "type": "number" },
+        "dau": { "type": "integer" },
+        "retention_d30": { "type": "number" },
+        "unit_economics_ltv_cac_ratio": { "type": "number" },
+        "cac": { "type": "number" },
+        "ltv": { "type": "number" },
+        "burn_rate": { "type": "number" },
+        "runway_months": { "type": "number" }
+      }
+    },
+    "milestones_for_next_period": {
+      "type": "array",
+      "description": "Milestones venture should hit before next review",
+      "items": {
+        "type": "object",
+        "properties": {
+          "milestone": { "type": "string" },
+          "target_date": { "type": "string", "format": "date" },
+          "success_criteria": { "type": "string" }
+        }
+      }
+    },
+    "next_review_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of next portfolio review"
+    },
+    "decided_by": {
+      "type": "string",
+      "enum": ["human", "autonomous"],
+      "description": "Who made the decision"
+    },
+    "decided_by_agent": {
+      "type": "string",
+      "description": "If autonomous, which agent made the decision"
+    },
+    "decided_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when decision was made"
+    },
+    "human_confirmation": {
+      "type": "object",
+      "description": "Human confirmation record (if required)",
+      "properties": {
+        "required": { "type": "boolean" },
+        "confirmed_at": { "type": "string", "format": "date-time" },
+        "confirmed_by": { "type": "string" },
+        "confirmation_notes": { "type": "string" }
+      }
+    },
+    "related_allocation_id": {
+      "type": "string",
+      "description": "Reference to related allocation decision if applicable"
+    }
+  },
+  "required": ["decision_id", "venture_id", "venture_name", "decision", "rationale", "confidence_score", "next_review_date", "decided_by", "decided_at"]
+}

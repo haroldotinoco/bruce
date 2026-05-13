@@ -1,0 +1,24 @@
+{
+  "name": "brand-critic",
+  "purpose": "Evaluate complete brand identity and score across strategic and creative dimensions",
+  "input_types": [
+    "brand_strategy",
+    "visual_system",
+    "logo_concepts",
+    "naming_candidates"
+  ],
+  "output_types": [
+    "brand_critique"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 4096,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

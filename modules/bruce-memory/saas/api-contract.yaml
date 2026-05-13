@@ -1,0 +1,847 @@
+openapi: 3.0.3
+info:
+  title: BruceMemory API
+  description: Cross-venture learning and intelligence synthesis API for BruceAI
+  version: 1.0.0
+  contact:
+    name: BruceAI Support
+    url: https://bruce.ai/support
+  license:
+    name: Proprietary
+    url: https://bruce.ai/license
+
+servers:
+  - url: https://api.bruce.ai/v1/bruce-memory
+    description: Production
+  - url: https://staging-api.bruce.ai/v1/bruce-memory
+    description: Staging
+
+security:
+  - bearerToken: []
+  - apiKey: []
+
+components:
+  securitySchemes:
+    bearerToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token containing account_id claim
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key scoped to single account
+
+  schemas:
+    Error:
+      type: object
+      required:
+        - error
+        - message
+        - code
+      properties:
+        error:
+          type: string
+          enum: [bad_request, unauthorized, forbidden, not_found, conflict, rate_limit, internal_error]
+        message:
+          type: string
+        code:
+          type: integer
+        details:
+          type: object
+          additionalProperties: true
+
+    LearningRecord:
+      type: object
+      required:
+        - learning_id
+        - venture_id
+        - category
+        - content
+        - timestamp
+      properties:
+        learning_id:
+          type: string
+          description: Unique learning identifier
+          format: uuid
+        account_id:
+          type: string
+          description: Account ID (read-only, from auth context)
+          readOnly: true
+        venture_id:
+          type: string
+          description: Venture this learning belongs to
+        venture_name:
+          type: string
+          description: Human-readable venture name
+          readOnly: true
+        category:
+          type: string
+          enum: [success, failure, pivot, market_insight, technical_learning, partnership, fundraising, team_dynamics, product_launch, go_to_market]
+          description: Learning category
+        content:
+          type: string
+          minLength: 10
+          maxLength: 5000
+          description: Learning narrative
+        tags:
+          type: array
+          items:
+            type: string
+          description: User-defined tags for organization
+        source:
+          type: string
+          enum: [user_ingestion, api, import]
+          description: How this learning was ingested
+          readOnly: true
+        timestamp:
+          type: string
+          format: date-time
+          description: When this learning occurred
+        created_at:
+          type: string
+          format: date-time
+          description: When this record was created (read-only)
+          readOnly: true
+
+    LearningList:
+      type: object
+      required:
+        - learnings
+        - total
+        - page
+        - per_page
+      properties:
+        learnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningRecord'
+        total:
+          type: integer
+          description: Total learning records
+        page:
+          type: integer
+          description: Current page (1-indexed)
+        per_page:
+          type: integer
+          description: Records per page
+        total_pages:
+          type: integer
+
+    Pattern:
+      type: object
+      required:
+        - pattern_id
+        - category
+        - description
+        - confidence
+        - learning_count
+      properties:
+        pattern_id:
+          type: string
+          format: uuid
+          description: Unique pattern identifier
+        account_id:
+          type: string
+          description: Account ID (read-only)
+          readOnly: true
+        venture_id:
+          type: string
+          description: Source venture (null for cross-venture patterns)
+        venture_name:
+          type: string
+          description: Source venture name (null for cross-venture patterns)
+        category:
+          type: string
+          enum: [success_factor, risk_indicator, market_dynamic, technical_best_practice, operational_insight, team_insight]
+          description: Pattern category
+        description:
+          type: string
+          description: Pattern narrative
+        key_learnings:
+          type: array
+          items:
+            type: string
+          description: Key findings supporting this pattern
+        confidence:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+          description: Confidence score (0-1)
+        learning_count:
+          type: integer
+          description: Number of learnings supporting this pattern
+        related_ventures:
+          type: integer
+          description: How many ventures exhibit this pattern (cross-venture only)
+        anonymized:
+          type: boolean
+          description: Whether this is an anonymized global pattern
+          default: false
+        extraction_method:
+          type: string
+          enum: [automated, manual_review, consensus]
+          description: How pattern was extracted
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    PatternList:
+      type: object
+      required:
+        - patterns
+        - total
+        - page
+        - per_page
+      properties:
+        patterns:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pattern'
+        total:
+          type: integer
+        page:
+          type: integer
+        per_page:
+          type: integer
+        total_pages:
+          type: integer
+
+    QueryRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          minLength: 3
+          maxLength: 500
+          description: Natural language query
+        venture_filter:
+          type: array
+          items:
+            type: string
+          description: Limit results to specific ventures (optional)
+        category_filter:
+          type: array
+          items:
+            type: string
+          description: Limit results to specific pattern categories (optional)
+        min_confidence:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+          default: 0.7
+          description: Minimum confidence threshold
+        page:
+          type: integer
+          minimum: 1
+          default: 1
+        per_page:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+        include_anonymized:
+          type: boolean
+          default: false
+          description: Include anonymized global patterns (Enterprise only)
+
+    QueryResponse:
+      type: object
+      required:
+        - query
+        - patterns
+        - total
+      properties:
+        query:
+          type: string
+          description: Original query
+        patterns:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pattern'
+        total:
+          type: integer
+          description: Total matching patterns
+        page:
+          type: integer
+        per_page:
+          type: integer
+        total_pages:
+          type: integer
+        processed_at:
+          type: string
+          format: date-time
+        execution_time_ms:
+          type: number
+
+    IntelligenceSynthesis:
+      type: object
+      required:
+        - synthesis_id
+        - account_id
+        - created_at
+      properties:
+        synthesis_id:
+          type: string
+          format: uuid
+        account_id:
+          type: string
+        period:
+          type: string
+          enum: [weekly, monthly, custom]
+          description: Synthesis period
+        period_start:
+          type: string
+          format: date-time
+        period_end:
+          type: string
+          format: date-time
+        summary:
+          type: string
+          description: Executive summary of key insights
+        key_patterns:
+          type: array
+          items:
+            type: object
+            properties:
+              pattern_id:
+                type: string
+              rank:
+                type: integer
+              description:
+                type: string
+              impact_level:
+                type: string
+                enum: [critical, high, medium, low]
+        venture_insights:
+          type: array
+          items:
+            type: object
+            properties:
+              venture_id:
+                type: string
+              venture_name:
+                type: string
+              insights:
+                type: array
+                items:
+                  type: string
+              recommendations:
+                type: array
+                items:
+                  type: string
+        cross_venture_themes:
+          type: array
+          items:
+            type: object
+            properties:
+              theme:
+                type: string
+              ventures_affected:
+                type: integer
+              confidence:
+                type: number
+        recommendations:
+          type: array
+          items:
+            type: string
+          description: Actionable recommendations
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+
+    CrossVentureAnalysisRequest:
+      type: object
+      required:
+        - analysis_scope
+      properties:
+        analysis_scope:
+          type: string
+          enum: [all_ventures, selected_ventures, by_category]
+          description: Scope of analysis
+        venture_ids:
+          type: array
+          items:
+            type: string
+          description: Specific ventures (if selected_ventures)
+        category_filter:
+          type: array
+          items:
+            type: string
+          description: Pattern categories to analyze
+        include_competitors:
+          type: boolean
+          default: false
+          description: Include anonymized competitor patterns (Enterprise only)
+        custom_focus:
+          type: array
+          items:
+            type: string
+          description: Custom analysis questions
+        priority:
+          type: string
+          enum: [low, normal, high]
+          default: normal
+
+    CrossVentureAnalysisResult:
+      type: object
+      required:
+        - analysis_id
+        - status
+      properties:
+        analysis_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [queued, processing, completed, failed]
+        progress_percent:
+          type: integer
+        result:
+          $ref: '#/components/schemas/IntelligenceSynthesis'
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        error:
+          type: string
+
+paths:
+  /learnings:
+    post:
+      summary: Ingest a new learning record
+      description: |
+        Add a new learning record to the account's corpus. The venture_id must belong to the authenticated account.
+        Learning records are tagged with account_id and venture_id for isolation.
+      tags:
+        - Learnings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - venture_id
+                - category
+                - content
+                - timestamp
+              properties:
+                venture_id:
+                  type: string
+                category:
+                  type: string
+                content:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+                timestamp:
+                  type: string
+                  format: date-time
+      responses:
+        '201':
+          description: Learning record created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningRecord'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Account does not have access to specified venture
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded or monthly quota exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      summary: List learning records
+      description: |
+        Retrieve learning records for the account's ventures. Results scoped to authenticated account only.
+      tags:
+        - Learnings
+      parameters:
+        - name: venture_id
+          in: query
+          schema:
+            type: string
+          description: Filter by venture
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Filter by category
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /patterns:
+    get:
+      summary: List extracted patterns
+      description: |
+        Retrieve patterns extracted from the account's learning corpus.
+        Pro plan: only patterns from own ventures. Enterprise: includes cross-venture patterns.
+      tags:
+        - Patterns
+      parameters:
+        - name: venture_id
+          in: query
+          schema:
+            type: string
+          description: Filter by source venture
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Filter by pattern category
+        - name: min_confidence
+          in: query
+          schema:
+            type: number
+            format: double
+            minimum: 0
+            maximum: 1
+            default: 0.7
+        - name: include_anonymized
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Include anonymized global patterns (Enterprise only)
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatternList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /patterns/{pattern_id}:
+    get:
+      summary: Get pattern details
+      description: |
+        Retrieve detailed information about a specific pattern, including supporting learnings and related patterns.
+      tags:
+        - Patterns
+      parameters:
+        - name: pattern_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pattern'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Pattern not accessible to this account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Pattern not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /query:
+    post:
+      summary: Natural language query against pattern library
+      description: |
+        Submit a natural language query to find relevant patterns in the account's namespace.
+        Returns patterns ranked by relevance and confidence.
+      tags:
+        - Queries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Query executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Query rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /synthesis/latest:
+    get:
+      summary: Get latest intelligence synthesis
+      description: |
+        Retrieve the most recent intelligence synthesis report for the account.
+        Enterprise plans receive monthly synthesis; Pro plans can request on-demand.
+      tags:
+        - Synthesis
+      parameters:
+        - name: include_recommendations
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntelligenceSynthesis'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No synthesis available yet (synthesis not enabled or no patterns extracted)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ventures/{venture_id}/learnings:
+    get:
+      summary: Get learnings for a specific venture
+      description: |
+        Retrieve all learning records for a specific venture. Venture must belong to authenticated account.
+      tags:
+        - Ventures
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Filter by category
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Venture does not belong to this account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Venture not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /analysis/cross-venture:
+    post:
+      summary: Trigger cross-venture analysis
+      description: |
+        Initiate a cross-venture analysis job to extract patterns and synthesize intelligence
+        across multiple ventures. Enterprise plans only.
+      tags:
+        - Analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrossVentureAnalysisRequest'
+      responses:
+        '202':
+          description: Analysis job accepted and queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrossVentureAnalysisResult'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Plan does not support cross-venture analysis
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /analysis/cross-venture/{analysis_id}:
+    get:
+      summary: Get cross-venture analysis status and results
+      description: |
+        Check the status of a cross-venture analysis job and retrieve results when completed.
+      tags:
+        - Analysis
+      parameters:
+        - name: analysis_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Analysis status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrossVentureAnalysisResult'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Analysis not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+tags:
+  - name: Learnings
+    description: Learning ingestion and retrieval
+  - name: Patterns
+    description: Pattern library and extraction
+  - name: Queries
+    description: Natural language pattern queries
+  - name: Synthesis
+    description: Intelligence synthesis and reports
+  - name: Ventures
+    description: Venture-specific operations
+  - name: Analysis
+    description: Cross-venture analysis and synthesis

@@ -1,0 +1,80 @@
+{
+  "product": {
+    "name": "DataShield",
+    "core_value_prop": "Real-time data loss prevention for Salesforce instances, preventing insider threats and compliance violations",
+    "category": "b2b-saas",
+    "key_differentiators": [
+      "Salesforce-native design requires zero external infrastructure",
+      "40% lower cost than generic DLP solutions like Varonis",
+      "AI-powered insider threat detection with <2 hour incident response"
+    ],
+    "target_use_cases": [
+      "Preventing insiders from exfiltrating customer data",
+      "Detecting unauthorized mass data downloads",
+      "Compliance auditing for SOX, GDPR, HIPAA"
+    ]
+  },
+  "target_audience": {
+    "personas": [
+      {
+        "name": "Chief Information Security Officer",
+        "role": "CISO at mid-market SaaS (100-1000 employees)",
+        "pain_points": [
+          "Insider threat detection is manual and reactive",
+          "Current DLP solutions require multiple systems integration",
+          "Regulatory compliance audits are time-consuming and expensive"
+        ],
+        "values": [
+          "Reducing risk and incident response time",
+          "Operational simplicity and ease of deployment",
+          "Cost efficiency and ROI demonstration"
+        ]
+      },
+      {
+        "name": "Head of Compliance",
+        "role": "Compliance Officer or GRC Manager",
+        "pain_points": [
+          "Documenting and proving compliance controls for auditors",
+          "Managing multi-system compliance across Salesforce and other platforms",
+          "Balancing security needs with business velocity"
+        ],
+        "values": [
+          "Compliance automation and audit readiness",
+          "Clear audit trails and reporting",
+          "Business alignment and user acceptance"
+        ]
+      }
+    ]
+  },
+  "distribution_channels": [
+    "linkedin",
+    "blog",
+    "newsletter",
+    "twitter",
+    "industry-publication"
+  ],
+  "brand_guidelines": {
+    "tone": "educational",
+    "voice_examples": [
+      "We explain complex security in clear, non-alarmist language",
+      "We focus on practical outcomes, not fear-mongering",
+      "We respect our audience's time and expertise"
+    ],
+    "messaging_pillars": [
+      "Salesforce-native simplicity",
+      "Insider threat prevention",
+      "Compliance confidence"
+    ],
+    "brand_colors": "Blue #0066CC, Gray #333333, Accent Green #00AA44"
+  },
+  "resources": {
+    "content_team_size": 1.5,
+    "publishing_frequency": "2x-weekly",
+    "outsourcing_available": true
+  },
+  "success_metrics": {
+    "monthly_engagement_target": 5000,
+    "monthly_lead_target": 25,
+    "content_reuse_target_percent": 70
+  }
+}

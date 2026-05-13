@@ -1,0 +1,33 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "opportunity_id": "opp-ai-compliance-v1",
+  "briefing": {
+    "competitive_context": {
+      "direct_competitors": ["Regulatory AI", "ModelWatch"],
+      "indirect_competitors": ["Generic model monitoring platforms", "Compliance consultants"],
+      "differentiation_opportunities": ["Integrated regulatory reporting", "Explainability focus", "Speed of implementation"]
+    }
+  },
+  "vol_1_opportunity": {
+    "opportunity_thesis": "The opportunity is to build the compliance platform for AI in financial services because regulatory pressure is accelerating, manual compliance is expensive, and integrated platforms don't exist."
+  },
+  "vol_2_customer_market": {
+    "jtbd_map": {
+      "functional_jobs": [
+        "Prove model explainability to regulators",
+        "Monitor AI model performance in production"
+      ],
+      "emotional_jobs": [
+        "Feel confident organization meets regulatory requirements"
+      ]
+    },
+    "decision_maker_map": {
+      "primary_buyer_title": "Chief Compliance Officer",
+      "customer_pains": [
+        "Cannot demonstrate AI compliance to Federal Reserve",
+        "Manual audit processes for 50+ models",
+        "Regulatory scrutiny on unexplainable AI decisions"
+      ]
+    }
+  }
+}

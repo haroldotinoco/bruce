@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Portfolio Analyst Input",
+  "description": "Health reports from all active ventures for comparative analysis",
+  "required": ["ventures", "review_cycle_id"],
+  "properties": {
+    "review_cycle_id": {
+      "type": "string",
+      "description": "Unique identifier for this review cycle (e.g., 2026-Q2-review-001)"
+    },
+    "review_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this review cycle was initiated"
+    },
+    "ventures": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "description": "Array of venture health reports",
+      "items": {
+        "type": "object",
+        "required": ["venture_id", "name", "status", "health_report"],
+        "properties": {
+          "venture_id": {
+            "type": "string",
+            "description": "Unique venture identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Venture name"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "paused", "in_review"],
+            "description": "Current venture status"
+          },
+          "weeks_since_launch": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Weeks since venture launch"
+          },
+          "health_report": {
+            "type": "object",
+            "description": "Detailed health metrics",
+            "required": ["report_date", "metrics"],
+            "properties": {
+              "report_date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date health report was generated"
+              },
+              "metrics": {
+                "type": "object",
+                "description": "Core health metrics",
+                "properties": {
+                  "traction": {
+                    "type": "object",
+                    "description": "Growth and adoption metrics",
+                    "properties": {
+                      "mrr": {
+                        "type": "number",
+                        "description": "Monthly recurring revenue in USD"
+                      },
+                      "arr": {
+                        "type": "number",
+                        "description": "Annual recurring revenue in USD"
+                      },
+                      "monthly_growth_rate": {
+                        "type": "number",
+                        "description": "Month-over-month growth rate (0-1 scale)"
+                      },
+                      "active_users": {
+                        "type": "integer",
+                        "description": "Current active users/customers"
+                      },
+                      "user_growth_rate": {
+                        "type": "number",
+                        "description": "Month-over-month user growth rate"
+                      },
+                      "conversion_rate": {
+                        "type": "number",
+                        "description": "Free-to-paid or visitor-to-customer conversion (0-1 scale)"
+                      },
+                      "nps": {
+                        "type": "number",
+                        "minimum": -100,
+                        "maximum": 100,
+                        "description": "Net Promoter Score"
+                      }
+                    }
+                  },
+                  "financial": {
+                    "type": "object",
+                    "description": "Financial health",
+                    "properties": {
+                      "runway_months": {
+                        "type": "number",
+                        "description": "Months of runway at current burn rate"
+                      },
+                      "monthly_burn_rate": {
+                        "type": "number",
+                        "description": "Monthly burn in USD (expenses - revenue)"
+                      },
+                      "cash_position": {
+                        "type": "number",
+                        "description": "Total cash available in USD"
+                      },
+                      "cac": {
+                        "type": "number",
+                        "description": "Customer acquisition cost in USD"
+                      },
+                      "ltv": {
+                        "type": "number",
+                        "description": "Customer lifetime value in USD"
+                      },
+                      "cac_ltv_ratio": {
+                        "type": "number",
+                        "description": "CAC to LTV ratio (ideal: <0.3)"
+                      }
+                    }
+                  },
+                  "team": {
+                    "type": "object",
+                    "description": "Team and operational health",
+                    "properties": {
+                      "headcount": {
+                        "type": "integer",
+                        "description": "Current team size"
+                      },
+                      "headcount_planned": {
+                        "type": "integer",
+                        "description": "Planned headcount for next quarter"
+                      },
+                      "key_hires_filled": {
+                        "type": "integer",
+                        "description": "Number of critical roles filled"
+                      },
+                      "key_hires_open": {
+                        "type": "integer",
+                        "description": "Number of critical open roles"
+                      },
+                      "team_velocity": {
+                        "type": "string",
+                        "enum": ["accelerating", "steady", "decelerating"],
+                        "description": "Current team momentum"
+                      }
+                    }
+                  },
+                  "market": {
+                    "type": "object",
+                    "description": "Market validation signals",
+                    "properties": {
+                      "total_addressable_market": {
+                        "type": "number",
+                        "description": "TAM estimate in USD"
+                      },
+                      "market_share_percent": {
+                        "type": "number",
+                        "description": "Estimated market share (0-100)"
+                      },
+                      "competitor_count": {
+                        "type": "integer",
+                        "description": "Number of direct competitors"
+                      },
+                      "customer_feedback": {
+                        "type": "string",
+                        "description": "Summary of recent customer feedback"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "context": {
+            "type": "object",
+            "description": "Additional context",
+            "properties": {
+              "sector": {
+                "type": "string",
+                "description": "Industry vertical"
+              },
+              "stage": {
+                "type": "string",
+                "enum": ["pre-launch", "early", "growth", "mature"],
+                "description": "Venture stage"
+              },
+              "previous_health_score": {
+                "type": "number",
+                "description": "Health score from previous review"
+              },
+              "flags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Any flagged concerns from previous period"
+              }
+            }
+          }
+        }
+      }
+    },
+    "analysis_scope": {
+      "type": "object",
+      "description": "Optional parameters for analysis",
+      "properties": {
+        "focus_areas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Specific areas to focus analysis (e.g., ['unit_economics', 'team_health'])"
+        },
+        "exclude_ventures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Venture IDs to exclude from comparison"
+        },
+        "include_pattern_analysis": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to perform cross-venture pattern analysis"
+        }
+      }
+    }
+  }
+}

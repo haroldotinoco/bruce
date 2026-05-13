@@ -1,0 +1,192 @@
+{
+  "recommended_channels": [
+    {
+      "rank": 1,
+      "channel": "paid-linkedin",
+      "rationale": "CISOs and security leaders actively research solutions on LinkedIn. Varonis dominates organic search on LinkedIn; we can differentiate via account-based marketing (ABM) targeting specific prospect accounts with Salesforce focus. Founder's strong network enables authentic thought leadership positioning.",
+      "audience_fit_score": 95,
+      "implementation_ease": 85,
+      "time_to_traction_days": 14,
+      "estimated_budget_range_usd": {
+        "min": 8000,
+        "max": 12000
+      },
+      "required_team_size": 1.0,
+      "risk_factors": [
+        "LinkedIn algorithm changes",
+        "Audience fatigue if too aggressive with ad frequency"
+      ],
+      "success_metrics": [
+        "Profile visits per dollar spent",
+        "Lead quality score (MQL → SQL conversion)",
+        "Cost per qualified opportunity"
+      ]
+    },
+    {
+      "rank": 2,
+      "channel": "analyst-relations",
+      "rationale": "CISOs rely on Gartner, Forrester, and IDC evaluations for vendor shortlisting. Varonis' post-acquisition deprioritization of mid-market creates opportunity to secure favorable analyst positioning. Requires 8-12 week lead time but high credibility multiplier.",
+      "audience_fit_score": 90,
+      "implementation_ease": 40,
+      "time_to_traction_days": 60,
+      "estimated_budget_range_usd": {
+        "min": 5000,
+        "max": 8000
+      },
+      "required_team_size": 0.5,
+      "risk_factors": [
+        "Analyst selection process is opaque and competitive",
+        "Requires executive relationships with analysts",
+        "Analyst reports take 2-3 months to publish"
+      ],
+      "success_metrics": [
+        "Analyst briefing scheduled",
+        "Inclusion in Magic Quadrant assessment",
+        "Analyst mention frequency in sales discussions"
+      ]
+    },
+    {
+      "rank": 3,
+      "channel": "content-marketing",
+      "rationale": "Security buyers conduct 6-10 hours of research before engaging sales. Content on 'Salesforce insider threat case studies', 'DLP ROI calculators', and 'compliance frameworks' positions us as category experts. Builds organic authority over 4-6 months while supporting other channels.",
+      "audience_fit_score": 85,
+      "implementation_ease": 75,
+      "time_to_traction_days": 45,
+      "estimated_budget_range_usd": {
+        "min": 4000,
+        "max": 6000
+      },
+      "required_team_size": 1.0,
+      "risk_factors": [
+        "Content effectiveness requires 3-4 month maturation",
+        "Team must maintain publication cadence (bi-weekly minimum)",
+        "Salesforce security content is competitive"
+      ],
+      "success_metrics": [
+        "Organic traffic to content hub",
+        "Content engagement (time-on-page, shares)",
+        "Leads attributed to content"
+      ]
+    },
+    {
+      "rank": 4,
+      "channel": "partnerships",
+      "rationale": "Partner with Salesforce consulting practices, CISO communities (like We Community, CISO Collective), and compliance platforms (Domo, Tableau partnerships). Co-marketing and referral relationships provide credibility and distribution. Leverage founder's existing network.",
+      "audience_fit_score": 80,
+      "implementation_ease": 60,
+      "time_to_traction_days": 30,
+      "estimated_budget_range_usd": {
+        "min": 3000,
+        "max": 5000
+      },
+      "required_team_size": 0.5,
+      "risk_factors": [
+        "Requires active relationship management",
+        "Partner incentive alignment takes 4-6 weeks to negotiate",
+        "Partner lead quality varies"
+      ],
+      "success_metrics": [
+        "Number of active partnerships",
+        "Partner-sourced lead volume",
+        "Partner-attributed revenue"
+      ]
+    },
+    {
+      "rank": 5,
+      "channel": "security-conferences",
+      "rationale": "RSA Conference, Black Hat, and InfoSecWorld reach target CISO audience in high-intent environment. Sponsorship + speaking slot creates visibility and lead generation opportunity. Attend RSA (Feb 2024) as primary opportunity.",
+      "audience_fit_score": 85,
+      "implementation_ease": 50,
+      "time_to_traction_days": 90,
+      "estimated_budget_range_usd": {
+        "min": 4000,
+        "max": 8000
+      },
+      "required_team_size": 0.5,
+      "risk_factors": [
+        "High cost per lead",
+        "Requires 3-month advance planning and CFP submission",
+        "Opportunity cost vs. digital channels"
+      ],
+      "success_metrics": [
+        "Booth traffic and lead captures",
+        "Speaking slot confirmation",
+        "Leads sourced from event follow-up"
+      ]
+    }
+  ],
+  "channels_to_avoid": [
+    {
+      "channel": "paid-google-ads",
+      "reason": "CISO buyers do not respond to broad 'DLP solution' keywords. Google Ads favors high-volume, low-complexity products. Would require large budget ($15k+/month) to achieve meaningful CISO audience reach. Better to allocate to LinkedIn."
+    },
+    {
+      "channel": "product-hunt",
+      "reason": "Product Hunt audience is primarily early-stage startups and engineers, not CISOs making enterprise security procurement decisions. Not aligned with buyer profile."
+    },
+    {
+      "channel": "tiktok-organic",
+      "reason": "Target audience (CISOs 35-55) does not spend meaningful time on TikTok. Distribution channel mismatch."
+    }
+  ],
+  "competitive_analysis": {
+    "competitor_channels": {
+      "Varonis": [
+        "paid-linkedin",
+        "paid-google-ads",
+        "analyst-relations",
+        "sales-development",
+        "content-marketing"
+      ],
+      "Imperva": [
+        "paid-google-ads",
+        "partnerships",
+        "content-marketing",
+        "conference-sponsorships",
+        "paid-linkedin"
+      ]
+    },
+    "market_gaps": [
+      "Analyst relations (Varonis deprioritizing post-acquisition, Imperva underfunding relative to Gartner influence)",
+      "Salesforce-specific positioning (no competitor owns 'Salesforce insider threat prevention' narrative)",
+      "CISO community partnerships (engagement with CISO Collective, We Community remains fragmented)"
+    ],
+    "trends_analysis": "Post-Varonis acquisition by STG, there is a 6-12 month window where the mid-market CISO buyer is underserved. Competitors are consolidating rather than innovating. This creates an opportunity to position DataShield as the nimble, CISO-focused alternative while analyst relations maturation is underway."
+  },
+  "resource_requirements": {
+    "total_monthly_budget_usd": 24000,
+    "budget_allocation": {
+      "paid-linkedin": 10000,
+      "analyst-relations": 6500,
+      "content-marketing": 5000,
+      "partnerships": 4000,
+      "security-conferences": 2000,
+      "buffer-and-experiments": 2000
+    },
+    "team_headcount": 2.5,
+    "team_composition": [
+      "1.0 FTE Paid Social/Account-Based Marketing Manager",
+      "1.0 FTE Content Marketing + Analyst Relations Manager",
+      "0.5 FTE Partnerships and Event Operations"
+    ],
+    "required_tools": [
+      "LinkedIn Campaign Manager and LinkedIn Sales Navigator",
+      "CRM (Salesforce or HubSpot) for lead tracking",
+      "Email sequencing tool (Outreach or Apollo)",
+      "Content management system (Webflow or WordPress)",
+      "Analytics platform (Mixpanel or Google Analytics 4)"
+    ],
+    "timeline_to_first_result_days": 14
+  },
+  "next_steps": [
+    "Day 1: Set up LinkedIn Campaign Manager and Sales Navigator; begin prospect list building for ABM targeting",
+    "Day 2-3: Draft analyst relations outreach strategy; identify 3 primary analysts for briefing requests",
+    "Day 4-5: Create content calendar for next 12 weeks (insider threat case studies, ROI calculators, compliance guides)",
+    "Day 6-7: Identify and reach out to 5 potential partners (Salesforce consulting practices, CISO communities)",
+    "Week 2: Launch first paid LinkedIn campaign (targeting VP Security/CISO + Salesforce focus); begin analyst briefing outreach",
+    "Week 3-4: Publish first 2 content pieces; schedule partnership calls",
+    "Week 5-6: Evaluate LinkedIn CAC and conversion metrics; pivot if needed; lock in conference attendance/sponsorship",
+    "Week 8+: Review analyst interest, refine messaging based on early feedback, plan next quarter expansion"
+  ],
+  "confidence_score": 88
+}

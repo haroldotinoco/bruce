@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Visual System Output",
+  "type": "object",
+  "required": ["color_palette", "typography_system", "design_tokens", "accessibility_report"],
+  "properties": {
+    "color_palette": {
+      "type": "object",
+      "properties": {
+        "primary_colors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "hex": { "type": "string" },
+              "rgb": { "type": "string" },
+              "usage": { "type": "string" }
+            }
+          }
+        },
+        "secondary_colors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "hex": { "type": "string" },
+              "usage": { "type": "string" }
+            }
+          }
+        },
+        "neutral_palette": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "hex": { "type": "string" },
+              "lum_value": { "type": "number" }
+            }
+          }
+        },
+        "palette_rationale": { "type": "string" }
+      }
+    },
+    "typography_system": {
+      "type": "object",
+      "properties": {
+        "headline_font": {
+          "type": "object",
+          "properties": {
+            "family": { "type": "string" },
+            "weight_range": { "type": "string" },
+            "use_cases": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "body_font": {
+          "type": "object",
+          "properties": {
+            "family": { "type": "string" },
+            "weight_range": { "type": "string" },
+            "line_height": { "type": "number" }
+          }
+        },
+        "type_scale": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "size_px": { "type": "integer" },
+              "weight": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "design_tokens": {
+      "type": "object",
+      "properties": {
+        "color_tokens": { "type": "object", "additionalProperties": { "type": "string" } },
+        "spacing_tokens": { "type": "object", "additionalProperties": { "type": "string" } },
+        "sizing_tokens": { "type": "object", "additionalProperties": { "type": "string" } },
+        "typography_tokens": { "type": "object" },
+        "shadow_tokens": { "type": "object" },
+        "border_radius_tokens": { "type": "object" }
+      }
+    },
+    "accessibility_report": {
+      "type": "object",
+      "properties": {
+        "wcag_level": { "type": "string" },
+        "contrast_ratios_verified": { "type": "boolean" },
+        "color_blindness_safe": { "type": "boolean" },
+        "detailed_checks": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "token_export_formats": {
+      "type": "object",
+      "properties": {
+        "json": { "type": "string", "description": "JSON format tokens" },
+        "css": { "type": "string", "description": "CSS custom properties format" },
+        "design_file": { "type": "string", "description": "Figma/design tool export format" }
+      }
+    }
+  }
+}

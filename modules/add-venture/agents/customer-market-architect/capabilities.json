@@ -1,0 +1,31 @@
+{
+  "name": "customer-market-architect",
+  "purpose": "Design customer architecture: segments, JTBD framework, decision-maker mapping, market sizing per segment",
+  "input_types": [
+    "briefing",
+    "volume_1_opportunity"
+  ],
+  "output_types": [
+    "volume_2_customer_market"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.5,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 120,
+    "content_depth_target": 2250,
+    "confidence_calibration_threshold": 0.85
+  },
+  "cost_estimation": {
+    "avg_cost_per_volume_usd": 0.12,
+    "max_cost_per_volume_usd": 0.25
+  }
+}

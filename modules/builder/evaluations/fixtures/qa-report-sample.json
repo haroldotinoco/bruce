@@ -1,0 +1,134 @@
+{
+  "qa_report": {
+    "report_id": "qa-report-sample-001",
+    "build_id": "build-complify-2024-001",
+    "test_run_id": "build-complify-2024-001-test-run-1",
+    "executed_at": "2026-04-06T14:30:00Z",
+    "test_environment": {
+      "browser": "chromium",
+      "staging_url": "https://staging.complify.example.com"
+    },
+    "scenarios_total": 35,
+    "scenarios_passed": 34,
+    "scenarios_failed": 1,
+    "pass_rate_percent": 97.1,
+    "overall_status": "pass",
+    "test_results": [
+      {
+        "scenario_id": "BDD-LOGIN-001",
+        "scenario_name": "User Login with Valid Credentials",
+        "status": "pass",
+        "duration_ms": 2340,
+        "error_message": null,
+        "failed_step": null,
+        "screenshot_ref": null
+      },
+      {
+        "scenario_id": "BDD-LOGIN-002",
+        "scenario_name": "User Login with Invalid Email",
+        "status": "pass",
+        "duration_ms": 1890,
+        "error_message": null,
+        "failed_step": null,
+        "screenshot_ref": null
+      },
+      {
+        "scenario_id": "BDD-DASHBOARD-001",
+        "scenario_name": "Dashboard Overview Display",
+        "status": "pass",
+        "duration_ms": 1650,
+        "error_message": null,
+        "failed_step": null,
+        "screenshot_ref": null
+      },
+      {
+        "scenario_id": "BDD-DASHBOARD-002",
+        "scenario_name": "Dashboard on Mobile Viewport",
+        "status": "fail",
+        "duration_ms": 3200,
+        "error_message": "AssertionError: Dashboard cards not rendered correctly on mobile",
+        "failed_step": "THEN: Dashboard displays properly on mobile view",
+        "screenshot_ref": "artifact-qa-screenshot-dashboard-002-fail"
+      },
+      {
+        "scenario_id": "BDD-DOCGEN-001",
+        "scenario_name": "Generate Privacy Policy Document",
+        "status": "pass",
+        "duration_ms": 4500,
+        "error_message": null,
+        "failed_step": null,
+        "screenshot_ref": null
+      },
+      {
+        "scenario_id": "BDD-DOCGEN-002",
+        "scenario_name": "Generate Document on Mobile",
+        "status": "pass",
+        "duration_ms": 4200,
+        "error_message": null,
+        "failed_step": null,
+        "screenshot_ref": null
+      },
+      {
+        "scenario_id": "BDD-POLICY-001",
+        "scenario_name": "Browse and Search Policies",
+        "status": "pass",
+        "duration_ms": 2100,
+        "error_message": null,
+        "failed_step": null,
+        "screenshot_ref": null
+      },
+      {
+        "scenario_id": "BDD-POLICY-002",
+        "scenario_name": "Create New Policy",
+        "status": "pass",
+        "duration_ms": 3400,
+        "error_message": null,
+        "failed_step": null,
+        "screenshot_ref": null
+      },
+      {
+        "scenario_id": "BDD-AUDIT-001",
+        "scenario_name": "View Audit Trail",
+        "status": "pass",
+        "duration_ms": 1800,
+        "error_message": null,
+        "failed_step": null,
+        "screenshot_ref": null
+      },
+      {
+        "scenario_id": "BDD-AUDIT-002",
+        "scenario_name": "Download Audit Report",
+        "status": "pass",
+        "duration_ms": 2300,
+        "error_message": null,
+        "failed_step": null,
+        "screenshot_ref": null
+      }
+    ],
+    "failures": [
+      {
+        "scenario_id": "BDD-DASHBOARD-002",
+        "failure_type": "ui_rendering",
+        "root_cause": "Responsive design issue - flexbox layout not responding to media queries",
+        "affected_component": "DashboardCard.tsx"
+      }
+    ],
+    "critical_failures": [],
+    "screenshots_refs": [
+      "artifact-qa-screenshot-dashboard-002-fail"
+    ],
+    "performance_metrics": {
+      "avg_duration_ms": 2723,
+      "min_duration_ms": 1650,
+      "max_duration_ms": 4500,
+      "total_execution_minutes": 28
+    },
+    "rework_recommendation": {
+      "triggered": true,
+      "rework_type": "frontend_failure",
+      "affected_scenarios": ["BDD-DASHBOARD-002"],
+      "expected_fix_time_minutes": 45,
+      "rework_cycle": 1
+    }
+  }
+}

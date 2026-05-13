@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Briefing Interpreter Input",
+  "type": "object",
+  "properties": {
+    "opportunity": {
+      "type": "object",
+      "properties": {
+        "opportunity_id": {"type": "string"},
+        "title": {"type": "string"},
+        "problem_statement": {"type": "string"},
+        "target_segment": {"type": "string"},
+        "market_size_estimate": {
+          "type": "object",
+          "properties": {
+            "tam": {"type": "number"},
+            "sam": {"type": "number"},
+            "som": {"type": "number"},
+            "confidence": {"type": "number"}
+          }
+        },
+        "competition_landscape": {"type": "object"},
+        "problem_analysis": {"type": "object"},
+        "analysis_quality": {
+          "type": "object",
+          "properties": {
+            "confidence_level": {"type": "number"},
+            "data_gaps": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      },
+      "required": ["opportunity_id", "title", "problem_statement", "target_segment"]
+    },
+    "portfolio_context": {
+      "type": "object",
+      "properties": {
+        "focus_areas": {"type": "array", "items": {"type": "string"}},
+        "strategic_priorities": {"type": "array", "items": {"type": "string"}},
+        "capital_allocation": {"type": "object"}
+      }
+    }
+  },
+  "required": ["opportunity"]
+}

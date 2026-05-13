@@ -1,0 +1,79 @@
+{
+  "venture_spec": {
+    "product_name": "Complify",
+    "tagline": "AI-powered compliance automation for SaaS startups",
+    "target_users": [
+      {
+        "role": "Compliance Officer",
+        "responsibilities": "Ensure regulatory compliance, audit preparation"
+      },
+      {
+        "role": "Operations Manager",
+        "responsibilities": "Policy creation and enforcement"
+      }
+    ],
+    "primary_use_case": "Automate compliance document generation and policy tracking"
+  },
+  "brand_context": {
+    "brand_name": "Complify",
+    "tone": "Professional, trustworthy, clear",
+    "primary_colors": {
+      "brand_blue": "#0066CC",
+      "accent_green": "#00A86B",
+      "neutral_dark": "#2C3E50"
+    },
+    "typography": {
+      "heading_font": "Inter",
+      "body_font": "Inter"
+    }
+  },
+  "functional_spec": {
+    "core_features": [
+      {
+        "feature_id": "FT-001",
+        "name": "Dashboard Overview",
+        "description": "Shows compliance status, pending tasks, recent audits"
+      },
+      {
+        "feature_id": "FT-002",
+        "name": "Document Generator",
+        "description": "AI-powered generation of compliance documents from templates"
+      },
+      {
+        "feature_id": "FT-003",
+        "name": "Policy Library",
+        "description": "Browse, search, and manage company policies"
+      },
+      {
+        "feature_id": "FT-004",
+        "name": "Audit Trail",
+        "description": "View all compliance-related changes with timestamps and actors"
+      }
+    ],
+    "user_flows": [
+      {
+        "flow_id": "UF-001",
+        "name": "Login Flow",
+        "steps": [
+          "User navigates to login page",
+          "User enters email",
+          "User enters password",
+          "System validates credentials",
+          "User redirected to dashboard"
+        ]
+      },
+      {
+        "flow_id": "UF-002",
+        "name": "Generate Compliance Document",
+        "steps": [
+          "User clicks 'New Document'",
+          "User selects document type",
+          "User fills in template fields",
+          "AI generates document",
+          "User reviews and approves",
+          "Document is stored and versioned"
+        ]
+      }
+    ]
+  }
+}

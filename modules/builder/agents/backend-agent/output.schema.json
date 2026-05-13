@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Backend Agent Output",
+  "type": "object",
+  "required": ["build_status"],
+  "properties": {
+    "code_repo_ref": {
+      "type": "string",
+      "description": "Artifact ID for generated backend repository"
+    },
+    "api_endpoints": {
+      "type": "array",
+      "description": "Generated API endpoints",
+      "items": {
+        "type": "object",
+        "properties": {
+          "method": { "type": "string" },
+          "path": { "type": "string" },
+          "handler": { "type": "string" }
+        }
+      }
+    },
+    "test_coverage_percent": {
+      "type": "number",
+      "description": "Code coverage percentage (0-100)"
+    },
+    "code_quality_score": {
+      "type": "number",
+      "description": "Quality score (0-100)"
+    },
+    "generated_files": {
+      "type": "array",
+      "description": "List of generated file paths",
+      "items": { "type": "string" }
+    },
+    "build_status": {
+      "type": "string",
+      "enum": ["success", "failed"],
+      "description": "Build completion status"
+    },
+    "build_errors": {
+      "type": "array",
+      "description": "Build errors if any",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file": { "type": "string" },
+          "line": { "type": "integer" },
+          "error": { "type": "string" }
+        }
+      }
+    },
+    "deployment_notes": {
+      "type": "string",
+      "description": "Deployment and runtime instructions"
+    }
+  }
+}

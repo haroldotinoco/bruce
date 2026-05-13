@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Portfolio Reporter Input",
+  "description": "All governance cycle outputs for report composition",
+  "required": ["portfolio_snapshot", "risk_assessment", "allocation_decisions", "governance_decisions"],
+  "properties": {
+    "portfolio_snapshot": {
+      "type": "object",
+      "description": "Output from portfolio-analyst"
+    },
+    "risk_assessment": {
+      "type": "object",
+      "description": "Output from risk-monitor"
+    },
+    "allocation_decisions": {
+      "type": "object",
+      "description": "Output from allocation-agent"
+    },
+    "governance_decisions": {
+      "type": "object",
+      "description": "Output from governance-decision-agent"
+    },
+    "report_config": {
+      "type": "object",
+      "description": "Configuration for report generation",
+      "properties": {
+        "audience": {
+          "type": "string",
+          "enum": ["operators", "investors", "board", "team"],
+          "description": "Target audience for report"
+        },
+        "include_appendices": {
+          "type": "boolean",
+          "default": true
+        },
+        "focus_areas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Areas to emphasize in report"
+        },
+        "previous_report": {
+          "type": "object",
+          "description": "Previous cycle's report for comparison (optional)"
+        }
+      }
+    }
+  }
+}

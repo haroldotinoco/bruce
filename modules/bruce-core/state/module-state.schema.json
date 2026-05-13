@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Module State Schema",
+  "description": "Persistent state maintained by Bruce Core - venture records and module status",
+  "type": "object",
+  "properties": {
+    "active_ventures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "venture_id": { "type": "string" },
+          "name": { "type": "string" },
+          "current_stage": { "type": "string" },
+          "stage_entry_timestamp": { "type": "string", "format": "date-time" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "founder_info": { "type": "object" },
+          "problem_statement": { "type": "string" },
+          "target_market": { "type": "object" },
+          "gate_history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "gate": { "type": "string" },
+                "status": { "type": "string" },
+                "score": { "type": "number" },
+                "evaluated_at": { "type": "string", "format": "date-time" }
+              }
+            }
+          },
+          "blockers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "description": { "type": "string" },
+                "severity": { "type": "string" },
+                "identified_at": { "type": "string", "format": "date-time" },
+                "assigned_to": { "type": "string" }
+              }
+            }
+          },
+          "last_transition_timestamp": { "type": "string", "format": "date-time" }
+        }
+      },
+      "description": "All currently active ventures"
+    },
+    "module_statuses": {
+      "type": "object",
+      "description": "Status of specialist modules",
+      "properties": {
+        "opportunity_screening": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["healthy", "degraded", "unavailable"] },
+            "last_invocation": { "type": "string", "format": "date-time" },
+            "success_rate_7d": { "type": "number" }
+          }
+        },
+        "brand": { "type": "object" },
+        "builder": { "type": "object" },
+        "market": { "type": "object" },
+        "operator": { "type": "object" },
+        "portfolio": { "type": "object" }
+      }
+    },
+    "last_cycle_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of last lifecycle check/portfolio review cycle"
+    },
+    "portfolio_health_summary": {
+      "type": "object",
+      "description": "High-level portfolio health snapshot",
+      "properties": {
+        "total_ventures": { "type": "number" },
+        "by_stage": { "type": "object" },
+        "by_decision": { "type": "object" },
+        "avg_health_score": { "type": "number" },
+        "estimated_total_runway_months": { "type": "number" }
+      }
+    },
+    "last_updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

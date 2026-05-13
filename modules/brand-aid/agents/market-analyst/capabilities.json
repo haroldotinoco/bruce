@@ -1,0 +1,25 @@
+{
+  "name": "market-analyst",
+  "purpose": "Research competitor brand positioning and identify white space opportunities",
+  "input_types": [
+    "venture_hypothesis",
+    "competitors",
+    "customer_segment"
+  ],
+  "output_types": [
+    "market_analysis"
+  ],
+  "external_dependencies": [
+    "web_search"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.5,
+    "max_tokens": 6144,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

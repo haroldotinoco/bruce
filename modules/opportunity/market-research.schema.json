@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Market Research",
+  "description": "Output schema for market-scanner agent discovery phase",
+  "type": "object",
+  "properties": {
+    "scan_id": {
+      "type": "string",
+      "description": "Unique identifier for this scan cycle"
+    },
+    "scan_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "opportunities_found": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "problem_statement": {
+            "type": "string"
+          },
+          "segment": {
+            "type": "string"
+          },
+          "pain_points": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "market_signals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Signals indicating market readiness"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "relevance": {
+                  "type": "string",
+                  "enum": ["high", "medium", "low"]
+                }
+              }
+            }
+          },
+          "discovery_confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence that this is a real opportunity (0-1)"
+          }
+        },
+        "required": ["title", "problem_statement", "segment", "pain_points", "sources"]
+      }
+    },
+    "scan_quality": {
+      "type": "object",
+      "properties": {
+        "sources_queried": {
+          "type": "integer"
+        },
+        "geographic_scope": {
+          "type": "string"
+        },
+        "domains_covered": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": ["scan_id", "scan_timestamp", "opportunities_found"]
+}

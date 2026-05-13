@@ -1,0 +1,192 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BruceMemory Tenant Context Schema",
+  "description": "JSON Schema defining tenant-specific configuration and metadata for BruceMemory module",
+  "type": "object",
+  "required": [
+    "account_id",
+    "plan_type",
+    "vector_db_namespace",
+    "created_at"
+  ],
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "Unique identifier for the account",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "plan_type": {
+      "type": "string",
+      "enum": ["free", "pro", "enterprise"],
+      "description": "Active plan tier determining BruceMemory capabilities"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when BruceMemory was activated for this account"
+    },
+    "vector_db_namespace": {
+      "type": "string",
+      "description": "Dedicated namespace in vector database (e.g., Pinecone namespace = account_id)",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "learning_corpus_size": {
+      "type": "object",
+      "description": "Current size and limits of learning corpus",
+      "properties": {
+        "total_learnings": {
+          "type": "integer",
+          "description": "Total number of learning records in corpus"
+        },
+        "storage_bytes": {
+          "type": "integer",
+          "description": "Total storage used in vector database"
+        },
+        "storage_limit_bytes": {
+          "type": "integer",
+          "description": "Maximum allowed storage based on plan"
+        },
+        "monthly_ingestion_quota": {
+          "type": "integer",
+          "description": "Number of learnings allowed per month"
+        },
+        "monthly_ingestion_used": {
+          "type": "integer",
+          "description": "Learnings ingested this month"
+        }
+      }
+    },
+    "pattern_confidence_threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0.7,
+      "description": "Minimum confidence score (0-1) for patterns to be surfaced in queries"
+    },
+    "query_rate_limit": {
+      "type": "object",
+      "description": "API query rate limiting configuration",
+      "properties": {
+        "monthly_quota": {
+          "type": "integer",
+          "description": "Maximum queries per month"
+        },
+        "monthly_used": {
+          "type": "integer",
+          "description": "Queries executed this month"
+        },
+        "requests_per_second": {
+          "type": "number",
+          "description": "Maximum requests per second"
+        },
+        "requests_per_minute": {
+          "type": "integer",
+          "description": "Maximum requests per minute"
+        }
+      }
+    },
+    "cross_venture_analysis_enabled": {
+      "type": "boolean",
+      "description": "Whether account has access to cross-venture pattern analysis (Enterprise only)"
+    },
+    "cross_venture_consent": {
+      "type": "boolean",
+      "description": "Whether account has opted into anonymized global pattern sharing"
+    },
+    "pattern_extraction_cadence": {
+      "type": "string",
+      "enum": ["manual", "weekly", "daily"],
+      "description": "Frequency of automatic pattern extraction runs"
+    },
+    "intelligence_synthesis_cadence": {
+      "type": "string",
+      "enum": ["manual", "weekly", "monthly"],
+      "description": "Frequency of intelligence synthesis compilation"
+    },
+    "ventures": {
+      "type": "array",
+      "description": "List of ventures associated with this account",
+      "items": {
+        "type": "object",
+        "properties": {
+          "venture_id": {
+            "type": "string",
+            "description": "Unique venture identifier"
+          },
+          "venture_name": {
+            "type": "string",
+            "description": "Human-readable venture name"
+          },
+          "learning_count": {
+            "type": "integer",
+            "description": "Number of learning records for this venture"
+          },
+          "added_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this venture was added to the account"
+          }
+        }
+      }
+    },
+    "api_keys": {
+      "type": "object",
+      "description": "Active API keys for this tenant",
+      "properties": {
+        "primary_key": {
+          "type": "string",
+          "description": "Primary API key for authentication"
+        },
+        "secondary_key": {
+          "type": "string",
+          "description": "Secondary API key for rotation/backup"
+        }
+      }
+    },
+    "webhook_endpoints": {
+      "type": "array",
+      "description": "Webhook URLs for event notifications",
+      "items": {
+        "type": "object",
+        "properties": {
+          "endpoint_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Event types to subscribe to"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "last_synthesis_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of most recent intelligence synthesis"
+    },
+    "last_pattern_extraction_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of most recent pattern extraction"
+    },
+    "feature_flags": {
+      "type": "object",
+      "description": "Feature flags for experimental/custom features",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Custom metadata and tags",
+      "additionalProperties": true
+    }
+  }
+}

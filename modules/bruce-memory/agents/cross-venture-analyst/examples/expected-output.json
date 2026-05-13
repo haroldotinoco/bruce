@@ -1,0 +1,63 @@
+{
+  "analysis_id": "cva-20260405-001",
+  "analysis_type": "success_factors",
+  "ventures_analyzed": 4,
+  "time_range": {
+    "start": "2026-01-01",
+    "end": "2026-04-05"
+  },
+  "findings": [
+    {
+      "finding": "B2B SaaS ventures with CAC/LTV ratio below 0.15 demonstrate 2x faster growth and higher customer retention than those with ratios above 0.5",
+      "supporting_ventures": ["v-001", "v-002", "v-004"],
+      "confidence": 0.87,
+      "statistical_note": "Observed across 3 ventures with sufficient scale (>150 customers or >$40K MRR). Effect size ranges from 18% to 22% monthly growth for low-ratio ventures vs 5% for high-ratio ventures.",
+      "actionable_implication": "Prioritize unit economics validation early in venture lifecycle. Ventures with strong CAC/LTV ratios (<0.15) should pursue aggressive scaling; those with ratios >0.5 require fundamental business model rethinking before scaling."
+    },
+    {
+      "finding": "Ventures entering regulated markets (healthcare, finance) experience 4-6 month longer sales cycles than unrestricted SaaS, increasing required runway 40-60%",
+      "supporting_ventures": ["v-002"],
+      "confidence": 0.72,
+      "statistical_note": "Healthcare cycle observed at 20 weeks vs 8 weeks baseline. Sample size of 1 venture; confidence would increase with additional healthcare ventures.",
+      "actionable_implication": "For regulated verticals, model 6-month sales cycles minimum and plan runway accordingly. Enterprise sales hiring and compliance investment should occur earlier than for unrestricted SaaS."
+    },
+    {
+      "finding": "Supply chain and logistics software ventures without founding team domain expertise show <5% conversion rates despite industry benchmarks of 8-12%, correlating with high CAC/LTV ratios (0.75+)",
+      "supporting_ventures": ["v-003"],
+      "confidence": 0.68,
+      "statistical_note": "Single venture with detailed postmortem data. Pattern supported by cross-enterprise sales dynamics in logistics vertical showing high switching costs and entrenched incumbents.",
+      "actionable_implication": "Require domain expertise validation (customer advisory board, founder background) before structuring supply chain ventures. Alternatively, acquire domain expertise through hires before GTM launch."
+    }
+  ],
+  "correlations": [
+    {
+      "variable_a": "CAC/LTV ratio",
+      "variable_b": "Monthly growth rate",
+      "direction": "negative",
+      "strength": "strong",
+      "caveat": "Correlation observed among B2B SaaS ventures only; relationship may not hold for other business models. Growth sustainability also depends on churn and retention."
+    },
+    {
+      "variable_a": "Founding team domain expertise",
+      "variable_b": "Time to first customer sale",
+      "direction": "negative",
+      "strength": "moderate",
+      "caveat": "Supply chain domain expertise correlated with faster sales cycle, but sample limited to 1 venture. Market access and buyer relationships likely confounders."
+    },
+    {
+      "variable_a": "Go-to-market model (freemium vs direct sales)",
+      "variable_b": "Customer acquisition efficiency",
+      "direction": "positive",
+      "strength": "moderate",
+      "caveat": "Freemium model (DataFlow) showed low CAC but free-to-paid conversion required sales team. Enterprise direct sales (MediLink) had high CAC but higher LTV. Not a simple comparison."
+    }
+  ],
+  "counter_intuitive_findings": [
+    {
+      "finding": "Longer sales cycles did not prevent traction in healthcare SaaS; MediLink achieved $120K ARR in 18 weeks despite 20-week sales cycles",
+      "why_surprising": "Conventional wisdom suggests long sales cycles kill velocity. However, high enterprise contract values and strong product-market fit in healthcare allowed MediLink to grow despite procurement delays.",
+      "confidence": 0.65
+    }
+  ],
+  "insufficient_data_note": null
+}

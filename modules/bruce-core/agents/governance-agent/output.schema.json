@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Governance Agent Output",
+  "description": "Portfolio governance decision from Governance Agent",
+  "type": "object",
+  "required": ["portfolio_decision_id", "venture_id", "decision", "confidence_score"],
+  "properties": {
+    "portfolio_decision_id": {
+      "type": "string",
+      "pattern": "^pd-[a-z0-9]{8}$"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["SCALE", "ITERATE", "PAUSE", "KILL"]
+    },
+    "venture_id": {
+      "type": "string"
+    },
+    "venture_name": {
+      "type": "string"
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "High-level summary of decision rationale"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence in this decision (0.0-1.0)"
+    },
+    "confidence_rationale": {
+      "type": "string",
+      "description": "Explanation of confidence score - sources of uncertainty"
+    },
+    "supporting_metrics": {
+      "type": "object",
+      "description": "Key metrics supporting the decision",
+      "properties": {
+        "month_2_retention": { "type": "number" },
+        "cac_ltv_ratio": { "type": "number" },
+        "wow_growth_pct": { "type": "number" },
+        "nps": { "type": "number" },
+        "burn_rate_months": { "type": "number" }
+      }
+    },
+    "key_strengths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What the venture is doing well"
+    },
+    "key_risks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Risks or concerns with current trajectory"
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Specific next steps"
+    },
+    "contingency_plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "condition": { "type": "string" },
+          "action": { "type": "string" }
+        }
+      },
+      "description": "If-then contingencies"
+    },
+    "timeline": {
+      "type": "string",
+      "description": "Recommended timing for actions"
+    },
+    "next_review_date": {
+      "type": "string",
+      "format": "date",
+      "description": "When to re-evaluate this venture"
+    },
+    "decision_category": {
+      "type": "string",
+      "enum": ["growth_decision", "optimization_decision", "risk_mitigation", "resource_allocation"],
+      "description": "Category of governance decision"
+    },
+    "reversibility": {
+      "type": "string",
+      "enum": ["reversible", "partially_reversible", "irreversible"],
+      "description": "Can this decision be undone"
+    },
+    "required_approvals": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "If KILL or PAUSE: who must approve (e.g., ['founder', 'portfolio_manager'])"
+    },
+    "decided_by": {
+      "type": "string",
+      "description": "governance-agent"
+    },
+    "decided_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "correlation_id": {
+      "type": "string"
+    }
+  }
+}

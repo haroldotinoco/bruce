@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Creative Director Input",
+  "type": "object",
+  "required": ["brand_strategy", "market_analysis"],
+  "properties": {
+    "brand_strategy": {
+      "type": "object",
+      "description": "Output from brand-strategist agent",
+      "properties": {
+        "positioning": { "type": "string" },
+        "primary_archetype": { "type": "string" },
+        "secondary_archetype": { "type": "string" },
+        "brand_promise": { "type": "string" },
+        "personality_traits": { "type": "array", "items": { "type": "string" } },
+        "values": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "market_analysis": {
+      "type": "object",
+      "description": "Output from market-analyst agent",
+      "properties": {
+        "white_space_opportunities": { "type": "array" },
+        "competitor_positioning_map": { "type": "array" },
+        "tone_and_voice_analysis": { "type": "object" }
+      }
+    },
+    "visual_inspiration": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Reference brands or aesthetics (URLs or brand names)"
+    },
+    "brand_voice_references": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Sample text or brands with voice similar to target (not necessarily competitors)"
+    },
+    "design_constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Technical or business constraints (e.g., 'must work at 16px', 'B2B context')"
+    }
+  }
+}

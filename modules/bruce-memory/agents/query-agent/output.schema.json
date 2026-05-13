@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bruce-memory/agents/query-agent/output",
+  "title": "QueryAgentOutput",
+  "type": "object",
+  "required": ["query_id", "question"],
+  "properties": {
+    "query_id": {
+      "type": "string"
+    },
+    "question": {
+      "type": "string"
+    },
+    "relevant_patterns": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "properties": {
+          "pattern_id": {
+            "type": "string"
+          },
+          "statement": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "evidence_count": {
+            "type": "integer"
+          },
+          "relevance_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "action_implication": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "synthesis": {
+      "type": "string",
+      "description": "2-3 sentence synthesis of what memory knows about this question"
+    },
+    "confidence_overall": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Overall confidence in the response based on pattern confidence and evidence count"
+    },
+    "no_results": {
+      "type": "boolean",
+      "description": "True if no patterns matched at minimum confidence threshold"
+    },
+    "suggested_related_queries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related queries that might yield results"
+    },
+    "served_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "latency_ms": {
+      "type": "integer",
+      "description": "Response time in milliseconds"
+    }
+  }
+}

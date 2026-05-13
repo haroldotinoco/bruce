@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Complete Brand Identity",
+  "type": "object",
+  "required": ["strategy", "visual_system", "logo", "naming"],
+  "properties": {
+    "strategy": {
+      "type": "object",
+      "properties": {
+        "positioning": { "type": "string" },
+        "primary_archetype": { "type": "string" },
+        "secondary_archetype": { "type": "string" },
+        "brand_promise": { "type": "string" },
+        "personality_traits": { "type": "array", "items": { "type": "string" } },
+        "values": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "visual_system": {
+      "type": "object",
+      "properties": {
+        "color_palette": { "type": "object" },
+        "typography_system": { "type": "object" },
+        "design_tokens": { "type": "object" }
+      }
+    },
+    "logo": {
+      "type": "object",
+      "properties": {
+        "concept_name": { "type": "string" },
+        "rationale": { "type": "string" },
+        "svg_horizontal": { "type": "string" },
+        "svg_vertical": { "type": "string" },
+        "svg_icon": { "type": "string" }
+      }
+    },
+    "naming": {
+      "type": "object",
+      "properties": {
+        "chosen_name": { "type": "string" },
+        "rationale": { "type": "string" },
+        "pronunciation": { "type": "string" },
+        "domain": { "type": "string" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_date": { "type": "string" },
+        "version": { "type": "string" },
+        "critique_score": { "type": "integer" }
+      }
+    }
+  }
+}

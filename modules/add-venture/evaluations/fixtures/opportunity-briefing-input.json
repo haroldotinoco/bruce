@@ -1,0 +1,80 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "opportunity_id": "opp-ai-compliance-v1",
+  "briefing": {
+    "venture_name": "ComplianceAI",
+    "problem_context": {
+      "core_problem": "Banks and financial institutions cannot demonstrate AI model compliance to regulators. Current compliance monitoring is manual, expensive, and fragmented across multiple systems.",
+      "affected_personas": [
+        "Chief Compliance Officer at large banks",
+        "Chief Risk Officer at large banks",
+        "AI Governance Lead at banks"
+      ],
+      "current_solutions": [
+        "Manual audit processes (spreadsheets + regulatory consultants)",
+        "Generic model monitoring tools (incomplete compliance picture)",
+        "Regulatory consulting (slow, expensive, one-time)"
+      ],
+      "confidence_level": 0.78
+    },
+    "market_context": {
+      "tam": 2500000000,
+      "sam": 500000000,
+      "som": 10000000,
+      "market_dynamics": "Regulatory enforcement on AI increasing. Banks actively investing in compliance infrastructure.",
+      "regulatory_environment": "Federal Reserve, SEC, OCC published AI guidance 2023-2024. Enforcement accelerating.",
+      "confidence_level": 0.75
+    },
+    "customer_context": {
+      "primary_segment": "Financial Services Compliance Officers",
+      "segment_size": 12500,
+      "jtbd_functional": "Monitor and document AI model behavior for regulatory compliance",
+      "jtbd_emotional": "Confident that organization meets regulatory requirements",
+      "willingness_to_pay": "$50K-200K annually per customer",
+      "confidence_level": 0.72
+    },
+    "competitive_context": {
+      "direct_competitors": [
+        "Regulatory AI",
+        "ModelWatch"
+      ],
+      "indirect_competitors": [
+        "Generic model monitoring platforms",
+        "Compliance consulting firms"
+      ],
+      "competitive_intensity": "Medium (monitoring category established, but no integrated compliance platforms)",
+      "differentiation_opportunities": [
+        "Integrated regulatory reporting",
+        "Explainability for black-box models",
+        "Speed of implementation"
+      ],
+      "barriers_to_entry": [
+        "Regulatory expertise required",
+        "Integration complexity with model stacks",
+        "Switching costs once embedded"
+      ],
+      "confidence_level": 0.70
+    },
+    "portfolio_context": {
+      "strategic_fit_summary": "Aligns with financial services and AI governance portfolio priorities",
+      "capital_efficiency": "Software business model; recurring revenue; high gross margins expected",
+      "team_skill_fit": "Portfolio has fintech expertise and compliance domain knowledge",
+      "confidence_level": 0.75
+    },
+    "key_assumptions": [
+      "Regulatory enforcement will remain high for 3+ years",
+      "Banks will prefer integrated compliance platforms over point solutions",
+      "Willingness-to-pay driven by regulatory risk (not cost savings)",
+      "Technical approach to explainability will satisfy regulatory bar",
+      "Founder has regulatory and compliance domain expertise"
+    ],
+    "data_gaps": [
+      "Exact regulatory requirements interpretation (varies by bank/regulator)",
+      "Competitor product roadmaps (Regulatory AI and ModelWatch not transparent)",
+      "Secondary segment (mid-market banks) adoption timeline",
+      "Willingness-to-pay validation from 10+ customer interviews"
+    ],
+    "briefing_quality_score": 78,
+    "briefing_timestamp": "2026-04-01T00:00:00Z"
+  }
+}

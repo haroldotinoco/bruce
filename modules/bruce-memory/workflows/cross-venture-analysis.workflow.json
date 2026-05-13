@@ -1,0 +1,59 @@
+{
+  "workflow_id": "cross-venture-analysis",
+  "module": "bruce-memory",
+  "description": "Bi-weekly comparative analysis across all ventures to surface new correlation patterns",
+  "trigger": {
+    "type": "schedule",
+    "cron": "0 4 1,15 * *"
+  },
+  "steps": [
+    {
+      "step_id": "collect-venture-summaries",
+      "agent": "cross-venture-analyst",
+      "description": "Pull venture summaries and associated learning records from state store",
+      "timeout_seconds": 120,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "default": "run-analysis"
+      },
+      "events_emitted": []
+    },
+    {
+      "step_id": "run-analysis",
+      "agent": "cross-venture-analyst",
+      "description": "Run cross-venture correlation and pattern analysis",
+      "timeout_seconds": 900,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "exponential",
+        "initial_delay_ms": 30000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "default": "extract-new-patterns"
+      },
+      "events_emitted": []
+    },
+    {
+      "step_id": "extract-new-patterns",
+      "agent": "pattern-extractor",
+      "description": "Convert findings into pattern store entries",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "linear",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": null,
+      "events_emitted": [
+        "bruce-memory.cross-venture-analysis.completed"
+      ]
+    }
+  ]
+}

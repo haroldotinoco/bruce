@@ -1,0 +1,142 @@
+{
+  "campaign_brief": {
+    "campaign_id": "CAMP-2024-Q2-CISO-ABM-001",
+    "objective": "Generate 15 qualified demos (SQL-level opportunities) from CISO personas at mid-market SaaS companies via account-based marketing on LinkedIn",
+    "target_audience": "Chief Information Security Officers (CISOs) at Series B-D SaaS/tech companies (100-1000 employees) in US, excluding existing customers and competitors",
+    "success_metric": "Cost per qualified lead (MQL to SQL conversion)",
+    "target_kpi": 400,
+    "budget_usd": 12000,
+    "timeline_days": 30,
+    "launch_date": "2024-04-08",
+    "decision_date": "2024-04-20"
+  },
+  "ab_test_plan": {
+    "variable_tested": "Headline messaging approach (fear-driven vs. value-driven)",
+    "control_description": "DataShield prevents insider threats in your Salesforce (feature-focused, neutral tone)",
+    "variant_description": "Insider threats cost companies $15.4M average. DataShield stops them. (problem-driven, urgency-focused)",
+    "split_percentage": {
+      "control": 50,
+      "variant": 50
+    },
+    "sample_size_needed": 150,
+    "confidence_level": 0.95,
+    "expected_days_to_significance": 12
+  },
+  "budget_allocation": {
+    "total_budget": 12000,
+    "allocation_breakdown": {
+      "control_messaging_group": {
+        "budget_usd": 5400,
+        "percentage": 45,
+        "daily_budget": 180,
+        "purpose": "Feature-focused messaging test"
+      },
+      "variant_messaging_group": {
+        "budget_usd": 5400,
+        "percentage": 45,
+        "daily_budget": 180,
+        "purpose": "Problem-driven messaging test"
+      }
+    },
+    "contingency_reserve": 1200
+  },
+  "launch_checklist": [
+    {
+      "item": "Create control LinkedIn ad copy and creative (neutral positioning)",
+      "owner": "Content Team",
+      "deadline": "2024-04-04",
+      "status": "pending"
+    },
+    {
+      "item": "Create variant LinkedIn ad copy and creative (urgency positioning)",
+      "owner": "Content Team",
+      "deadline": "2024-04-04",
+      "status": "pending"
+    },
+    {
+      "item": "Build landing page with lead form (email, company, title required fields)",
+      "owner": "Product/Web Team",
+      "deadline": "2024-04-05",
+      "status": "pending"
+    },
+    {
+      "item": "Set up LinkedIn campaign in Campaign Manager (audience, bidding, tracking pixels)",
+      "owner": "Paid Social Manager",
+      "deadline": "2024-04-06",
+      "status": "pending"
+    },
+    {
+      "item": "Test landing page and lead form; ensure CRM integration working",
+      "owner": "Paid Social Manager",
+      "deadline": "2024-04-07",
+      "status": "pending"
+    },
+    {
+      "item": "Set up analytics dashboard for daily monitoring",
+      "owner": "Analytics",
+      "deadline": "2024-04-07",
+      "status": "pending"
+    },
+    {
+      "item": "Launch campaign and monitor first 24 hours",
+      "owner": "Paid Social Manager",
+      "deadline": "2024-04-08",
+      "status": "pending"
+    }
+  ],
+  "daily_monitoring_plan": {
+    "metrics_to_monitor": [
+      "Daily spend vs. budget pace ($400/day target)",
+      "Impressions delivered (LinkedIn targeting accuracy)",
+      "Click-through rate (CTR %) for both control and variant",
+      "Landing page conversion rate (leads/clicks)",
+      "Cost per lead (spend/leads)",
+      "Lead quality score (form completeness, intent signals)"
+    ],
+    "check_frequency": "daily-eod",
+    "alert_thresholds": [
+      {
+        "metric": "Daily spend",
+        "threshold_value": 450,
+        "action": "Alert: spent more than budget pace. Investigate bidding settings.",
+        "severity": "warning"
+      },
+      {
+        "metric": "Cost per lead (7-day rolling)",
+        "threshold_value": 800,
+        "action": "Alert: CPL is 2x target. Review lead quality and conversion rate.",
+        "severity": "warning"
+      },
+      {
+        "metric": "Cost per lead (7-day rolling)",
+        "threshold_value": 1000,
+        "action": "CRITICAL: CPL exceeds kill threshold. Pause campaign immediately and escalate.",
+        "severity": "critical"
+      },
+      {
+        "metric": "Click-through rate",
+        "threshold_value": 1.5,
+        "action": "Alert: CTR below 2.5% benchmark. Ad creative may be underperforming.",
+        "severity": "info"
+      },
+      {
+        "metric": "Landing page conversion rate",
+        "threshold_value": 3,
+        "action": "Alert: Conversion rate below 5% target. Review form friction.",
+        "severity": "warning"
+      }
+    ],
+    "pause_criteria": "Campaign is PAUSED immediately if: (1) CPL exceeds $800 for 7 consecutive days, (2) impressions drop to zero (platform issue), (3) data integration breaks and conversions cannot be tracked",
+    "escalation_process": "Pause alert sent to Growth-Experimenter within 1 hour of threshold breach. If CRITICAL alert (CPL >$1000), pause campaign immediately and escalate to Weekly-Governance-Agent for decision on continuation or pivot."
+  },
+  "success_thresholds": {
+    "kill_threshold": 800,
+    "pause_threshold": 600,
+    "scale_threshold": 300
+  },
+  "reporting_cadence": {
+    "daily_snapshot": "End-of-day dashboard review: spend, impressions, CTR, conversion rate, CPL for each variant",
+    "weekly_review": "Every Monday 10am: compare control vs. variant performance, assess statistical significance, recommend scaling/pausing",
+    "final_report_date": "2024-05-08"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "venture_hypothesis": "A mobile-first platform that allows freelancers to find high-quality, long-term project work without competing on price. We solve the problem of gig workers facing race-to-the-bottom commoditization by connecting them with companies that value specialized skills and fair compensation.",
+  "target_customer": {
+    "segment": "Experienced freelancers and independent consultants earning 60k-150k annually who want stability and premium pricing",
+    "needs": [
+      "Consistent, high-quality project opportunities",
+      "Fair pricing that reflects expertise",
+      "Reduced time hunting for new clients",
+      "Long-term relationships with quality brands"
+    ],
+    "pain_points": [
+      "Exhaustion from constant pitching and platform competition",
+      "Undercutting and race-to-the-bottom pricing",
+      "No job security or benefits",
+      "Fragmented client base requiring constant relationship building"
+    ]
+  },
+  "problem_statement": "Independent professionals with proven expertise waste time competing for work on generic freelance platforms, often undercutting themselves, while premium clients struggle to find reliable, skilled talent for meaningful projects.",
+  "competitive_landscape": [
+    {
+      "competitor": "Upwork",
+      "positioning": "The world's largest freelance marketplace",
+      "strengths": ["Scale", "Brand recognition", "Low barriers to entry"],
+      "weaknesses": ["Race-to-the-bottom pricing", "Quality variability", "Overwhelming choice"]
+    },
+    {
+      "competitor": "Toptal",
+      "positioning": "Premium vetted talent",
+      "strengths": ["High-quality vetted talent", "Professional tier"],
+      "weaknesses": ["High barriers to entry", "Expensive for clients", "Limited project types"]
+    }
+  ],
+  "business_model": {
+    "revenue_model": "Commission on projects (12% from freelancers, 8% from clients)",
+    "customer_acquisition": "Content marketing, referral program, direct outreach to top freelancers",
+    "unit_economics": "Average project value $15k, 15% take rate = $2250 per project"
+  },
+  "desired_perception": "The trusted platform where serious freelancers and quality-focused brands find each other",
+  "constraints": [
+    "Must emphasize professional/premium positioning",
+    "Cannot compete on price with Upwork",
+    "Must appeal to both freelancers and brands"
+  ]
+}

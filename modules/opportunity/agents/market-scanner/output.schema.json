@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Market Scanner Output",
+  "description": "Loose validation: LLM JSON is normalized in apps/opportunity (scan_id, timestamps, opportunities).",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "scan_id": { "type": "string" },
+    "scan_timestamp": { "type": "string" },
+    "opportunities_found": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    }
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "allocation_decision": {
+    "decision_timestamp": "2026-04-05T14:45:00Z",
+    "allocation_recommendations": [
+      {
+        "venture_id": "v-001",
+        "name": "DataFlow Analytics",
+        "current_monthly_budget": 120000,
+        "recommended_monthly_budget": 140000,
+        "budget_delta": 20000,
+        "budget_change_percent": 16.7,
+        "budget_rationale": "Strong health (84) and traction (87) with 18-month runway justifies growth investment. Budget increase supports 2 critical hires and data warehouse scaling. Increase phased over 4 weeks.",
+        "current_headcount": 12,
+        "recommended_headcount": 14,
+        "headcount_delta": 2,
+        "headcount_rationale": "Hire 1 data architect (critical) and 1 sales engineer to support growth trajectory. DataFlow's 18% monthly growth can absorb headcount expansion.",
+        "hiring_priorities": ["Data Architect", "Sales Engineer"],
+        "resource_sharing_targets": [
+          {
+            "venture_id": "v-004",
+            "resource_type": "infrastructure",
+            "description": "Share ML model serving infrastructure costs ($2K/month savings for v-004)",
+            "estimated_savings": 2000
+          }
+        ],
+        "confidence_score": 92,
+        "implementation_timeline": "this_month"
+      },
+      {
+        "venture_id": "v-002",
+        "name": "MediLink Connect",
+        "current_monthly_budget": 85000,
+        "recommended_monthly_budget": 95000,
+        "budget_delta": 10000,
+        "budget_change_percent": 11.8,
+        "budget_rationale": "Traction score 78 with 35% monthly growth and improving CAC/LTV justify measured increase. 14-month runway supports growth hiring. Budget capped at 11.8% due to 6-12 month runway band.",
+        "current_headcount": 8,
+        "recommended_headcount": 10,
+        "headcount_delta": 2,
+        "headcount_rationale": "Hire 2 engineers (1 critical compliance expert, 1 product) to support rapid traction growth. Regulatory compliance expertise essential for healthcare sector.",
+        "hiring_priorities": ["Compliance Engineer", "Full Stack Engineer"],
+        "resource_sharing_targets": [
+          {
+            "venture_id": "v-001",
+            "resource_type": "expertise",
+            "description": "Access to DataFlow's data security expertise for HIPAA compliance (consulting basis)",
+            "estimated_savings": 500
+          }
+        ],
+        "confidence_score": 85,
+        "implementation_timeline": "next_month"
+      },
+      {
+        "venture_id": "v-003",
+        "name": "TruckRoute Pro",
+        "current_monthly_budget": 75000,
+        "recommended_monthly_budget": 20000,
+        "budget_delta": -55000,
+        "budget_change_percent": -73.3,
+        "budget_rationale": "Status = decision_pending. TruckRoute allocated runway-only budget until governance decision made (kill vs pivot). Recommend decision within 4 weeks given 8-month runway critical window.",
+        "current_headcount": 5,
+        "recommended_headcount": 3,
+        "headcount_delta": -2,
+        "headcount_rationale": "Reduce to minimal operational headcount pending governance decision. Retain founder + 2 key engineers to maintain option for pivot if approved.",
+        "hiring_priorities": [],
+        "resource_sharing_targets": [
+          {
+            "venture_id": "v-004",
+            "resource_type": "infrastructure",
+            "description": "Consolidate shared cloud infrastructure into v-004 primary account during wind-down phase",
+            "estimated_savings": 3000
+          }
+        ],
+        "confidence_score": 88,
+        "implementation_timeline": "immediate"
+      },
+      {
+        "venture_id": "v-004",
+        "name": "Supply Forecast AI",
+        "current_monthly_budget": 65000,
+        "recommended_monthly_budget": 78000,
+        "budget_delta": 13000,
+        "budget_change_percent": 20.0,
+        "budget_rationale": "Traction score 62 with 11-month runway supports growth hiring within 6-12 month band (20% cap). ML model serving infrastructure needed to scale. Budget increase targeted.",
+        "current_headcount": 6,
+        "recommended_headcount": 8,
+        "headcount_delta": 2,
+        "headcount_rationale": "Hire ML engineer (critical) and data scientist to improve model accuracy and deployment velocity. These roles directly support traction.",
+        "hiring_priorities": ["ML Engineer", "Data Scientist"],
+        "resource_sharing_targets": [
+          {
+            "venture_id": "v-001",
+            "resource_type": "infrastructure",
+            "description": "Share data warehouse infrastructure with DataFlow (v-004 becomes secondary consumer, saves $1.5K/month)",
+            "estimated_savings": 1500
+          }
+        ],
+        "confidence_score": 86,
+        "implementation_timeline": "next_month"
+      }
+    ],
+    "resource_sharing_opportunities": [
+      {
+        "opportunity_id": "share-001",
+        "ventures_involved": ["v-001", "v-004"],
+        "resource_type": "infrastructure",
+        "description": "ML Model Serving: DataFlow's analytics platform and Supply Forecast's ML models both require model serving infrastructure. Consolidate to shared Kubernetes cluster (AWS EKS) vs separate deployments.",
+        "estimated_monthly_savings": 3500,
+        "implementation_complexity": "medium",
+        "implementation_cost": 8000,
+        "payback_period_months": 2.3,
+        "dependency_risk": "medium"
+      },
+      {
+        "opportunity_id": "share-002",
+        "ventures_involved": ["v-002", "v-001"],
+        "resource_type": "expertise",
+        "description": "Data Security / Compliance: MediLink requires HIPAA compliance, DataFlow has strong data security practice. Share quarterly security reviews and compliance audits (consulting arrangement).",
+        "estimated_monthly_savings": 2000,
+        "implementation_complexity": "low",
+        "implementation_cost": 1000,
+        "payback_period_months": 0.5,
+        "dependency_risk": "low"
+      },
+      {
+        "opportunity_id": "share-003",
+        "ventures_involved": ["v-003", "v-004"],
+        "resource_type": "infrastructure",
+        "description": "Cloud Infrastructure Consolidation: During TruckRoute's wind-down phase, consolidate its AWS footprint into Supply Forecast's account. Reduces complexity and overhead.",
+        "estimated_monthly_savings": 3000,
+        "implementation_complexity": "high",
+        "implementation_cost": 12000,
+        "payback_period_months": 4,
+        "dependency_risk": "medium"
+      }
+    ],
+    "portfolio_impact_summary": {
+      "previous_total_allocation": 345000,
+      "new_total_allocation": 333000,
+      "allocation_delta": -12000,
+      "allocation_delta_percent": -3.5,
+      "ventures_increasing_budget": 3,
+      "ventures_decreasing_budget": 1,
+      "ventures_frozen": 0,
+      "projected_avg_runway_months": 12.8,
+      "projected_concentration_percent": 42,
+      "concentration_trend": "improving",
+      "expected_portfolio_impact": "Reallocation improves portfolio health: (1) Concentrates capital on high-traction ventures (v-001, v-004) with 35%+ monthly growth. (2) Reduces portfolio allocation by $12K/month while increasing headcount in growth ventures, improving efficiency. (3) Improves concentration from 43% to 42% by reducing TruckRoute budget pending decision. (4) Maintains 12.8-month average runway across portfolio. (5) Resource sharing creates $8.5K/month savings when fully implemented (payback in 1-2 months).",
+      "portfolio_constraints_met": {
+        "max_concentration_met": true,
+        "min_runway_met": true,
+        "max_burn_met": true
+      }
+    },
+    "implementation_notes": "TruckRoute Pro reduction (v-003) is immediate and assumes governance decision pending status. If decision is deferred, revert to runway-only budget immediately ($20K/month). Resource sharing should be implemented in phases: (1) immediate for expertise sharing (v-002/v-001 compliance); (2) within 2 weeks for infrastructure sharing (v-001/v-004 ML models); (3) within 30 days for TruckRoute consolidation (v-003/v-004). All budget increases phased over 4 weeks to allow hiring ramp-up and integration.",
+    "risks_and_mitigations": [
+      {
+        "risk": "Reducing TruckRoute budget may accelerate deterioration if pivot is chosen post-decision.",
+        "mitigation": "Maintain minimum headcount (3 FTE) sufficient to execute pivot if approved. Governance decision must be made within 4 weeks to avoid runway cliff."
+      },
+      {
+        "risk": "Resource sharing between v-001 and v-004 (ML infrastructure) creates new codependency.",
+        "mitigation": "Implement with explicit SLA/support model. Each venture retains fallback to independent deployment if shared resource fails. Review dependency quarterly."
+      },
+      {
+        "risk": "Concentration actually increases on DataFlow (from 43% to 42% is only marginal improvement) while increasing its burn.",
+        "mitigation": "Offset by reducing TruckRoute. Monitor concentration monthly; if DataFlow concentration exceeds 45% in next review, pause budget increases and reallocate to diversification."
+      },
+      {
+        "risk": "Hiring targets (8 new headcount across 3 ventures) in tight market may face delays.",
+        "mitigation": "Prioritize hiring for v-001 and v-002 (both >12 month runway) over v-004 (11-month runway). Use equity/deferred compensation if cash recruitment slows."
+      }
+    ]
+  }
+}

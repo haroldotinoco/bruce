@@ -1,0 +1,24 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "opportunity_id": "opp-ai-compliance-v1",
+  "vol_1_opportunity": {
+    "macro_context": "Regulatory enforcement on AI increasing. Bank capital requirements incentivizing risk reduction."
+  },
+  "vol_2_customer_market": {
+    "customer_segments": [
+      {"segment_name": "Large Bank Compliance Teams", "willingness_to_pay_range": {"median_annual_usd": 250000}}
+    ]
+  },
+  "vol_3_value_proposition": {
+    "unique_differentiators": ["Integrated regulatory reporting", "Model-agnostic explainability engine"]
+  },
+  "vol_4_business_model": {
+    "unit_economics": {"ltv_cac_ratio": 12.5}
+  },
+  "vol_5_gtm": {
+    "icp_definition": {"estimated_total_icp_companies": 150}
+  },
+  "vol_6_narrative": {
+    "one_liner": "ComplianceAI turns regulatory uncertainty into confidence by automating AI compliance"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "query_id": "q-20260405-001",
+  "question": "What do we know about GTM strategies that work well for developer tools and SaaS platforms?",
+  "relevant_patterns": [
+    {
+      "pattern_id": "pat-004",
+      "statement": "Developer-first GTM (community, open source, documentation) shows 3-4x better CAC efficiency than direct enterprise sales for infrastructure and SaaS tools",
+      "confidence": 0.81,
+      "evidence_count": 5,
+      "relevance_score": 0.94,
+      "action_implication": "For developer-facing ventures, prioritize community building and documentation in first 3 months. Budget 15-20% of early marketing spend to developer community and examples."
+    },
+    {
+      "pattern_id": "pat-001",
+      "statement": "B2B SaaS ventures with CAC/LTV ratio <0.2 show 2-3x faster growth trajectory than those with ratio >0.5",
+      "confidence": 0.87,
+      "evidence_count": 8,
+      "relevance_score": 0.88,
+      "action_implication": "Validate unit economics by week 8 post-launch. Low CAC/LTV ratios (<0.2) indicate GTM-product fit and should trigger aggressive scaling; high ratios (>0.5) require GTM overhaul."
+    },
+    {
+      "pattern_id": "pat-005",
+      "statement": "Freemium model with self-serve onboarding drives 40% faster time-to-first-value than trial-based model for B2B SaaS platforms",
+      "confidence": 0.74,
+      "evidence_count": 4,
+      "relevance_score": 0.76,
+      "action_implication": "For developer-targeting SaaS, implement freemium model with immediate hands-on access. Avoid lengthy trial signup flows."
+    }
+  ],
+  "synthesis": "Memory shows that developer-first GTM (community, open source, documentation) is 3-4x more efficient than enterprise sales for developer tools. Combined with freemium self-serve models and strong unit economics (CAC/LTV <0.2), this approach drives 2-3x faster growth. Early focus on developer community in first 3 months is critical.",
+  "confidence_overall": 0.82,
+  "no_results": false,
+  "suggested_related_queries": [],
+  "served_at": "2026-04-05T14:30:08Z",
+  "latency_ms": 325
+}

@@ -1,0 +1,29 @@
+{
+  "period_start": "2026-03-01",
+  "period_end": "2026-03-31",
+  "patterns_since": "2026-01-01",
+  "min_confidence": 0.7,
+  "max_patterns": 10,
+  "portfolio_summary": {
+    "total_ventures": 12,
+    "ventures_by_stage": {
+      "structured": 2,
+      "built": 1,
+      "launched": 2,
+      "operating": 3,
+      "iterating": 2,
+      "scaling": 1,
+      "paused": 0,
+      "killed": 1
+    },
+    "ventures_by_segment": {
+      "B2B SaaS": 6,
+      "Healthcare Tech": 2,
+      "Supply Chain": 1,
+      "Infrastructure": 2,
+      "Climate Tech": 1
+    },
+    "active_ventures": 11,
+    "killed_ventures": 1
+  }
+}

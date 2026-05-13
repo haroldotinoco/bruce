@@ -1,0 +1,29 @@
+{
+  "tools": [
+    {
+      "name": "historical_lookup",
+      "type": "state_query",
+      "description": "Retrieve previous health reports from module state for trend calculation",
+      "inputs": {
+        "venture_id": "string",
+        "lookback_periods": "integer (default: 4)"
+      },
+      "outputs": {
+        "previous_reports": "array of health reports"
+      }
+    },
+    {
+      "name": "rubric_engine",
+      "type": "internal",
+      "description": "Apply scoring rubrics to metrics based on stage",
+      "inputs": {
+        "metrics": "object",
+        "stage": "enum: seed|early|growth"
+      },
+      "outputs": {
+        "dimension_scores": "object",
+        "rubric_applied": "string"
+      }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bruce-memory/agents/cross-venture-analyst/input",
+  "title": "CrossVentureAnalystInput",
+  "type": "object",
+  "required": ["ventures_data", "analysis_type"],
+  "properties": {
+    "ventures_data": {
+      "type": "array",
+      "description": "Summary data for each venture to be analyzed",
+      "items": {
+        "type": "object",
+        "required": ["venture_id", "stage", "outcome", "key_metrics", "learning_records"],
+        "properties": {
+          "venture_id": {
+            "type": "string"
+          },
+          "venture_name": {
+            "type": "string"
+          },
+          "stage": {
+            "type": "string",
+            "enum": ["structured", "built", "launched", "operating", "iterating", "scaling", "paused", "killed"]
+          },
+          "market_segment": {
+            "type": "string"
+          },
+          "business_model": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": ["success", "failure", "ongoing"]
+          },
+          "weeks_live": {
+            "type": "integer"
+          },
+          "key_metrics": {
+            "type": "object"
+          },
+          "learning_records": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "minItems": 2
+    },
+    "analysis_type": {
+      "type": "string",
+      "enum": ["success_factors", "failure_patterns", "timing_analysis", "segment_comparison", "gtm_effectiveness", "unit_economics_comparison"]
+    },
+    "time_range": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date"
+        },
+        "end": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "min_ventures_in_pattern": {
+      "type": "integer",
+      "description": "Minimum number of ventures required to assert a pattern. Default: 3.",
+      "default": 3,
+      "minimum": 2
+    },
+    "focus_segments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Optional filter: only analyze ventures in these market segments"
+    }
+  }
+}

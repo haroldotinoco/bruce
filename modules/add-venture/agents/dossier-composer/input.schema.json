@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Dossier-Composer Input",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "opportunity_id": {"type": "string"},
+    "venture_name": {"type": "string"},
+    "vol_1_opportunity": {"type": "object"},
+    "vol_2_customer_market": {"type": "object"},
+    "vol_3_value_proposition": {"type": "object"},
+    "vol_4_business_model": {"type": "object"},
+    "vol_5_gtm": {"type": "object"},
+    "vol_6_narrative": {"type": "object"},
+    "vol_7_risk_validation": {"type": "object"},
+    "vol_8_execution_roadmap": {"type": "object"},
+    "critique_result": {"type": "object"}
+  },
+  "required": ["venture_id", "opportunity_id", "venture_name", "vol_1_opportunity", "vol_2_customer_market", "vol_3_value_proposition", "vol_4_business_model", "vol_5_gtm", "vol_6_narrative", "vol_7_risk_validation", "vol_8_execution_roadmap", "critique_result"]
+}

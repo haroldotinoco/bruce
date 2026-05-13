@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Governance Decision Agent Input",
+  "description": "Portfolio analysis, risk, and allocation data for final governance decisions",
+  "required": ["ventures", "decision_policy"],
+  "properties": {
+    "ventures": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "description": "Ventures requiring governance decisions",
+      "items": {
+        "type": "object",
+        "required": ["venture_id", "name", "health_score", "traction_score"],
+        "properties": {
+          "venture_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "weeks_since_launch": {
+            "type": "integer"
+          },
+          "health_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "health_trend": {
+            "type": "string",
+            "enum": ["improving", "stable", "declining"]
+          },
+          "traction_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "monthly_growth_rate": {
+            "type": "number",
+            "description": "Month-over-month growth rate (decimal, e.g., 0.18 = 18%)"
+          },
+          "monthly_revenue": {
+            "type": "number"
+          },
+          "monthly_burn_rate": {
+            "type": "number"
+          },
+          "runway_months": {
+            "type": "number"
+          },
+          "cac": {
+            "type": "number"
+          },
+          "ltv": {
+            "type": "number"
+          },
+          "cac_ltv_ratio": {
+            "type": "number"
+          },
+          "conversion_rate": {
+            "type": "number",
+            "description": "0-1 scale"
+          },
+          "nps": {
+            "type": "number"
+          },
+          "team_health": {
+            "type": "string",
+            "enum": ["strong", "adequate", "declining", "at_risk"]
+          },
+          "key_risk_factors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Specific risks identified"
+          },
+          "previous_decision": {
+            "type": "string",
+            "enum": ["scale", "iterate", "pause", "kill"],
+            "description": "Decision from last review (if any)"
+          },
+          "previous_decision_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "decision_context": {
+            "type": "object",
+            "description": "Context-specific factors",
+            "properties": {
+              "is_outlier": {
+                "type": "boolean",
+                "description": "Flagged as outlier by analyst"
+              },
+              "outlier_reason": {
+                "type": "string"
+              },
+              "portfolio_importance": {
+                "type": "string",
+                "enum": ["strategic", "high", "medium", "low"],
+                "description": "Importance to portfolio goals"
+              }
+            }
+          }
+        }
+      }
+    },
+    "decision_policy": {
+      "type": "object",
+      "description": "Policy governing decisions",
+      "properties": {
+        "scale_criteria": {
+          "type": "object",
+          "description": "Minimum thresholds for scale decision",
+          "properties": {
+            "min_health_score": {
+              "type": "number",
+              "default": 75
+            },
+            "min_traction_score": {
+              "type": "number",
+              "default": 75
+            },
+            "min_monthly_growth_rate": {
+              "type": "number",
+              "default": 0.15
+            },
+            "max_cac_ltv_ratio": {
+              "type": "number",
+              "default": 0.3
+            },
+            "min_runway_months": {
+              "type": "number",
+              "default": 12
+            }
+          }
+        },
+        "kill_criteria": {
+          "type": "array",
+          "description": "Any one of these criteria triggers kill consideration",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "threshold": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "human_review_required_for": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["kill"],
+          "description": "Decisions requiring human approval"
+        }
+      }
+    },
+    "analyst_insights": {
+      "type": "object",
+      "description": "Key findings from portfolio-analyst",
+      "properties": {
+        "patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outliers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "risk_assessment": {
+      "type": "object",
+      "description": "Risk factors from risk-monitor",
+      "properties": {
+        "portfolio_risk_score": {
+          "type": "number"
+        },
+        "venture_specific_risks": {
+          "type": "object"
+        }
+      }
+    },
+    "allocation_recommendations": {
+      "type": "array",
+      "description": "Resource allocation suggestions from allocation-agent",
+      "items": {
+        "type": "object",
+        "properties": {
+          "venture_id": {
+            "type": "string"
+          },
+          "recommended_budget_delta": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

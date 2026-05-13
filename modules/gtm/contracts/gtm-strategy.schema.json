@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GTM Strategy",
+  "description": "Go-to-market strategy with channel selections, budget allocation, and success metrics",
+  "type": "object",
+  "properties": {
+    "strategy_id": {
+      "type": "string",
+      "description": "Unique identifier for this GTM strategy"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Reference to the venture this strategy supports"
+    },
+    "strategy_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this strategy was developed"
+    },
+    "product_context": {
+      "type": "object",
+      "properties": {
+        "product_name": {
+          "type": "string"
+        },
+        "product_stage": {
+          "type": "string",
+          "enum": ["MVP", "beta", "production", "mature"]
+        },
+        "target_market": {
+          "type": "string"
+        },
+        "primary_use_case": {
+          "type": "string"
+        }
+      }
+    },
+    "channel_rankings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "type": "string",
+            "enum": ["paid_search", "paid_social", "organic_social", "content_marketing", "organic_search", "partnerships", "direct_sales", "events", "referral", "email", "influencer", "community"]
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Why this channel ranks here"
+          },
+          "target_audience_fit": {
+            "type": "string",
+            "enum": ["excellent", "good", "moderate", "poor"]
+          }
+        },
+        "required": ["channel", "rank", "score", "rationale"]
+      }
+    },
+    "selected_channels": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["paid_search", "paid_social", "organic_social", "content_marketing", "organic_search", "partnerships", "direct_sales", "events", "referral", "email", "influencer", "community"]
+      },
+      "maxItems": 4,
+      "description": "Maximum 4 channels per budget policy"
+    },
+    "budget_allocation": {
+      "type": "object",
+      "properties": {
+        "total_budget_monthly": {
+          "type": "number",
+          "description": "Total monthly GTM budget in USD"
+        },
+        "channels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          },
+          "description": "Budget allocation per channel"
+        }
+      },
+      "required": ["total_budget_monthly", "channels"]
+    },
+    "launch_sequence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "phase": {
+            "type": "integer"
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "duration_weeks": {
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Phased launch plan for channels"
+    },
+    "success_metrics": {
+      "type": "object",
+      "properties": {
+        "primary_kpis": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "metric": {
+                "type": "string",
+                "enum": ["CAC", "conversion_rate", "signups", "activations", "revenue", "roi"]
+              },
+              "target_value": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "review_cadence": {
+                "type": "string",
+                "enum": ["daily", "weekly", "bi-weekly", "monthly"]
+              }
+            }
+          }
+        },
+        "target_cac": {
+          "type": "number",
+          "description": "Target customer acquisition cost"
+        },
+        "target_conversion_rate": {
+          "type": "number",
+          "description": "Overall conversion rate target (visitor to signup)"
+        },
+        "target_monthly_signups": {
+          "type": "integer",
+          "description": "Target new user signups per month"
+        }
+      }
+    }
+  },
+  "required": ["strategy_id", "venture_id", "strategy_timestamp", "channel_rankings", "selected_channels", "budget_allocation", "success_metrics"]
+}

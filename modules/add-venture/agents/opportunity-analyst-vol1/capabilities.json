@@ -1,0 +1,30 @@
+{
+  "name": "opportunity-analyst-vol1",
+  "purpose": "Produce Volume 1: Opportunity Diagnosis - deep analysis of problem, market readiness, and macro context",
+  "input_types": [
+    "briefing"
+  ],
+  "output_types": [
+    "volume_1_content"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.6,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 120,
+    "content_depth_target": 2500,
+    "confidence_calibration_threshold": 0.85
+  },
+  "cost_estimation": {
+    "avg_cost_per_volume_usd": 0.12,
+    "max_cost_per_volume_usd": 0.25
+  }
+}

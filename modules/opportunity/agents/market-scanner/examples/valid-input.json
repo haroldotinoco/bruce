@@ -1,0 +1,35 @@
+{
+  "scan_id": "scan-2026-04-05-001",
+  "discovery_focus": {
+    "industry_verticals": ["healthcare", "fintech", "climate-tech", "enterprise-software", "logistics"],
+    "geographic_scope": ["North America", "Europe", "Southeast Asia"],
+    "minimum_tam": 50000000,
+    "focus_areas": ["AI/ML adoption", "regulatory changes", "remote work trends", "sustainability pressures"]
+  },
+  "search_strategy": {
+    "primary_keywords": [
+      "SaaS pain points 2026",
+      "healthcare compliance burden",
+      "fintech regulatory changes",
+      "supply chain automation",
+      "manufacturing labor shortages"
+    ],
+    "secondary_keywords": [
+      "vertical SaaS opportunities",
+      "underserved SMB needs",
+      "enterprise workflow bottlenecks",
+      "emerging biotech markets",
+      "climate tech adoption barriers"
+    ],
+    "exclude_keywords": ["cryptocurrency scam", "proven solution", "saturated market"]
+  },
+  "quality_filters": {
+    "minimum_discovery_confidence": 0.65,
+    "minimum_sources_required": 2,
+    "auto_exclude_criteria": ["illegal", "high-fraud-risk", "requires_fda_approval_with_unclear_timeline", "embargoed_countries"]
+  },
+  "output_targets": {
+    "minimum_opportunities": 8,
+    "maximum_opportunities": 25
+  }
+}

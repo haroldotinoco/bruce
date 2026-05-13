@@ -1,0 +1,418 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/brand-to-builder.schema.json",
+  "title": "Brand to Builder Handoff",
+  "description": "Handoff from brand-aid module to builder module. Encapsulates brand identity assets, design tokens, visual guidelines, and brand voice for product implementation.",
+  "type": "object",
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Venture identifier (UUID v4)"
+    },
+    "brand_name": {
+      "type": "string",
+      "description": "Official brand/venture name"
+    },
+    "brand_tagline": {
+      "type": "string",
+      "description": "Short tagline/slogan"
+    },
+    "logo_svg": {
+      "type": "string",
+      "description": "Primary logo as inline SVG string"
+    },
+    "logo_variants": {
+      "type": "array",
+      "description": "Logo variants (icon, horizontal, vertical, monochrome)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "variant_name": {
+            "type": "string"
+          },
+          "svg_content": {
+            "type": "string"
+          },
+          "use_case": {
+            "type": "string",
+            "description": "e.g., 'favicon', 'social profile', 'header'"
+          }
+        }
+      }
+    },
+    "color_palette": {
+      "type": "object",
+      "description": "Complete color scheme",
+      "properties": {
+        "primary": {
+          "type": "object",
+          "properties": {
+            "hex": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "rgb": {
+              "type": "string",
+              "description": "e.g., 'rgb(52, 211, 153)'"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "secondary": {
+          "type": "object",
+          "properties": {
+            "hex": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "rgb": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "accent": {
+          "type": "object",
+          "properties": {
+            "hex": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "rgb": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "neutral": {
+          "type": "array",
+          "description": "Neutral color scale (grays)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string",
+                "description": "e.g., '50', '100', '200', ... '900'"
+              },
+              "hex": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              }
+            }
+          }
+        },
+        "semantic": {
+          "type": "object",
+          "description": "Semantic colors for UI states",
+          "properties": {
+            "success": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "warning": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "error": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "info": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            }
+          }
+        }
+      },
+      "required": ["primary", "secondary", "neutral"]
+    },
+    "typography": {
+      "type": "object",
+      "description": "Typography system",
+      "properties": {
+        "heading_font": {
+          "type": "object",
+          "properties": {
+            "family": {
+              "type": "string",
+              "description": "e.g., 'Inter', 'Poppins'"
+            },
+            "style": {
+              "type": "string",
+              "description": "e.g., 'Bold', 'Semi Bold'"
+            },
+            "weights": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "import_url": {
+              "type": "string",
+              "description": "e.g., Google Fonts URL"
+            }
+          }
+        },
+        "body_font": {
+          "type": "object",
+          "properties": {
+            "family": {
+              "type": "string"
+            },
+            "style": {
+              "type": "string"
+            },
+            "weights": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "import_url": {
+              "type": "string"
+            }
+          }
+        },
+        "monospace_font": {
+          "type": "object",
+          "description": "For code/technical content",
+          "properties": {
+            "family": {
+              "type": "string"
+            },
+            "style": {
+              "type": "string"
+            }
+          }
+        },
+        "scale": {
+          "type": "string",
+          "description": "Type scale (e.g., 'major-third' 1.25x, 'golden-ratio' 1.618x)"
+        },
+        "sizes": {
+          "type": "object",
+          "description": "Named font sizes",
+          "properties": {
+            "xs": {
+              "type": "string",
+              "description": "e.g., '12px'"
+            },
+            "sm": {
+              "type": "string"
+            },
+            "base": {
+              "type": "string"
+            },
+            "lg": {
+              "type": "string"
+            },
+            "xl": {
+              "type": "string"
+            },
+            "2xl": {
+              "type": "string"
+            },
+            "3xl": {
+              "type": "string"
+            }
+          }
+        },
+        "line_height": {
+          "type": "object",
+          "properties": {
+            "tight": {
+              "type": "string",
+              "description": "e.g., '1.1'"
+            },
+            "normal": {
+              "type": "string"
+            },
+            "relaxed": {
+              "type": "string"
+            }
+          }
+        },
+        "letter_spacing": {
+          "type": "object",
+          "description": "Letter spacing (tracking)",
+          "properties": {
+            "tight": {
+              "type": "string"
+            },
+            "normal": {
+              "type": "string"
+            },
+            "wide": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": ["heading_font", "body_font", "scale"]
+    },
+    "design_tokens": {
+      "type": "object",
+      "description": "Design tokens for spacing, shadows, border radius, etc.",
+      "properties": {
+        "spacing": {
+          "type": "object",
+          "description": "Spacing scale (base unit typically 4px or 8px)",
+          "properties": {
+            "xs": {
+              "type": "string",
+              "description": "e.g., '4px'"
+            },
+            "sm": {
+              "type": "string"
+            },
+            "md": {
+              "type": "string"
+            },
+            "lg": {
+              "type": "string"
+            },
+            "xl": {
+              "type": "string"
+            },
+            "2xl": {
+              "type": "string"
+            }
+          }
+        },
+        "border_radius": {
+          "type": "object",
+          "description": "Border radius scale",
+          "properties": {
+            "none": {
+              "type": "string"
+            },
+            "sm": {
+              "type": "string"
+            },
+            "base": {
+              "type": "string"
+            },
+            "lg": {
+              "type": "string"
+            },
+            "full": {
+              "type": "string"
+            }
+          }
+        },
+        "shadows": {
+          "type": "object",
+          "description": "Shadow effects",
+          "properties": {
+            "sm": {
+              "type": "string",
+              "description": "e.g., '0 1px 2px 0 rgba(0,0,0,0.05)'"
+            },
+            "base": {
+              "type": "string"
+            },
+            "md": {
+              "type": "string"
+            },
+            "lg": {
+              "type": "string"
+            }
+          }
+        },
+        "transitions": {
+          "type": "object",
+          "description": "Animation/transition timings",
+          "properties": {
+            "fast": {
+              "type": "string",
+              "description": "e.g., '150ms'"
+            },
+            "base": {
+              "type": "string"
+            },
+            "slow": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "brand_voice_summary": {
+      "type": "string",
+      "description": "Concise summary of brand voice for product copy"
+    },
+    "voice_guidelines": {
+      "type": "array",
+      "description": "Specific guidelines for how to write in this brand voice",
+      "items": {
+        "type": "object",
+        "properties": {
+          "guideline": {
+            "type": "string"
+          },
+          "example_dos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "example_donts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "brand_guidelines_artifact_id": {
+      "type": "string",
+      "description": "Reference to full brand guidelines document/PDF in artifact store"
+    },
+    "figma_file_key": {
+      "type": "string",
+      "description": "Figma file key where design system components are stored"
+    },
+    "design_system_components": {
+      "type": "array",
+      "description": "List of design system components ready for builder",
+      "items": {
+        "type": "object",
+        "properties": {
+          "component_name": {
+            "type": "string",
+            "description": "e.g., 'Button', 'Card', 'Navigation'"
+          },
+          "figma_node_id": {
+            "type": "string"
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "venture_id",
+    "brand_name",
+    "logo_svg",
+    "color_palette",
+    "typography",
+    "brand_voice_summary"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,195 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/artifact-store.schema.json",
+  "title": "Artifact Metadata Record",
+  "description": "Metadata for binary/non-text artifacts (images, PDFs, SVGs, videos, code, reports) produced during venture execution. Artifact metadata enables discovery, retrieval, and lifecycle management without embedding large files in venture state.",
+  "type": "object",
+  "properties": {
+    "artifact_id": {
+      "type": "string",
+      "description": "Unique identifier for artifact (UUID v4)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "svg",
+        "pdf",
+        "html",
+        "json",
+        "video",
+        "code",
+        "report",
+        "wireframe",
+        "component",
+        "dataset"
+      ],
+      "description": "Artifact content type"
+    },
+    "mime_type": {
+      "type": "string",
+      "description": "MIME type (e.g., 'image/png', 'application/pdf')"
+    },
+    "storage_backend": {
+      "type": "string",
+      "enum": ["s3", "local", "figma", "github", "inline"],
+      "description": "Where artifact is stored"
+    },
+    "storage_ref": {
+      "type": "string",
+      "description": "Reference to artifact in storage. Format depends on backend: 's3://bucket/path', 'figma://file-id#node-id', 'github://owner/repo/path', or inline content for small artifacts"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "description": "Size of artifact in bytes"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture this artifact belongs to"
+    },
+    "produced_by_agent": {
+      "type": "string",
+      "enum": [
+        "opportunity",
+        "add-venture",
+        "brand-aid",
+        "builder",
+        "gtm",
+        "startup-ops",
+        "portfolio",
+        "bruce-core",
+        "bruce-memory"
+      ],
+      "description": "Which agent/module produced this artifact"
+    },
+    "produced_at_step": {
+      "type": "string",
+      "description": "Which workflow step produced this artifact (e.g., 'brand-aid:logo_generation')"
+    },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When artifact was produced"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name (e.g., 'Logo - Primary')"
+    },
+    "description": {
+      "type": "string",
+      "description": "What this artifact is and why it was produced"
+    },
+    "version": {
+      "type": "integer",
+      "description": "Iteration/version of this artifact"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for discoverability (e.g., 'brand', 'logo', 'hero')",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ttl_hours": {
+      "type": "integer",
+      "description": "Time-to-live in hours. Null = indefinite. Used to auto-cleanup temporary artifacts."
+    },
+    "retention_policy": {
+      "type": "string",
+      "enum": ["temporary", "standard", "archive", "permanent"],
+      "description": "How long to keep artifact"
+    },
+    "access_control": {
+      "type": "object",
+      "description": "Who can access this artifact",
+      "properties": {
+        "public": {
+          "type": "boolean",
+          "description": "Is artifact publicly accessible?"
+        },
+        "allowed_modules": {
+          "type": "array",
+          "description": "Which modules can read/use this artifact",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allowed_users": {
+          "type": "array",
+          "description": "Which user IDs can access",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Type-specific metadata",
+      "additionalProperties": true,
+      "examples": [
+        {
+          "comment": "Image artifact",
+          "width_px": 1200,
+          "height_px": 800,
+          "format": "png"
+        },
+        {
+          "comment": "Code artifact",
+          "language": "typescript",
+          "lines_of_code": 450,
+          "framework": "react"
+        },
+        {
+          "comment": "PDF report",
+          "page_count": 25,
+          "generated_by": "brand-aid"
+        }
+      ]
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "References to other artifacts this depends on",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artifact_id": {
+            "type": "string"
+          },
+          "relationship": {
+            "type": "string",
+            "enum": ["derived_from", "used_by", "part_of"]
+          }
+        }
+      }
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Trace ID from workflow that produced this artifact"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deleted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Soft delete timestamp (null if not deleted)"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "type",
+    "mime_type",
+    "storage_backend",
+    "storage_ref",
+    "venture_id",
+    "produced_by_agent",
+    "produced_at"
+  ],
+  "additionalProperties": false
+}

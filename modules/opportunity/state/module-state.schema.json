@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opportunity Module State",
+  "description": "Persistent state for the opportunity module",
+  "type": "object",
+  "properties": {
+    "module_id": {
+      "type": "string",
+      "default": "opportunity"
+    },
+    "active_opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["discovered", "screening", "analyzing", "scored", "rejected", "advanced"]
+          },
+          "added_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "last_scan_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the last discovery cycle completed"
+    },
+    "scan_frequency_days": {
+      "type": "integer",
+      "default": 7,
+      "description": "How often to run discovery cycles"
+    },
+    "filter_settings": {
+      "type": "object",
+      "properties": {
+        "min_tam": {
+          "type": "number",
+          "description": "Minimum TAM in USD to consider"
+        },
+        "geographic_focus": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Geographic regions to prioritize"
+        },
+        "industry_filters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "auto_reject_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "properties": {
+        "total_discovered": {
+          "type": "integer"
+        },
+        "total_advanced": {
+          "type": "integer"
+        },
+        "total_rejected": {
+          "type": "integer"
+        },
+        "avg_advancement_rate": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": ["module_id"]
+}

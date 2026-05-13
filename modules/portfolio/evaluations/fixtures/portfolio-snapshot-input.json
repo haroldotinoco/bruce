@@ -1,0 +1,127 @@
+{
+  "snapshot_id": "snapshot_20260406_abcd1234",
+  "created_at": "2026-04-06T18:00:00Z",
+  "review_cycle_id": "cycle_20260406_00",
+  "ventures": [
+    {
+      "venture_id": "complify",
+      "name": "Complify",
+      "stage": "growth",
+      "health_report_ref": "health_complify_20260406",
+      "health_scores": {
+        "product_market_fit": 82,
+        "traction": 85,
+        "unit_economics": 75,
+        "team": 78,
+        "runway": 72
+      },
+      "launch_date": "2026-01-15",
+      "weeks_live": 14,
+      "burn_rate": 12000,
+      "runway_months": 8,
+      "key_metrics": {
+        "mrr": 18000,
+        "dau": 340,
+        "users": 850,
+        "mrr_growth_pct": 0.22,
+        "retention_d30": 0.48
+      }
+    },
+    {
+      "venture_id": "zenote",
+      "name": "ZenNote",
+      "stage": "launch",
+      "health_report_ref": "health_zenote_20260406",
+      "health_scores": {
+        "product_market_fit": 60,
+        "traction": 50,
+        "unit_economics": 45,
+        "team": 65,
+        "runway": 50
+      },
+      "launch_date": "2025-12-01",
+      "weeks_live": 18,
+      "burn_rate": 6000,
+      "runway_months": 6,
+      "key_metrics": {
+        "mrr": 1200,
+        "dau": 180,
+        "users": 320,
+        "mrr_growth_pct": 0.08,
+        "retention_d30": 0.32
+      }
+    },
+    {
+      "venture_id": "metathink",
+      "name": "MetaThink",
+      "stage": "pre-launch",
+      "health_report_ref": "health_metathink_20260406",
+      "health_scores": {
+        "product_market_fit": 70,
+        "traction": 50,
+        "unit_economics": 60,
+        "team": 72,
+        "runway": 65
+      },
+      "launch_date": "2026-04-20",
+      "weeks_live": 4,
+      "burn_rate": 4000,
+      "runway_months": 10,
+      "key_metrics": {
+        "mrr": 0,
+        "dau": 45,
+        "users": 12,
+        "mrr_growth_pct": 0,
+        "retention_d30": 0
+      }
+    },
+    {
+      "venture_id": "taskflow",
+      "name": "TaskFlow",
+      "stage": "launch",
+      "health_report_ref": "health_taskflow_20260406",
+      "health_scores": {
+        "product_market_fit": 55,
+        "traction": 40,
+        "unit_economics": 35,
+        "team": 60,
+        "runway": 45
+      },
+      "launch_date": "2025-12-22",
+      "weeks_live": 12,
+      "burn_rate": 8000,
+      "runway_months": 5.5,
+      "key_metrics": {
+        "mrr": 800,
+        "dau": 120,
+        "users": 240,
+        "mrr_growth_pct": 0.02,
+        "retention_d30": 0.28
+      }
+    }
+  ],
+  "portfolio_summary": {
+    "total_ventures": 4,
+    "by_stage": {
+      "ideation": 0,
+      "pre_launch": 1,
+      "launch": 2,
+      "growth": 1,
+      "scale": 0,
+      "mature": 0
+    },
+    "total_burn": 30000,
+    "total_runway_avg": 7.4,
+    "total_mrr": 20000,
+    "health_distribution": {
+      "excellent": 1,
+      "good": 1,
+      "fair": 1,
+      "at_risk": 1
+    },
+    "concentration": {
+      "max_venture_burn_pct": 0.40,
+      "top_3_ventures_pct": 0.67
+    }
+  }
+}

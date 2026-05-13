@@ -1,0 +1,13 @@
+{
+  "tools": [
+    {
+      "name": "figma",
+      "type": "mcp",
+      "mcp_server": "figma-mcp",
+      "capabilities": ["create_frame", "create_component", "export_svg", "export_png"],
+      "required": false,
+      "auth_ref": "env:FIGMA_API_TOKEN",
+      "fallback": "skip_wireframes"
+    }
+  ]
+}

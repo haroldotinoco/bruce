@@ -1,0 +1,71 @@
+{
+  "workflow_id": "metric-snapshot",
+  "module": "startup-ops",
+  "description": "On-demand metric collection: standalone metrics ingestion for ad-hoc analysis",
+  "version": "1.0",
+  "trigger": {
+    "type": "api",
+    "endpoint": "/startup-ops/metric-snapshot",
+    "method": "POST"
+  },
+  "context": {
+    "data_sources": ["mixpanel", "amplitude", "stripe", "gtm"],
+    "snapshot_type": "on_demand"
+  },
+  "steps": [
+    {
+      "step_id": "request-metrics-snapshot",
+      "agent": "metrics-ingestion-agent",
+      "description": "Collect current metrics snapshot from all configured data sources",
+      "input": {
+        "from": "workflow.trigger",
+        "fields": ["data_sources", "custom_filters", "requested_metrics"]
+      },
+      "output_to": "metrics-snapshot",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "default": "return-snapshot"
+      },
+      "events_emitted": ["snapshot.metrics.collected"]
+    },
+    {
+      "step_id": "return-snapshot",
+      "agent": null,
+      "description": "Return metrics snapshot to requestor via API response",
+      "input": {
+        "from": "metrics-snapshot",
+        "fields": ["metrics", "collection_timestamp", "data_quality_indicators"]
+      },
+      "output_to": "api.response",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["snapshot.delivered"]
+    }
+  ],
+  "error_handlers": {
+    "on_step_failure": "return_error_response",
+    "on_workflow_timeout": "return_timeout_error",
+    "escalation_threshold": 1
+  },
+  "metrics": {
+    "target_duration_minutes": 5,
+    "success_criteria": {
+      "metrics_collected": true,
+      "response_delivered": true
+    }
+  }
+}

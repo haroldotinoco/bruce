@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Briefing Interpreter Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "opportunity_id": {"type": "string"},
+    "briefing_timestamp": {"type": "string", "format": "date-time"},
+    "briefing_version": {"type": "string", "default": "1.0"},
+    "problem_context": {
+      "type": "object",
+      "properties": {
+        "core_problem": {"type": "string"},
+        "affected_personas": {"type": "array", "items": {"type": "string"}},
+        "current_solutions": {"type": "array", "items": {"type": "string"}},
+        "confidence_level": {"type": "number"}
+      }
+    },
+    "market_context": {
+      "type": "object",
+      "properties": {
+        "tam": {"type": "number"},
+        "sam": {"type": "number"},
+        "som": {"type": "number"},
+        "market_dynamics": {"type": "string"},
+        "regulatory_environment": {"type": "string"},
+        "confidence_level": {"type": "number"}
+      }
+    },
+    "customer_context": {
+      "type": "object",
+      "properties": {
+        "primary_segment": {"type": "string"},
+        "segment_size": {"type": "integer"},
+        "jtbd_functional": {"type": "string"},
+        "jtbd_emotional": {"type": "string"},
+        "willingness_to_pay": {"type": "string"},
+        "confidence_level": {"type": "number"}
+      }
+    },
+    "competitive_context": {
+      "type": "object",
+      "properties": {
+        "direct_competitors": {"type": "array", "items": {"type": "string"}},
+        "indirect_competitors": {"type": "array", "items": {"type": "string"}},
+        "competitive_intensity": {"type": "string"},
+        "differentiation_opportunities": {"type": "array", "items": {"type": "string"}},
+        "barriers_to_entry": {"type": "array", "items": {"type": "string"}},
+        "confidence_level": {"type": "number"}
+      }
+    },
+    "portfolio_context": {
+      "type": "object",
+      "properties": {
+        "strategic_fit_summary": {"type": "string"},
+        "capital_efficiency": {"type": "string"},
+        "team_skill_fit": {"type": "string"},
+        "confidence_level": {"type": "number"}
+      }
+    },
+    "key_assumptions": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Critical assumptions underpinning the briefing"
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Known gaps requiring validation"
+    },
+    "briefing_quality_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confidence that briefing provides sufficient context for downstream agents"
+    }
+  },
+  "required": ["venture_id", "opportunity_id", "briefing_timestamp", "problem_context", "market_context", "customer_context", "competitive_context"]
+}

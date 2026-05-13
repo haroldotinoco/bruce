@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Prioritization Agent Output",
+  "description": "Loose validation; activities.ts merges ranked_opportunities if missing.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "prioritization_id": { "type": "string" },
+    "ranked_opportunities": { "type": "array" },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "LLMs often return notes as string[]; validation is loose; activities.ts coerces to strings."
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "agent_id": "health-scoring-agent",
+  "name": "Health Scoring Agent",
+  "description": "Computes operational health scores across 6 dimensions with stage-appropriate rubrics",
+  "version": "1.0.0",
+  "capabilities": [
+    {
+      "id": "activation_scoring",
+      "name": "Activation Dimension Scoring",
+      "description": "Score activation health based on conversion rate and onboarding completion"
+    },
+    {
+      "id": "retention_scoring",
+      "name": "Retention Dimension Scoring",
+      "description": "Score retention health based on D7/D30 retention and churn metrics"
+    },
+    {
+      "id": "revenue_scoring",
+      "name": "Revenue Dimension Scoring",
+      "description": "Score revenue health based on MRR growth, ARR trajectory, and new vs churned MRR"
+    },
+    {
+      "id": "product_quality_scoring",
+      "name": "Product Quality Dimension Scoring",
+      "description": "Score product quality based on NPS, feature adoption, and engagement"
+    },
+    {
+      "id": "financial_sustainability_scoring",
+      "name": "Financial Sustainability Dimension Scoring",
+      "description": "Score financial health based on runway, burn rate trend, and unit economics"
+    },
+    {
+      "id": "market_fit_scoring",
+      "name": "Market Fit Dimension Scoring",
+      "description": "Score market fit based on NPS trend, organic growth, and activation trends"
+    },
+    {
+      "id": "composite_scoring",
+      "name": "Composite Score Calculation",
+      "description": "Calculate weighted average composite health score with stage-dependent weights"
+    },
+    {
+      "id": "trend_analysis",
+      "name": "Trend Analysis",
+      "description": "Determine trend direction (improving, stable, declining) for each dimension"
+    },
+    {
+      "id": "risk_flagging",
+      "name": "Risk Flagging",
+      "description": "Identify at-risk (20-39) and critical (< 20) dimensional scores"
+    },
+    {
+      "id": "stage_aware_evaluation",
+      "name": "Stage-Aware Evaluation",
+      "description": "Apply different rubrics and weights based on venture stage (seed, early, growth)"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "stage_dependent_weights",
+      "description": "Use different scoring weights for seed/early vs growth stage"
+    },
+    {
+      "id": "data_completeness",
+      "description": "Do not calculate composite if > 2 dimensional scores have insufficient data"
+    },
+    {
+      "id": "execution_timeout",
+      "description": "Complete scoring within 60 seconds"
+    },
+    {
+      "id": "schema_compliance",
+      "description": "All output must conform to health-report.schema.json"
+    }
+  ]
+}

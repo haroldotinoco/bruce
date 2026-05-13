@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HealthScoringOutput",
+  "type": "object",
+  "required": ["health_report_id", "venture_id", "scored_at", "stage", "dimension_scores", "composite_score", "at_risk_dimensions", "critical_dimensions"],
+  "properties": {
+    "health_report_id": {
+      "type": "string",
+      "description": "Unique identifier for this health report"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture this report is for"
+    },
+    "scored_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when health was scored"
+    },
+    "stage": {
+      "type": "string",
+      "enum": ["seed", "early", "growth"],
+      "description": "Venture stage used for scoring"
+    },
+    "dimension_scores": {
+      "type": "object",
+      "required": ["activation", "retention", "revenue", "product_quality", "financial_sustainability", "market_fit"],
+      "properties": {
+        "activation": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "status": { "type": "string", "enum": ["critical", "at_risk", "healthy"] },
+            "based_on": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "retention": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "status": { "type": "string", "enum": ["critical", "at_risk", "healthy"] },
+            "based_on": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "revenue": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "status": { "type": "string", "enum": ["critical", "at_risk", "healthy", "insufficient_data"] },
+            "based_on": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "product_quality": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "status": { "type": "string", "enum": ["critical", "at_risk", "healthy", "insufficient_data"] },
+            "based_on": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "financial_sustainability": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "status": { "type": "string", "enum": ["critical", "at_risk", "healthy"] },
+            "based_on": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "market_fit": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "status": { "type": "string", "enum": ["critical", "at_risk", "healthy"] },
+            "based_on": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "composite_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Weighted average of all dimension scores"
+    },
+    "composite_status": {
+      "type": "string",
+      "enum": ["critical", "warning", "healthy"],
+      "description": "Overall health status based on composite score"
+    },
+    "trends": {
+      "type": "object",
+      "properties": {
+        "activation": { "type": "string", "enum": ["improving", "stable", "declining", "n/a"] },
+        "retention": { "type": "string", "enum": ["improving", "stable", "declining", "n/a"] },
+        "revenue": { "type": "string", "enum": ["improving", "stable", "declining", "n/a"] },
+        "product_quality": { "type": "string", "enum": ["improving", "stable", "declining", "n/a"] },
+        "financial_sustainability": { "type": "string", "enum": ["improving", "stable", "declining", "n/a"] },
+        "market_fit": { "type": "string", "enum": ["improving", "stable", "declining", "n/a"] },
+        "composite": { "type": "string", "enum": ["improving", "stable", "declining", "n/a"] }
+      },
+      "description": "Trend direction for each dimension and composite"
+    },
+    "at_risk_dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dimension": { "type": "string" },
+          "score": { "type": "number" },
+          "reason": { "type": "string" }
+        }
+      },
+      "description": "Dimensions with score 20-39"
+    },
+    "critical_dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dimension": { "type": "string" },
+          "score": { "type": "number" },
+          "reason": { "type": "string" }
+        }
+      },
+      "description": "Dimensions with score < 20"
+    },
+    "period": {
+      "type": "object",
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" }
+      },
+      "description": "Time period this health report covers"
+    },
+    "metric_snapshot_id": {
+      "type": "string",
+      "description": "Reference to the metric snapshot this health report is based on"
+    }
+  }
+}

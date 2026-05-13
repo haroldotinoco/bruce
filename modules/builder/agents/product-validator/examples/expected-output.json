@@ -1,0 +1,215 @@
+{
+  "feature_list": [
+    {
+      "name": "Freelancer Authentication & Onboarding",
+      "description": "Users can sign up, verify email, create profile, complete onboarding flow",
+      "priority": "critical",
+      "acceptance_criteria": [
+        "Users can register with email and password",
+        "Email verification required before profile creation",
+        "Onboarding flow guides users through profile setup",
+        "Profile includes: skills, hourly rate, portfolio links, bio"
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "Freelancer Profile & Portfolio Display",
+      "description": "Freelancers can create detailed profiles showcasing expertise, experience, and past work",
+      "priority": "critical",
+      "acceptance_criteria": [
+        "Profile displays: name, skills, experience level, rate, availability",
+        "Portfolio section shows up to 5 past projects with descriptions and links",
+        "Ratings/reviews from brands visible (v1: seed with dummy data)",
+        "Profile is publicly viewable by brands"
+      ],
+      "dependencies": ["Freelancer Authentication & Onboarding"]
+    },
+    {
+      "name": "Brand Authentication & Onboarding",
+      "description": "Brands sign up and create company profiles",
+      "priority": "critical",
+      "acceptance_criteria": [
+        "Brands can register with company email",
+        "Company verification via domain email required",
+        "Company profile: name, description, industry, size, hiring needs"
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "Project Posting",
+      "description": "Brands post projects with details, requirements, and compensation",
+      "priority": "critical",
+      "acceptance_criteria": [
+        "Brands can create project with: title, description, required skills, budget/rate, timeline, deliverables",
+        "Projects show 'Open' or 'Closed' status",
+        "Project detail page shows company info and project specifics",
+        "Brands can edit projects while 'Open'"
+      ],
+      "dependencies": ["Brand Authentication & Onboarding"]
+    },
+    {
+      "name": "Project Discovery & Search",
+      "description": "Freelancers discover and search for projects",
+      "priority": "high",
+      "acceptance_criteria": [
+        "Freelancers can browse all open projects",
+        "Filter by: skill, budget range, timeline, project type",
+        "Search by keyword in project title/description",
+        "See project details and company information"
+      ],
+      "dependencies": ["Project Posting"]
+    },
+    {
+      "name": "Project Interest/Apply",
+      "description": "Freelancers can express interest in or apply to projects",
+      "priority": "high",
+      "acceptance_criteria": [
+        "Freelancers can submit application with: cover letter, proposed rate, availability",
+        "Applications appear in freelancer's dashboard",
+        "Brands receive notifications of applications"
+      ],
+      "dependencies": ["Project Discovery & Search", "Freelancer Profile & Portfolio Display"]
+    },
+    {
+      "name": "In-App Messaging",
+      "description": "Freelancers and brands can message each other",
+      "priority": "high",
+      "acceptance_criteria": [
+        "Users can send/receive text messages within platform",
+        "Message history persists",
+        "Unread message count displayed",
+        "Real-time notifications for new messages"
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "Basic Agreements & Project Start",
+      "description": "Freelancers and brands agree on terms before work begins",
+      "priority": "medium",
+      "acceptance_criteria": [
+        "Standardized agreement template with key terms",
+        "Both parties can review and accept/decline",
+        "Once accepted, project moves to 'Active' status",
+        "Freelancer and brand both see project timeline"
+      ],
+      "dependencies": ["Project Interest/Apply"]
+    }
+  ],
+  "user_flows": [
+    {
+      "flow_name": "Freelancer Signs Up and Browses Projects",
+      "actors": ["New Freelancer"],
+      "steps": [
+        "Freelancer visits site, clicks 'Sign Up'",
+        "Enters email, password, and name",
+        "Receives verification email, clicks link",
+        "Completes profile: skills, experience, rate, portfolio",
+        "Lands on project discovery page",
+        "Browses projects, filters by skill/budget",
+        "Views project details and company info"
+      ],
+      "happy_path": "User successfully completes onboarding and sees relevant projects",
+      "edge_cases": [
+        "Email verification fails (resend option)",
+        "User closes browser during onboarding (resume option)"
+      ]
+    },
+    {
+      "flow_name": "Brand Posts Project and Reviews Applications",
+      "actors": ["Brand Hiring Manager"],
+      "steps": [
+        "Brand logs in to dashboard",
+        "Clicks 'Post Project'",
+        "Fills out project form: title, description, skills, budget, timeline",
+        "Publishes project",
+        "Views project live on platform",
+        "Receives applications from freelancers",
+        "Reviews applications with freelancer profiles",
+        "Sends message to top candidates"
+      ],
+      "happy_path": "Brand successfully posts project and reviews qualified freelancers",
+      "edge_cases": [
+        "Project post fails (save draft option)",
+        "No applications within 24 hours (notification)"
+      ]
+    },
+    {
+      "flow_name": "Freelancer Applies and Agrees to Project",
+      "actors": ["Freelancer", "Brand"],
+      "steps": [
+        "Freelancer finds project, clicks 'Apply'",
+        "Writes cover letter, proposes rate/timeline",
+        "Brand receives notification, reviews application",
+        "Brand sends message to freelancer",
+        "Freelancer and brand negotiate in messaging",
+        "Brand sends agreement",
+        "Freelancer reviews and accepts",
+        "Project moves to 'Active' status"
+      ],
+      "happy_path": "Successful match and agreement on project terms",
+      "edge_cases": [
+        "Freelancer withdraws application",
+        "Brand declines freelancer",
+        "Negotiation fails (messaging history persists)"
+      ]
+    }
+  ],
+  "data_model_overview": {
+    "entities": [
+      "User (Freelancer/Brand)",
+      "Freelancer Profile (skills, portfolio, rates)",
+      "Company Profile (brand info, hiring history)",
+      "Project (title, description, requirements, budget)",
+      "Application (freelancer applies to project)",
+      "Message (communication between users)",
+      "Agreement (project terms accepted by both parties)"
+    ],
+    "relationships": "User has one Freelancer or Company Profile. Company has many Projects. Project has many Applications. Users have many Messages. Agreement links Freelancer, Project, and Company.",
+    "key_fields": {
+      "User": ["id", "email", "password_hash", "user_type (freelancer/brand)", "created_at"],
+      "Project": ["id", "title", "description", "required_skills", "budget_min", "budget_max", "timeline", "company_id", "status"],
+      "Application": ["id", "freelancer_id", "project_id", "cover_letter", "proposed_rate", "created_at"]
+    }
+  },
+  "external_dependencies": [
+    {
+      "service": "Email Service (SendGrid/AWS SES)",
+      "purpose": "Email verification, notifications",
+      "criticality": "critical"
+    },
+    {
+      "service": "Payment Processing (Stripe)",
+      "purpose": "Handle escrow and freelancer payments",
+      "criticality": "medium"
+    },
+    {
+      "service": "Authentication (OAuth optional)",
+      "purpose": "Social login (v1.1, not MVP)",
+      "criticality": "low"
+    }
+  ],
+  "assumptions_and_constraints": [
+    "MVP focuses on project posting and basic matching; no automated matching algorithm (manual review v1)",
+    "Payments handled manually; Stripe integration for v1.1",
+    "No messaging on-platform initially; manual email-based communication (v1.1)",
+    "Single-language MVP (English only)",
+    "No mobile app; web-responsive only",
+    "Freelancer vetting is manual (brands review profiles)"
+  ],
+  "buildability_assessment": {
+    "feasible": true,
+    "concerns": [
+      "Real-time messaging requires WebSocket setup (can defer to v1.1)",
+      "Email infrastructure needs SMTP/third-party service (manageable)",
+      "Payment processing adds complexity (can mock in MVP)"
+    ],
+    "scope_evaluation": "Scope is realistic for 8 weeks with 4-person team. Critical path: Auth → Profiles → Project Posting → Applications → Messaging. All core features achievable.",
+    "recommendations": [
+      "Defer: real-time messaging (use polling or email notifications v1)",
+      "Defer: automated matching algorithm (v1.1)",
+      "Defer: payment processing (manual escrow v1)",
+      "Include v1: core profiles, project posting, applications, basic messaging"
+    ]
+  },
+  "pass_fail": true
+}

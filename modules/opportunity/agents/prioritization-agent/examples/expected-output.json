@@ -1,0 +1,58 @@
+{
+  "prioritization_id": "rank-20260405-001",
+  "prioritization_timestamp": "2026-04-05T15:50:33Z",
+  "ranked_opportunities": [
+    {
+      "rank": 1,
+      "opportunity_id": "opp-20260405-002",
+      "title": "Compliance Automation for Distributed Finance",
+      "total_score": 78,
+      "recommendation": "advance",
+      "status": "ADVANCE",
+      "advancement_reason": "Score 78 exceeds advancement threshold of 75 with 'advance' recommendation (Rule 1: Score-based)",
+      "vertical": "fintech"
+    },
+    {
+      "rank": 2,
+      "opportunity_id": "opp-20260405-001",
+      "title": "AI-Powered Clinical Documentation for Rural Healthcare",
+      "total_score": 70,
+      "recommendation": "reconsider",
+      "status": "HOLD",
+      "advancement_reason": "Score 70 in reconsider range (60-74); weak portfolio fit for healthcare focus vs. fintech priority (Rule 2: Portfolio alignment); advancement capacity not exceeded (Rule 3: Would advance if stronger alignment)",
+      "vertical": "healthcare"
+    },
+    {
+      "rank": 3,
+      "opportunity_id": "opp-20260405-003",
+      "title": "Supply Chain Sustainability for Mid-Market Manufacturers",
+      "total_score": 64,
+      "recommendation": "reconsider",
+      "status": "HOLD",
+      "advancement_reason": "Score 64 in reconsider range; strong alignment with sustainability portfolio priority but advancement capacity reached (max 3, already 1 advancing) (Rule 3: Capacity constraint)",
+      "vertical": "manufacturing"
+    },
+    {
+      "rank": 4,
+      "opportunity_id": "opp-20260405-004",
+      "title": "Legacy EHR Modernization SaaS",
+      "total_score": 55,
+      "recommendation": "reject",
+      "status": "REJECT",
+      "advancement_reason": "Score 55 below threshold of 60 with 'reject' recommendation (Rule 1: Score-based automatic rejection)",
+      "vertical": "healthcare"
+    }
+  ],
+  "summary": {
+    "total_opportunities_processed": 4,
+    "total_advancing": 1,
+    "total_holding": 2,
+    "total_rejecting": 1,
+    "portfolio_composition": {
+      "fintech": 1,
+      "healthcare": 0,
+      "manufacturing": 0
+    },
+    "notes": "Single venture advancing this cycle (fintech compliance automation). Two promising opportunities (rural healthcare at 70, sustainability at 64) held due to portfolio capacity constraints and alignment priorities. Recommend monitoring held opportunities for advancement in next cycle or if structuring capacity increases. Portfolio currently underutilizing capacity (1 of 3 ventures advancing); next cycle should increase advancement rate if similar quality opportunities present."
+  }
+}

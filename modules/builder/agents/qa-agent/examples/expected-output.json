@@ -1,0 +1,25 @@
+{
+  "test_results": [
+    {
+      "scenario_id": "BDD-LOGIN-001",
+      "status": "pass",
+      "duration_ms": 2340,
+      "screenshot_ref": "artifact-qa-screenshot-login-001-pass"
+    },
+    {
+      "scenario_id": "BDD-LOGIN-002",
+      "status": "pass",
+      "duration_ms": 1890,
+      "screenshot_ref": "artifact-qa-screenshot-login-002-pass"
+    }
+  ],
+  "overall_status": "pass",
+  "pass_rate_percent": 100,
+  "critical_failures": [],
+  "qa_report_ref": "artifact-qa-report-001",
+  "test_environment_used": {
+    "browser": "chromium",
+    "staging_url": "https://staging.complify.example.com",
+    "test_execution_time": "2026-04-06T14:23:45Z"
+  }
+}

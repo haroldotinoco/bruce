@@ -1,0 +1,29 @@
+{
+  "raw_opportunity": {
+    "opportunity_title": "AI-Powered Clinical Documentation for Rural Healthcare",
+    "problem_statement": "Rural healthcare providers spend 25-30% of clinical time on documentation compliance, reducing face-time with patients and increasing burnout.",
+    "target_segment": "Rural hospital systems (50-250 beds) in underserved US regions",
+    "pain_points": [
+      "Regulatory documentation requirements with limited IT staff",
+      "High clinician burnout from manual data entry",
+      "Poor interoperability between legacy and modern systems"
+    ],
+    "sources": [
+      {
+        "url": "https://www.cms.gov/newsroom/fact-sheets/rural-health-funding-2026",
+        "source_title": "CMS Rural Health Funding 2026",
+        "source_type": "news"
+      },
+      {
+        "url": "https://www.aha.org/research/2026-rural-hospital-challenges",
+        "source_title": "AHA Rural Hospital Study 2026",
+        "source_type": "research_report"
+      }
+    ],
+    "discovery_confidence": 0.78
+  },
+  "analysis_focus": {
+    "depth_level": "standard",
+    "priority_areas": ["market_sizing", "competition", "differentiation"]
+  }
+}

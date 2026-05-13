@@ -1,0 +1,14 @@
+{
+  "tools": [
+    {
+      "name": "vector-db",
+      "type": "mcp",
+      "mcp_server": "pinecone-mcp",
+      "capabilities": ["semantic_search", "metadata_filter"],
+      "required": true,
+      "auth_ref": "env:PINECONE_API_KEY",
+      "fallback": "fail_with_no_results",
+      "description": "Vector database for semantic pattern search"
+    }
+  ]
+}

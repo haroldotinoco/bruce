@@ -1,0 +1,549 @@
+openapi: 3.0.0
+info:
+  title: Brand-Aid API
+  description: Brand identity creation, naming, visual identity, and guidelines generation
+  version: 1.0.0
+servers:
+  - url: https://api.bruce.dev/v1
+    description: Production API
+  - url: http://localhost:3000/v1
+    description: Local development
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Bearer token containing account_id and user claims
+
+  schemas:
+    BrandBrief:
+      type: object
+      required:
+        - brief_id
+        - account_id
+        - venture_id
+        - title
+        - content
+        - status
+        - created_at
+      properties:
+        brief_id:
+          type: string
+          description: Unique identifier for the brand brief
+        account_id:
+          type: string
+          description: Account identifier (from JWT)
+        venture_id:
+          type: string
+          description: Associated venture from add-venture module
+        title:
+          type: string
+          description: Brand brief title
+        content:
+          type: object
+          description: Brand brief content including venture analysis
+          properties:
+            hypothesis:
+              type: string
+            target_market:
+              type: string
+            pain_point:
+              type: string
+            solution:
+              type: string
+            unique_value:
+              type: string
+            brand_persona:
+              type: string
+        status:
+          type: string
+          enum: [draft, under_review, approved]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    BrandIdentity:
+      type: object
+      required:
+        - brand_id
+        - account_id
+        - venture_id
+        - brand_name
+        - status
+        - created_at
+      properties:
+        brand_id:
+          type: string
+          description: Unique identifier for the brand identity
+        account_id:
+          type: string
+        venture_id:
+          type: string
+        brand_name:
+          type: string
+        brief_id:
+          type: string
+        status:
+          type: string
+          enum: [draft, in_progress, approved]
+        visual_identity:
+          type: object
+          properties:
+            color_palettes:
+              type: array
+              items:
+                type: object
+                properties:
+                  primary:
+                    type: string
+                  secondary:
+                    type: string
+                  accent:
+                    type: string
+                  neutral:
+                    type: string
+            typography:
+              type: object
+              properties:
+                headline_font:
+                  type: string
+                body_font:
+                  type: string
+                accent_font:
+                  type: string
+            imagery_style:
+              type: string
+        messaging_framework:
+          type: object
+          properties:
+            core_message:
+              type: string
+            key_messages:
+              type: array
+              items:
+                type: object
+            tone_of_voice:
+              type: object
+        guidelines_urls:
+          type: array
+          items:
+            type: string
+            format: uri
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    BrandName:
+      type: object
+      required:
+        - name_id
+        - account_id
+        - venture_id
+        - name
+        - status
+      properties:
+        name_id:
+          type: string
+        account_id:
+          type: string
+        venture_id:
+          type: string
+        brand_id:
+          type: string
+        name:
+          type: string
+        domain_available:
+          type: boolean
+        evaluation_score:
+          type: number
+          minimum: 0
+          maximum: 100
+        feedback:
+          type: string
+        status:
+          type: string
+          enum: [generated, evaluated, selected]
+        created_at:
+          type: string
+          format: date-time
+
+    BrandGuidelines:
+      type: object
+      required:
+        - guidelines_id
+        - account_id
+        - venture_id
+        - brand_id
+        - format
+        - file_url
+      properties:
+        guidelines_id:
+          type: string
+        account_id:
+          type: string
+        venture_id:
+          type: string
+        brand_id:
+          type: string
+        format:
+          type: string
+          enum: [pdf, markdown, figma, html, json]
+        file_url:
+          type: string
+          format: uri
+          description: Signed S3 URL with account isolation
+        exported_at:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Error code for client handling
+        message:
+          type: string
+        details:
+          type: object
+
+  parameters:
+    briefId:
+      name: brief_id
+      in: path
+      required: true
+      schema:
+        type: string
+    brandId:
+      name: brand_id
+      in: path
+      required: true
+      schema:
+        type: string
+    nameId:
+      name: name_id
+      in: path
+      required: true
+      schema:
+        type: string
+
+paths:
+  /brand-briefs:
+    post:
+      summary: Create brand brief for a venture
+      description: Initiates brand brief creation from venture hypothesis
+      operationId: createBrandBrief
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - venture_id
+                - venture_data
+              properties:
+                venture_id:
+                  type: string
+                venture_data:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    hypothesis:
+                      type: string
+                    target_market:
+                      type: string
+                    pain_point:
+                      type: string
+                    solution:
+                      type: string
+                    unique_value:
+                      type: string
+      responses:
+        "201":
+          description: Brand brief created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brief_id:
+                    type: string
+                  venture_id:
+                    type: string
+                  status:
+                    type: string
+                  content:
+                    type: object
+                  created_at:
+                    type: string
+                    format: date-time
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Account does not have access to this venture
+        "409":
+          description: Brand brief already exists for this venture
+
+  /brand-briefs/{brief_id}:
+    get:
+      summary: Get brand brief
+      operationId: getBrandBrief
+      parameters:
+        - $ref: "#/components/parameters/briefId"
+      responses:
+        "200":
+          description: Brand brief retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrandBrief"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Brand brief not found
+
+  /brand-briefs/{brief_id}/generate:
+    post:
+      summary: Trigger full brand identity generation from brief
+      description: Initiates the complete naming, visual identity, and guidelines workflow
+      operationId: generateBrandFromBrief
+      parameters:
+        - $ref: "#/components/parameters/briefId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - venture_id
+              properties:
+                venture_id:
+                  type: string
+                preferences:
+                  type: object
+                  properties:
+                    style_direction:
+                      type: string
+                    tone_preference:
+                      type: string
+      responses:
+        "202":
+          description: Brand generation started (async workflow)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brand_id:
+                    type: string
+                  status:
+                    type: string
+                  workflow_id:
+                    type: string
+                    description: Correlation ID for tracking workflow progress
+        "400":
+          description: Invalid request or brief incomplete
+        "401":
+          description: Unauthorized
+        "404":
+          description: Brand brief not found
+
+  /brands/{brand_id}:
+    get:
+      summary: Get full brand identity
+      description: Retrieves complete brand identity including naming, visual, and messaging
+      operationId: getBrandIdentity
+      parameters:
+        - $ref: "#/components/parameters/brandId"
+      responses:
+        "200":
+          description: Brand identity retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrandIdentity"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Brand not found
+
+  /brands/{brand_id}/guidelines:
+    get:
+      summary: Get brand guidelines document
+      description: Returns signed URLs to brand guidelines in requested formats
+      operationId: getBrandGuidelines
+      parameters:
+        - $ref: "#/components/parameters/brandId"
+        - name: format
+          in: query
+          schema:
+            type: string
+            enum: [pdf, markdown, figma, html, json]
+          description: Requested format (if not specified, returns all available formats)
+      responses:
+        "200":
+          description: Guidelines URLs returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brand_id:
+                    type: string
+                  guidelines:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/BrandGuidelines"
+                  expires_in_seconds:
+                    type: integer
+                    description: URL expiration time (typically 3600)
+        "401":
+          description: Unauthorized
+        "404":
+          description: Brand not found
+        "422":
+          description: Requested format not available for this plan tier
+
+  /brands/{brand_id}/names:
+    post:
+      summary: Generate name options for a brand
+      description: Generate additional name options for an existing brand
+      operationId: generateBrandNames
+      parameters:
+        - $ref: "#/components/parameters/brandId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                count:
+                  type: integer
+                  minimum: 5
+                  maximum: 20
+                  description: Number of names to generate
+      responses:
+        "202":
+          description: Name generation started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brand_id:
+                    type: string
+                  generation_id:
+                    type: string
+                  status:
+                    type: string
+        "401":
+          description: Unauthorized
+        "404":
+          description: Brand not found
+        "429":
+          description: Rate limit exceeded
+
+    get:
+      summary: List name options for a brand
+      description: Retrieve all generated and evaluated names for a brand
+      operationId: listBrandNames
+      parameters:
+        - $ref: "#/components/parameters/brandId"
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [generated, evaluated, selected]
+          description: Filter by name status
+      responses:
+        "200":
+          description: Names retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brand_id:
+                    type: string
+                  names:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/BrandName"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Brand not found
+
+  /brands/{brand_id}/names/{name_id}/select:
+    post:
+      summary: Select final brand name
+      description: Confirm selection of a generated name as the final brand name
+      operationId: selectBrandName
+      parameters:
+        - $ref: "#/components/parameters/brandId"
+        - $ref: "#/components/parameters/nameId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rationale:
+                  type: string
+                  description: Optional reason for name selection
+      responses:
+        "200":
+          description: Name selected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brand_id:
+                    type: string
+                  selected_name:
+                    type: string
+                  selected_at:
+                    type: string
+                    format: date-time
+        "400":
+          description: Invalid selection (name already selected or not in shortlist)
+        "401":
+          description: Unauthorized
+        "404":
+          description: Brand or name not found
+
+tags:
+  - name: Brand Briefs
+    description: Brand brief creation and management
+  - name: Brand Identity
+    description: Full brand identity lifecycle
+  - name: Naming
+    description: Brand naming workshop operations
+  - name: Guidelines
+    description: Brand guidelines export and delivery

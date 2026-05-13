@@ -1,0 +1,182 @@
+{
+  "brand_book_pdf": {
+    "file_path": "brand-aid/artifacts/faire-brand-book.pdf",
+    "file_size_kb": 3200,
+    "page_count": 18,
+    "sections": [
+      "Cover & Metadata",
+      "Executive Summary",
+      "Strategic Overview",
+      "Visual System",
+      "Logo System",
+      "Tone of Voice",
+      "Usage Guidelines",
+      "Design Tokens Reference",
+      "Appendix: SVG Assets"
+    ]
+  },
+  "brand_book_json": {
+    "metadata": {
+      "brand_name": "Faire",
+      "created_date": "2026-04-05",
+      "version": "1.0.0",
+      "critique_score": 85,
+      "status": "approved"
+    },
+    "strategy": {
+      "positioning": "The professional network where respected independents build meaningful careers with quality-focused brands",
+      "primary_archetype": "Sage",
+      "secondary_archetype": "Mentor",
+      "brand_promise": "Fair partnership: Your expertise deserves to be valued at full price",
+      "personality_traits": [
+        "Thoughtful and deliberate",
+        "Professional yet approachable",
+        "Trustworthy and reliable",
+        "Integrity-driven",
+        "Empowering"
+      ],
+      "values": [
+        "Quality over quantity",
+        "Fair value exchange",
+        "Mutual respect",
+        "Professional growth"
+      ],
+      "target_customer_summary": {
+        "segment": "Seasoned freelancers and consultants (5+ years experience) earning mid to senior rates",
+        "primary_need": "Access to premium projects with clients who value expertise and pay fairly",
+        "psychographic": "Professionally ambitious, pride-driven, values autonomy but seeks meaningful relationships and stability"
+      }
+    },
+    "visual_system": {
+      "color_palette": {
+        "primary": {
+          "name": "Sage Blue",
+          "hex": "#1B3A52",
+          "usage": "Primary brand color, headers, CTAs"
+        },
+        "accent": {
+          "name": "Warm Sand",
+          "hex": "#D4A574",
+          "usage": "Accent highlights, emphasis"
+        },
+        "secondary": {
+          "name": "Terracotta",
+          "hex": "#A0644E",
+          "usage": "Secondary accent"
+        }
+      },
+      "typography": {
+        "headline_font": "Crimson Text (serif)",
+        "body_font": "Inter (sans-serif)",
+        "type_scale": [
+          { "name": "h1", "size": "48px", "weight": "700" },
+          { "name": "h2", "size": "36px", "weight": "700" },
+          { "name": "body", "size": "16px", "weight": "400" }
+        ]
+      }
+    },
+    "logo": {
+      "concept": "The Handshake + Growth Arrow",
+      "rationale": "Embodies partnership and growth. Simple, memorable, scalable.",
+      "svg_references": {
+        "horizontal": "faire-logo-horizontal.svg",
+        "vertical": "faire-logo-vertical.svg",
+        "icon": "faire-logo-icon.svg"
+      }
+    },
+    "naming": {
+      "chosen_name": "Faire",
+      "rationale": "French origin meaning 'make' or 'do'; evokes fairness and partnership. Memorable, available, distinctive.",
+      "pronunciation": "Fair (rhymes with 'care')",
+      "domain": "faire.com"
+    }
+  },
+  "design_tokens_json": {
+    "colors": {
+      "primary": "#1B3A52",
+      "primary_light": "#2A4F6B",
+      "primary_dark": "#0F2637",
+      "accent_warm": "#D4A574",
+      "accent_secondary": "#A0644E",
+      "neutral_bg": "#F8F7F5",
+      "text_primary": "#1F1F1F",
+      "text_secondary": "#6B7C8F",
+      "success": "#2D7D66",
+      "error": "#A84C3A"
+    },
+    "spacing": {
+      "spacing_xs": "8px",
+      "spacing_sm": "12px",
+      "spacing_md": "16px",
+      "spacing_lg": "24px",
+      "spacing_xl": "32px",
+      "spacing_2xl": "48px"
+    },
+    "typography": {
+      "h1": {
+        "font_family": "Crimson Text",
+        "font_size": "48px",
+        "font_weight": "700",
+        "line_height": "1.2"
+      },
+      "body": {
+        "font_family": "Inter",
+        "font_size": "16px",
+        "font_weight": "400",
+        "line_height": "1.6"
+      }
+    }
+  },
+  "design_tokens_css": ":root {\n  --color-primary: #1B3A52;\n  --color-primary-light: #2A4F6B;\n  --color-primary-dark: #0F2637;\n  --color-accent-warm: #D4A574;\n  --color-accent-secondary: #A0644E;\n  --color-neutral-bg: #F8F7F5;\n  --color-text-primary: #1F1F1F;\n  --color-text-secondary: #6B7C8F;\n  --color-success: #2D7D66;\n  --color-error: #A84C3A;\n  \n  --spacing-xs: 8px;\n  --spacing-sm: 12px;\n  --spacing-md: 16px;\n  --spacing-lg: 24px;\n  --spacing-xl: 32px;\n  --spacing-2xl: 48px;\n  \n  --font-headline: 'Crimson Text', serif;\n  --font-body: 'Inter', sans-serif;\n  \n  --font-size-h1: 48px;\n  --font-size-body: 16px;\n  --line-height-tight: 1.2;\n  --line-height-normal: 1.6;\n}",
+  "design_tokens_figma": "Figma variables JSON format: {color-primary, color-accent-warm, spacing-md, font-headline, etc. ready for import}",
+  "export_manifest": {
+    "timestamp": "2026-04-05T14:32:00Z",
+    "brand_name": "Faire",
+    "critique_score": 85,
+    "files": [
+      {
+        "name": "faire-brand-book.pdf",
+        "format": "pdf",
+        "path": "brand-aid/artifacts/faire-brand-book.pdf",
+        "size_kb": 3200
+      },
+      {
+        "name": "faire-brand-identity.json",
+        "format": "json",
+        "path": "brand-aid/artifacts/faire-brand-identity.json",
+        "size_kb": 245
+      },
+      {
+        "name": "faire-design-tokens.json",
+        "format": "json",
+        "path": "brand-aid/artifacts/faire-design-tokens.json",
+        "size_kb": 85
+      },
+      {
+        "name": "faire-design-tokens.css",
+        "format": "css",
+        "path": "brand-aid/artifacts/faire-design-tokens.css",
+        "size_kb": 2.1
+      },
+      {
+        "name": "faire-logo-horizontal.svg",
+        "format": "svg",
+        "path": "brand-aid/artifacts/logos/faire-logo-horizontal.svg",
+        "size_kb": 3.2
+      },
+      {
+        "name": "faire-logo-vertical.svg",
+        "format": "svg",
+        "path": "brand-aid/artifacts/logos/faire-logo-vertical.svg",
+        "size_kb": 3.4
+      },
+      {
+        "name": "faire-logo-icon.svg",
+        "format": "svg",
+        "path": "brand-aid/artifacts/logos/faire-logo-icon.svg",
+        "size_kb": 2.8
+      }
+    ],
+    "summary": "Complete brand identity package for Faire. Includes brand strategy, visual system, logo system, and implementation-ready design tokens in PDF, JSON, CSS, and SVG formats. Status: Approved (85/100). Ready for implementation."
+  }
+}

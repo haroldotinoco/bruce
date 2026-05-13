@@ -1,0 +1,33 @@
+{
+  "name": "business-model-modeler",
+  "purpose": "Model 3 business model scenarios (conservative/base/aggressive) with revenue model, unit economics, break-even analysis. Recommend scenario to pursue.",
+  "input_types": [
+    "briefing",
+    "volume_1_opportunity",
+    "volume_2_customer_market",
+    "volume_3_value_proposition"
+  ],
+  "output_types": [
+    "volume_4_business_model"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 1,
+    "max_tokens": 8000,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 180,
+    "content_depth_target": 2250,
+    "confidence_calibration_threshold": 0.8
+  },
+  "cost_estimation": {
+    "avg_cost_per_volume_usd": 0.35,
+    "max_cost_per_volume_usd": 0.75
+  }
+}

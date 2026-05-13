@@ -1,0 +1,21 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "opportunity_id": "opp-ai-compliance-v1",
+  "briefing": {
+    "customer_context": {
+      "primary_segment": "Financial Services Compliance Officers",
+      "segment_size": 12500,
+      "jtbd_functional": "Monitor and document AI model behavior for regulatory compliance",
+      "jtbd_emotional": "Confident that their organization meets regulatory requirements",
+      "willingness_to_pay": "$50K-200K annually per customer",
+      "confidence_level": 0.75
+    }
+  },
+  "vol_1_opportunity": {
+    "problem_anatomy": "Banks and financial institutions struggle to demonstrate AI model compliance with regulatory requirements. Current compliance monitoring is manual, expensive, and fragmented across multiple systems. Regulators increasingly require explainability and audit trails for AI-driven decisions.",
+    "market_readiness": "Mature. Federal Reserve, SEC, and OCC published AI guidance in 2023-2024. Banks are actively investing in compliance infrastructure.",
+    "addressable_market": "TAM: $2.5B (50K financial service institutions × $50K avg contract value). SAM: $500M (large/mid-market banks requiring enterprise compliance). SOM Year 1: $10M.",
+    "macro_context": "Regulatory enforcement on AI increasing. Bank capital requirements incentivizing risk reduction. AI deployment accelerating across financial services.",
+    "opportunity_thesis": "The opportunity is to build the compliance platform for AI in financial services because regulatory pressure is accelerating, manual compliance is expensive, and integrated platforms don't exist."
+  }
+}

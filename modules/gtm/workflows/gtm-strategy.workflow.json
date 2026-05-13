@@ -1,0 +1,48 @@
+{
+  "workflow_id": "gtm-strategy",
+  "module": "gtm",
+  "description": "GTM strategy definition: channel analysis → selection → content system creation",
+  "version": "1.0",
+  "trigger": {"type": "manual"},
+  "context": {"venture_id": "from_trigger", "initial_budget": "from_trigger"},
+  "steps": [
+    {
+      "step_id": "channel-analysis",
+      "agent": "channel-strategist",
+      "description": "Analyze channels for fit with product and target audience",
+      "input": {"from": "workflow.trigger", "fields": ["product_context", "target_audience", "available_budget"]},
+      "output_to": "channel-analysis-results",
+      "timeout_seconds": 1200,
+      "retry_policy": {"max_attempts": 2, "backoff": "exponential", "initial_delay_ms": 5000},
+      "failure_policy": "mark_failed_and_continue",
+      "next_step": {"default": "channel-selection"},
+      "events_emitted": ["gtm.channel.analysis.started", "gtm.channel.analysis.completed"]
+    },
+    {
+      "step_id": "channel-selection",
+      "agent": "channel-strategist",
+      "description": "Select optimal channels based on analysis",
+      "input": {"from": "channel-analysis-results", "fields": ["channel_rankings", "budget"]},
+      "output_to": "selected-channels",
+      "timeout_seconds": 600,
+      "retry_policy": {"max_attempts": 1, "backoff": "none"},
+      "failure_policy": "skip_and_notify",
+      "next_step": {"default": "content-system-creation"},
+      "events_emitted": ["gtm.channels.selected"]
+    },
+    {
+      "step_id": "content-system-creation",
+      "agent": "content-system-agent",
+      "description": "Build messaging matrix, templates, and content calendar for selected channels",
+      "input": {"from": "selected-channels", "fields": ["selected_channels", "product_context"]},
+      "output_to": "content-system-result",
+      "timeout_seconds": 1800,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 5000},
+      "failure_policy": "mark_failed_and_continue",
+      "next_step": {"default": "workflow-complete"},
+      "events_emitted": ["gtm.content.system.created", "gtm.strategy.completed"]
+    }
+  ],
+  "error_handlers": {"on_step_failure": "notify_and_log", "on_workflow_timeout": "fail_fast"},
+  "metrics": {"target_duration_minutes": 60, "success_criteria": {"channels_selected": "true", "content_system_complete": "true"}}
+}

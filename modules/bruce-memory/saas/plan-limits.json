@@ -1,0 +1,88 @@
+{
+  "plan_limits": {
+    "free": {
+      "display_name": "Free",
+      "bruce_memory_enabled": false,
+      "read_only_access": true,
+      "capabilities": {
+        "learning_ingestion": false,
+        "pattern_querying": true,
+        "pattern_library_access": "basic_patterns_only",
+        "cross_venture_access": false,
+        "vector_db_namespace": false,
+        "pattern_extraction": false,
+        "intelligence_synthesis": false,
+        "custom_queries": false,
+        "intelligence_api": false
+      },
+      "limits": {
+        "monthly_queries": 10,
+        "pattern_results_per_query": 3,
+        "basic_patterns_available": 50,
+        "vector_db_access": false
+      },
+      "description": "Limited read-only access to basic pattern queries only"
+    },
+    "pro": {
+      "display_name": "Professional",
+      "bruce_memory_enabled": true,
+      "read_only_access": false,
+      "capabilities": {
+        "learning_ingestion": true,
+        "pattern_querying": true,
+        "pattern_library_access": "own_ventures_only",
+        "cross_venture_access": false,
+        "vector_db_namespace": true,
+        "pattern_extraction": true,
+        "intelligence_synthesis": false,
+        "custom_queries": true,
+        "intelligence_api": false
+      },
+      "limits": {
+        "monthly_queries": 500,
+        "learnings_per_month": 5000,
+        "pattern_results_per_query": 20,
+        "ventures_included": "unlimited",
+        "pattern_extraction_cadence": "weekly",
+        "vector_db_storage_gb": 10,
+        "concurrent_ingestions": 10
+      },
+      "description": "Learn from own ventures, query pattern library, weekly pattern extraction"
+    },
+    "enterprise": {
+      "display_name": "Enterprise",
+      "bruce_memory_enabled": true,
+      "read_only_access": false,
+      "capabilities": {
+        "learning_ingestion": true,
+        "pattern_querying": true,
+        "pattern_library_access": "all_cross_venture_patterns",
+        "cross_venture_access": true,
+        "vector_db_namespace": true,
+        "pattern_extraction": true,
+        "intelligence_synthesis": true,
+        "custom_queries": true,
+        "intelligence_api": true,
+        "anonymized_global_patterns": true,
+        "dedicated_synthesis": true,
+        "priority_processing": true
+      },
+      "limits": {
+        "monthly_queries": null,
+        "learnings_per_month": null,
+        "pattern_results_per_query": null,
+        "ventures_included": "unlimited",
+        "pattern_extraction_cadence": "daily",
+        "intelligence_synthesis_cadence": "monthly",
+        "pattern_extraction_custom_cadence": true,
+        "vector_db_storage_gb": null,
+        "concurrent_ingestions": null,
+        "custom_pattern_queries": true,
+        "cross_venture_analysis": true,
+        "sso_integration": true,
+        "dedicated_support": true
+      },
+      "description": "Full cross-venture analysis, monthly synthesis, custom pattern queries, intelligence API"
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Naming Candidates Output",
+  "type": "object",
+  "required": ["top_candidates", "all_candidates", "scoring_methodology"],
+  "properties": {
+    "top_candidates": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "properties": {
+          "rank": { "type": "integer" },
+          "name": { "type": "string" },
+          "approach": { "type": "string" },
+          "rationale": { "type": "string" },
+          "overall_score": { "type": "number", "minimum": 0, "maximum": 100 },
+          "scores_by_criteria": {
+            "type": "object",
+            "additionalProperties": { "type": "number", "minimum": 0, "maximum": 100 }
+          },
+          "domain_status": { "type": "string" },
+          "trademark_risk": { "type": "string" },
+          "pronunciation": { "type": "string" }
+        },
+        "required": ["name", "overall_score", "rationale"]
+      }
+    },
+    "all_candidates": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "approach": { "type": "string" },
+          "rationale": { "type": "string" },
+          "domain_status": { "type": "string" }
+        }
+      },
+      "description": "All generated candidates with brief scores"
+    },
+    "scoring_methodology": {
+      "type": "string",
+      "description": "Explanation of how candidates were scored against criteria"
+    },
+    "domain_availability_summary": {
+      "type": "string",
+      "description": "Status of .com availability for top 5 candidates"
+    },
+    "trademark_flags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Any names flagged for manual trademark search"
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Next steps recommendation"
+    }
+  }
+}

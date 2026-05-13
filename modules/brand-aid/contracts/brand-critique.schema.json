@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand Critique",
+  "type": "object",
+  "required": ["scores", "pass_fail"],
+  "properties": {
+    "scores": {
+      "type": "object",
+      "properties": {
+        "strategic_alignment": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "distinctiveness": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "visual_coherence": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "naming_quality": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "overall": { "type": "integer", "minimum": 0, "maximum": 100 }
+      },
+      "required": ["strategic_alignment", "distinctiveness", "visual_coherence", "naming_quality", "overall"]
+    },
+    "dimension_analysis": {
+      "type": "object",
+      "properties": {
+        "strategic_alignment": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer" },
+            "rationale": { "type": "string" },
+            "evidence": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "distinctiveness": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer" },
+            "rationale": { "type": "string" },
+            "vs_competitors": { "type": "string" }
+          }
+        },
+        "visual_coherence": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer" },
+            "rationale": { "type": "string" }
+          }
+        },
+        "naming_quality": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer" },
+            "rationale": { "type": "string" }
+          }
+        }
+      }
+    },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "improvement_areas": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "iteration_recommendations": {
+      "type": "string"
+    },
+    "pass_fail": {
+      "type": "boolean",
+      "description": "True if score >= 75 (passing)"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence in the critique"
+    }
+  }
+}

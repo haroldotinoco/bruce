@@ -1,0 +1,170 @@
+{
+  "governance_decisions": {
+    "decision_timestamp": "2026-04-05T15:00:00Z",
+    "decisions": [
+      {
+        "venture_id": "v-001",
+        "name": "DataFlow Analytics",
+        "decision": "scale",
+        "confidence_score": 94,
+        "rationale": "DataFlow exceeds all scale criteria: health score 84 (>75), traction score 87 (>75), monthly growth 18% (>15%), CAC/LTV ratio 0.167 (<0.3), runway 18 months (>12). Previous decision (scale) is tracking well with improving trend. Strong team, market validation evident (62 NPS), and unit economics support growth investment. Ready for acceleration.",
+        "supporting_metrics": {
+          "health_score": 84,
+          "traction_score": 87,
+          "monthly_growth_rate": 0.18,
+          "cac_ltv_ratio": 0.167,
+          "runway_months": 18
+        },
+        "next_milestones": [
+          {
+            "milestone": "Hire 2 engineers (data architect, sales engineer)",
+            "target_date": "2026-05-15",
+            "success_criteria": "Both roles filled, onboarded"
+          },
+          {
+            "milestone": "Scale data warehouse infrastructure",
+            "target_date": "2026-06-01",
+            "success_criteria": "Support 50% user growth without performance degradation"
+          },
+          {
+            "milestone": "Expand to EU market (secondary geography)",
+            "target_date": "2026-07-01",
+            "success_criteria": "First EU customer, establish localization roadmap"
+          },
+          {
+            "milestone": "Quarterly review milestone: maintain 15%+ MoM growth",
+            "target_date": "2026-07-15",
+            "success_criteria": "Growth rate sustained or accelerated"
+          }
+        ],
+        "resource_recommendation": "increase",
+        "risk_flags": [],
+        "human_review_required": true,
+        "decision_reversibility": "moderately_reversible"
+      },
+      {
+        "venture_id": "v-002",
+        "name": "MediLink Connect",
+        "decision": "iterate",
+        "confidence_score": 88,
+        "rationale": "MediLink shows exceptional traction growth (35% MoM, traction score 78) but does not meet all scale criteria: health score 72 (<75 threshold), regulatory risk flag, key hire gaps. Strong trajectory warrants continued investment, but execution risk and compliance requirements require iteration before scaling. Recommend: (1) Fill critical compliance engineering role, (2) Build regulatory roadmap and compliance infrastructure, (3) Validate healthcare customer segment assumptions, (4) Re-evaluate in 6 weeks. If regulatory barriers resolved and team strengthened, may qualify for scale decision.",
+        "supporting_metrics": {
+          "health_score": 72,
+          "traction_score": 78,
+          "monthly_growth_rate": 0.35,
+          "cac_ltv_ratio": 0.135,
+          "runway_months": 14
+        },
+        "next_milestones": [
+          {
+            "milestone": "Hire compliance engineering lead",
+            "target_date": "2026-05-01",
+            "success_criteria": "Role filled, person onboarded, regulatory roadmap developed"
+          },
+          {
+            "milestone": "Complete HIPAA compliance audit",
+            "target_date": "2026-06-15",
+            "success_criteria": "Full compliance certification obtained"
+          },
+          {
+            "milestone": "Land first healthcare enterprise customer",
+            "target_date": "2026-07-15",
+            "success_criteria": "Deal closed, customer onboarded"
+          },
+          {
+            "milestone": "Iteration review decision point",
+            "target_date": "2026-05-20",
+            "success_criteria": "Assess if scale criteria can be met by next review cycle"
+          }
+        ],
+        "resource_recommendation": "increase",
+        "risk_flags": [
+          "Regulatory compliance requirements could delay growth",
+          "Team gaps in compliance expertise need immediate attention",
+          "Healthcare market has longer sales cycles - verify CAC trend sustainable"
+        ],
+        "human_review_required": false,
+        "decision_reversibility": "easily_reversible"
+      },
+      {
+        "venture_id": "v-003",
+        "name": "TruckRoute Pro",
+        "decision": "kill",
+        "confidence_score": 91,
+        "rationale": "TruckRoute Pro meets multiple kill criteria and should be terminated. (1) CAC/LTV ratio 0.778 exceeds 2x LTV threshold (CAC $2,800 vs LTV $3,600 = 0.778) with no improving trajectory after 6 weeks of stable metrics. (2) Minimal traction: conversion rate 3%, growth 5% MoM at 32 weeks post-launch represents stagnation. (3) Health declining (score 45, trend declining) and traction weak (score 38). (4) Runway critical at 8 months with unsustainable burn ($75K monthly against $2K revenue). Team velocity declining, market competition intense, core go-to-market hypothesis appears disproven. Recommendation: Execute orderly wind-down with 6-week timeline, extract learning for supply chain vertical, preserve team relationships.",
+        "supporting_metrics": {
+          "health_score": 45,
+          "traction_score": 38,
+          "monthly_growth_rate": 0.05,
+          "cac_ltv_ratio": 0.778,
+          "runway_months": 8
+        },
+        "kill_criteria_met": [
+          {
+            "criterion": "CAC > 2x LTV with no improving trajectory after 6 weeks",
+            "evidence": "CAC/LTV ratio 0.778 is well above 2x LTV threshold; ratio has been stable for 8+ weeks with no improvement signal"
+          },
+          {
+            "criterion": "No meaningful traction after 8+ weeks post-launch",
+            "evidence": "32 weeks post-launch with only 3% conversion rate and 5% monthly growth - stagnant for past 8 weeks"
+          },
+          {
+            "criterion": "Resource burn rate unsustainable",
+            "evidence": "Monthly burn $75K against $2K revenue (97.3% cash burn ratio) with only 8-month runway; burn rate 37x sustainable level"
+          }
+        ],
+        "next_milestones": [
+          {
+            "milestone": "Notify team of kill decision and gather feedback",
+            "target_date": "2026-04-06",
+            "success_criteria": "Team informed, exit plan discussed, team retention plan for recovery"
+          },
+          {
+            "milestone": "Conduct structured postmortem and learning extraction",
+            "target_date": "2026-04-13",
+            "success_criteria": "Complete kill postmortem with key learnings on supply chain GTM, pricing, and market validation"
+          },
+          {
+            "milestone": "Customer notification and wind-down",
+            "target_date": "2026-04-20",
+            "success_criteria": "All customers notified, migration plan for active users"
+          },
+          {
+            "milestone": "Infrastructure and asset cleanup",
+            "target_date": "2026-05-15",
+            "success_criteria": "All systems decommissioned, IP archived, employees transitioned"
+          },
+          {
+            "milestone": "Final financial closeout",
+            "target_date": "2026-05-31",
+            "success_criteria": "All obligations settled, final accounting complete"
+          }
+        ],
+        "resource_recommendation": "decrease",
+        "risk_flags": [
+          "Team morale impact from kill decision",
+          "Customer impact from service discontinuation",
+          "Shared infrastructure with Supply Forecast AI (v-004) must be migrated carefully",
+          "Ensure orderly transition doesn't disrupt other ventures"
+        ],
+        "human_review_required": true,
+        "decision_reversibility": "difficult_to_reverse"
+      }
+    ],
+    "summary": {
+      "total_ventures_reviewed": 3,
+      "decisions_by_type": {
+        "scale": 1,
+        "iterate": 1,
+        "pause": 0,
+        "kill": 1
+      },
+      "ventures_requiring_human_review": [
+        "v-001 (scale decision, budget increase)",
+        "v-003 (kill decision)"
+      ],
+      "total_budget_impact": -25000,
+      "portfolio_narrative": "Q2 governance cycle shows portfolio bifurcation: DataFlow Analytics continues strong growth trajectory and is approved for scaling with budget increase. MediLink Connect demonstrates exceptional traction but requires focused iteration on regulatory compliance before scale decision. TruckRoute Pro meets multiple kill criteria and is recommended for orderly wind-down. Overall portfolio impact: +$20K to DataFlow, +$10K to MediLink, -$55K from TruckRoute = net -$25K burn reduction. Recommend human review of kill decision and scale decision before implementation. Next portfolio review: 2 weeks post-decision to monitor execution."
+    }
+  }
+}

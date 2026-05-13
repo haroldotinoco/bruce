@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Portfolio Execution State",
+  "description": "Transient execution state for active review cycles and workflows",
+  "type": "object",
+  "properties": {
+    "review_cycle_id": {
+      "type": "string",
+      "description": "ID of current review cycle",
+      "pattern": "^cycle_[a-z0-9]{12}$"
+    },
+    "workflow_id": {
+      "type": "string",
+      "description": "Current workflow being executed"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When review cycle started"
+    },
+    "current_step": {
+      "type": "string",
+      "description": "Current step in workflow"
+    },
+    "step_status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "completed", "failed", "paused"],
+      "description": "Status of current step"
+    },
+    "ventures_analyzed_count": {
+      "type": "integer",
+      "description": "Number of ventures analyzed so far"
+    },
+    "decisions_made": {
+      "type": "array",
+      "description": "Decisions made in this cycle",
+      "items": {
+        "type": "object",
+        "properties": {
+          "decision_id": { "type": "string" },
+          "venture_id": { "type": "string" },
+          "decision": { "type": "string" },
+          "made_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "pending_human_confirmations": {
+      "type": "array",
+      "description": "Decisions awaiting human confirmation",
+      "items": {
+        "type": "object",
+        "properties": {
+          "venture_id": { "type": "string" },
+          "venture_name": { "type": "string" },
+          "decision_type": { "type": "string" },
+          "decision_id": { "type": "string" },
+          "requested_at": { "type": "string", "format": "date-time" },
+          "deadline": { "type": "string", "format": "date-time" },
+          "assigned_to": { "type": "string" }
+        }
+      }
+    },
+    "pending_confirmations_count": {
+      "type": "integer",
+      "description": "Number of pending confirmations"
+    },
+    "report_status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "completed", "failed"],
+      "description": "Status of final report generation"
+    },
+    "report_id": {
+      "type": "string",
+      "description": "ID of generated report if completed"
+    },
+    "errors_encountered": {
+      "type": "array",
+      "description": "Errors during execution",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": { "type": "string" },
+          "error_message": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "severity": { "type": "string", "enum": ["warning", "error", "critical"] }
+        }
+      }
+    },
+    "expected_completion_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated time for cycle completion"
+    }
+  },
+  "required": ["review_cycle_id", "started_at", "current_step", "ventures_analyzed_count", "decisions_made"]
+}

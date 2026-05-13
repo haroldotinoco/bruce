@@ -1,0 +1,97 @@
+{
+  "tools": [
+    {
+      "tool_id": "read-portfolio-health",
+      "tool_name": "Read Portfolio Health Report",
+      "description": "Retrieve health analysis from Portfolio module",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true }
+      },
+      "output_schema": {
+        "health_report": { "type": "object", "required": true }
+      },
+      "timeout_seconds": 5,
+      "retry_count": 3
+    },
+    {
+      "tool_id": "read-venture-context",
+      "tool_name": "Read Venture Context",
+      "description": "Get venture record and history",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true }
+      },
+      "output_schema": {
+        "venture_record": { "type": "object", "required": true }
+      },
+      "timeout_seconds": 3,
+      "retry_count": 2
+    },
+    {
+      "tool_id": "read-portfolio-composition",
+      "tool_name": "Read Portfolio Composition",
+      "description": "Get full portfolio context for allocation decisions",
+      "input_schema": {},
+      "output_schema": {
+        "portfolio": { "type": "object", "required": true }
+      },
+      "timeout_seconds": 5,
+      "retry_count": 2
+    },
+    {
+      "tool_id": "read-prior-decisions",
+      "tool_name": "Read Prior Decisions",
+      "description": "Get prior governance decisions for consistency check",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true }
+      },
+      "output_schema": {
+        "decisions": { "type": "array", "required": true }
+      },
+      "timeout_seconds": 3,
+      "retry_count": 2
+    },
+    {
+      "tool_id": "emit-governance-decision",
+      "tool_name": "Emit Governance Decision",
+      "description": "Publish governance decision to event bus",
+      "input_schema": {
+        "portfolio_decision": { "type": "object", "required": true }
+      },
+      "output_schema": {
+        "event_id": { "type": "string" },
+        "published_at": { "type": "string", "format": "date-time" }
+      },
+      "timeout_seconds": 3,
+      "retry_count": 2
+    },
+    {
+      "tool_id": "create-escalation",
+      "tool_name": "Create Escalation",
+      "description": "Escalate PAUSE or KILL decision for human approval",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true },
+        "decision": { "type": "string", "required": true },
+        "reasoning": { "type": "string", "required": true }
+      },
+      "output_schema": {
+        "escalation_id": { "type": "string" }
+      },
+      "timeout_seconds": 3,
+      "retry_count": 1
+    },
+    {
+      "tool_id": "store-decision-record",
+      "tool_name": "Store Decision Record",
+      "description": "Persist governance decision for audit trail",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true },
+        "decision": { "type": "object", "required": true }
+      },
+      "output_schema": {
+        "decision_id": { "type": "string" }
+      },
+      "timeout_seconds": 3,
+      "retry_count": 2
+    }
+  ]
+}

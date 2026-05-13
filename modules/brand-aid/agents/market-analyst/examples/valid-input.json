@@ -1,0 +1,39 @@
+{
+  "venture_hypothesis": "A mobile-first platform that allows freelancers to find high-quality, long-term project work without competing on price.",
+  "competitors": [
+    {
+      "name": "Upwork",
+      "website": "upwork.com",
+      "category": "direct"
+    },
+    {
+      "name": "Toptal",
+      "website": "toptal.com",
+      "category": "direct"
+    },
+    {
+      "name": "Freelancer.com",
+      "website": "freelancer.com",
+      "category": "direct"
+    },
+    {
+      "name": "Gun.io",
+      "website": "gun.io",
+      "category": "adjacent"
+    },
+    {
+      "name": "Arc.dev",
+      "website": "arc.dev",
+      "category": "adjacent"
+    }
+  ],
+  "customer_segment": "Experienced freelancers and independent consultants earning 60k-150k annually",
+  "research_focus": [
+    "brand messaging and positioning",
+    "customer reviews and sentiment",
+    "pricing and value proposition",
+    "tone of voice in marketing"
+  ],
+  "geographic_scope": "global",
+  "timeframe": "last_12_months"
+}

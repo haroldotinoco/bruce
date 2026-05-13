@@ -1,0 +1,119 @@
+{
+  "module": "startup-ops",
+  "description": "Continuous operational health monitoring for ventures across activation, retention, revenue, product quality, financial sustainability, and market fit",
+  "plans": {
+    "free": {
+      "enabled": false,
+      "reason": "StartupOps is a Pro+ feature",
+      "alternative": "Basic health score available via GTM module",
+      "ventures_limit": 0,
+      "monitoring_frequency_hours": null,
+      "health_dimensions": [],
+      "anomaly_detection": false,
+      "escalation_webhooks": false,
+      "weekly_reports": false,
+      "api_rate_limit_per_hour": 0
+    },
+    "pro": {
+      "enabled": true,
+      "ventures_limit": 5,
+      "monitoring_frequency_hours": 6,
+      "health_dimensions": [
+        "activation",
+        "retention",
+        "revenue",
+        "product_quality",
+        "financial_sustainability",
+        "market_fit"
+      ],
+      "anomaly_detection": {
+        "enabled": true,
+        "threshold_sigma": 2.0,
+        "lookback_days": 30
+      },
+      "escalation_webhooks": {
+        "enabled": true,
+        "max_webhooks": 3
+      },
+      "reporting": {
+        "weekly_reports": true,
+        "custom_reports": false,
+        "data_retention_days": 90
+      },
+      "data_sources_limit": 3,
+      "api_rate_limit_per_hour": 1000,
+      "concurrent_monitoring_jobs": 2
+    },
+    "enterprise": {
+      "enabled": true,
+      "ventures_limit": null,
+      "monitoring_frequency_hours": 0.25,
+      "health_dimensions": [
+        "activation",
+        "retention",
+        "revenue",
+        "product_quality",
+        "financial_sustainability",
+        "market_fit"
+      ],
+      "anomaly_detection": {
+        "enabled": true,
+        "threshold_sigma": "configurable",
+        "lookback_days": "configurable"
+      },
+      "escalation_webhooks": {
+        "enabled": true,
+        "max_webhooks": null
+      },
+      "reporting": {
+        "weekly_reports": true,
+        "custom_reports": true,
+        "scheduled_reports": true,
+        "data_retention_days": 730
+      },
+      "data_sources_limit": null,
+      "api_rate_limit_per_hour": null,
+      "concurrent_monitoring_jobs": null,
+      "custom_thresholds": true,
+      "sso_access": true,
+      "dedicated_support": true
+    }
+  },
+  "feature_matrix": {
+    "health_score_calculation": {
+      "free": false,
+      "pro": true,
+      "enterprise": true
+    },
+    "real_time_anomaly_detection": {
+      "free": false,
+      "pro": false,
+      "enterprise": true
+    },
+    "6hour_monitoring": {
+      "free": false,
+      "pro": true,
+      "enterprise": true
+    },
+    "weekly_health_reports": {
+      "free": false,
+      "pro": true,
+      "enterprise": true
+    },
+    "custom_threshold_configuration": {
+      "free": false,
+      "pro": false,
+      "enterprise": true
+    },
+    "escalation_automation": {
+      "free": false,
+      "pro": true,
+      "enterprise": true
+    },
+    "portfolio_level_aggregation": {
+      "free": false,
+      "pro": true,
+      "enterprise": true
+    }
+  }
+}

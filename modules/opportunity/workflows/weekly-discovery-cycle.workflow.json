@@ -1,0 +1,139 @@
+{
+  "workflow_id": "weekly-discovery-cycle",
+  "module": "opportunity",
+  "description": "Full weekly discovery cycle: scan → analyze → score → rank → output",
+  "version": "1.0",
+  "trigger": {
+    "type": "schedule",
+    "cron": "0 6 * * MON"
+  },
+  "context": {
+    "scan_themes": ["healthcare-admin", "fintech-compliance", "saas-infrastructure"],
+    "filters": {
+      "min_tam": 10000000,
+      "max_tam": 10000000000,
+      "geographic_focus": ["US", "Canada", "UK", "Western Europe"]
+    },
+    "geography": ["North America", "Western Europe"]
+  },
+  "steps": [
+    {
+      "step_id": "market-scan",
+      "agent": "market-scanner",
+      "description": "Scan sources for new opportunities",
+      "input": {
+        "from": "workflow.context",
+        "fields": ["scan_themes", "filters", "geography"]
+      },
+      "output_to": "scan-results",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "opportunity-analysis"
+      },
+      "events_emitted": ["opportunity.scan.started", "opportunity.scan.completed"]
+    },
+    {
+      "step_id": "opportunity-analysis",
+      "agent": "opportunity-analyst",
+      "description": "Analyze discovered opportunities for depth and validity",
+      "input": {
+        "from": "scan-results",
+        "fields": ["opportunities_found"]
+      },
+      "output_to": "analysis-results",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 10000
+      },
+      "failure_policy": "mark_failed_and_continue",
+      "next_step": {
+        "default": "opportunity-scoring"
+      },
+      "events_emitted": ["opportunity.analyzed", "opportunity.analysis.failed"]
+    },
+    {
+      "step_id": "opportunity-scoring",
+      "agent": "scoring-agent",
+      "description": "Score analyzed opportunities across four dimensions",
+      "input": {
+        "from": "analysis-results",
+        "fields": ["analyzed_opportunities", "metadata"]
+      },
+      "output_to": "scoring-results",
+      "timeout_seconds": 900,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "exponential",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "opportunity-prioritization"
+      },
+      "events_emitted": ["opportunity.scored", "opportunity.score.complete"]
+    },
+    {
+      "step_id": "opportunity-prioritization",
+      "agent": "prioritization-agent",
+      "description": "Rank opportunities by score and strategic alignment",
+      "input": {
+        "from": "scoring-results",
+        "fields": ["scored_opportunities"]
+      },
+      "output_to": "ranked-opportunities",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "output-to-bruce-core"
+      },
+      "events_emitted": ["opportunity.ranked", "opportunity.prioritization.complete"]
+    },
+    {
+      "step_id": "output-to-bruce-core",
+      "agent": null,
+      "description": "Emit ranked opportunities to Bruce Core for gate evaluation",
+      "input": {
+        "from": "ranked-opportunities",
+        "fields": ["ranked_list", "cycle_metadata"]
+      },
+      "output_to": "bruce-core.dispatch",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["opportunity.cycle.complete", "opportunity.forwarded"]
+    }
+  ],
+  "error_handlers": {
+    "on_step_failure": "notify_and_log",
+    "on_workflow_timeout": "partial_completion_allowed",
+    "escalation_threshold": 2
+  },
+  "metrics": {
+    "target_duration_minutes": 45,
+    "success_criteria": {
+      "opportunities_discovered_min": 8,
+      "opportunities_discovered_max": 25,
+      "advancement_rate": 0.2
+    }
+  }
+}

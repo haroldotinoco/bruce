@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Gate Enforcer Input",
+  "description": "Input to the Gate Enforcer agent for gate evaluation",
+  "type": "object",
+  "required": ["venture_id", "gate_name"],
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "pattern": "^v-[a-z0-9]{8}$"
+    },
+    "gate_name": {
+      "type": "string",
+      "enum": ["post-screening", "post-structuring", "post-build", "post-launch", "post-traction"]
+    },
+    "current_stage": {
+      "type": "string",
+      "description": "Current stage of the venture"
+    },
+    "evaluation_trigger": {
+      "type": "string",
+      "enum": ["module_completed", "manual_request", "sla_triggered"],
+      "description": "What triggered this evaluation"
+    },
+    "venture_data": {
+      "type": "object",
+      "description": "Complete venture record",
+      "properties": {
+        "venture_id": { "type": "string" },
+        "name": { "type": "string" },
+        "founder_info": { "type": "object" },
+        "problem_statement": { "type": "string" },
+        "target_market": { "type": "object" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "module_outputs": {
+      "type": "object",
+      "description": "Outputs from specialist modules",
+      "properties": {
+        "opportunity_screening": {
+          "type": "object",
+          "properties": {
+            "founder_assessment": { "type": "string" },
+            "problem_validation": { "type": "object" },
+            "market_analysis": { "type": "object" },
+            "feasibility_assessment": { "type": "string" }
+          }
+        },
+        "brand": {
+          "type": "object",
+          "properties": {
+            "positioning": { "type": "string" },
+            "messaging_framework": { "type": "object" },
+            "competitive_positioning": { "type": "string" }
+          }
+        },
+        "builder": {
+          "type": "object",
+          "properties": {
+            "mvp_plan": { "type": "object" },
+            "technical_architecture": { "type": "string" },
+            "resource_requirements": { "type": "object" }
+          }
+        },
+        "market": {
+          "type": "object",
+          "properties": {
+            "gotomarket_strategy": { "type": "object" },
+            "pricing_model": { "type": "object" },
+            "customer_acquisition_plan": { "type": "object" }
+          }
+        },
+        "operator": {
+          "type": "object",
+          "properties": {
+            "operational_plan": { "type": "string" },
+            "kpi_framework": { "type": "object" },
+            "resource_plan": { "type": "object" },
+            "cohort_setup": { "type": "object" }
+          }
+        }
+      }
+    },
+    "metric_data": {
+      "type": "object",
+      "description": "For post-launch/post-traction gates: actual metrics",
+      "properties": {
+        "cohort_age_days": { "type": "number" },
+        "month_1_retention": { "type": "number" },
+        "month_2_retention": { "type": "number" },
+        "week_over_week_growth_pct": { "type": "number" },
+        "actual_cac": { "type": "number" },
+        "projected_cac": { "type": "number" },
+        "gross_margin_pct": { "type": "number" },
+        "nps": { "type": "number" },
+        "weekly_active_users": { "type": "number" },
+        "customer_satisfaction": { "type": "string" }
+      }
+    },
+    "previous_evaluations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "gate_name": { "type": "string" },
+          "status": { "type": "string" },
+          "score": { "type": "number" },
+          "evaluated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "description": "Prior gate evaluations for context"
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Correlation ID for tracing"
+    }
+  }
+}

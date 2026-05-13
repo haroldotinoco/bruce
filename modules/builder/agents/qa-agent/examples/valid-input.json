@@ -1,0 +1,27 @@
+{
+  "bdd_scenarios": [
+    {
+      "scenario_id": "BDD-LOGIN-001",
+      "feature": "User Authentication",
+      "given": ["User navigates to login page"],
+      "when": ["User enters email 'test@example.com'", "User enters password 'TestPass123'", "User clicks login button"],
+      "then": ["User is redirected to dashboard", "Dashboard header shows user email"]
+    },
+    {
+      "scenario_id": "BDD-LOGIN-002",
+      "feature": "User Authentication",
+      "given": ["User is on login page"],
+      "when": ["User enters invalid email 'invalid'", "User clicks login button"],
+      "then": ["Error message 'Invalid email format' appears"]
+    }
+  ],
+  "staging_url": "https://staging.complify.example.com",
+  "test_credentials": {
+    "email": "test@example.com",
+    "password": "TestPass123"
+  },
+  "test_environment_setup": {
+    "database_reset": false,
+    "browser": "chromium"
+  }
+}

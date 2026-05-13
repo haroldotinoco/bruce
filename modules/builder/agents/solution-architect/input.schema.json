@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Solution Architect Input",
+  "type": "object",
+  "required": ["functional_spec", "bdd_spec"],
+  "properties": {
+    "functional_spec": {
+      "type": "object",
+      "description": "Functional requirements and feature definitions"
+    },
+    "bdd_spec": {
+      "type": "object",
+      "description": "BDD scenarios and user flows"
+    },
+    "tech_stack_requirements": {
+      "type": "object",
+      "properties": {
+        "backend_preference": { "type": "string" },
+        "database_preference": { "type": "string" },
+        "cloud_provider": { "type": "string" }
+      }
+    },
+    "scalability_requirements": {
+      "type": "object",
+      "properties": {
+        "initial_users": { "type": "integer" },
+        "growth_forecast_months": { "type": "integer" },
+        "peak_concurrent_users": { "type": "integer" }
+      }
+    },
+    "compliance_requirements": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

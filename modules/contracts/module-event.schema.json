@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/module-event.schema.json",
+  "title": "Module Event",
+  "description": "Event emitted by any module for async, non-critical updates. Enables publish-subscribe patterns without blocking handoffs. Events are logged but do not require immediate processing by consumers.",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Unique identifier for this event (UUID v4)"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "venture_initialized",
+        "venture_qualified",
+        "venture_rejected",
+        "venture_hypothesis_updated",
+        "brand_assets_generated",
+        "product_spec_completed",
+        "gtm_plan_activated",
+        "metrics_checkpoint",
+        "hypothesis_validation_result",
+        "hypothesis_invalidated",
+        "anomaly_detected",
+        "health_score_updated",
+        "decision_escalated",
+        "decision_made",
+        "venture_status_changed",
+        "artifact_generated",
+        "error_occurred",
+        "manual_intervention_required"
+      ],
+      "description": "Type of event"
+    },
+    "module": {
+      "type": "string",
+      "enum": [
+        "opportunity",
+        "add-venture",
+        "brand-aid",
+        "builder",
+        "gtm",
+        "startup-ops",
+        "portfolio",
+        "bruce-core",
+        "bruce-memory"
+      ],
+      "description": "Which module emitted this event"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture this event pertains to (may be null for platform-level events)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When event occurred"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["info", "warning", "error", "critical"],
+      "description": "Event severity. info=routine, warning=attention needed, error=failed task, critical=immediate action needed"
+    },
+    "payload": {
+      "type": "object",
+      "description": "Event-specific payload. Structure varies by event_type.",
+      "additionalProperties": true,
+      "examples": [
+        {
+          "comment": "venture_qualified event",
+          "qualification_score": 85,
+          "key_insights": ["strong market", "clear use case"]
+        },
+        {
+          "comment": "metrics_checkpoint event",
+          "metric_name": "DAU",
+          "value": 150,
+          "change_pct": 25.5,
+          "trend": "up"
+        }
+      ]
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Trace ID linking this event to parent workflow execution"
+    },
+    "trace_id": {
+      "type": "string",
+      "description": "Full trace path for sequence reconstruction"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "If triggered by human action, which user (optional)"
+    },
+    "subscribers": {
+      "type": "array",
+      "description": "Which modules have subscribed to this event type",
+      "items": {
+        "type": "string",
+        "enum": [
+          "opportunity",
+          "add-venture",
+          "brand-aid",
+          "builder",
+          "gtm",
+          "startup-ops",
+          "portfolio",
+          "bruce-core",
+          "bruce-memory"
+        ]
+      }
+    }
+  },
+  "required": [
+    "event_id",
+    "event_type",
+    "module",
+    "timestamp",
+    "severity",
+    "payload"
+  ],
+  "additionalProperties": false
+}

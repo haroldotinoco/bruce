@@ -1,0 +1,89 @@
+{
+  "workflow_id": "opportunity-scoring",
+  "module": "opportunity",
+  "description": "Score a pre-analyzed opportunity (analysis result → scoring → output score)",
+  "version": "1.0",
+  "trigger": {
+    "type": "manual"
+  },
+  "context": {
+    "scoring_type": "re_evaluation",
+    "analyst_confidence_required": true
+  },
+  "steps": [
+    {
+      "step_id": "validate-analysis",
+      "agent": null,
+      "description": "Validate that input analysis meets minimum quality requirements",
+      "input": {
+        "from": "workflow.trigger",
+        "fields": ["analyzed_opportunity"]
+      },
+      "output_to": "validated-analysis",
+      "timeout_seconds": 30,
+      "retry_policy": {
+        "max_attempts": 1,
+        "backoff": "none"
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "success": "score-opportunity"
+      },
+      "events_emitted": ["opportunity.analysis.validation.started"]
+    },
+    {
+      "step_id": "score-opportunity",
+      "agent": "scoring-agent",
+      "description": "Score the opportunity across market size, urgency, competition, and strategic fit",
+      "input": {
+        "from": "validated-analysis",
+        "fields": ["analyzed_opportunity", "scoring_context"]
+      },
+      "output_to": "scored-opportunity",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "exponential",
+        "initial_delay_ms": 3000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "emit-score-result"
+      },
+      "events_emitted": ["opportunity.score.calculated"]
+    },
+    {
+      "step_id": "emit-score-result",
+      "agent": null,
+      "description": "Format and emit the scoring result to downstream systems",
+      "input": {
+        "from": "scored-opportunity",
+        "fields": ["score", "dimensions", "recommendation"]
+      },
+      "output_to": "external",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "linear",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["opportunity.score.emitted"]
+    }
+  ],
+  "error_handlers": {
+    "on_step_failure": "notify_and_log",
+    "on_workflow_timeout": "fail_fast",
+    "escalation_threshold": 2
+  },
+  "metrics": {
+    "target_duration_minutes": 10,
+    "success_criteria": {
+      "score_assigned": true,
+      "recommendation_provided": true
+    }
+  }
+}

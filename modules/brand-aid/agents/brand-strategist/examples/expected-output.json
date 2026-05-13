@@ -1,0 +1,27 @@
+{
+  "positioning": "The professional network where respected independents build meaningful careers with quality-focused brands. We're where expertise is celebrated, not commoditized.",
+  "primary_archetype": "Sage",
+  "secondary_archetype": "Mentor",
+  "brand_promise": "Fair partnership: Your expertise deserves to be valued at full price, and we help you find clients who understand that.",
+  "personality_traits": [
+    "Thoughtful and deliberate",
+    "Professional yet approachable",
+    "Trustworthy and reliable",
+    "Integrity-driven",
+    "Empowering",
+    "Honest about standards"
+  ],
+  "values": [
+    "Quality over quantity",
+    "Fair value exchange",
+    "Mutual respect",
+    "Professional growth"
+  ],
+  "target_customer_summary": {
+    "segment": "Seasoned freelancers and consultants (5+ years experience) earning mid to senior rates",
+    "primary_need": "Access to premium projects with clients who value expertise and pay fairly",
+    "psychographic": "Professionally ambitious, pride-driven, values autonomy but seeks meaningful relationships and stability"
+  },
+  "competitive_context": "We occupy the white space between Upwork (commoditized, low-quality) and Toptal (exclusive, expensive for clients). We're selective enough to maintain quality, but accessible enough for accomplished professionals—not just the top 1%. We empower freelancers to compete on value, not price.",
+  "strategic_rationale": "The Sage archetype positions us as thoughtful evaluators and matchmakers, not transaction facilitators. This attracts high-quality freelancers who value professional growth and fair treatment. The secondary Mentor archetype reinforces our role in supporting career development. The positioning and promise directly counter the race-to-the-bottom commoditization they experience elsewhere, giving them a compelling reason to switch."
+}

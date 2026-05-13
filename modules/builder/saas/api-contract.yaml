@@ -1,0 +1,505 @@
+openapi: "3.0.3"
+info:
+  title: Builder API
+  version: "1.0.0"
+  description: AI-powered MVP builder — from product spec to deployed, tested application
+
+servers:
+  - url: https://api.builder.bruceai.com/v1
+
+security:
+  - BearerAuth: []
+  - ApiKeyAuth: []
+
+paths:
+  /builds:
+    post:
+      summary: Submit a build job
+      operationId: createBuild
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [spec]
+              properties:
+                spec:
+                  type: object
+                  required: [product_description, core_feature]
+                  properties:
+                    product_description:
+                      type: string
+                      minLength: 50
+                    core_feature:
+                      type: string
+                      description: "The single most important thing the MVP must do"
+                    target_users:
+                      type: string
+                    tech_stack_preference:
+                      type: object
+                      properties:
+                        frontend:
+                          type: string
+                          enum: [nextjs, react, vue, none]
+                          default: nextjs
+                        backend:
+                          type: string
+                          enum: [nestjs, express, fastapi, none]
+                          default: nestjs
+                        database:
+                          type: string
+                          enum: [postgresql, mongodb, sqlite]
+                          default: postgresql
+                    user_stories:
+                      type: array
+                      items:
+                        type: string
+                      maxItems: 10
+                    out_of_scope:
+                      type: array
+                      items:
+                        type: string
+                    success_metrics:
+                      type: array
+                      items:
+                        type: string
+                brand_assets:
+                  type: object
+                  description: "Optional brand context from BrandAid"
+                  properties:
+                    brand_name:
+                      type: string
+                    primary_color:
+                      type: string
+                    design_tokens_url:
+                      type: string
+                      format: uri
+                options:
+                  type: object
+                  properties:
+                    generate_wireframes:
+                      type: boolean
+                      default: false
+                      description: "Requires Figma integration"
+                    run_qa_tests:
+                      type: boolean
+                      default: true
+                    run_security_audit:
+                      type: boolean
+                      default: true
+                    deploy_staging:
+                      type: boolean
+                      default: true
+                    github_repo:
+                      type: object
+                      properties:
+                        create:
+                          type: boolean
+                          default: false
+                        org_or_user:
+                          type: string
+                        repo_name:
+                          type: string
+                        private:
+                          type: boolean
+                          default: true
+                webhook_url:
+                  type: string
+                  format: uri
+      responses:
+        "202":
+          description: Build job accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuildJob"
+        "402":
+          description: Plan limit reached
+
+    get:
+      summary: List build jobs
+      operationId: listBuilds
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: cursor
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of build jobs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/BuildJob"
+                  next_cursor:
+                    type: string
+
+  /builds/{build_id}:
+    get:
+      summary: Get build status with stage breakdown
+      operationId: getBuild
+      parameters:
+        - name: build_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Build result with all stages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuildResult"
+
+  /builds/{build_id}/stages:
+    get:
+      summary: Get detailed status of each build stage
+      operationId: getBuildStages
+      parameters:
+        - name: build_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Detailed stage information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        stage:
+                          type: string
+                        status:
+                          type: string
+                          enum: [pending, running, passed, failed, skipped]
+                        started_at:
+                          type: string
+                          format: date-time
+                          nullable: true
+                        completed_at:
+                          type: string
+                          format: date-time
+                          nullable: true
+                        duration_seconds:
+                          type: integer
+                          nullable: true
+                        report_url:
+                          type: string
+                          nullable: true
+
+  /builds/{build_id}/artifacts:
+    get:
+      summary: Get signed download URLs for build artifacts
+      operationId: getBuildArtifacts
+      parameters:
+        - name: build_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Build artifacts with signed URLs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  artifacts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        artifact_type:
+                          type: string
+                          enum: [code_bundle_zip, functional_spec, bdd_spec, architecture_diagram, qa_report, security_report, staging_url]
+                        download_url:
+                          type: string
+                          format: uri
+                          nullable: true
+                        staging_url:
+                          type: string
+                          format: uri
+                          nullable: true
+                        expires_at:
+                          type: string
+                          format: date-time
+                          nullable: true
+                        available:
+                          type: boolean
+
+  /builds/{build_id}/qa-report:
+    get:
+      summary: Get the full QA test report
+      operationId: getBuildQAReport
+      parameters:
+        - name: build_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: QA test report with pass/fail details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QAReport"
+
+  /builds/{build_id}/security-report:
+    get:
+      summary: Get the security audit report
+      operationId: getBuildSecurityReport
+      parameters:
+        - name: build_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Security audit report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityReport"
+
+  /builds/{build_id}/approve:
+    post:
+      summary: Manually approve a build that is awaiting governance review
+      operationId: approveBuild
+      parameters:
+        - name: build_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: boolean
+                notes:
+                  type: string
+      responses:
+        "200":
+          description: Build approved or rejected
+
+  /integrations/github:
+    post:
+      summary: Connect GitHub account for repo creation
+      operationId: connectGitHub
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                installation_id:
+                  type: string
+                  description: "GitHub App installation ID"
+      responses:
+        "200":
+          description: GitHub connected
+
+    get:
+      summary: Get GitHub integration status
+      operationId: getGitHubStatus
+      responses:
+        "200":
+          description: GitHub integration status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  connected:
+                    type: boolean
+                  github_org:
+                    type: string
+                    nullable: true
+                  repos_created:
+                    type: integer
+
+  /usage:
+    get:
+      summary: Get current usage against plan limits
+      operationId: getUsage
+      responses:
+        "200":
+          description: Usage summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageSummary"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    BuildJob:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum: [queued, running, completed, failed, blocked, awaiting_approval]
+        current_stage:
+          type: string
+          nullable: true
+        progress_percent:
+          type: integer
+        staging_url:
+          type: string
+          format: uri
+          nullable: true
+        launch_approved:
+          type: boolean
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        estimated_duration_minutes:
+          type: integer
+
+    BuildResult:
+      allOf:
+        - $ref: "#/components/schemas/BuildJob"
+        - type: object
+          properties:
+            stages_summary:
+              type: object
+              additionalProperties:
+                type: string
+                enum: [pending, running, passed, failed, skipped]
+            qa_pass_rate:
+              type: number
+              nullable: true
+            security_score:
+              type: integer
+              nullable: true
+            critical_vulnerabilities:
+              type: integer
+              nullable: true
+            blocking_issues:
+              type: array
+              items:
+                type: string
+            github_repo_url:
+              type: string
+              nullable: true
+
+    QAReport:
+      type: object
+      properties:
+        build_id:
+          type: string
+        total_scenarios:
+          type: integer
+        passed:
+          type: integer
+        failed:
+          type: integer
+        pass_rate:
+          type: number
+        failures:
+          type: array
+          items:
+            type: object
+            properties:
+              scenario_id:
+                type: string
+              description:
+                type: string
+              error:
+                type: string
+              screenshot_url:
+                type: string
+                nullable: true
+        executed_at:
+          type: string
+          format: date-time
+
+    SecurityReport:
+      type: object
+      properties:
+        build_id:
+          type: string
+        overall_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+        launch_blocked:
+          type: boolean
+        vulnerabilities:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              title:
+                type: string
+              severity:
+                type: string
+                enum: [critical, high, medium, low]
+              description:
+                type: string
+              recommendation:
+                type: string
+        executed_at:
+          type: string
+          format: date-time
+
+    UsageSummary:
+      type: object
+      properties:
+        plan:
+          type: string
+        builds_used:
+          type: integer
+        builds_limit:
+          type: integer
+        active_staging_environments:
+          type: integer
+        staging_limit:
+          type: integer

@@ -1,0 +1,24 @@
+{
+  "name": "brand-strategist",
+  "purpose": "Define foundational brand positioning, archetype, promise, and personality from venture hypothesis",
+  "input_types": [
+    "venture_hypothesis",
+    "target_customer",
+    "problem_statement",
+    "competitive_landscape"
+  ],
+  "output_types": [
+    "brand_strategy"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.7,
+    "max_tokens": 4096,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

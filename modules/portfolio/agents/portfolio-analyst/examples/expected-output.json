@@ -1,0 +1,171 @@
+{
+  "portfolio_snapshot": {
+    "review_timestamp": "2026-04-05T14:00:00Z",
+    "review_cycle_id": "2026-Q2-review-001",
+    "total_ventures": 3,
+    "ventures_ranked": [
+      {
+        "venture_id": "v-001",
+        "name": "DataFlow Analytics",
+        "rank": 1,
+        "health_score": 84,
+        "health_dimensions": {
+          "traction_score": 87,
+          "financial_score": 89,
+          "team_score": 82,
+          "market_score": 78
+        },
+        "trend": "improving",
+        "score_change": 6,
+        "confidence": 98,
+        "critical_metrics": [
+          {
+            "metric": "monthly_growth_rate",
+            "value": "18%",
+            "status": "healthy"
+          },
+          {
+            "metric": "runway_months",
+            "value": 18,
+            "status": "healthy"
+          },
+          {
+            "metric": "cac_ltv_ratio",
+            "value": 0.167,
+            "status": "healthy"
+          },
+          {
+            "metric": "nps",
+            "value": 62,
+            "status": "healthy"
+          }
+        ]
+      },
+      {
+        "venture_id": "v-002",
+        "name": "MediLink Connect",
+        "rank": 2,
+        "health_score": 72,
+        "health_dimensions": {
+          "traction_score": 78,
+          "financial_score": 71,
+          "team_score": 68,
+          "market_score": 70
+        },
+        "trend": "improving",
+        "score_change": 7,
+        "confidence": 92,
+        "critical_metrics": [
+          {
+            "metric": "monthly_growth_rate",
+            "value": "35%",
+            "status": "healthy"
+          },
+          {
+            "metric": "cac_ltv_ratio",
+            "value": 0.135,
+            "status": "healthy"
+          },
+          {
+            "metric": "runway_months",
+            "value": 14,
+            "status": "warning"
+          },
+          {
+            "metric": "key_hires_open",
+            "value": 3,
+            "status": "warning"
+          }
+        ]
+      },
+      {
+        "venture_id": "v-003",
+        "name": "TruckRoute Pro",
+        "rank": 3,
+        "health_score": 45,
+        "health_dimensions": {
+          "traction_score": 38,
+          "financial_score": 35,
+          "team_score": 52,
+          "market_score": 55
+        },
+        "trend": "declining",
+        "score_change": -3,
+        "confidence": 96,
+        "critical_metrics": [
+          {
+            "metric": "cac_ltv_ratio",
+            "value": 0.778,
+            "status": "critical"
+          },
+          {
+            "metric": "monthly_growth_rate",
+            "value": "5%",
+            "status": "critical"
+          },
+          {
+            "metric": "runway_months",
+            "value": 8,
+            "status": "critical"
+          },
+          {
+            "metric": "conversion_rate",
+            "value": "3%",
+            "status": "critical"
+          }
+        ]
+      }
+    ],
+    "patterns": [
+      {
+        "pattern_id": "pattern-001",
+        "description": "Strong product-market fit correlates with low CAC/LTV ratio below 0.2 and NPS above 58",
+        "type": "success_factor",
+        "affected_ventures": ["v-001", "v-002"],
+        "affected_count": 2,
+        "evidence": "Both DataFlow (CAC/LTV 0.167, NPS 62) and MediLink (CAC/LTV 0.135, NPS 58) show strong unit economics aligned with positive customer feedback",
+        "confidence": 82,
+        "recommendation": "Ventures with proven CAC/LTV <0.2 are candidates for growth acceleration - consider scaling sales and marketing investment"
+      },
+      {
+        "pattern_id": "pattern-002",
+        "description": "Ventures in growth stage with accelerating team velocity show 6-8 point health score improvement",
+        "type": "correlation",
+        "affected_ventures": ["v-001"],
+        "affected_count": 1,
+        "evidence": "DataFlow improved from 78 to 84 health score with team velocity accelerating and hiring ahead of plan",
+        "confidence": 65,
+        "recommendation": "Monitor team dynamics carefully - momentum matters; support teams showing acceleration with resources and mentorship"
+      }
+    ],
+    "outliers": [
+      {
+        "venture_id": "v-003",
+        "name": "TruckRoute Pro",
+        "outlier_type": "negative_surprise",
+        "description": "Week 32 venture showing stagnation with CAC/LTV ratio of 0.778 (2.5x healthier ventures), declining team velocity, and minimal user growth",
+        "evidence": "Monthly growth only 5% after 8 months; CAC of $2,800 vs $450-650 at similar ventures; team velocity decelerating with 2 open key hires unfilled",
+        "priority": "high",
+        "recommended_action": "Trigger emergency governance review within 2 weeks - venture at critical risk. Assess whether market is viable or hypothesis was wrong. Runway of 8 months leaves limited time for pivot or orderly wind-down"
+      }
+    ],
+    "data_quality_summary": {
+      "completeness_percent": 96,
+      "stale_fields_percent": 3,
+      "ventures_with_issues": [
+        {
+          "venture_id": "v-003",
+          "issue": "Health report 3 days old (acceptable), but historical comparison flags show pattern of delayed reporting"
+        }
+      ]
+    },
+    "analyst_confidence": 94,
+    "next_decision_focus": [
+      "Emergency review for TruckRoute Pro - kill or pivot?",
+      "Scale decision for DataFlow Analytics based on strong metrics",
+      "Hiring acceleration for MediLink - close open roles to maintain momentum",
+      "Cross-venture pattern on unit economics validation - apply to other early-stage ventures"
+    ],
+    "analysis_notes": "DataFlow and MediLink show clear bifurcation from TruckRoute Pro. The latter's poor unit economics (CAC/LTV 0.778) combined with decelerating growth in week 32 suggests either market problem or GTM problem. Early intervention likely better than continuing to burn capital. All other metrics high quality with 96% data completeness and <3 days staleness overall."
+  }
+}

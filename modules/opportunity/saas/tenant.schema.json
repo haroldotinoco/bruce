@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpportunityTenant",
+  "type": "object",
+  "required": [
+    "account_id",
+    "plan"
+  ],
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "Clerk Organization ID — tenant identifier"
+    },
+    "plan": {
+      "type": "string",
+      "enum": [
+        "free",
+        "pro",
+        "enterprise"
+      ]
+    },
+    "usage_this_period": {
+      "type": "object",
+      "properties": {
+        "scans_run": {
+          "type": "integer",
+          "default": 0
+        },
+        "opportunities_scored": {
+          "type": "integer",
+          "default": 0
+        },
+        "opportunities_advanced": {
+          "type": "integer",
+          "default": 0
+        }
+      }
+    },
+    "period_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "period_end": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

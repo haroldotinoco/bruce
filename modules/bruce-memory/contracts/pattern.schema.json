@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bruce-memory/contracts/pattern",
+  "title": "Pattern",
+  "description": "An extracted, evidence-backed pattern across multiple ventures",
+  "type": "object",
+  "required": [
+    "pattern_id",
+    "statement",
+    "evidence_venture_ids",
+    "confidence"
+  ],
+  "properties": {
+    "pattern_id": {
+      "type": "string"
+    },
+    "statement": {
+      "type": "string",
+      "description": "Clear, falsifiable pattern statement. Anonymized. No venture names.",
+      "minLength": 30
+    },
+    "evidence_venture_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 3
+    },
+    "evidence_count": {
+      "type": "integer",
+      "minimum": 3
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.4,
+      "maximum": 1
+    },
+    "applicability_scope": {
+      "type": "object",
+      "properties": {
+        "market_segments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "business_model_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "caveats": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contradicted_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "pattern_ids that contradict this pattern"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "pending_evidence",
+        "contradicted",
+        "stale"
+      ]
+    },
+    "action_implication": {
+      "type": "string",
+      "description": "What Bruce should do differently based on this pattern"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "times_validated": {
+      "type": "integer",
+      "description": "Times this pattern has been confirmed by a new venture"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "brand_strategy": {
+    "positioning": "The professional network where respected independents build meaningful careers with quality-focused brands",
+    "primary_archetype": "Sage",
+    "secondary_archetype": "Mentor",
+    "brand_promise": "Fair partnership: Your expertise deserves to be valued at full price",
+    "personality_traits": [
+      "Thoughtful and deliberate",
+      "Professional yet approachable",
+      "Trustworthy and reliable",
+      "Integrity-driven",
+      "Empowering"
+    ],
+    "values": [
+      "Quality over quantity",
+      "Fair value exchange",
+      "Mutual respect",
+      "Professional growth"
+    ]
+  },
+  "market_analysis": {
+    "white_space_opportunities": [
+      {
+        "opportunity": "Premium positioning for freelancers, not just for clients",
+        "customer_need": "Freelancers want to be respected, well-paid, and valued for expertise"
+      },
+      {
+        "opportunity": "Long-term partnerships over one-off gigs",
+        "customer_need": "Experienced freelancers want career stability, not constant client hunting"
+      }
+    ],
+    "competitor_positioning_map": [
+      {
+        "competitor_name": "Upwork",
+        "stated_positioning": "The world's largest freelance marketplace",
+        "visual_identity_tone": "Professional, corporate, approachable"
+      }
+    ],
+    "tone_and_voice_analysis": {
+      "common_linguistic_patterns": [
+        "All use 'opportunity' and 'projects' language"
+      ],
+      "differentiation_opportunity": "No one uses 'partnership', 'fair', 'respect', 'stability', or 'career' language"
+    }
+  },
+  "visual_inspiration": [
+    "The Economist (intelligent, serious, trusted)",
+    "Basecamp (approachable professionalism)",
+    "Stripe (clean, purposeful, high-quality)"
+  ],
+  "brand_voice_references": [
+    "Paul Graham's essays on startups (thoughtful, clear, direct)",
+    "Basecamp's communication (friendly but professional, principle-driven)"
+  ],
+  "design_constraints": [
+    "B2B context but user-facing (needs warmth without cuteness)",
+    "Must work at small scales (favicon, app icon)",
+    "Must appeal to both freelancers and brands (avoid gender coding)"
+  ]
+}

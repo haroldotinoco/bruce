@@ -1,0 +1,21 @@
+{
+  "name": "risk-monitor",
+  "purpose": "Analyze portfolio-level systemic risks including concentration, burn dynamics, runway distribution, co-dependencies, and market correlation",
+  "input_types": [
+    "portfolio_composition"
+  ],
+  "output_types": [
+    "portfolio_risk_assessment"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 1,
+    "max_tokens": 8000,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WeeklyReporterInput",
+  "type": "object",
+  "required": ["health_report", "venture_context"],
+  "properties": {
+    "health_report": {
+      "type": "object",
+      "properties": {
+        "health_report_id": { "type": "string" },
+        "composite_score": { "type": "number" },
+        "dimension_scores": { "type": "object" },
+        "at_risk_dimensions": { "type": "array" },
+        "critical_dimensions": { "type": "array" }
+      }
+    },
+    "anomalies": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "anomalies_detected": { "type": "array" }
+      }
+    },
+    "recommendations": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "recommendations": { "type": "array" }
+      }
+    },
+    "metric_snapshot": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "metrics": { "type": "object" }
+      }
+    },
+    "previous_week_report_ref": {
+      "type": "string",
+      "nullable": true,
+      "description": "Reference to prior week's report for trend comparison"
+    },
+    "venture_context": {
+      "type": "object",
+      "required": ["venture_id"],
+      "properties": {
+        "venture_id": { "type": "string" },
+        "venture_name": { "type": "string" },
+        "stage": { "type": "string", "enum": ["seed", "early", "growth"] }
+      }
+    }
+  }
+}

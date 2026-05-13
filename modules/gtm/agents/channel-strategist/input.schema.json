@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Channel Strategist Input",
+  "description": "Product, audience, and resource context for channel strategy analysis",
+  "required": ["product", "target_audience", "resources", "market_context"],
+  "properties": {
+    "product": {
+      "type": "object",
+      "title": "Product Definition",
+      "required": ["name", "category", "value_proposition", "stage"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Product name"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["b2b-saas", "b2c-consumer", "marketplace", "developer-tool", "ai-agent", "fintech", "healthtech", "edtech", "other"],
+          "description": "Product category"
+        },
+        "value_proposition": {
+          "type": "string",
+          "description": "Core value proposition in 1-2 sentences"
+        },
+        "competitive_positioning": {
+          "type": "string",
+          "description": "How does it differ from existing solutions?"
+        },
+        "price_point_usd": {
+          "type": "number",
+          "description": "ARR or customer LTV estimate"
+        }
+      }
+    },
+    "target_audience": {
+      "type": "object",
+      "title": "Target Audience",
+      "required": ["primary_persona"],
+      "properties": {
+        "primary_persona": {
+          "type": "string",
+          "description": "Title/description of ideal customer (e.g., 'VP of Sales at Series B SaaS')"
+        },
+        "secondary_personas": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Other decision makers or influencers"
+        },
+        "geography": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Target geographies (e.g., ['US', 'EU', 'APAC'])"
+        },
+        "company_size": {
+          "type": "object",
+          "properties": {
+            "min_headcount": {"type": "integer"},
+            "max_headcount": {"type": "integer"}
+          }
+        },
+        "media_consumption": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Where audience spends time (e.g., ['LinkedIn', 'Twitter', 'Slack', 'industry conferences'])"
+        },
+        "psychographics": {
+          "type": "string",
+          "description": "Values, pain points, aspirations"
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "title": "Resource Constraints",
+      "required": ["monthly_budget_usd", "team_size"],
+      "properties": {
+        "monthly_budget_usd": {
+          "type": "number",
+          "description": "Available marketing budget per month"
+        },
+        "team_size": {
+          "type": "integer",
+          "description": "Number of dedicated marketing people (0.5 = part-time)"
+        },
+        "existing_capabilities": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "What the team is already skilled in (e.g., ['content-writing', 'paid-social', 'partnership-ops'])"
+        },
+        "founder_network": {
+          "type": "string",
+          "enum": ["weak", "moderate", "strong"],
+          "description": "Founder's existing network and credibility in target market"
+        }
+      }
+    },
+    "market_context": {
+      "type": "object",
+      "title": "Market and Competitive Context",
+      "required": ["competitors"],
+      "properties": {
+        "competitors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "estimated_active_channels": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            }
+          },
+          "description": "Known competitors and their visible marketing channels"
+        },
+        "market_trends": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Recent shifts affecting GTM (e.g., 'iOS privacy changes', 'AI search impacts', 'LinkedIn algorithm changes')"
+        },
+        "time_to_revenue_days": {
+          "type": "integer",
+          "description": "Sales cycle length (e.g., 30 days for self-serve, 180 for enterprise)"
+        }
+      }
+    },
+    "goals": {
+      "type": "object",
+      "title": "GTM Goals",
+      "properties": {
+        "target_mqls_per_month": {
+          "type": "integer",
+          "description": "Marketing qualified leads target"
+        },
+        "target_signups_per_month": {
+          "type": "integer",
+          "description": "Free signup target"
+        },
+        "timeline_weeks": {
+          "type": "integer",
+          "description": "How many weeks to ramp GTM"
+        }
+      }
+    }
+  }
+}

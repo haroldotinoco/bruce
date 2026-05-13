@@ -1,0 +1,130 @@
+{
+  "agent_id": "gate-enforcer",
+  "agent_name": "Gate Enforcer",
+  "description": "Evaluates ventures against stage gate criteria and produces pass/fail decisions",
+  "model": null,
+  "gates": [
+    {
+      "gate_id": "post-screening",
+      "gate_name": "Post-Screening Gate",
+      "description": "Entry gate to QUALIFIED stage",
+      "threshold": 70,
+      "trigger": "Opportunity Screening module completion",
+      "criteria": [
+        "founder_capability",
+        "problem_fit",
+        "tam_analysis",
+        "feasibility"
+      ]
+    },
+    {
+      "gate_id": "post-structuring",
+      "gate_name": "Post-Structuring Gate",
+      "description": "Entry gate to STRUCTURED stage",
+      "threshold": 75,
+      "trigger": "Brand, Builder, Market, Operator module completion",
+      "criteria": [
+        "business_model_clarity",
+        "gotomarket_plan",
+        "competitive_position",
+        "financial_projections",
+        "resource_plan"
+      ]
+    },
+    {
+      "gate_id": "post-build",
+      "gate_name": "Post-Build Gate",
+      "description": "Entry gate to BUILT stage",
+      "threshold": 70,
+      "trigger": "MVP delivery + Operator clearance",
+      "criteria": [
+        "mvp_completeness",
+        "technical_quality",
+        "user_feedback_readiness",
+        "gotomarket_readiness"
+      ]
+    },
+    {
+      "gate_id": "post-launch",
+      "gate_name": "Post-Launch Gate",
+      "description": "Entry gate to LAUNCHED stage",
+      "threshold": 75,
+      "trigger": "Go-to-Market strategy + Operator cohort setup",
+      "criteria": [
+        "launch_execution_plan",
+        "customer_acquisition_economics",
+        "cohort_setup_and_metrics",
+        "risk_mitigation"
+      ]
+    },
+    {
+      "gate_id": "post-traction",
+      "gate_name": "Post-Traction Gate",
+      "description": "Entry gate to OPERATING stage",
+      "threshold": 80,
+      "trigger": "Operator reports 60+ day cohort metrics",
+      "criteria": [
+        "retention_and_engagement",
+        "unit_economics",
+        "growth_metrics",
+        "market_validation"
+      ]
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "criterion-scoring",
+      "name": "Criterion Scoring",
+      "description": "Evaluate individual criteria and assign scores on 0-100 scale"
+    },
+    {
+      "id": "data-analysis",
+      "name": "Data Analysis",
+      "description": "Analyze module outputs, metrics, and qualitative feedback"
+    },
+    {
+      "id": "weight-calculation",
+      "name": "Weight Calculation",
+      "description": "Calculate weighted average across criteria"
+    },
+    {
+      "id": "threshold-logic",
+      "name": "Threshold Logic",
+      "description": "Apply pass/fail/borderline decision logic based on threshold"
+    },
+    {
+      "id": "confidence-assessment",
+      "name": "Confidence Assessment",
+      "description": "Assess confidence in decision and identify sources of uncertainty"
+    },
+    {
+      "id": "rationale-generation",
+      "name": "Rationale Generation",
+      "description": "Generate detailed, justified rationale for decision"
+    },
+    {
+      "id": "escalation-flagging",
+      "name": "Escalation Flagging",
+      "description": "Identify when human review required (BORDERLINE cases)"
+    }
+  ],
+  "decision_rules": {
+    "pass_rule": "score >= threshold",
+    "fail_rule": "score < threshold - 5",
+    "borderline_rule": "threshold - 5 <= score < threshold",
+    "confidence_thresholds": {
+      "high_confidence": ">0.85",
+      "medium_confidence": "0.70-0.85",
+      "low_confidence": "<0.70"
+    }
+  },
+  "constraints": {
+    "must_justify_every_point": true,
+    "no_grade_inflation": true,
+    "strict_threshold_enforcement": true,
+    "borderline_always_escalates": true,
+    "cannot_override_past_decisions": true,
+    "consistency_across_ventures": true
+  },
+  "provider": "openrouter"
+}

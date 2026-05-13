@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Governance Agent Input",
+  "type": "object",
+  "required": ["functional_spec_report", "bdd_spec_report", "qa_report", "security_report"],
+  "properties": {
+    "functional_spec_report": {
+      "type": "object",
+      "description": "Product validation stage report"
+    },
+    "bdd_spec_report": {
+      "type": "object",
+      "description": "UX/BDD specification stage report"
+    },
+    "architecture_report": {
+      "type": "object",
+      "description": "Architecture design stage report"
+    },
+    "backend_report": {
+      "type": "object",
+      "description": "Backend development stage report"
+    },
+    "frontend_report": {
+      "type": "object",
+      "description": "Frontend development stage report"
+    },
+    "qa_report": {
+      "type": "object",
+      "description": "QA testing stage report"
+    },
+    "security_report": {
+      "type": "object",
+      "description": "Security audit stage report"
+    },
+    "post_launch_monitoring_plan": {
+      "type": "object",
+      "description": "Monitoring and alerting strategy"
+    },
+    "rollback_procedure": {
+      "type": "object",
+      "description": "Steps to rollback in case of critical issues"
+    }
+  }
+}

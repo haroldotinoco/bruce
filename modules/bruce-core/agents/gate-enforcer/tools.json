@@ -1,0 +1,89 @@
+{
+  "tools": [
+    {
+      "tool_id": "read-venture-data",
+      "tool_name": "Read Venture Data",
+      "description": "Retrieve complete venture record and metadata",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true }
+      },
+      "output_schema": {
+        "venture_data": { "type": "object", "required": true }
+      },
+      "timeout_seconds": 5,
+      "retry_count": 3
+    },
+    {
+      "tool_id": "read-module-output",
+      "tool_name": "Read Module Output",
+      "description": "Retrieve output from specific specialist module",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true },
+        "module_name": { "type": "string", "required": true }
+      },
+      "output_schema": {
+        "module_output": { "type": "object", "required": true }
+      },
+      "timeout_seconds": 5,
+      "retry_count": 3
+    },
+    {
+      "tool_id": "read-metric-data",
+      "tool_name": "Read Metric Data",
+      "description": "Retrieve operational metrics for post-launch/traction gates",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true },
+        "metric_period": { "type": "string", "enum": ["all", "60day", "90day"] }
+      },
+      "output_schema": {
+        "metrics": { "type": "object", "required": true },
+        "data_quality": { "type": "string" }
+      },
+      "timeout_seconds": 5,
+      "retry_count": 3
+    },
+    {
+      "tool_id": "read-previous-evaluations",
+      "tool_name": "Read Previous Evaluations",
+      "description": "Retrieve prior gate evaluations for historical context",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true },
+        "limit": { "type": "number", "default": 10 }
+      },
+      "output_schema": {
+        "evaluations": { "type": "array", "required": true }
+      },
+      "timeout_seconds": 3,
+      "retry_count": 2
+    },
+    {
+      "tool_id": "emit-gate-decision",
+      "tool_name": "Emit Gate Decision",
+      "description": "Publish gate decision to event bus",
+      "input_schema": {
+        "gate_decision": { "type": "object", "required": true }
+      },
+      "output_schema": {
+        "event_id": { "type": "string" },
+        "published_at": { "type": "string", "format": "date-time" }
+      },
+      "timeout_seconds": 3,
+      "retry_count": 2
+    },
+    {
+      "tool_id": "store-evaluation-record",
+      "tool_name": "Store Evaluation Record",
+      "description": "Persist evaluation record for audit trail",
+      "input_schema": {
+        "venture_id": { "type": "string", "required": true },
+        "evaluation": { "type": "object", "required": true }
+      },
+      "output_schema": {
+        "evaluation_id": { "type": "string" },
+        "stored_at": { "type": "string", "format": "date-time" }
+      },
+      "timeout_seconds": 3,
+      "retry_count": 2
+    }
+  ]
+}

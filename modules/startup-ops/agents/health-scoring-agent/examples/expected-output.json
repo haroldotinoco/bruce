@@ -1,0 +1,56 @@
+{
+  "health_report_id": "health-report-complify-20260406-1430",
+  "venture_id": "complify-ai-saas",
+  "scored_at": "2026-04-06T14:35:00Z",
+  "stage": "early",
+  "dimension_scores": {
+    "activation": {
+      "score": 72,
+      "status": "healthy",
+      "based_on": ["activation_rate: 68.5%", "onboarding_completion_rate: 71.2%"]
+    },
+    "retention": {
+      "score": 65,
+      "status": "healthy",
+      "based_on": ["d7_retention: 52.3%", "d30_retention: 38.7%"]
+    },
+    "revenue": {
+      "score": 58,
+      "status": "healthy",
+      "based_on": ["mrr_growth_rate: 4.9%", "new_to_churned_mrr_ratio: 1.5:1"]
+    },
+    "product_quality": {
+      "score": 71,
+      "status": "healthy",
+      "based_on": ["nps_score: 62", "feature_adoption_implied"]
+    },
+    "financial_sustainability": {
+      "score": 80,
+      "status": "healthy",
+      "based_on": ["runway_months: 8.2", "ltv_cac_ratio: 10.0", "burn_rate_declining"]
+    },
+    "market_fit": {
+      "score": 62,
+      "status": "healthy",
+      "based_on": ["nps_trend: stable", "activation_rate_trend: improving"]
+    }
+  },
+  "composite_score": 68,
+  "composite_status": "healthy",
+  "trends": {
+    "activation": "improving",
+    "retention": "stable",
+    "revenue": "stable",
+    "product_quality": "improving",
+    "financial_sustainability": "improving",
+    "market_fit": "stable",
+    "composite": "improving"
+  },
+  "at_risk_dimensions": [],
+  "critical_dimensions": [],
+  "period": {
+    "start": "2026-04-03T00:00:00Z",
+    "end": "2026-04-06T14:30:00Z"
+  },
+  "metric_snapshot_id": "snapshot-complify-20260406-1430"
+}

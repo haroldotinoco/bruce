@@ -1,0 +1,136 @@
+{
+  "workflow_id": "real-time-monitoring",
+  "module": "startup-ops",
+  "description": "Continuous real-time monitoring: metrics ingestion → anomaly detection with conditional escalation for critical anomalies",
+  "version": "1.0",
+  "trigger": {
+    "type": "schedule",
+    "cron": "0 */6 * * *"
+  },
+  "context": {
+    "data_sources": ["mixpanel", "amplitude", "stripe", "gtm"],
+    "monitoring_window_hours": 6,
+    "anomaly_check_enabled": true
+  },
+  "steps": [
+    {
+      "step_id": "ingest-metrics",
+      "agent": "metrics-ingestion-agent",
+      "description": "Collect and normalize metrics from all data sources",
+      "input": {
+        "from": "workflow.context",
+        "fields": ["data_sources", "monitoring_window_hours"]
+      },
+      "output_to": "normalized-metrics",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "detect-anomalies"
+      },
+      "events_emitted": ["metrics.ingestion.started", "metrics.ingestion.completed"]
+    },
+    {
+      "step_id": "detect-anomalies",
+      "agent": "anomaly-detector",
+      "description": "Detect statistical anomalies using 2-sigma threshold vs 4-week rolling average",
+      "input": {
+        "from": "normalized-metrics",
+        "fields": ["metrics", "historical_baseline"]
+      },
+      "output_to": "anomaly-results",
+      "timeout_seconds": 180,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "anomaly_critical": "escalate-critical",
+        "anomaly_warning": "update-state",
+        "no_anomaly": "update-state"
+      },
+      "events_emitted": ["anomaly.detected", "anomaly.analysis.complete"]
+    },
+    {
+      "step_id": "escalate-critical",
+      "agent": "ops-advisor",
+      "description": "Generate immediate recommendations and escalation for critical anomalies",
+      "input": {
+        "from": "anomaly-results",
+        "fields": ["critical_anomalies", "metrics_context"]
+      },
+      "output_to": "escalation-recommendations",
+      "timeout_seconds": 120,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 3000
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "default": "emit-escalation-event"
+      },
+      "events_emitted": ["anomaly.escalation.initiated"]
+    },
+    {
+      "step_id": "emit-escalation-event",
+      "agent": null,
+      "description": "Emit critical anomaly escalation event to monitoring system",
+      "input": {
+        "from": "escalation-recommendations",
+        "fields": ["recommendations", "severity", "affected_metrics"]
+      },
+      "output_to": "monitoring-system.dispatch",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["anomaly.escalation.emitted"]
+    },
+    {
+      "step_id": "update-state",
+      "agent": null,
+      "description": "Update workflow state with metrics and anomaly status",
+      "input": {
+        "from": "anomaly-results",
+        "fields": ["anomalies", "metrics_summary"]
+      },
+      "output_to": "workflow.state",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["monitoring.state.updated"]
+    }
+  ],
+  "error_handlers": {
+    "on_step_failure": "notify_and_log",
+    "on_workflow_timeout": "partial_completion_allowed",
+    "escalation_threshold": 1
+  },
+  "metrics": {
+    "target_duration_minutes": 10,
+    "success_criteria": {
+      "metrics_ingested": true,
+      "anomaly_detection_complete": true
+    }
+  }
+}

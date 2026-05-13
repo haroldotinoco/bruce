@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Venture Lifecycle Manager Output",
+  "description": "Loose validation; tighten in bruce-core activities when product stabilizes.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "venture_id": { "type": "string" },
+    "decision": { "type": "string" },
+    "new_stage": { "type": "string" },
+    "correlation_id": { "type": "string" }
+  }
+}

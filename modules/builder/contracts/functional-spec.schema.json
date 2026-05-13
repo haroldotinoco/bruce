@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Functional Specification",
+  "type": "object",
+  "required": ["spec_id", "venture_id", "core_features"],
+  "properties": {
+    "spec_id": {
+      "type": "string",
+      "description": "Unique spec identifier"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Parent venture ID"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "product_description": {
+      "type": "string"
+    },
+    "core_features": {
+      "type": "array",
+      "description": "Essential features for MVP",
+      "items": {
+        "type": "object",
+        "required": ["feature_id", "name"],
+        "properties": {
+          "feature_id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "acceptance_criteria": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["critical", "high", "medium"]
+          },
+          "estimated_effort_hours": { "type": "number" }
+        }
+      }
+    },
+    "out_of_scope": {
+      "type": "array",
+      "description": "Features explicitly excluded from MVP",
+      "items": {
+        "type": "object",
+        "properties": {
+          "feature_name": { "type": "string" },
+          "rationale": { "type": "string" }
+        }
+      }
+    },
+    "user_roles": {
+      "type": "array",
+      "description": "User personas and roles",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role_id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "key_responsibilities": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "tech_stack": {
+      "type": "object",
+      "description": "Technology stack requirements",
+      "properties": {
+        "backend": { "type": "string" },
+        "frontend": { "type": "string" },
+        "database": { "type": "string" },
+        "cloud_platform": { "type": "string" }
+      }
+    },
+    "integrations": {
+      "type": "array",
+      "description": "External system integrations",
+      "items": {
+        "type": "object",
+        "properties": {
+          "service_name": { "type": "string" },
+          "purpose": { "type": "string" },
+          "api_available": { "type": "boolean" }
+        }
+      }
+    },
+    "non_functional_requirements": {
+      "type": "object",
+      "description": "Performance, security, scalability requirements",
+      "properties": {
+        "uptime_sla_percent": { "type": "number" },
+        "response_time_p99_ms": { "type": "integer" },
+        "concurrent_users_initial": { "type": "integer" },
+        "concurrent_users_12month": { "type": "integer" },
+        "data_retention_years": { "type": "integer" }
+      }
+    },
+    "compliance_requirements": {
+      "type": "array",
+      "description": "Regulatory compliance needs",
+      "items": { "type": "string" }
+    },
+    "validated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "validation_notes": {
+      "type": "string"
+    }
+  }
+}

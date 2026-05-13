@@ -1,0 +1,4 @@
+{
+  "tools": [],
+  "documentation": "Search is enriched in code (Serper + supplemental_live_search). The LLM must return the full JSON matching output.schema.json via plain message content, not tool calls."
+}

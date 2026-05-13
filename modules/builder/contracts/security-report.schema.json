@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Security Report",
+  "type": "object",
+  "required": ["report_id", "build_id", "overall_security_score"],
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "description": "Unique report identifier"
+    },
+    "build_id": {
+      "type": "string",
+      "description": "Parent build ID"
+    },
+    "audit_id": {
+      "type": "string",
+      "description": "Unique audit identifier"
+    },
+    "executed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "auditor": {
+      "type": "string",
+      "description": "Agent or system performing audit"
+    },
+    "overall_security_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "launch_blocked": {
+      "type": "boolean",
+      "description": "True if critical vulnerabilities prevent launch"
+    },
+    "vulnerabilities": {
+      "type": "array",
+      "description": "All identified vulnerabilities",
+      "items": {
+        "type": "object",
+        "required": ["vuln_id", "title", "severity"],
+        "properties": {
+          "vuln_id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "affected_component": { "type": "string" },
+          "cwe_id": { "type": "string" },
+          "recommendation": { "type": "string" },
+          "remediation_effort": { "type": "string" }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "Vulnerability count summary",
+      "properties": {
+        "critical_count": { "type": "integer" },
+        "high_count": { "type": "integer" },
+        "medium_count": { "type": "integer" },
+        "low_count": { "type": "integer" },
+        "total_count": { "type": "integer" }
+      }
+    },
+    "owasp_assessment": {
+      "type": "object",
+      "description": "OWASP Top 10 assessment",
+      "properties": {
+        "a01_broken_access_control": { "type": "string" },
+        "a02_cryptographic_failures": { "type": "string" },
+        "a03_injection": { "type": "string" },
+        "a04_insecure_design": { "type": "string" },
+        "a05_security_misconfiguration": { "type": "string" },
+        "a06_vulnerable_components": { "type": "string" },
+        "a07_authentication_failures": { "type": "string" },
+        "a08_data_integrity_failures": { "type": "string" },
+        "a09_logging_monitoring": { "type": "string" },
+        "a10_ssrf": { "type": "string" }
+      }
+    },
+    "dependency_vulnerabilities": {
+      "type": "array",
+      "description": "Known vulnerabilities in dependencies",
+      "items": {
+        "type": "object",
+        "properties": {
+          "package_name": { "type": "string" },
+          "current_version": { "type": "string" },
+          "vulnerability_id": { "type": "string" },
+          "severity": { "type": "string" },
+          "recommended_version": { "type": "string" }
+        }
+      }
+    },
+    "compliance_assessment": {
+      "type": "object",
+      "description": "Regulatory compliance check",
+      "properties": {
+        "gdpr_compliant": { "type": "boolean" },
+        "soc2_compliant": { "type": "boolean" },
+        "hipaa_compliant": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

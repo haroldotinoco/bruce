@@ -1,0 +1,24 @@
+{
+  "name": "allocation-agent",
+  "purpose": "Compute optimal resource allocation across ventures considering health, risk, traction, and portfolio constraints using structured output modeling",
+  "input_types": [
+    "ventures_state",
+    "portfolio_constraints",
+    "risk_assessment"
+  ],
+  "output_types": [
+    "allocation_decision"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.2,
+    "max_tokens": 8192,
+    "response_format": "json_schema",
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

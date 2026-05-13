@@ -1,0 +1,71 @@
+{
+  "health_report": {
+    "health_report_id": "health-report-complify-20260406-1430",
+    "composite_score": 68,
+    "dimension_scores": {
+      "activation": { "score": 72 },
+      "retention": { "score": 65 },
+      "revenue": { "score": 58 },
+      "product_quality": { "score": 71 },
+      "financial_sustainability": { "score": 80 },
+      "market_fit": { "score": 62 }
+    },
+    "at_risk_dimensions": [],
+    "critical_dimensions": []
+  },
+  "anomalies": {
+    "anomalies_detected": [
+      {
+        "anomaly_id": "anom-20260406-001",
+        "metric_name": "mrr",
+        "type": "positive_breakout",
+        "severity": "info",
+        "delta_percent": 13.3
+      }
+    ]
+  },
+  "recommendations": {
+    "recommendations": [
+      {
+        "recommendation_id": "rec-20260406-001",
+        "area": "revenue",
+        "title": "Capitalize on positive MRR momentum with targeted expansion",
+        "urgency": "this_week",
+        "expected_impact": "Could accelerate MRR to 20%+ monthly growth"
+      },
+      {
+        "recommendation_id": "rec-20260406-002",
+        "area": "retention",
+        "title": "Stabilize D30 retention rate with proactive engagement",
+        "urgency": "this_week",
+        "expected_impact": "5-point retention improvement = 10-15% incremental ARR"
+      }
+    ]
+  },
+  "metric_snapshot": {
+    "metrics": {
+      "product": {
+        "dau": { "value": 3240 },
+        "mau": { "value": 12400 },
+        "activation_rate": { "value": 68.5 },
+        "d7_retention": { "value": 52.3 },
+        "d30_retention": { "value": 38.7 }
+      },
+      "revenue": {
+        "mrr": { "value": 28500 },
+        "arr": { "value": 342000 },
+        "churned_mrr": { "value": 2800 }
+      },
+      "financial": {
+        "burn_rate": { "value": 45000 },
+        "runway_months": { "value": 8.2 }
+      }
+    }
+  },
+  "previous_week_report_ref": "report-complify-20260330",
+  "venture_context": {
+    "venture_id": "complify-ai-saas",
+    "venture_name": "Complify",
+    "stage": "early"
+  }
+}

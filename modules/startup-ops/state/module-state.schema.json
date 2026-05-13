@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StartupOpsModuleState",
+  "description": "Module-level state for startup-ops including metric history and source health",
+  "type": "object",
+  "properties": {
+    "module_id": { "type": "string" },
+    "last_updated": { "type": "string", "format": "date-time" },
+    "ventures": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "venture_id": { "type": "string" },
+          "metric_history": {
+            "type": "array",
+            "maxItems": 4,
+            "description": "Last 4 metric snapshots for trend analysis",
+            "items": {
+              "type": "object",
+              "properties": {
+                "snapshot_id": { "type": "string" },
+                "collected_at": { "type": "string", "format": "date-time" },
+                "metrics": { "type": "object" }
+              }
+            }
+          },
+          "health_history": {
+            "type": "array",
+            "maxItems": 4,
+            "description": "Last 4 health reports for trend calculation",
+            "items": {
+              "type": "object",
+              "properties": {
+                "health_report_id": { "type": "string" },
+                "scored_at": { "type": "string", "format": "date-time" },
+                "composite_score": { "type": "number" }
+              }
+            }
+          },
+          "source_health": {
+            "type": "object",
+            "description": "Health status of each data source",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "source": { "type": "string" },
+                "success_rate": { "type": "number" },
+                "consecutive_failures": { "type": "integer" },
+                "last_failure_at": { "type": ["string", "null"], "format": "date-time" },
+                "last_failure_reason": { "type": ["string", "null"] }
+              }
+            }
+          },
+          "last_ingestion": { "type": "string", "format": "date-time" },
+          "last_health_check": { "type": "string", "format": "date-time" },
+          "last_anomaly_detection": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

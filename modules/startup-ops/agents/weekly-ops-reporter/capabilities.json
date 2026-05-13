@@ -1,0 +1,57 @@
+{
+  "agent_id": "weekly-ops-reporter",
+  "name": "Weekly Ops Reporter",
+  "description": "Synthesizes operational data into comprehensive weekly health reports for governance",
+  "version": "1.0.0",
+  "capabilities": [
+    {
+      "id": "narrative_synthesis",
+      "name": "Narrative Synthesis",
+      "description": "Compose compelling executive summary from operational data"
+    },
+    {
+      "id": "trend_analysis",
+      "name": "Trend Analysis",
+      "description": "Compare week-over-week health changes and historical trends"
+    },
+    {
+      "id": "holistic_reporting",
+      "name": "Holistic Reporting",
+      "description": "Integrate metrics, scores, anomalies, and recommendations into single narrative"
+    },
+    {
+      "id": "governance_support",
+      "name": "Governance Support",
+      "description": "Provide sufficient detail for board/investor decision-making"
+    },
+    {
+      "id": "metric_summarization",
+      "name": "Metric Summarization",
+      "description": "Condense 100+ metrics into top 15 KPIs for executive review"
+    },
+    {
+      "id": "historical_record",
+      "name": "Historical Record",
+      "description": "Create searchable, archived reports for pattern analysis"
+    },
+    {
+      "id": "executive_communication",
+      "name": "Executive Communication",
+      "description": "Communicate operational status in language suitable for board audience"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "content_completeness",
+      "description": "All report sections must be populated with relevant data"
+    },
+    {
+      "id": "executive_language",
+      "description": "Language suitable for board/investor audience, not technical jargon"
+    },
+    {
+      "id": "execution_timeout",
+      "description": "Complete within 180 seconds"
+    }
+  ]
+}

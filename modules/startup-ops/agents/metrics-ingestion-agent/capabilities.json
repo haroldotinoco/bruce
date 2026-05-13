@@ -1,0 +1,80 @@
+{
+  "agent_id": "metrics-ingestion-agent",
+  "name": "Metrics Ingestion Agent",
+  "description": "Collects and normalizes metrics from multiple data sources into unified snapshots",
+  "version": "1.0.0",
+  "capabilities": [
+    {
+      "id": "product_metrics_collection",
+      "name": "Product Metrics Collection",
+      "description": "Extract product analytics metrics (DAU, WAU, MAU, retention, activation) from Mixpanel or Amplitude"
+    },
+    {
+      "id": "revenue_metrics_collection",
+      "name": "Revenue Metrics Collection",
+      "description": "Extract revenue metrics (MRR, ARR, churn, customer counts) from Stripe"
+    },
+    {
+      "id": "acquisition_metrics_collection",
+      "name": "Acquisition Metrics Collection",
+      "description": "Extract acquisition metrics (CAC, LTV, channel breakdown) from GTM module and payment providers"
+    },
+    {
+      "id": "metrics_normalization",
+      "name": "Metrics Normalization",
+      "description": "Transform raw metrics from different sources into unified schema with consistent units and time alignment"
+    },
+    {
+      "id": "deviation_detection",
+      "name": "Deviation Detection",
+      "description": "Compare current metrics against previous snapshot to identify significant changes (> 20%)"
+    },
+    {
+      "id": "historical_comparison",
+      "name": "Historical Comparison",
+      "description": "Maintain and reference previous snapshots for baseline calculation and trend analysis"
+    },
+    {
+      "id": "source_health_tracking",
+      "name": "Source Health Tracking",
+      "description": "Monitor health and availability of each data source, track success rates and failures"
+    },
+    {
+      "id": "completeness_calculation",
+      "name": "Completeness Calculation",
+      "description": "Calculate percentage of required metrics successfully collected and flag partial data"
+    },
+    {
+      "id": "fault_tolerance",
+      "name": "Fault Tolerance",
+      "description": "Continue with partial data when sources fail; only fail if fewer than 2 sources available"
+    },
+    {
+      "id": "freshness_validation",
+      "name": "Freshness Validation",
+      "description": "Validate that collected metrics meet freshness SLA (< 12 hours for product, < 48 hours for revenue)"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "minimum_sources",
+      "description": "Require at least 2 of 3 data sources available to proceed"
+    },
+    {
+      "id": "freshness_sla",
+      "description": "Product metrics must be < 12 hours old; revenue metrics must be < 48 hours old"
+    },
+    {
+      "id": "schema_compliance",
+      "description": "All output metrics must conform to metric-snapshot.schema.json"
+    },
+    {
+      "id": "rate_limiting",
+      "description": "Respect API rate limits with exponential backoff retry strategy"
+    },
+    {
+      "id": "execution_timeout",
+      "description": "Complete execution within 300 seconds (5 minutes)"
+    }
+  ]
+}

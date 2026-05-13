@@ -1,0 +1,297 @@
+{
+  "$schema": "../contracts/provider-registry.schema.json",
+  "routing_mode": "openrouter",
+  "providers": [
+    {
+      "name": "openrouter",
+      "display_name": "OpenRouter",
+      "description": "Unified LLM gateway. Enables access to all major models with one key, automatic fallback, and cost monitoring.",
+      "api_endpoint": "https://openrouter.ai/api/v1",
+      "api_key_env_ref": "OPENROUTER_API_KEY",
+      "models": [
+        {
+          "model_id": "anthropic/claude-opus-4-6",
+          "display_name": "Claude Opus 4.6",
+          "version": "2025-04-06",
+          "context_window_tokens": 200000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 15,
+          "output_cost_per_1m_tokens": 45,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "anthropic/claude-sonnet-4-6",
+          "display_name": "Claude Sonnet 4.6",
+          "version": "2025-04-06",
+          "context_window_tokens": 200000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 3,
+          "output_cost_per_1m_tokens": 15,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "anthropic/claude-haiku-4-5",
+          "display_name": "Claude Haiku 4.5",
+          "version": "2024-10-01",
+          "context_window_tokens": 200000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 0.8,
+          "output_cost_per_1m_tokens": 4,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "openai/gpt-4o",
+          "display_name": "GPT-4o",
+          "version": "2024-11-20",
+          "context_window_tokens": 128000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 5,
+          "output_cost_per_1m_tokens": 15,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "openai/gpt-4o-mini",
+          "display_name": "GPT-4o Mini",
+          "version": "2024-07-18",
+          "context_window_tokens": 128000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 0.15,
+          "output_cost_per_1m_tokens": 0.6,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "openai/o1",
+          "display_name": "OpenAI o1",
+          "version": "2024-12-17",
+          "context_window_tokens": 200000,
+          "supports_vision": false,
+          "supports_tools": false,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 15,
+          "output_cost_per_1m_tokens": 60,
+          "supported_regions": ["global"],
+          "maturity": "beta"
+        },
+        {
+          "model_id": "google/gemini-pro-1.5",
+          "display_name": "Gemini 1.5 Pro",
+          "version": "2024-06-01",
+          "context_window_tokens": 2000000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 1.25,
+          "output_cost_per_1m_tokens": 5,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "meta-llama/llama-3.1-70b-instruct",
+          "display_name": "Llama 3.1 70B",
+          "version": "2024-07-01",
+          "context_window_tokens": 128000,
+          "supports_vision": false,
+          "supports_tools": true,
+          "supports_structured_output": false,
+          "input_cost_per_1m_tokens": 0.71,
+          "output_cost_per_1m_tokens": 0.89,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        }
+      ],
+      "default_model": "openai/gpt-oss-120b:free",
+      "rate_limits": {
+        "requests_per_minute": 60,
+        "tokens_per_minute": 100000,
+        "concurrent_requests": 10
+      },
+      "authentication": {
+        "type": "api_key",
+        "header_name": "Authorization",
+        "header_prefix": "Bearer"
+      },
+      "status": "active",
+      "status_page_url": "https://openrouter.ai/status",
+      "supported_capabilities": {
+        "function_calling": true,
+        "vision": true,
+        "structured_outputs": true,
+        "streaming": true,
+        "batch_processing": true
+      }
+    },
+    {
+      "name": "anthropic",
+      "display_name": "Anthropic (Direct)",
+      "description": "Direct API to Anthropic. Use when routing_mode=direct for lower latency and direct SLAs.",
+      "api_endpoint": "https://api.anthropic.com/v1",
+      "api_key_env_ref": "ANTHROPIC_API_KEY",
+      "models": [
+        {
+          "model_id": "claude-opus-4-6",
+          "display_name": "Claude Opus 4.6",
+          "version": "2025-04-06",
+          "context_window_tokens": 200000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 15,
+          "output_cost_per_1m_tokens": 45,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "claude-sonnet-4-6",
+          "display_name": "Claude Sonnet 4.6",
+          "version": "2025-04-06",
+          "context_window_tokens": 200000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 3,
+          "output_cost_per_1m_tokens": 15,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "claude-haiku-4-5",
+          "display_name": "Claude Haiku 4.5",
+          "version": "2024-10-01",
+          "context_window_tokens": 200000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 0.8,
+          "output_cost_per_1m_tokens": 4,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        }
+      ],
+      "default_model": "claude-sonnet-4-6",
+      "rate_limits": {
+        "requests_per_minute": 40,
+        "tokens_per_minute": 80000,
+        "concurrent_requests": 8
+      },
+      "authentication": {
+        "type": "api_key",
+        "header_name": "x-api-key",
+        "header_prefix": ""
+      },
+      "status": "active",
+      "status_page_url": "https://status.anthropic.com",
+      "supported_capabilities": {
+        "function_calling": true,
+        "vision": true,
+        "structured_outputs": true,
+        "streaming": true,
+        "batch_processing": false
+      }
+    },
+    {
+      "name": "openai",
+      "display_name": "OpenAI (Direct)",
+      "description": "Direct API to OpenAI. Use when routing_mode=direct for lower latency and direct SLAs.",
+      "api_endpoint": "https://api.openai.com/v1",
+      "api_key_env_ref": "OPENAI_API_KEY",
+      "models": [
+        {
+          "model_id": "gpt-4o",
+          "display_name": "GPT-4o",
+          "version": "2024-11-20",
+          "context_window_tokens": 128000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 5,
+          "output_cost_per_1m_tokens": 15,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "gpt-4o-mini",
+          "display_name": "GPT-4o Mini",
+          "version": "2024-07-18",
+          "context_window_tokens": 128000,
+          "supports_vision": true,
+          "supports_tools": true,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 0.15,
+          "output_cost_per_1m_tokens": 0.6,
+          "supported_regions": ["global"],
+          "maturity": "stable"
+        },
+        {
+          "model_id": "o1",
+          "display_name": "OpenAI o1",
+          "version": "2024-12-17",
+          "context_window_tokens": 200000,
+          "supports_vision": false,
+          "supports_tools": false,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 15,
+          "output_cost_per_1m_tokens": 60,
+          "supported_regions": ["global"],
+          "maturity": "beta"
+        },
+        {
+          "model_id": "o1-mini",
+          "display_name": "OpenAI o1 Mini",
+          "version": "2024-09-12",
+          "context_window_tokens": 128000,
+          "supports_vision": false,
+          "supports_tools": false,
+          "supports_structured_output": true,
+          "input_cost_per_1m_tokens": 3,
+          "output_cost_per_1m_tokens": 12,
+          "supported_regions": ["global"],
+          "maturity": "beta"
+        }
+      ],
+      "default_model": "gpt-4o",
+      "rate_limits": {
+        "requests_per_minute": 50,
+        "tokens_per_minute": 90000,
+        "concurrent_requests": 9
+      },
+      "authentication": {
+        "type": "api_key",
+        "header_name": "Authorization",
+        "header_prefix": "Bearer"
+      },
+      "status": "active",
+      "status_page_url": "https://status.openai.com",
+      "supported_capabilities": {
+        "function_calling": true,
+        "vision": true,
+        "structured_outputs": true,
+        "streaming": true,
+        "batch_processing": true
+      }
+    }
+  ],
+  "fallback_order": ["openrouter", "anthropic", "openai"],
+  "global_timeout_seconds": 120,
+  "retry_policy": {
+    "max_retries": 3,
+    "initial_delay_ms": 1000,
+    "max_delay_ms": 30000,
+    "backoff_multiplier": 2.0
+  },
+  "updated_at": "2026-04-06T00:00:00Z"
+}

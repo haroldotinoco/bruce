@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bruce-memory/state/module-state",
+  "title": "BruceMemoryModuleState",
+  "description": "Current state of the bruce-memory module including metrics and health indicators",
+  "type": "object",
+  "properties": {
+    "total_learnings_stored": {
+      "type": "integer",
+      "description": "Cumulative count of learning records ingested"
+    },
+    "total_patterns_extracted": {
+      "type": "integer",
+      "description": "Cumulative count of unique patterns extracted"
+    },
+    "total_patterns_active": {
+      "type": "integer",
+      "description": "Current count of active (non-retired, non-contradicted) patterns"
+    },
+    "last_extraction_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When pattern extraction last ran successfully"
+    },
+    "last_synthesis_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When intelligence synthesis last ran successfully"
+    },
+    "vector_index_status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "rebuilding",
+        "stale"
+      ],
+      "description": "Health of vector database index"
+    },
+    "pattern_confidence_distribution": {
+      "type": "object",
+      "properties": {
+        "low": {
+          "type": "integer",
+          "description": "Count of patterns with confidence 0.4-0.59"
+        },
+        "medium": {
+          "type": "integer",
+          "description": "Count of patterns with confidence 0.6-0.79"
+        },
+        "high": {
+          "type": "integer",
+          "description": "Count of patterns with confidence 0.8-1.0"
+        }
+      }
+    },
+    "last_snapshot_id": {
+      "type": "string",
+      "description": "ID of most recent intelligence snapshot"
+    }
+  }
+}

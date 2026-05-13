@@ -1,0 +1,271 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Bruce Core Billing Events Schema",
+  "description": "JSON Schema defining all billing events emitted by Bruce Core",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "event_id",
+      "event_type",
+      "account_id",
+      "timestamp",
+      "data"
+    ],
+    "properties": {
+      "event_id": {
+        "type": "string",
+        "description": "Unique identifier for this event"
+      },
+      "event_type": {
+        "type": "string",
+        "enum": [
+          "bruce-core.venture.created",
+          "bruce-core.module.activated",
+          "bruce-core.plan.upgraded",
+          "bruce-core.plan.downgraded",
+          "bruce-core.venture.limit.exceeded",
+          "bruce-core.account.created"
+        ],
+        "description": "Type of billing event"
+      },
+      "account_id": {
+        "type": "string",
+        "description": "Account ID associated with this event"
+      },
+      "timestamp": {
+        "type": "string",
+        "format": "date-time",
+        "description": "When the event occurred (ISO 8601)"
+      },
+      "data": {
+        "oneOf": [
+          {
+            "$ref": "#/definitions/VentureCreatedEvent"
+          },
+          {
+            "$ref": "#/definitions/ModuleActivatedEvent"
+          },
+          {
+            "$ref": "#/definitions/PlanUpgradedEvent"
+          },
+          {
+            "$ref": "#/definitions/PlanDowngradedEvent"
+          },
+          {
+            "$ref": "#/definitions/VentureLimitExceededEvent"
+          },
+          {
+            "$ref": "#/definitions/AccountCreatedEvent"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "VentureCreatedEvent": {
+      "type": "object",
+      "title": "Venture Created Event",
+      "description": "Emitted when a new venture is created",
+      "required": [
+        "venture_id",
+        "venture_name",
+        "opportunity_id"
+      ],
+      "properties": {
+        "venture_id": {
+          "type": "string",
+          "description": "ID of the newly created venture"
+        },
+        "venture_name": {
+          "type": "string",
+          "description": "Name of the venture"
+        },
+        "opportunity_id": {
+          "type": "string",
+          "description": "Source opportunity ID"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "User or system that created the venture"
+        }
+      }
+    },
+    "ModuleActivatedEvent": {
+      "type": "object",
+      "title": "Module Activated Event",
+      "description": "Emitted when a module is activated on an account",
+      "required": [
+        "module_id",
+        "module_name"
+      ],
+      "properties": {
+        "module_id": {
+          "type": "string",
+          "description": "ID of the activated module"
+        },
+        "module_name": {
+          "type": "string",
+          "description": "Human-readable name of the module"
+        },
+        "config": {
+          "type": "object",
+          "description": "Initial configuration for the module"
+        },
+        "activated_by": {
+          "type": "string",
+          "description": "User or system that activated the module"
+        }
+      }
+    },
+    "PlanUpgradedEvent": {
+      "type": "object",
+      "title": "Plan Upgraded Event",
+      "description": "Emitted when an account's billing plan is upgraded",
+      "required": [
+        "previous_plan",
+        "new_plan",
+        "effective_date"
+      ],
+      "properties": {
+        "previous_plan": {
+          "type": "string",
+          "enum": [
+            "free",
+            "pro",
+            "enterprise"
+          ],
+          "description": "Previous billing plan"
+        },
+        "new_plan": {
+          "type": "string",
+          "enum": [
+            "free",
+            "pro",
+            "enterprise"
+          ],
+          "description": "New billing plan"
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date when upgrade becomes effective"
+        },
+        "upgrade_reason": {
+          "type": "string",
+          "description": "Reason for the upgrade (e.g., 'limit-exceeded', 'manual-request')"
+        }
+      }
+    },
+    "PlanDowngradedEvent": {
+      "type": "object",
+      "title": "Plan Downgraded Event",
+      "description": "Emitted when an account's billing plan is downgraded",
+      "required": [
+        "previous_plan",
+        "new_plan",
+        "effective_date"
+      ],
+      "properties": {
+        "previous_plan": {
+          "type": "string",
+          "enum": [
+            "free",
+            "pro",
+            "enterprise"
+          ],
+          "description": "Previous billing plan"
+        },
+        "new_plan": {
+          "type": "string",
+          "enum": [
+            "free",
+            "pro",
+            "enterprise"
+          ],
+          "description": "New billing plan"
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date when downgrade becomes effective"
+        },
+        "downgrade_reason": {
+          "type": "string",
+          "description": "Reason for the downgrade (e.g., 'manual-request', 'payment-failed')"
+        }
+      }
+    },
+    "VentureLimitExceededEvent": {
+      "type": "object",
+      "title": "Venture Limit Exceeded Event",
+      "description": "Emitted when an account reaches its venture creation limit",
+      "required": [
+        "limit_type",
+        "current_count",
+        "limit_value"
+      ],
+      "properties": {
+        "limit_type": {
+          "type": "string",
+          "enum": [
+            "active_ventures",
+            "total_ventures",
+            "api_calls_per_month"
+          ],
+          "description": "Type of limit that was exceeded"
+        },
+        "current_count": {
+          "type": "integer",
+          "description": "Current count of the limited resource"
+        },
+        "limit_value": {
+          "type": "integer",
+          "description": "Maximum allowed value"
+        },
+        "suggested_action": {
+          "type": "string",
+          "enum": [
+            "upgrade_plan",
+            "archive_ventures",
+            "contact_support"
+          ],
+          "description": "Recommended next step"
+        }
+      }
+    },
+    "AccountCreatedEvent": {
+      "type": "object",
+      "title": "Account Created Event",
+      "description": "Emitted when a new account is created",
+      "required": [
+        "account_name",
+        "initial_plan"
+      ],
+      "properties": {
+        "account_name": {
+          "type": "string",
+          "description": "Name of the newly created account"
+        },
+        "initial_plan": {
+          "type": "string",
+          "enum": [
+            "free",
+            "pro",
+            "enterprise"
+          ],
+          "description": "Initial billing plan for the account"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "User or system that created the account"
+        },
+        "contact_email": {
+          "type": "string",
+          "format": "email",
+          "description": "Primary contact email for the account"
+        }
+      }
+    }
+  }
+}

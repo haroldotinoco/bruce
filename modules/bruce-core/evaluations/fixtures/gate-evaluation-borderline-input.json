@@ -1,0 +1,170 @@
+{
+  "event_type": "gate.evaluation-requested",
+  "trigger_timestamp": "2026-04-09T11:00:00Z",
+  "gate_id": "post-screening",
+  "venture_id": "v-edtech-b3c4d5e6-20260408",
+  "correlation_id": "660f9511-f0ab-52g5-b8c5-11d3f4g5b6c7",
+  "venture_context": {
+    "venture_name": "LearnFlow",
+    "venture_type": "B2B SaaS",
+    "founder_name": "James Patterson",
+    "current_stage": "GENERATED",
+    "opportunity_id": "opp-edtech-7g2d1b3e",
+    "created_at": "2026-04-08T10:30:00Z",
+    "time_in_stage_hours": 25,
+    "problem_statement": "Teachers spend 15+ hours per week on manual grading, feedback, and student progress tracking. Automated AI grading system could free up 50% of that time."
+  },
+  "screening_results": {
+    "screening_module": "opportunity",
+    "screening_completed_at": "2026-04-09T10:45:00Z",
+    "screening_duration_minutes": 165,
+    "overall_screening_score": 61,
+    "screening_components": {
+      "founder_assessment": {
+        "score": 72,
+        "max_score": 100,
+        "assessment": "Good but not exceptional. 8 years education technology experience, including 3 years as teacher and 5 years in EdTech product roles. Some startup experience but not founding background.",
+        "confidence": 0.78,
+        "factors": {
+          "domain_expertise": 80,
+          "leadership_experience": 65,
+          "execution_capability": 68,
+          "network_strength": 72,
+          "entrepreneurship_signal": "Moderate"
+        }
+      },
+      "problem_validation": {
+        "score": 68,
+        "max_score": 100,
+        "assessment": "Moderate. 15 customer interviews (75% of target), but only 65% confirmed pain point at same intensity. Some skepticism about AI grading quality.",
+        "confidence": 0.72,
+        "factors": {
+          "interview_count": 15,
+          "interview_conversion": 0.65,
+          "problem_frequency": "Important but not critical",
+          "willingness_to_pay": "Moderate ($3K-8K annually, but uncertain)",
+          "adoption_risk": "Medium (AI accuracy skepticism)"
+        }
+      },
+      "market_analysis": {
+        "score": 55,
+        "max_score": 100,
+        "assessment": "Moderate size but uncertain. K-12 education market is $450B but highly fragmented and regulated. Government buying is slow. TAM unclear.",
+        "confidence": 0.68,
+        "factors": {
+          "tam_size": "450000000 (Potential but uncertain)",
+          "sam_size": "Unclear (regulatory barriers)",
+          "market_growth_rate": "5-10% (slower than edtech average)",
+          "market_tailwind": "Mixed (policy changes could help or hurt)",
+          "regulatory_risk": "High (government contracts, data privacy)"
+        }
+      },
+      "solution_feasibility": {
+        "score": 58,
+        "max_score": 100,
+        "assessment": "Challenging. AI grading accuracy is unsolved problem. MVP timeline 10-12 months (longer than ideal). Cost estimate $1.2M (higher than expected).",
+        "confidence": 0.70,
+        "factors": {
+          "mvp_timeline_months": 10,
+          "mvp_cost_estimate": 1200000,
+          "key_technologies": ["LLMs", "grading-rubric-engineering", "teacher-feedback"],
+          "technical_risk_level": "High (AI accuracy unproven for grading)",
+          "regulatory_risk": "High (COPPA, educational data privacy)"
+        }
+      },
+      "competitive_positioning": {
+        "score": 54,
+        "max_score": 100,
+        "assessment": "Weak differentiation. Turnitin, Gradescope, and Google Classroom are established. AI grading is not unique (many players trying). Unclear competitive advantage.",
+        "confidence": 0.71,
+        "factors": {
+          "competitive_advantage": "Unclear (AI grading is crowded space)",
+          "competitor_strength": "Turnitin (100M users), Gradescope (enterprise adoption), Google (free alternative)",
+          "market_share_defensibility": "Low (technology easily replicated)",
+          "positioning_clarity": "Unclear (many similar startups)"
+        }
+      }
+    }
+  },
+  "gate_criteria": {
+    "gate_type": "post-screening",
+    "min_threshold": 65,
+    "auto_pass_threshold": 85,
+    "auto_fail_threshold": 40,
+    "human_review_range": [40, 65],
+    "human_review_enabled": true,
+    "portfolio_fit_required": true,
+    "portfolio_fit_assessment": {
+      "score": 52,
+      "assessment": "Moderate fit. EdTech is adjacent to portfolio focus (enterprise software). But K-12 education is different market with different dynamics than portfolio's typical B2B SaaS focus."
+    }
+  },
+  "gate_scoring": {
+    "methodology": "Weighted average of screening components",
+    "weights": {
+      "founder_assessment": 0.25,
+      "problem_validation": 0.25,
+      "market_analysis": 0.25,
+      "solution_feasibility": 0.15,
+      "competitive_positioning": 0.10
+    },
+    "calculated_score": 61,
+    "confidence": 0.72,
+    "confidence_reasoning": "Moderate-low confidence due to uncertain market size, unproven technical solution, weak competitive positioning, and moderate founder experience. This is a borderline case that should trigger human review."
+  },
+  "decision_recommendation": {
+    "auto_decision": "HUMAN_REVIEW",
+    "reasoning": "Score of 61 falls within human_review_range [40, 65], indicating uncertain outcome. Gate enforcer cannot confidently recommend PASS or FAIL.",
+    "human_review_guidance": {
+      "key_questions_for_operator": [
+        "Is AI grading accuracy a solvable problem? How does this compare to other AI grading startups?",
+        "Can founders penetrate K-12 education market given government sales cycles and procurement challenges?",
+        "Is portfolio willing to invest in longer timeline (10+ months) and higher cost ($1.2M+)?",
+        "Can founders differentiate in crowded AI grading space (Turnitin, Gradescope, Google already investing)?"
+      ],
+      "favorable_signals": [
+        "Founder has real domain experience as teacher + EdTech PM",
+        "Problem is real and teachers care about grading burden",
+        "AI technology is advancing rapidly - timing may be better than previous attempts",
+        "Founder can access school networks through existing relationships"
+      ],
+      "risk_signals": [
+        "Market size is uncertain and regulatory barriers are high",
+        "Technical solution (AI grading) has not been proven to work at scale",
+        "Competitive intensity is high with well-funded incumbents",
+        "Founder lacks venture-scale founding experience",
+        "Model economics unclear - schools have limited budgets"
+      ],
+      "suggested_actions": [
+        "Request: 3-month pilot data showing AI grading accuracy on real student work (>85% teacher agreement)",
+        "Request: Letters of intent from 5 school districts showing willingness to pilot ($5K+ commitment each)",
+        "Request: Founder to present competitive analysis vs Turnitin, Gradescope, and other AI grading solutions",
+        "Alternative: Pass on K-12 but explore corporate training market where budget and data quality are better"
+      ]
+    }
+  },
+  "comparable_ventures_for_context": {
+    "description": "Previous ventures with similar borderline scores in post-screening gate",
+    "comparable_ventures": [
+      {
+        "venture_name": "CoreLearn (2025-Q4)",
+        "gate_score": 60,
+        "gate_decision": "HUMAN_REVIEW (Operator approved)",
+        "current_status": "QUALIFIED",
+        "outcome": "Venture advanced, but struggled in QUALIFIED stage. Now in STRUCTURED. Founder capabilities higher than expected.",
+        "lesson": "Sometimes borderline cases succeed if founder is stronger than screening suggests"
+      },
+      {
+        "venture_name": "EduAI Platform (2025-Q3)",
+        "gate_score": 62,
+        "gate_decision": "HUMAN_REVIEW (Operator rejected)",
+        "current_status": "ARCHIVED",
+        "outcome": "Venture was rejected after human review. Later founder tried again with different angle. Score was right - venture struggled with market penetration.",
+        "lesson": "Operator rejection of borderline case was correct - market barriers were real"
+      }
+    ]
+  },
+  "operator_context": {
+    "note": "This venture represents a classic borderline case. The scoring is accurate but the outcome is uncertain. Operator judgment and domain knowledge will determine PASS or FAIL. Both decisions are defensible."
+  }
+}

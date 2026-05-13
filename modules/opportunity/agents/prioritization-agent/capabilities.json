@@ -1,0 +1,29 @@
+{
+  "name": "prioritization-agent",
+  "purpose": "Rank and filter scored opportunities using deterministic algorithm, producing prioritized advancement list",
+  "input_types": [
+    "scored_opportunities",
+    "prioritization_context"
+  ],
+  "output_types": [
+    "ranked_opportunity_list"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.1,
+    "max_tokens": 4096,
+    "description": "Ranking via LLM; IDs válidos OpenRouter (provider/model)"
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 5,
+    "opportunities_ranked_per_cycle": 50,
+    "determinism_threshold": 1
+  },
+  "cost_estimation": {
+    "avg_cost_per_cycle_usd": 0
+  }
+}

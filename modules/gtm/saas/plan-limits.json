@@ -1,0 +1,34 @@
+{
+  "free": {
+    "max_active_campaigns": 0,
+    "max_channels": 0,
+    "analytics_enabled": false,
+    "gtm_access": false,
+    "support": "community"
+  },
+  "pro": {
+    "max_active_campaigns": 3,
+    "max_channels": 5,
+    "max_monthly_spend_usd": 5000,
+    "analytics_retention_days": 30,
+    "reporting_cadence": "monthly",
+    "gtm_access": true,
+    "campaign_template_library": true,
+    "growth_experiments_per_month": 2,
+    "support": "email"
+  },
+  "enterprise": {
+    "max_active_campaigns": -1,
+    "max_channels": -1,
+    "max_monthly_spend_usd": -1,
+    "analytics_retention_days": 730,
+    "reporting_cadence": "weekly",
+    "gtm_access": true,
+    "campaign_template_library": true,
+    "growth_experiments_per_month": -1,
+    "custom_analytics_dashboards": true,
+    "multi_channel_orchestration": true,
+    "dedicated_gtm_strategist": true,
+    "support": "dedicated"
+  }
+}

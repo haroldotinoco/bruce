@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Security Agent Input",
+  "type": "object",
+  "required": ["code_repo_ref"],
+  "properties": {
+    "code_repo_ref": {
+      "type": "string",
+      "description": "Artifact ID for backend code repository"
+    },
+    "deployed_staging_url": {
+      "type": "string",
+      "description": "Staging environment URL for configuration audit"
+    },
+    "api_contract_refs": {
+      "type": "array",
+      "description": "API specifications to review",
+      "items": { "type": "string" }
+    },
+    "infrastructure_spec": {
+      "type": "object",
+      "description": "Infrastructure configuration details"
+    },
+    "compliance_requirements": {
+      "type": "array",
+      "description": "Regulatory compliance standards to check",
+      "items": { "type": "string" }
+    }
+  }
+}

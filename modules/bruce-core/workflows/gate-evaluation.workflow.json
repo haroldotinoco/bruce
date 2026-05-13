@@ -1,0 +1,139 @@
+{
+  "workflow_id": "gate-evaluation",
+  "module": "bruce-core",
+  "description": "Generic gate evaluation workflow that collects inputs, evaluates criteria, checks thresholds, routes decisions, and emits gate results",
+  "trigger": {"type": "event", "event": "gate.evaluation-requested"},
+  "parameters": {
+    "gate_id": {
+      "type": "string",
+      "description": "Unique identifier for the gate (e.g., 'post-screening', 'post-structuring')"
+    },
+    "min_threshold": {
+      "type": "number",
+      "description": "Minimum score required to pass (e.g., 65)"
+    },
+    "auto_pass_threshold": {
+      "type": "number",
+      "description": "Score above which gate automatically passes without human review (e.g., 85)"
+    },
+    "human_review_enabled": {
+      "type": "boolean",
+      "description": "Whether borderline scores should route to human review",
+      "default": true
+    }
+  },
+  "steps": [
+    {
+      "step_id": "collect-gate-inputs",
+      "agent": "venture-lifecycle-manager",
+      "description": "Collect all inputs needed for gate evaluation from previous workflow outputs",
+      "input": {"from": "trigger.payload", "fields": ["gate_id", "venture_context", "screening_results", "module_outputs"]},
+      "output_to": "collected-inputs",
+      "timeout_seconds": 60,
+      "retry_policy": {"max_attempts": 3, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": {"default": "evaluate-criteria"},
+      "events_emitted": ["bruce-core.gate.input-collection-started"]
+    },
+    {
+      "step_id": "evaluate-criteria",
+      "agent": "gate-enforcer",
+      "description": "Evaluate all gate criteria using collected inputs",
+      "input": {"from": "collect-gate-inputs.output"},
+      "output_to": "evaluation-results",
+      "timeout_seconds": 120,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "evaluation_fields": {
+        "description": "Gate enforcer scores each criterion and provides reasoning",
+        "output_includes": ["criterion_scores", "weighted_score", "confidence", "reasoning"]
+      },
+      "next_step": {"default": "check-thresholds"},
+      "events_emitted": ["bruce-core.gate.evaluation-completed"]
+    },
+    {
+      "step_id": "check-thresholds",
+      "agent": "gate-enforcer",
+      "description": "Check score against min_threshold, auto_pass_threshold, and auto_fail_threshold",
+      "input": {"from": "evaluate-criteria.output"},
+      "output_to": "threshold-check",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 500},
+      "failure_policy": "fail_and_notify",
+      "threshold_logic": {
+        "auto_pass": "score >= auto_pass_threshold",
+        "auto_fail": "score < min_threshold",
+        "human_review": "score >= min_threshold AND score < auto_pass_threshold AND human_review_enabled"
+      },
+      "next_step": {
+        "on_auto_pass": "route-decision-pass",
+        "on_auto_fail": "route-decision-fail",
+        "on_human_review": "route-decision-human-review"
+      },
+      "events_emitted": []
+    },
+    {
+      "step_id": "route-decision-pass",
+      "agent": "governance-agent",
+      "description": "Route auto-pass decision through governance check",
+      "input": {"from": "threshold-check.output"},
+      "output_to": "pass-decision",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": {"default": "record-gate-decision"},
+      "events_emitted": ["bruce-core.gate.passed"]
+    },
+    {
+      "step_id": "route-decision-fail",
+      "agent": "governance-agent",
+      "description": "Route auto-fail decision through governance check",
+      "input": {"from": "threshold-check.output"},
+      "output_to": "fail-decision",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": {"default": "record-gate-decision"},
+      "events_emitted": ["bruce-core.gate.failed"]
+    },
+    {
+      "step_id": "route-decision-human-review",
+      "agent": null,
+      "type": "human_task",
+      "description": "Route borderline score to human operator for decision",
+      "input": {"from": "threshold-check.output"},
+      "output_to": "human-decision",
+      "timeout_seconds": 86400,
+      "escalation_after_seconds": 43200,
+      "failure_policy": "default_to_reject",
+      "next_step": {"default": "record-gate-decision"},
+      "events_emitted": ["bruce-core.gate.human-review-requested", "bruce-core.gate.human-review-completed"]
+    },
+    {
+      "step_id": "record-gate-decision",
+      "agent": "venture-lifecycle-manager",
+      "description": "Record gate decision in state with score, reasoning, and timestamp",
+      "input": {
+        "from": ["route-decision-pass.output", "route-decision-fail.output", "route-decision-human-review.output"]
+      },
+      "output_to": "decision-record",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 5, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": {"default": "emit-gate-event"},
+      "events_emitted": ["bruce-core.gate.decision-recorded"]
+    },
+    {
+      "step_id": "emit-gate-event",
+      "agent": "module-dispatcher",
+      "description": "Emit gate decision event for downstream workflow routing",
+      "input": {"from": "record-gate-decision.output"},
+      "output_to": "gate-event",
+      "timeout_seconds": 20,
+      "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 500},
+      "failure_policy": "fail_and_notify",
+      "next_step": null,
+      "events_emitted": ["bruce-core.gate.evaluated"]
+    }
+  ]
+}

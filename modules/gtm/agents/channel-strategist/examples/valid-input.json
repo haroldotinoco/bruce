@@ -1,0 +1,76 @@
+{
+  "product": {
+    "name": "DataShield",
+    "category": "b2b-saas",
+    "value_proposition": "Real-time data loss prevention for Salesforce instances, preventing insider threats and compliance violations",
+    "competitive_positioning": "Unlike generic DLP solutions, DataShield is Salesforce-native, requires zero external infrastructure, and costs 40% less than Varonis",
+    "price_point_usd": 24000
+  },
+  "target_audience": {
+    "primary_persona": "Chief Information Security Officer (CISO) or Head of Data Governance at mid-market SaaS/tech companies (100-1000 employees)",
+    "secondary_personas": [
+      "VP of Compliance",
+      "Salesforce Administrator"
+    ],
+    "geography": [
+      "US",
+      "UK",
+      "Canada"
+    ],
+    "company_size": {
+      "min_headcount": 100,
+      "max_headcount": 1000
+    },
+    "media_consumption": [
+      "LinkedIn",
+      "Gartner Magic Quadrant reports",
+      "Security conferences (RSA, Black Hat)",
+      "Slack communities (CISOs, Salesforce admins)"
+    ],
+    "psychographics": "Risk-averse, heavily regulated, spending 2-4 hours/week researching security tools, influenced by peer recommendations and analyst reports"
+  },
+  "resources": {
+    "monthly_budget_usd": 25000,
+    "team_size": 2.5,
+    "existing_capabilities": [
+      "LinkedIn outreach",
+      "content writing",
+      "partnership prospecting"
+    ],
+    "founder_network": "strong"
+  },
+  "market_context": {
+    "competitors": [
+      {
+        "name": "Varonis",
+        "estimated_active_channels": [
+          "paid-linkedin",
+          "paid-google-ads",
+          "industry-analyst-relations",
+          "sales-development",
+          "content-marketing"
+        ]
+      },
+      {
+        "name": "Imperva",
+        "estimated_active_channels": [
+          "paid-google-ads",
+          "partnerships",
+          "content-marketing",
+          "conference-sponsorships"
+        ]
+      }
+    ],
+    "market_trends": [
+      "Post-acquisition consolidation: Varonis acquired by STG 2023, deprioritizing mid-market",
+      "Rise of AI-driven insider threat detection",
+      "Increased regulatory pressure (EU AI Act, SOX compliance)"
+    ],
+    "time_to_revenue_days": 90
+  },
+  "goals": {
+    "target_mqls_per_month": 15,
+    "target_signups_per_month": 30,
+    "timeline_weeks": 8
+  }
+}

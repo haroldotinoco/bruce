@@ -1,0 +1,326 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MetricsIngestionOutput",
+  "type": "object",
+  "required": ["snapshot_id", "venture_id", "collected_at", "metrics", "sources_status", "completeness_percent"],
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "description": "Unique identifier for this metric snapshot"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture this snapshot is for"
+    },
+    "collected_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when metrics were collected"
+    },
+    "time_range": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start of time range for this snapshot"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End of time range for this snapshot"
+        }
+      }
+    },
+    "completeness_percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Percentage of required metrics successfully collected"
+    },
+    "sources_status": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status", "metric_count"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["success", "partial", "failed"],
+            "description": "Overall status of this data source"
+          },
+          "metric_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of metrics successfully retrieved from this source"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true,
+            "description": "Error message if source failed"
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When data from this source was last updated"
+          }
+        }
+      },
+      "description": "Status breakdown per data source"
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "type": "object",
+          "properties": {
+            "dau": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "wau": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "mau": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "new_signups": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "activation_rate": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "d7_retention": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "d30_retention": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "onboarding_completion_rate": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            }
+          }
+        },
+        "revenue": {
+          "type": "object",
+          "properties": {
+            "mrr": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "arr": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "new_mrr": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "churned_mrr": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "mrr_growth_rate": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "nullable": true },
+                "previous_value": { "type": "number", "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "customer_count": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "integer", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "integer", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "new_customers": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "integer", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "integer", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "churned_customers": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "integer", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "integer", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            }
+          }
+        },
+        "acquisition": {
+          "type": "object",
+          "properties": {
+            "cac": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "cac_by_channel": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number",
+                "minimum": 0
+              },
+              "description": "CAC breakdown by acquisition channel"
+            },
+            "ltv": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "ltv_cac_ratio": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            }
+          }
+        },
+        "financial": {
+          "type": "object",
+          "properties": {
+            "burn_rate": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "runway_months": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            },
+            "gross_margin": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "previous_value": { "type": "number", "minimum": 0, "maximum": 100, "nullable": true },
+                "deviation_percent": { "type": "number", "nullable": true },
+                "deviation_flag": { "type": "boolean", "default": false },
+                "source": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

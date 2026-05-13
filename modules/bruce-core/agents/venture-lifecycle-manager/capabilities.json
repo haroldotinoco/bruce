@@ -1,0 +1,102 @@
+{
+  "agent_id": "venture-lifecycle-manager",
+  "agent_name": "Venture Lifecycle Manager",
+  "description": "Manages complete venture lifecycle state machine and stage transitions",
+  "model": null,
+  "capabilities": [
+    {
+      "id": "state-machine-validation",
+      "name": "State Machine Validation",
+      "description": "Validate venture transitions against lifecycle state machine rules",
+      "input_type": "venture_state + requested_transition",
+      "output_type": "boolean + rationale"
+    },
+    {
+      "id": "gate-integration",
+      "name": "Gate Integration",
+      "description": "Consume gate decisions and determine stage progression",
+      "input_type": "gate_decision + venture_state",
+      "output_type": "advance/hold decision"
+    },
+    {
+      "id": "prerequisite-checking",
+      "name": "Prerequisite Checking",
+      "description": "Verify all module outputs available before advancing",
+      "input_type": "venture_state + module_outputs",
+      "output_type": "boolean + missing_list"
+    },
+    {
+      "id": "blocker-resolution",
+      "name": "Blocker Resolution",
+      "description": "Assess blocker status and age, determine if blocking advancement",
+      "input_type": "venture_state + blocker_list",
+      "output_type": "blocked/unblocked + escalation_required"
+    },
+    {
+      "id": "sla-monitoring",
+      "name": "SLA Monitoring",
+      "description": "Track time in stage and alert on SLA breach",
+      "input_type": "venture_state + stage_entry_time",
+      "output_type": "sla_status + escalation_if_breached"
+    },
+    {
+      "id": "module-dispatch-orchestration",
+      "name": "Module Dispatch Orchestration",
+      "description": "Determine which modules to dispatch based on new stage",
+      "input_type": "venture_state + new_stage",
+      "output_type": "module_dispatch_request"
+    },
+    {
+      "id": "escalation-routing",
+      "name": "Escalation Routing",
+      "description": "Route ambiguous decisions to appropriate human stakeholders",
+      "input_type": "venture_state + decision_context",
+      "output_type": "escalation_request + sla"
+    },
+    {
+      "id": "event-emission",
+      "name": "Event Emission",
+      "description": "Emit lifecycle events for state transitions",
+      "input_type": "venture_state + decision",
+      "output_type": "event list"
+    }
+  ],
+  "dependencies": {
+    "external_services": [
+      "gate-enforcer",
+      "module-dispatcher",
+      "state-store",
+      "event-bus"
+    ],
+    "required_inputs": [
+      "venture_id",
+      "current_state",
+      "trigger_type"
+    ],
+    "required_outputs": [
+      "decision",
+      "reasoning",
+      "next_actions"
+    ]
+  },
+  "constraints": {
+    "max_concurrent_ventures": 1,
+    "max_decision_latency_ms": 5000,
+    "required_timeout_per_module_seconds": 600,
+    "max_sla_hours_before_escalation": 24
+  },
+  "decision_authority": {
+    "can_advance_ventures": true,
+    "can_hold_ventures": true,
+    "can_pause_ventures": false,
+    "can_kill_ventures": false,
+    "can_override_gates": false,
+    "requires_human_approval_for": [
+      "borderline_gate_scores",
+      "sla_breaches",
+      "policy_violations",
+      "resource_conflicts"
+    ]
+  },
+  "provider": "openrouter"
+}

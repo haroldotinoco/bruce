@@ -1,0 +1,34 @@
+{
+  "scenario_id": "opp_eval_001",
+  "title": "Accurate Market Sizing",
+  "description": "Given a problem statement, estimate TAM in the right ballpark",
+  "input": {
+    "problem_statement": "Mobile payment platform for freelancers in Southeast Asia",
+    "context": "Freelance economy in SEA growing 25% YoY"
+  },
+  "expected_output": {
+    "tam_estimate": {
+      "value": 15000000000,
+      "currency": "USD",
+      "year": 2026,
+      "confidence": "high"
+    },
+    "reasoning": "SEA has 200M+ freelancers, avg transaction value $50-100, 40% adoption target"
+  },
+  "scoring": {
+    "tam_value": {
+      "type": "numeric_range",
+      "expectedPath": "tam_estimate.value",
+      "actualPath": "tam_estimate.value",
+      "tolerance_percent": 20,
+      "weight": 0.5
+    },
+    "reasoning_quality": {
+      "type": "semantic_similarity",
+      "expectedPath": "reasoning",
+      "actualPath": "reasoning",
+      "threshold": 0.35,
+      "weight": 0.5
+    }
+  }
+}

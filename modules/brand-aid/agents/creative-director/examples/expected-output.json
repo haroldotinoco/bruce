@@ -1,0 +1,52 @@
+{
+  "creative_brief": "Our challenge is to position this platform as fundamentally different from the commoditized marketplaces (Upwork) and gatekept premium platforms (Toptal). The brand must embody the Sage archetype—thoughtful, discerning, principled—while also being a Mentor, supporting freelancer career growth. We own the white space of 'professional respect' and 'fair partnership'. The visual and verbal expression should feel intelligent, trustworthy, and grounded—never flashy or trendy. The tone should be that of a trusted advisor, not a transactional marketplace. Every expression reinforces that this is a community for serious professionals who deserve serious treatment.",
+  "mood_board_description": "Clean, considered, and intellectually approachable. Cool tones (deep blue-gray, white) with warm accents (earth tones). Typography is refined and readable, never trendy. Imagery features actual professionals at work, unposed and authentic. The overall feel is a high-end professional services firm, not a startup. Think: The Economist meets Basecamp. Quality over volume. Stillness over urgency.",
+  "visual_language_criteria": [
+    "Clean and minimal, not sparse",
+    "Refined and sophisticated, not cold",
+    "Grounded and trustworthy, not cutting-edge",
+    "Professional, but human and approachable",
+    "Timeless, not trend-driven",
+    "Generous whitespace, breathable layout",
+    "Typography-forward design"
+  ],
+  "naming_criteria": [
+    "Evokes partnership, fairness, or professional growth",
+    "Memorable and easy to spell (for international freelancers)",
+    "Domain available (.com preferred)",
+    "Neutral gender and cultural associations",
+    "Not trendy or cutesy (avoid 'Uber for X' or forced tech terminology)",
+    "Single word preferred, but 2-3 syllables max",
+    "Could work as a verb in conversation (e.g., 'I found work on X')"
+  ],
+  "tone_of_voice_guidelines": "Thoughtful, direct, honest. The voice of a trusted advisor who has seen the industry and cares about doing the right thing. Formal enough for B2B credibility, but warm enough to feel human. Use 'you' and 'we' language. Avoid hyperbole, jargon, and hollow marketing speak. Speak plainly about hard problems. The tone should feel like having a conversation with an intelligent mentor, not being sold to.",
+  "design_token_guidance": {
+    "color_temperature": "Predominantly cool (deep blue-gray tones), warmed by earth-tone accents (warm sand, deep terracotta)",
+    "color_vibrancy": "Subdued and sophisticated; avoid neon, bright, or childish colors",
+    "typography_attitude": "Refined and readable; classic serif for headlines (evokes tradition and trust), modern sans-serif for body (clean and professional)",
+    "spacing_philosophy": "Generous, breathing; white space is design, not wasted space",
+    "imagery_style": "Documentary-style photography of real professionals; authentic, unposed, diverse; avoid stock photos and staged moments"
+  },
+  "key_visual_metaphors": [
+    "Networks and connections (but refined, not chaotic)",
+    "Growth and upward trajectory (subtle, not aggressive)",
+    "Handshake and partnership (classical, trustworthy symbolism)",
+    "Craftsmanship (skill, quality, care in work)",
+    "Clearness and clarity (cutting through noise)"
+  ],
+  "brand_voice_examples": [
+    "Work with people who get it. No bidding. No race to the bottom.",
+    "You've built a reputation for excellence. Your next client should recognize that value.",
+    "Fair pricing, serious clients, real partnerships. Three things missing from every other marketplace.",
+    "We're not a job board. We're a community for professionals who won't compromise their craft."
+  ],
+  "constraints_and_guardrails": [
+    "Do NOT use tech startup clichés (rocket ships, disruption, fast growth)",
+    "Do NOT use bright colors or playful imagery; avoid cuteness at all costs",
+    "Do NOT create asymmetrical or overly complex layouts; prioritize clarity",
+    "Do NOT use trendy typefaces; choose timeless, readable fonts",
+    "Do NOT suggest gamification or engagement gimmicks (badges, points, etc.)",
+    "Do NOT imply exclusivity in a gatekeeping way (we're selective, not elitist)",
+    "Avoid militaristic or competitive framing (no 'battle', 'crusade', 'dominate')"
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "example": "Expected dispatch output: Brand + Builder parallel dispatch",
+  "dispatch_batch_id": "batch-disp-289",
+  "venture_id": "v-abc12345",
+  "stage": "STRUCTURED",
+  "status": "IN_PROGRESS",
+  "modules_dispatched": [
+    {
+      "module_name": "brand",
+      "status": "IN_PROGRESS",
+      "start_time": "2026-04-05T14:32:00Z",
+      "end_time": null,
+      "duration_seconds": null,
+      "retry_count": 0,
+      "output": null,
+      "error": null
+    },
+    {
+      "module_name": "builder",
+      "status": "IN_PROGRESS",
+      "start_time": "2026-04-05T14:32:00Z",
+      "end_time": null,
+      "duration_seconds": null,
+      "retry_count": 0,
+      "output": null,
+      "error": null
+    },
+    {
+      "module_name": "market",
+      "status": "PENDING",
+      "start_time": null,
+      "end_time": null,
+      "retry_count": 0,
+      "output": null,
+      "error": null
+    },
+    {
+      "module_name": "operator",
+      "status": "PENDING",
+      "start_time": null,
+      "end_time": null,
+      "retry_count": 0,
+      "output": null,
+      "error": null
+    }
+  ],
+  "parallelization_used": true,
+  "parallel_groups": [
+    {
+      "group_id": "parallel-1",
+      "modules": ["brand", "builder"],
+      "start_time": "2026-04-05T14:32:00Z",
+      "end_time": null,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "group_id": "parallel-2",
+      "modules": ["market", "operator"],
+      "start_time": null,
+      "end_time": null,
+      "status": "WAITING"
+    }
+  ],
+  "completion_status": {
+    "total_modules": 4,
+    "modules_completed": 0,
+    "modules_failed": 0,
+    "modules_pending": 4,
+    "completion_percentage": 0
+  },
+  "failures": [],
+  "next_steps": [
+    {
+      "step": "wait_for_pending",
+      "details": {
+        "group_waiting": "parallel-2",
+        "blocks_on_group": "parallel-1",
+        "modules_needed": ["brand", "builder"]
+      }
+    }
+  ],
+  "events_to_emit": [
+    {
+      "event_type": "modules.dispatched",
+      "payload": {
+        "venture_id": "v-abc12345",
+        "stage": "STRUCTURED",
+        "batch_id": "batch-disp-289",
+        "modules": ["brand", "builder"],
+        "parallelization": true,
+        "timestamp": "2026-04-05T14:32:00Z"
+      }
+    },
+    {
+      "event_type": "modules.in_progress",
+      "payload": {
+        "batch_id": "batch-disp-289",
+        "modules": ["brand", "builder"],
+        "timestamp": "2026-04-05T14:32:00Z"
+      }
+    }
+  ],
+  "correlation_id": "corr-disp-001",
+  "dispatch_timestamp": "2026-04-05T14:32:00Z",
+  "expected_completion_time": "2026-04-05T14:52:00Z"
+}

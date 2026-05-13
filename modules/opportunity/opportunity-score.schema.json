@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opportunity Score",
+  "description": "Scoring result for an opportunity across standard dimensions",
+  "type": "object",
+  "properties": {
+    "opportunity_id": {
+      "type": "string",
+      "description": "Reference to the opportunity being scored"
+    },
+    "scoring_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "market_size": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "factors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["score", "rationale"]
+        },
+        "urgency": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "factors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["score", "rationale"]
+        },
+        "competition": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "factors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["score", "rationale"]
+        },
+        "strategic_fit": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "factors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["score", "rationale"]
+        }
+      },
+      "required": ["market_size", "urgency", "competition", "strategic_fit"]
+    },
+    "total_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Sum of all dimension scores"
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": ["advance", "reconsider", "reject"],
+      "description": "Recommended action based on score"
+    },
+    "scored_by": {
+      "type": "string",
+      "description": "Agent ID that performed scoring"
+    }
+  },
+  "required": ["opportunity_id", "scoring_timestamp", "dimensions", "total_score", "recommendation"]
+}

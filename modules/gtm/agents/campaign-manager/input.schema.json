@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Campaign Manager Input",
+  "description": "Campaign objectives, audience, budget, and A/B test parameters",
+  "required": ["campaign_objective", "target_audience", "budget", "success_metric"],
+  "properties": {
+    "campaign_objective": {
+      "type": "object",
+      "required": ["name", "channel", "goal"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Campaign name (e.g., 'DataShield CISO LinkedIn ABM Q2')"
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["paid-linkedin", "paid-google-ads", "paid-social", "email", "organic-social", "content", "partnerships", "events", "plg"],
+          "description": "Primary distribution channel"
+        },
+        "goal": {
+          "type": "string",
+          "description": "Campaign goal in 1 sentence"
+        },
+        "timeline_days": {
+          "type": "integer",
+          "minimum": 7,
+          "maximum": 90,
+          "description": "Campaign duration in days"
+        }
+      }
+    },
+    "target_audience": {
+      "type": "object",
+      "required": ["persona", "segment_size"],
+      "properties": {
+        "persona": {
+          "type": "string",
+          "description": "Target persona (e.g., 'CISO at mid-market SaaS')"
+        },
+        "segment_size": {
+          "type": "integer",
+          "description": "Estimated addressable market size"
+        },
+        "geographic_focus": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "exclusions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Audiences to exclude (e.g., 'existing customers', 'competitors')"
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "required": ["total_usd", "currency"],
+      "properties": {
+        "total_usd": {
+          "type": "number",
+          "minimum": 2000,
+          "description": "Total campaign budget"
+        },
+        "currency": {
+          "type": "string",
+          "default": "USD"
+        },
+        "allocation_strategy": {
+          "type": "string",
+          "enum": ["equal-split", "performance-based", "sequential", "fixed-allocation"],
+          "description": "How to allocate budget across test variants"
+        }
+      }
+    },
+    "success_metric": {
+      "type": "object",
+      "required": ["metric_type", "target_value"],
+      "properties": {
+        "metric_type": {
+          "type": "string",
+          "enum": ["impressions", "clicks", "ctr", "conversions", "cost-per-lead", "cost-per-signup", "conversion-rate", "roas"],
+          "description": "Primary success metric"
+        },
+        "target_value": {
+          "type": "number",
+          "description": "Target value for metric"
+        },
+        "secondary_metrics": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Other metrics to track"
+        }
+      }
+    },
+    "ab_test_config": {
+      "type": "object",
+      "properties": {
+        "variable_to_test": {
+          "type": "string",
+          "enum": ["audience", "messaging", "creative", "offer", "channel-variant", "landing-page"],
+          "description": "What's being tested"
+        },
+        "control_version": {
+          "type": "string",
+          "description": "Control messaging/creative version"
+        },
+        "test_variant": {
+          "type": "string",
+          "description": "Test variant messaging/creative"
+        },
+        "confidence_level": {
+          "type": "number",
+          "enum": [0.9, 0.95, 0.99],
+          "description": "Statistical confidence threshold (0.95 = 95%)"
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "kill_threshold_cac_multiplier": {
+          "type": "number",
+          "description": "CAC > (target * multiplier) triggers campaign pause"
+        },
+        "minimum_days_before_decision": {
+          "type": "integer",
+          "description": "Minimum days of data before making scale/kill decision"
+        },
+        "daily_spend_cap": {
+          "type": "number",
+          "description": "Maximum daily spend (prevents budget burn)"
+        }
+      }
+    }
+  }
+}

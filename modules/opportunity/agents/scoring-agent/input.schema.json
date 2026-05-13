@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scoring Agent Input",
+  "type": "object",
+  "properties": {
+    "opportunity": {
+      "type": "object",
+      "properties": {
+        "opportunity_id": {"type": "string"},
+        "title": {"type": "string"},
+        "market_size_estimate": {
+          "type": "object",
+          "properties": {
+            "tam": {"type": "number"},
+            "sam": {"type": "number"},
+            "som": {"type": "number"},
+            "confidence": {"type": "number"}
+          }
+        },
+        "problem_analysis": {
+          "type": "object",
+          "properties": {
+            "pain_severity": {"type": "string"},
+            "market_readiness": {"type": "string"}
+          }
+        },
+        "competition_landscape": {
+          "type": "object",
+          "properties": {
+            "direct_competitors": {"type": "array"},
+            "competitive_intensity": {"type": "string"}
+          }
+        },
+        "analysis_quality": {
+          "type": "object",
+          "properties": {
+            "confidence_level": {"type": "number"},
+            "data_gaps": {"type": "array"}
+          }
+        }
+      }
+    },
+    "scoring_context": {
+      "type": "object",
+      "properties": {
+        "portfolio_focus_areas": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "strategic_priorities": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "apply_market_signals": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    }
+  },
+  "required": ["opportunity"]
+}

@@ -1,0 +1,288 @@
+{
+  "workflow_id": "build-pipeline",
+  "name": "MVP Build Pipeline",
+  "description": "9-stage sequential pipeline for building, testing, and approving MVP launch",
+  "version": "1.0.0",
+  "stages": [
+    {
+      "stage_number": 1,
+      "stage_id": "functional-validation",
+      "agent": "product-validator",
+      "name": "Functional Validation",
+      "description": "Validate requirements are complete and buildable",
+      "input_from": ["venture_spec", "target_users", "proposed_features"],
+      "output_to": ["functional_spec"],
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_retries": 0,
+        "backoff_multiplier": 1.0
+      },
+      "failure_policy": "BLOCK",
+      "gate": {
+        "condition": "validation_approved == true",
+        "failure_action": "BLOCK_PIPELINE"
+      },
+      "next_stage": "ux-bdd-specification",
+      "events_emitted": [
+        {
+          "event": "build.stage.started",
+          "payload": { "stage": "functional-validation" }
+        },
+        {
+          "event": "build.stage.passed",
+          "payload": { "stage": "functional-validation", "output": "functional_spec" }
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "stage_id": "ux-bdd-specification",
+      "agent": "ux-bdd-agent",
+      "name": "UX/BDD Specification",
+      "description": "Create UX specs and BDD scenarios for MVP",
+      "input_from": ["functional_spec"],
+      "output_to": ["bdd_spec", "wireframe_artifacts"],
+      "timeout_seconds": 1800,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 1.5
+      },
+      "failure_policy": "BLOCK",
+      "gate": {
+        "condition": "bdd_scenarios_count >= 20 AND bdd_scenarios_count <= 50",
+        "failure_action": "BLOCK_PIPELINE"
+      },
+      "next_stage": "solution-architecture",
+      "events_emitted": [
+        {
+          "event": "build.stage.started",
+          "payload": { "stage": "ux-bdd-specification" }
+        },
+        {
+          "event": "build.stage.passed",
+          "payload": { "stage": "ux-bdd-specification" }
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "stage_id": "solution-architecture",
+      "agent": "solution-architect",
+      "name": "Solution Architecture",
+      "description": "Design system architecture and data models",
+      "input_from": ["functional_spec", "bdd_spec"],
+      "output_to": ["architecture_spec", "data_models", "api_contracts"],
+      "timeout_seconds": 2700,
+      "retry_policy": {
+        "max_retries": 0,
+        "backoff_multiplier": 1.0
+      },
+      "failure_policy": "BLOCK",
+      "gate": {
+        "condition": "services_defined >= 3 AND services_defined <= 12",
+        "failure_action": "BLOCK_PIPELINE"
+      },
+      "next_stage": "backend-development",
+      "events_emitted": [
+        {
+          "event": "build.stage.started",
+          "payload": { "stage": "solution-architecture" }
+        },
+        {
+          "event": "build.stage.passed",
+          "payload": { "stage": "solution-architecture" }
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "stage_id": "backend-development",
+      "agent": "backend-agent",
+      "name": "Backend Development",
+      "description": "Generate production-ready backend code",
+      "input_from": ["architecture_spec", "bdd_scenarios"],
+      "output_to": ["code_repo_backend", "test_suite"],
+      "timeout_seconds": 3600,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 2.0
+      },
+      "failure_policy": "BLOCK",
+      "gate": {
+        "condition": "build_status == 'success' AND test_coverage_percent >= 80",
+        "failure_action": "BLOCK_PIPELINE"
+      },
+      "next_stage": "frontend-development",
+      "events_emitted": [
+        {
+          "event": "build.stage.started",
+          "payload": { "stage": "backend-development" }
+        },
+        {
+          "event": "build.stage.passed",
+          "payload": { "stage": "backend-development", "test_coverage": "{{test_coverage_percent}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "stage_id": "frontend-development",
+      "agent": "frontend-agent",
+      "name": "Frontend Development",
+      "description": "Generate production-ready frontend code",
+      "input_from": ["bdd_scenarios", "wireframes", "api_contracts"],
+      "output_to": ["code_repo_frontend"],
+      "timeout_seconds": 3600,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 2.0
+      },
+      "failure_policy": "BLOCK",
+      "gate": {
+        "condition": "build_status == 'success' AND lighthouse_score_estimate >= 90",
+        "failure_action": "BLOCK_PIPELINE"
+      },
+      "next_stage": "qa-testing",
+      "events_emitted": [
+        {
+          "event": "build.stage.started",
+          "payload": { "stage": "frontend-development" }
+        },
+        {
+          "event": "build.stage.passed",
+          "payload": { "stage": "frontend-development", "lighthouse_score": "{{lighthouse_score_estimate}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 6,
+      "stage_id": "qa-testing",
+      "agent": "qa-agent",
+      "name": "QA Testing",
+      "description": "Execute end-to-end tests on staging environment",
+      "input_from": ["bdd_scenarios", "staging_url"],
+      "output_to": ["qa_report"],
+      "timeout_seconds": 1800,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_multiplier": 1.5
+      },
+      "failure_policy": "REWORK_LOOP",
+      "gate": {
+        "condition": "pass_rate_percent >= 90",
+        "failure_action": "REWORK_LOOP",
+        "failure_routing": "dynamic_based_on_failure_type"
+      },
+      "next_stage": "security-audit",
+      "rework_target": "rework-loop",
+      "events_emitted": [
+        {
+          "event": "build.stage.started",
+          "payload": { "stage": "qa-testing" }
+        },
+        {
+          "event": "build.qa.report-generated",
+          "payload": { "pass_rate": "{{pass_rate_percent}}" }
+        },
+        {
+          "event": "build.stage.passed",
+          "payload": { "stage": "qa-testing", "pass_rate": "{{pass_rate_percent}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 7,
+      "stage_id": "security-audit",
+      "agent": "security-agent",
+      "name": "Security Audit",
+      "description": "Perform security assessment and vulnerability analysis",
+      "input_from": ["code_repo_backend", "deployed_staging_url", "api_contracts"],
+      "output_to": ["security_report"],
+      "timeout_seconds": 2700,
+      "retry_policy": {
+        "max_retries": 0,
+        "backoff_multiplier": 1.0
+      },
+      "failure_policy": "ESCALATE",
+      "gate": {
+        "condition": "critical_count == 0",
+        "failure_action": "ESCALATE_BLOCKING_ISSUES"
+      },
+      "next_stage": "governance-review",
+      "events_emitted": [
+        {
+          "event": "build.stage.started",
+          "payload": { "stage": "security-audit" }
+        },
+        {
+          "event": "build.security.vulnerability-found",
+          "payload": { "severity": "{{severity}}", "count": "{{critical_count}}" },
+          "condition": "critical_count > 0"
+        },
+        {
+          "event": "build.stage.passed",
+          "payload": { "stage": "security-audit", "security_score": "{{overall_security_score}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 8,
+      "stage_id": "governance-review",
+      "agent": "governance-agent",
+      "name": "Governance Review",
+      "description": "Final launch approval and readiness assessment",
+      "input_from": ["all_stage_reports"],
+      "output_to": ["governance_report"],
+      "timeout_seconds": 1200,
+      "retry_policy": {
+        "max_retries": 0,
+        "backoff_multiplier": 1.0
+      },
+      "failure_policy": "BLOCK",
+      "gate": {
+        "condition": "launch_approved == true",
+        "failure_action": "BLOCK_PIPELINE"
+      },
+      "next_stage": "emit-launch-ready",
+      "events_emitted": [
+        {
+          "event": "build.stage.started",
+          "payload": { "stage": "governance-review" }
+        },
+        {
+          "event": "build.approved",
+          "payload": { "stage": "governance-review", "readiness_score": "{{launch_readiness_score}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 9,
+      "stage_id": "emit-launch-ready",
+      "agent": "system",
+      "name": "Launch Ready Handoff",
+      "description": "Emit launch-ready event to GTM pipeline",
+      "input_from": ["governance_report"],
+      "output_to": ["launch_ready_event"],
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 1.0
+      },
+      "failure_policy": "NONE",
+      "gate": null,
+      "next_stage": null,
+      "events_emitted": [
+        {
+          "event": "builder.launch-ready",
+          "payload": { "build_id": "{{build_id}}", "venture_id": "{{venture_id}}" }
+        }
+      ]
+    }
+  ],
+  "global_config": {
+    "timezone": "UTC",
+    "parallel_stages": ["ux-bdd-specification"],
+    "max_total_duration_seconds": 14400,
+    "notification_channels": ["slack", "email"]
+  }
+}

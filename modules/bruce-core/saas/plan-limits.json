@@ -1,0 +1,23 @@
+{
+  "free": {
+    "max_active_ventures": 1,
+    "modules_enabled": ["opportunity", "add-venture"],
+    "human_gate_notifications": false,
+    "portfolio_reviews": 0,
+    "support": "community"
+  },
+  "pro": {
+    "max_active_ventures": 5,
+    "modules_enabled": ["opportunity", "add-venture", "brand-aid", "builder", "gtm"],
+    "human_gate_notifications": true,
+    "portfolio_reviews": 2,
+    "support": "email"
+  },
+  "enterprise": {
+    "max_active_ventures": -1,
+    "modules_enabled": ["opportunity", "add-venture", "brand-aid", "builder", "gtm", "startup-ops", "portfolio", "bruce-memory"],
+    "human_gate_notifications": true,
+    "portfolio_reviews": -1,
+    "support": "dedicated"
+  }
+}

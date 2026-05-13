@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Value-Proposition-Designer Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "volume_number": {"type": "integer", "const": 3},
+    "volume_title": {"type": "string"},
+    "core_value_proposition": {"type": "string"},
+    "differentiation_strategy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "differentiator": {"type": "string"},
+          "why_matters_to_customer": {"type": "string"},
+          "defensibility_rationale": {"type": "string"},
+          "competitive_comparison": {"type": "string"}
+        }
+      }
+    },
+    "value_proposition_canvas": {
+      "type": "object",
+      "properties": {
+        "customer_pains": {"type": "array", "items": {"type": "string"}},
+        "customer_gains": {"type": "array", "items": {"type": "string"}},
+        "pain_relievers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pain": {"type": "string"},
+              "how_we_relieve": {"type": "string"}
+            }
+          }
+        },
+        "gain_creators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "gain": {"type": "string"},
+              "how_we_create": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "positioning_statement": {
+      "type": "object",
+      "properties": {
+        "for_target": {"type": "string"},
+        "product_name": {"type": "string"},
+        "category": {"type": "string"},
+        "key_benefit": {"type": "string"},
+        "primary_differentiator": {"type": "string"},
+        "proof_point": {"type": "string"}
+      }
+    },
+    "unique_differentiators": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "comparison_vs_alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "alternative": {"type": "string"},
+          "their_strength": {"type": "string"},
+          "our_advantage": {"type": "string"}
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "confidence_rationale": {"type": "string"},
+    "key_sections": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "volume_number", "volume_title", "core_value_proposition", "differentiation_strategy", "value_proposition_canvas", "positioning_statement", "confidence_score"]
+}

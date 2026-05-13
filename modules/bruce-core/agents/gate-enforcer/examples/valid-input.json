@@ -1,0 +1,49 @@
+{
+  "example": "Post-Screening Gate Evaluation",
+  "venture_id": "v-abc12345",
+  "gate_name": "post-screening",
+  "current_stage": "GENERATED",
+  "evaluation_trigger": "module_completed",
+  "venture_data": {
+    "venture_id": "v-abc12345",
+    "name": "CloudSync",
+    "founded_date": "2026-03-15",
+    "founder_info": {
+      "name": "Alice Johnson",
+      "experience": "VP Engineering at Salesforce for 8 years, shipped 3 enterprise products",
+      "education": "BS Computer Science from Stanford",
+      "prior_startups": 1,
+      "background_summary": "Enterprise software veteran with strong execution track record"
+    },
+    "problem_statement": "Enterprise data sync between SaaS applications is manual and error-prone. Finance teams spend 10+ hours/week on data reconciliation.",
+    "target_market": {
+      "segment": "Mid-market finance teams (100-1000 employees)",
+      "tam_estimate": "850M",
+      "customer_interview_count": 18
+    },
+    "created_at": "2026-03-15T10:00:00Z"
+  },
+  "module_outputs": {
+    "opportunity_screening": {
+      "founder_assessment": "Alice has 8 years enterprise software experience at Salesforce, led 3 product launches. No prior startup founding. Technically strong, execution bias. Minor risk: first-time founder.",
+      "problem_validation": {
+        "interview_count": 18,
+        "customer_feedback": "All 18 customers confirmed 4-10 hours/week manual data sync work",
+        "pain_point_severity": "High - causing finance team bottlenecks",
+        "willingness_to_pay": "Estimated $5-10K/month per customer"
+      },
+      "market_analysis": {
+        "tam": "850M in enterprise integration market",
+        "serviceable_market": "150M in mid-market finance segment",
+        "growth_rate": "15% CAGR over 5 years",
+        "competitive_landscape": "Zapier (general automation), native integrations exist but limited"
+      },
+      "feasibility_assessment": {
+        "technical_approach": "REST API polling + webhook architecture",
+        "mvp_timeline": "8 months with 4-person team",
+        "major_risks": "Data quality validation, customer onboarding complexity"
+      }
+    }
+  },
+  "correlation_id": "corr-gate-001"
+}

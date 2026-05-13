@@ -1,0 +1,16 @@
+{
+  "workflow_id": "weekly-performance-review",
+  "module": "gtm",
+  "description": "Weekly governance review: analytics ingestion → interpretation → decision → reporting",
+  "version": "1.0",
+  "trigger": {"type": "schedule", "cron": "0 10 * * MON"},
+  "steps": [
+    {"step_id": "analytics-ingestion", "agent": "analytics-agent", "description": "Fetch and consolidate analytics from all channels", "input": {"from": "workflow.context", "fields": ["venture_id", "date_range"]}, "output_to": "analytics-data", "timeout_seconds": 600, "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 5000}, "failure_policy": "block_and_alert", "next_step": {"default": "performance-interpretation"}, "events_emitted": ["gtm.analytics.ingested"]},
+    {"step_id": "performance-interpretation", "agent": "analytics-agent", "description": "Analyze performance trends and identify winners/losers", "input": {"from": "analytics-data", "fields": ["channel_metrics", "kpis"]}, "output_to": "analysis-results", "timeout_seconds": 900, "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 5000}, "failure_policy": "skip_and_notify", "next_step": {"default": "governance-decision"}, "events_emitted": ["gtm.analysis.interpreted"]},
+    {"step_id": "governance-decision", "agent": "weekly-governance-agent", "description": "Make weekly governance decisions on channels and budgets", "input": {"from": "analysis-results", "fields": ["performance_trends", "kpis"]}, "output_to": "decisions", "timeout_seconds": 600, "retry_policy": {"max_attempts": 2, "backoff": "exponential", "initial_delay_ms": 5000}, "failure_policy": "mark_failed_and_continue", "next_step": {"default": "report-generation"}, "events_emitted": ["gtm.governance.decision.made"]},
+    {"step_id": "report-generation", "agent": "weekly-governance-agent", "description": "Generate weekly performance report", "input": {"from": "decisions", "fields": ["decisions", "analysis", "recommendations"]}, "output_to": "weekly-report", "timeout_seconds": 600, "retry_policy": {"max_attempts": 1, "backoff": "none"}, "failure_policy": "skip_and_notify", "next_step": {"default": "handoff-startup-ops"}, "events_emitted": ["gtm.weekly-report.generated"]},
+    {"step_id": "handoff-startup-ops", "agent": null, "description": "Forward report and recommendations to Startup Ops for implementation", "input": {"from": "weekly-report", "fields": ["report", "decisions"]}, "output_to": "startup-ops.inbox", "timeout_seconds": 300, "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 3000}, "failure_policy": "block_and_alert", "next_step": {"default": "workflow-complete"}, "events_emitted": ["gtm.report.forwarded"]}
+  ],
+  "error_handlers": {"on_step_failure": "notify_and_log", "on_workflow_timeout": "partial_completion_allowed"},
+  "metrics": {"target_duration_minutes": 90}
+}

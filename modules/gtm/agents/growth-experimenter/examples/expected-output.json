@@ -1,0 +1,174 @@
+{
+  "prioritized_experiments": [
+    {
+      "rank": 1,
+      "experiment_name": "Partnership Acceleration Program",
+      "hypothesis": "If we formalize and incentivize Salesforce consulting partner referral program (revenue share on referred customers), we can achieve 40 partner referrals/month vs. current 8/month, generating 300% ROI.",
+      "methodology": "Launch structured referral program with 5 consulting partners: clear commission structure (15% of ACV year 1), marketing enablement (1-pager, case study, training), monthly business reviews. Track referrals sourced vs. partner engagement.",
+      "success_metric": "Monthly partner-sourced leads",
+      "target_value": 30,
+      "target_impact": "+300% monthly leads, +$54K MRR if 50% convert",
+      "budget_usd": 2500,
+      "timeline_days": 45,
+      "resource_requirement": "0.25 FTE (partnership manager) + marketing team support (1-pagers, case studies)",
+      "cost_of_learning": 83,
+      "roi_if_successful": "10:1 (for every $1 spent on program, $10 MRR generated in year 1)",
+      "go_no_go_decision_criteria": "If partner referrals reach 15+/month by week 6, scale to 10 partners. If <5/month, pivot to partner enablement (webinars, training).",
+      "dependencies": [],
+      "risks": [
+        "Partners prioritize other vendors (mitigate: strong incentives + regular engagement)",
+        "Referral quality poor (mitigate: MQL definition agreed upfront with partners)"
+      ]
+    },
+    {
+      "rank": 2,
+      "experiment_name": "Analyst Relations + Editorial Placement",
+      "hypothesis": "If we secure 2-3 analyst briefings (Gartner, Forrester) and 1 editorial placement (Dark Reading, Information Security Magazine), we can achieve 15% lift in lead quality + 20% lift in sales team win rates due to credibility halo.",
+      "methodology": "Identify 5 key analysts covering insider threat space, submit 3 analyst briefing requests (Gartner, Forrester, IDC). Pitch 3 industry publications for thought leadership article. Track analyst mentions in sales calls + article-sourced leads.",
+      "success_metric": "Analyst briefing confirmations + editorial placements",
+      "target_value": 3,
+      "target_impact": "+15% lead quality (MQL-to-SQL conversion), +20% sales win rate from credibility",
+      "budget_usd": 3000,
+      "timeline_days": 60,
+      "resource_requirement": "0.2 FTE (exec/marketer for analyst relations) + product team input on briefing prep",
+      "cost_of_learning": 1000,
+      "roi_if_successful": "Credibility lift worth $20-30K in additional MRR (from improved conversion rates)",
+      "go_no_go_decision_criteria": "If 2+ analyst briefings + 1 editorial placement secured by week 8, codify into quarterly analyst relations playbook. If <1 placement, deprioritize and redirect budget.",
+      "dependencies": [
+        "Requires sales team feedback on lead quality and objection patterns"
+      ],
+      "risks": [
+        "Analyst/editorial processes slower than expected (mitigate: 60-day timeline realistic, start immediately)",
+        "Analyst skeptical of new vendor (mitigate: strong Gartner report positioning + customer proof points)"
+      ]
+    },
+    {
+      "rank": 3,
+      "experiment_name": "Content Marketing Channel Optimization (Proof Points)",
+      "hypothesis": "If we shift content focus from generic 'insider threat awareness' to specific proof points (ROI calculator, compliance checklist, competitor comparison), we can improve content-driven lead quality from 0.2 conversion rate to 0.35+, reducing CAC from $800 to $550.",
+      "methodology": "Create 3 core assets (ROI calculator, compliance checklist, DataShield vs. Varonis comparison). Promote via LinkedIn, email, partnerships for 6 weeks. Track lead source, conversion rate, and lead quality (MQL → SQL rate).",
+      "success_metric": "Content-driven lead conversion rate",
+      "target_value": 0.35,
+      "target_impact": "+75% of content leads convert (vs. current 20%), reducing CAC from $800 to $550",
+      "budget_usd": 1500,
+      "timeline_days": 42,
+      "resource_requirement": "1.0 FTE (content marketer) for asset creation + promotion",
+      "cost_of_learning": 500,
+      "roi_if_successful": "If successful, content becomes primary lead source (currently most expensive). Reduces overall CAC by 5-10%.",
+      "go_no_go_decision_criteria": "If content-driven conversion rate reaches 30%+ by week 6, scale content production 3x. If <15%, revert to awareness content and reallocate to partnerships.",
+      "dependencies": [
+        "Requires sales input on top customer objections and proof points they find most persuasive"
+      ],
+      "risks": [
+        "Content takes longer to gain traction (mitigate: promote heavily via paid + partnerships)",
+        "ROI calculator data requirements (mitigate: partner with financial modeling tool)"
+      ]
+    },
+    {
+      "rank": 4,
+      "experiment_name": "Customer Advocacy Program",
+      "hypothesis": "If we recruit 5 early customers for customer advisory board + speaking opportunities, we can unlock case study content + customer referrals, adding 15 new leads/month with 0.25 CAC ratio (high quality).",
+      "methodology": "Select 5 customers with strong NPS + visible Salesforce usage. Invite to quarterly advisory board + speaking opportunities (security conferences, webinars). Track advisor-sourced referrals and speaking-generated leads.",
+      "success_metric": "Advisor-sourced leads per month",
+      "target_value": 10,
+      "target_impact": "+10 leads/month with <$100 CAC (customer referral), high conversion quality",
+      "budget_usd": 500,
+      "timeline_days": 30,
+      "resource_requirement": "0.1 FTE (relationship/community manager)",
+      "cost_of_learning": 50,
+      "roi_if_successful": "Customer referrals typically have 3-5x higher conversion rate + 2x higher LTV",
+      "go_no_go_decision_criteria": "If 3+ customers commit to advisory board by week 3, scale to 10 customers. If <2 commitments, deprioritize.",
+      "dependencies": [
+        "Requires CS team to identify customers with high advocacy potential"
+      ],
+      "risks": [
+        "Customers lack time for advisory program (mitigate: clear time commitment, professional fees if needed)",
+        "Speaking opportunities limited (mitigate: create internal thought leadership program)"
+      ]
+    },
+    {
+      "rank": 5,
+      "experiment_name": "LinkedIn Outreach + SDR Testing",
+      "hypothesis": "If we hire fractional SDR (0.5 FTE) to do personalized LinkedIn outreach to 500 CISO targets/month with relevant case studies, we can achieve 8-10% reply rate and 2-3% meeting rate, generating 10-15 qualified opportunities/month with $800 blended CAC.",
+      "methodology": "Hire fractional SDR to conduct LinkedIn + email outreach campaign targeting CISO personas. Personalize messaging with relevant proof points. Track reply rate, meeting rate, qualification rate.",
+      "success_metric": "Meeting rate from outreach",
+      "target_value": 0.03,
+      "target_impact": "+10-15 meetings/month from personalized outreach",
+      "budget_usd": 2000,
+      "timeline_days": 60,
+      "resource_requirement": "0.5 FTE fractional SDR",
+      "cost_of_learning": 200,
+      "roi_if_successful": "If 2% of outreach converts to customers, ROI is 3:1",
+      "go_no_go_decision_criteria": "If reply rate reaches 8%+ and meeting rate 2%+ by week 4, scale to full-time SDR. If reply rate <5%, deprioritize.",
+      "dependencies": [
+        "Requires email sequence and personalization templates from content team"
+      ],
+      "risks": [
+        "SDR productivity varies (mitigate: clear KPIs, weekly check-ins)",
+        "CISO outreach fatigue (mitigate: personalized, valuable outreach vs. mass spam)"
+      ]
+    }
+  ],
+  "experiment_sequencing": "Execute experiments in parallel but with sequence logic: (1) Partnership acceleration (#1) and analyst relations (#2) run immediately (non-resource-intensive, highest potential impact). (2) Content optimization (#3) runs weeks 3-6 (informs partnership enablement). (3) Customer advocacy (#4) runs weeks 2-4 (quick launch, builds momentum). (4) SDR testing (#5) runs weeks 5-10 (requires SDR hiring). Learnings from partnerships inform SDR targeting. Content assets created in #3 directly support SDR outreach in #5.",
+  "success_playbook_opportunity": {
+    "if_top_experiment_succeeds": "Partnership acceleration becomes core growth engine: scaled from 5 to 15-20 partners, formalized referral operations, partner enablement program becomes quarterly ritual.",
+    "scaling_path": "Months 1-2: Validate with 5 partners, establish commission structure and enablement. Months 3-6: Add 10 more partners with proven playbook. Months 6+: Build partner portal with self-service resources, shift to partner community management.",
+    "team_capability_to_build": [
+      "Partnership account management (ongoing relationship nurturing)",
+      "Partner enablement at scale (training programs, marketing resources, deal reviews)",
+      "Revenue operations (partner commission tracking, MQL-to-SQL attribution)"
+    ]
+  },
+  "resource_allocation_plan": {
+    "total_budget": 8000,
+    "allocation_by_experiment": {
+      "partnership-acceleration": 2500,
+      "analyst-relations": 3000,
+      "content-optimization": 1500,
+      "customer-advocacy": 500,
+      "sdr-testing": 2000
+    },
+    "contingency_reserve": 0
+  },
+  "quarterly_roadmap": {
+    "month_1": [
+      "Partnership Acceleration Program (launch with 5 partners)",
+      "Analyst Relations (submit briefing requests)",
+      "Customer Advocacy Program (recruit 5 advisors)",
+      "Content Marketing Optimization (create ROI calculator, checklist, comparison)"
+    ],
+    "month_2": [
+      "Partnership Acceleration (track referrals, add 5 more partners if successful)",
+      "Analyst Relations (monitor briefing pipeline)",
+      "SDR Testing (hire fractional SDR, launch outreach campaign)",
+      "Content Marketing (promote assets, measure conversion)",
+      "Weekly-Governance: Review learnings, reprioritize month 3"
+    ],
+    "month_3": [
+      "Scale winning experiment (partnership or SDR)",
+      "Launch 2 new experiments based on learnings",
+      "Pause underperforming experiment",
+      "Plan Q2 roadmap based on Q1 learnings"
+    ]
+  },
+  "stopping_rules": {
+    "pause_if": [
+      "Partner/analyst/customer engagement drops <25% of target within 2 weeks",
+      "SDR reply rate <5% after first 500 outreaches",
+      "Content conversion rate plateaus <25% after 4 weeks"
+    ],
+    "kill_if": [
+      "Partnership: <5 partner referrals/month by week 6 (kill analyst relations first, reallocate budget)",
+      "Analyst Relations: 0 analyst briefings scheduled by week 8",
+      "Customer Advocacy: <2 customers commit to advisory board by week 3",
+      "SDR: <2% reply rate after 1000 outreaches"
+    ],
+    "scale_if": [
+      "Partnership: 15+ referrals/month by week 6 → expand to 15-20 partners",
+      "Analyst Relations: 2+ briefings confirmed → formalize into quarterly analyst relations program",
+      "Content: 30%+ conversion rate by week 4 → double content production budget",
+      "Customer Advocacy: 3+ customers in program by week 3 → hire dedicated advocate manager",
+      "SDR: 3%+ meeting rate by week 4 → hire full-time SDR"
+    ]
+  }
+}

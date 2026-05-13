@@ -1,0 +1,54 @@
+{
+  "module": "builder",
+  "plans": {
+    "free": {
+      "enabled": false,
+      "reason": "builder requires pro plan or higher"
+    },
+    "pro": {
+      "enabled": true,
+      "mvp_specs_per_venture": 1,
+      "features": {
+        "technical_architecture_definition": true,
+        "feature_prioritization": true,
+        "backlog_creation": true,
+        "sprint_planning": true,
+        "acceptance_criteria": true,
+        "development_roadmap": true,
+        "custom_architecture_reviews": false,
+        "multi_team_sprint_plans": false,
+        "custom_integrations": false
+      },
+      "max_sprints": 3,
+      "tech_stack_recommendations": "standard",
+      "team_collaboration": true,
+      "output_formats": ["markdown", "pdf", "jira"],
+      "methodology_options": ["agile"],
+      "max_team_members": 5
+    },
+    "enterprise": {
+      "enabled": true,
+      "mvp_specs_per_venture": null,
+      "features": {
+        "technical_architecture_definition": true,
+        "feature_prioritization": true,
+        "backlog_creation": true,
+        "sprint_planning": true,
+        "acceptance_criteria": true,
+        "development_roadmap": true,
+        "custom_architecture_reviews": true,
+        "multi_team_sprint_plans": true,
+        "custom_integrations": true
+      },
+      "max_sprints": null,
+      "tech_stack_recommendations": "custom",
+      "team_collaboration": true,
+      "output_formats": ["markdown", "pdf", "jira", "asana", "monday", "linear", "json"],
+      "methodology_options": ["agile", "lean", "waterfall", "kanban"],
+      "max_team_members": null,
+      "api_access": true,
+      "webhooks_enabled": true,
+      "custom_workflows_support": true
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "briefing": {
+    "venture_id": "vent-20260405-001",
+    "opportunity_id": "opp-20260405-002",
+    "problem_context": {
+      "core_problem": "Distributed finance companies face exponentially complex regulatory requirements across 50+ jurisdictions with manual compliance monitoring consuming 15-20% of operations budget",
+      "affected_personas": ["Chief Compliance Officers", "RegTech teams", "Operations leaders"],
+      "current_solutions": ["Manual compliance tracking", "Hiring expensive compliance experts", "Basic workflow tools"],
+      "confidence_level": 0.82
+    },
+    "market_context": {
+      "tam": 12000000000,
+      "sam": 2400000000,
+      "som": 120000000,
+      "market_dynamics": "Fintech regulatory enforcement doubled in past 18 months; companies moving to Series B+ adding CCO roles",
+      "regulatory_environment": "CFPB enforcement increasing, state-by-state requirements multiplying, no unified framework",
+      "confidence_level": 0.75
+    },
+    "customer_context": {
+      "primary_segment": "Growth-stage fintechs ($50M-$500M ARR) with multi-jurisdiction operations",
+      "segment_size": 2000,
+      "jtbd_functional": "Automate compliance monitoring and reduce regulatory risk without hiring large compliance teams",
+      "jtbd_emotional": "Feel confident in regulatory posture and protected from enforcement action",
+      "willingness_to_pay": "$1-5M annually depending on jurisdiction complexity",
+      "confidence_level": 0.70
+    },
+    "competitive_context": {
+      "direct_competitors": ["Smarsh", "Anaplan", "Custom in-house solutions"],
+      "indirect_competitors": ["Generic compliance software", "Consulting firms"],
+      "competitive_intensity": "medium",
+      "differentiation_opportunities": [
+        "Fintech-specific workflow optimization",
+        "Multi-jurisdiction automation",
+        "Real-time regulatory change monitoring"
+      ],
+      "barriers_to_entry": [
+        "Deep regulatory knowledge required",
+        "Continuous compliance with changing rules",
+        "Enterprise sales cycle and implementation",
+        "Integration with fintech platforms"
+      ],
+      "confidence_level": 0.72
+    },
+    "key_assumptions": [
+      "Fintech companies will prioritize automation over hiring compliance staff",
+      "Regulatory complexity will continue increasing YoY",
+      "Enterprise SaaS model is appropriate for compliance automation"
+    ],
+    "data_gaps": [
+      "Precise willingness-to-pay by fintech segment",
+      "Current manual compliance cost breakdown",
+      "Regulatory enforcement trends forecasting"
+    ]
+  },
+  "analysis_parameters": {
+    "depth_level": "standard",
+    "market_validation_focus": ["regulatory_trends", "fintech_expansion", "compliance_cost"]
+  }
+}

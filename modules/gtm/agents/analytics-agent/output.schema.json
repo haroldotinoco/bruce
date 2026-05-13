@@ -1,0 +1,198 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Analytics Agent Output",
+  "description": "Campaign performance analysis with interpretation and actionable recommendations",
+  "required": ["performance_summary", "interpretation", "recommendation"],
+  "properties": {
+    "performance_summary": {
+      "type": "object",
+      "required": ["success_metric", "target_value", "achieved_value", "status"],
+      "properties": {
+        "success_metric": {
+          "type": "string"
+        },
+        "target_value": {
+          "type": "number"
+        },
+        "achieved_value": {
+          "type": "number"
+        },
+        "variance_percent": {
+          "type": "number",
+          "description": "Percentage difference from target (positive = exceeding target)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["exceeding-target", "on-track", "at-risk", "failed"],
+          "description": "Overall campaign status"
+        },
+        "confidence_level": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Statistical confidence in results (0.95 = 95% confidence)"
+        },
+        "data_completeness_percent": {
+          "type": "number",
+          "description": "% of expected data available (100 = complete)"
+        }
+      }
+    },
+    "segment_breakdown": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["segment_name", "metric_value", "vs_target"],
+        "properties": {
+          "segment_name": {
+            "type": "string",
+            "description": "Segment identifier (e.g., 'variant_control', 'audience_segment_1')"
+          },
+          "metric_value": {
+            "type": "number"
+          },
+          "target": {
+            "type": "number"
+          },
+          "vs_target": {
+            "type": "string",
+            "enum": ["above-target", "on-target", "below-target"]
+          },
+          "sample_size": {
+            "type": "integer",
+            "description": "Number of conversions/events in segment"
+          },
+          "trend": {
+            "type": "string",
+            "enum": ["improving", "stable", "declining"]
+          },
+          "statistical_significance": {
+            "type": "boolean",
+            "description": "Is this segment statistically significantly different from control?"
+          }
+        }
+      }
+    },
+    "winning_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern", "segments", "performance_lift"],
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "description": "What's working (e.g., 'messaging emphasizing ROI', 'targeting job title \"VP Sales\"')"
+          },
+          "segments": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Which segments exhibit this pattern"
+          },
+          "performance_lift": {
+            "type": "number",
+            "description": "% improvement vs. control"
+          }
+        }
+      }
+    },
+    "losing_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern", "segments", "performance_loss"],
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "description": "What's not working"
+          },
+          "segments": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "performance_loss": {
+            "type": "number",
+            "description": "% underperformance vs. control"
+          }
+        }
+      }
+    },
+    "surprising_findings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Unexpected patterns or anomalies"
+    },
+    "root_cause_analysis": {
+      "type": "object",
+      "properties": {
+        "what_worked": {
+          "type": "string",
+          "description": "Explanation of successful elements"
+        },
+        "what_didnt_work": {
+          "type": "string",
+          "description": "Explanation of underperforming elements"
+        },
+        "external_factors_impact": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "factor": {"type": "string"},
+              "estimated_impact": {"type": "number"}
+            }
+          },
+          "description": "External events/changes that influenced results"
+        }
+      }
+    },
+    "interpretation": {
+      "type": "string",
+      "description": "Narrative summary of campaign performance, winning/losing patterns, and key insights (200-400 words)"
+    },
+    "recommendation": {
+      "type": "object",
+      "required": ["action", "rationale"],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": ["scale-campaign", "pause-campaign", "pivot-messaging", "continue-monitoring", "kill-campaign"],
+          "description": "Recommended action"
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Data-backed rationale for recommendation"
+        },
+        "next_steps": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Specific next actions"
+        },
+        "next_data_to_collect": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Additional data points that would improve future analysis"
+        }
+      }
+    },
+    "comparison_to_benchmarks": {
+      "type": "object",
+      "properties": {
+        "vs_historical": {
+          "type": "string",
+          "description": "How does this campaign compare to historical performance?"
+        },
+        "vs_platform_average": {
+          "type": "string",
+          "description": "How does performance compare to platform benchmarks?"
+        },
+        "vs_industry": {
+          "type": "string",
+          "description": "How does it compare to industry benchmarks?"
+        }
+      }
+    }
+  }
+}

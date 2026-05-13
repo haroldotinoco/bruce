@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bruce-memory/agents/intelligence-synthesizer/output",
+  "title": "IntelligenceSynthesizerOutput",
+  "type": "object",
+  "required": ["snapshot_id", "period_start", "period_end", "key_patterns", "strategic_implications"],
+  "properties": {
+    "snapshot_id": {
+      "type": "string"
+    },
+    "period_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "period_end": {
+      "type": "string",
+      "format": "date"
+    },
+    "key_patterns": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["pattern_id", "statement", "confidence", "evidence_count"],
+        "properties": {
+          "pattern_id": {
+            "type": "string"
+          },
+          "statement": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "evidence_count": {
+            "type": "integer"
+          },
+          "action_implication": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "strategic_implications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What Bruce should change about its investment thesis or processes"
+    },
+    "emerging_signals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "signal": {
+            "type": "string"
+          },
+          "first_observed": {
+            "type": "string",
+            "format": "date"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "watch_criteria": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "contradicted_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pattern_id": {
+            "type": "string"
+          },
+          "pattern_statement": {
+            "type": "string"
+          },
+          "contradiction_evidence": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "thesis_updates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific updates to BruceAI's investment thesis based on this month's intelligence"
+    },
+    "patterns_total_in_store": {
+      "type": "integer"
+    },
+    "learnings_ingested_this_period": {
+      "type": "integer"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

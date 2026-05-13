@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand Critique Output",
+  "type": "object",
+  "required": ["scores", "dimension_analysis", "pass_fail"],
+  "properties": {
+    "scores": {
+      "type": "object",
+      "properties": {
+        "strategic_alignment": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "distinctiveness": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "visual_coherence": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "naming_quality": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "overall": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "dimension_analysis": {
+      "type": "object",
+      "properties": {
+        "strategic_alignment": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer" },
+            "rationale": { "type": "string" },
+            "evidence": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "distinctiveness": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer" },
+            "rationale": { "type": "string" },
+            "vs_competitors": { "type": "string" }
+          }
+        },
+        "visual_coherence": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer" },
+            "rationale": { "type": "string" },
+            "consistency_checks": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "naming_quality": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer" },
+            "rationale": { "type": "string" },
+            "name_alignment": { "type": "string" }
+          }
+        }
+      }
+    },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What works well about the brand identity"
+    },
+    "improvement_areas": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Specific issues requiring work"
+    },
+    "iteration_recommendations": {
+      "type": "string",
+      "description": "Which stages to revisit if score < 75, and what to focus on"
+    },
+    "pass_fail": {
+      "type": "boolean",
+      "description": "Does brand meet 75+ overall threshold?"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence in the critique (1.0 = very high confidence)"
+    }
+  }
+}

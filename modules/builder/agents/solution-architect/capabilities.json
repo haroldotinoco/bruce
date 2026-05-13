@@ -1,0 +1,27 @@
+{
+  "name": "solution-architect",
+  "purpose": "Designs system architecture — service decomposition, data models, API contracts, infrastructure, scalability considerations",
+  "input_types": [
+    "functional_spec",
+    "bdd_spec",
+    "tech_stack_requirements"
+  ],
+  "output_types": [
+    "architecture_diagram",
+    "service_definitions",
+    "data_models",
+    "api_contracts",
+    "infrastructure_spec"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.2,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

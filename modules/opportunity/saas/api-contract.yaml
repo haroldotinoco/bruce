@@ -1,0 +1,516 @@
+openapi: "3.0.3"
+info:
+  title: Opportunity API
+  version: "1.0.0"
+  description: Discover, screen, and score market opportunities using AI
+  contact:
+    name: BruceAI Support
+    url: https://bruceai.com/support
+
+servers:
+  - url: https://api.opportunity.bruceai.com/v1
+    description: Standalone Opportunity service
+  - url: https://api.bruceai.com/opportunity/v1
+    description: Opportunity module via main API gateway
+
+security:
+  - BearerAuth: []
+  - ApiKeyAuth: []
+
+paths:
+  /scans:
+    post:
+      summary: Trigger a new opportunity scan
+      operationId: createScan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - themes
+              properties:
+                themes:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 5
+                  example:
+                    - "AI compliance automation"
+                    - "developer tools"
+                filters:
+                  type: object
+                  properties:
+                    geography:
+                      type: string
+                      example: "global"
+                    min_tam_usd:
+                      type: integer
+                      example: 100000000
+                    exclude_segments:
+                      type: array
+                      items:
+                        type: string
+                webhook_url:
+                  type: string
+                  format: uri
+                  description: Optional webhook to notify when scan completes
+      responses:
+        "202":
+          description: Scan accepted and queued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScanJob"
+        "400":
+          description: Invalid request (e.g. too many themes)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "402":
+          description: Plan limit reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+    get:
+      summary: List all scans for this account
+      operationId: listScans
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum:
+              - queued
+              - running
+              - completed
+              - failed
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: cursor
+          in: query
+          schema:
+            type: string
+          description: Pagination cursor from previous response
+      responses:
+        "200":
+          description: Paginated list of scans
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ScanJob"
+                  next_cursor:
+                    type: string
+                  has_more:
+                    type: boolean
+        "401":
+          description: Unauthorized
+
+  /scans/{scan_id}:
+    get:
+      summary: Get scan status and results
+      operationId: getScan
+      parameters:
+        - name: scan_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Scan details with current status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScanResult"
+        "404":
+          description: Scan not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+  /scans/{scan_id}/opportunities:
+    get:
+      summary: Get ranked opportunities from a completed scan
+      operationId: getScanOpportunities
+      parameters:
+        - name: scan_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: min_score
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 100
+      responses:
+        "200":
+          description: Opportunities from the scan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  opportunities:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Opportunity"
+                  total:
+                    type: integer
+        "404":
+          description: Scan not found
+        "401":
+          description: Unauthorized
+
+  /opportunities:
+    get:
+      summary: List all discovered opportunities across all scans
+      operationId: listOpportunities
+      parameters:
+        - name: min_score
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 100
+        - name: segment
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+      responses:
+        "200":
+          description: All opportunities for this account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Opportunity"
+        "401":
+          description: Unauthorized
+
+  /opportunities/{opportunity_id}:
+    get:
+      summary: Get a single opportunity with full analysis
+      operationId: getOpportunity
+      parameters:
+        - name: opportunity_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Complete opportunity details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpportunityDetail"
+        "404":
+          description: Opportunity not found
+        "401":
+          description: Unauthorized
+
+  /opportunities/{opportunity_id}/advance:
+    post:
+      summary: Advance an opportunity to AddVenture (or export it)
+      operationId: advanceOpportunity
+      parameters:
+        - name: opportunity_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                export_format:
+                  type: string
+                  enum:
+                    - json
+                    - pdf
+                    - csv
+                  default: json
+      responses:
+        "200":
+          description: Opportunity advanced successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  opportunity_id:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                      - advanced
+                      - exported
+                  venture_id:
+                    type: string
+                    nullable: true
+        "402":
+          description: Pro/Enterprise plan required or advance limit reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Opportunity not found
+        "401":
+          description: Unauthorized
+
+  /usage:
+    get:
+      summary: Get current usage against plan limits
+      operationId: getUsage
+      responses:
+        "200":
+          description: Current usage metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageSummary"
+        "401":
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Clerk session token or service JWT
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Opportunity module API key for this account
+
+  schemas:
+    ScanJob:
+      type: object
+      required:
+        - id
+        - status
+        - themes
+        - created_at
+      properties:
+        id:
+          type: string
+          example: scan_abc123
+        status:
+          type: string
+          enum:
+            - queued
+            - running
+            - completed
+            - failed
+        themes:
+          type: array
+          items:
+            type: string
+        opportunities_found:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        estimated_duration_seconds:
+          type: integer
+          example: 180
+        error_message:
+          type: string
+          nullable: true
+          description: Present only if status is 'failed'
+
+    Opportunity:
+      type: object
+      required:
+        - id
+        - problem_statement
+        - market_segment
+        - score
+        - created_at
+      properties:
+        id:
+          type: string
+          example: opp_xyz789
+        problem_statement:
+          type: string
+          example: "Developers waste 15-20 hours/week on boilerplate code for compliance workflows"
+        market_segment:
+          type: string
+          example: "FinTech / RegTech"
+        score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 78
+        tam_estimate_usd:
+          type: integer
+          example: 2500000000
+        recommendation:
+          type: string
+          enum:
+            - advance
+            - hold
+            - reject
+          example: advance
+        created_at:
+          type: string
+          format: date-time
+        scan_id:
+          type: string
+          example: scan_abc123
+
+    OpportunityDetail:
+      allOf:
+        - $ref: "#/components/schemas/Opportunity"
+        - type: object
+          properties:
+            key_insights:
+              type: array
+              items:
+                type: string
+              example:
+                - "Market growing 45% YoY"
+                - "3 well-funded competitors but fragmented"
+                - "Regulatory tailwinds in US and EU"
+            competitive_landscape:
+              type: string
+              example: "Stripe, Plaid, and open-source alternatives dominate, but landscape is fragmented by compliance domain (AML, KYC, reporting)"
+            validation_flags:
+              type: array
+              items:
+                type: string
+              example:
+                - "customer_interviews_needed"
+                - "regulatory_clarification_required"
+            score_breakdown:
+              type: object
+              properties:
+                market_size:
+                  type: integer
+                  minimum: 0
+                  maximum: 100
+                urgency:
+                  type: integer
+                  minimum: 0
+                  maximum: 100
+                competition:
+                  type: integer
+                  minimum: 0
+                  maximum: 100
+                strategic_fit:
+                  type: integer
+                  minimum: 0
+                  maximum: 100
+
+    ScanResult:
+      allOf:
+        - $ref: "#/components/schemas/ScanJob"
+        - type: object
+          properties:
+            opportunities:
+              type: array
+              items:
+                $ref: "#/components/schemas/Opportunity"
+
+    UsageSummary:
+      type: object
+      required:
+        - plan
+        - period_start
+        - period_end
+        - scans_used
+        - scans_limit
+      properties:
+        plan:
+          type: string
+          enum:
+            - free
+            - pro
+            - enterprise
+        period_start:
+          type: string
+          format: date
+          example: "2026-04-01"
+        period_end:
+          type: string
+          format: date
+          example: "2026-04-30"
+        scans_used:
+          type: integer
+        scans_limit:
+          type: integer
+        opportunities_discovered:
+          type: integer
+        opportunities_advanced:
+          type: integer
+        opportunities_advanced_limit:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          example: "plan_limit_reached"
+        message:
+          type: string
+          example: "Free plan allows max 2 scans per month"
+        details:
+          type: object
+          nullable: true
+          example:
+            limit: 2
+            used: 2
+            reset_at: "2026-05-01"

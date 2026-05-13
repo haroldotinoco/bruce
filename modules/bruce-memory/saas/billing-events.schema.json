@@ -1,0 +1,489 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BruceMemory Billing Events Schema",
+  "description": "Billing event definitions for BruceMemory operations and resource consumption tracking",
+  "type": "object",
+  "properties": {
+    "bruce-memory.learning.ingested": {
+      "title": "Learning Record Ingested",
+      "description": "Emitted when a new learning record is successfully ingested into the learning corpus",
+      "type": "object",
+      "required": [
+        "event_id",
+        "timestamp",
+        "account_id",
+        "venture_id",
+        "billable_units"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique event identifier"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "bruce-memory.learning.ingested",
+          "description": "Event type identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the learning was ingested"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Account performing the ingestion"
+        },
+        "venture_id": {
+          "type": "string",
+          "description": "Venture the learning belongs to"
+        },
+        "learning_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of ingested learning record"
+        },
+        "content_length_bytes": {
+          "type": "integer",
+          "description": "Size of learning content in bytes"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["success", "failure", "pivot", "market_insight", "technical_learning", "partnership", "fundraising", "team_dynamics", "product_launch", "go_to_market"],
+          "description": "Learning category"
+        },
+        "billable_units": {
+          "type": "number",
+          "description": "Number of billable units (1 per learning record)"
+        },
+        "plan_type": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"],
+          "description": "Account plan type at time of ingestion"
+        },
+        "source": {
+          "type": "string",
+          "enum": ["api", "web_ui", "import", "batch"],
+          "description": "Source of ingestion"
+        }
+      }
+    },
+    "bruce-memory.pattern.extracted": {
+      "title": "Pattern Extracted",
+      "description": "Emitted when pattern extraction identifies a new pattern from the learning corpus",
+      "type": "object",
+      "required": [
+        "event_id",
+        "timestamp",
+        "account_id",
+        "pattern_id",
+        "billable_units"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique event identifier"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "bruce-memory.pattern.extracted",
+          "description": "Event type identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the pattern was extracted"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Account owning the pattern"
+        },
+        "pattern_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of extracted pattern"
+        },
+        "job_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Pattern extraction job ID"
+        },
+        "pattern_category": {
+          "type": "string",
+          "enum": ["success_factor", "risk_indicator", "market_dynamic", "technical_best_practice", "operational_insight", "team_insight"],
+          "description": "Pattern category"
+        },
+        "venture_count": {
+          "type": "integer",
+          "description": "Number of ventures involved in pattern (1 for venture-specific, >1 for cross-venture)"
+        },
+        "learning_count": {
+          "type": "integer",
+          "description": "Number of learnings supporting this pattern"
+        },
+        "confidence_score": {
+          "type": "number",
+          "format": "double",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence score of extracted pattern"
+        },
+        "extraction_cadence": {
+          "type": "string",
+          "enum": ["weekly", "daily", "manual"],
+          "description": "Extraction frequency"
+        },
+        "billable_units": {
+          "type": "number",
+          "description": "Number of billable units (1 per pattern extracted)"
+        },
+        "plan_type": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"],
+          "description": "Account plan type at time of extraction"
+        }
+      }
+    },
+    "bruce-memory.query.executed": {
+      "title": "Query Executed",
+      "description": "Emitted when a natural language query is executed against the pattern library",
+      "type": "object",
+      "required": [
+        "event_id",
+        "timestamp",
+        "account_id",
+        "billable_units"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique event identifier"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "bruce-memory.query.executed",
+          "description": "Event type identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the query was executed"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Account executing the query"
+        },
+        "query_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique query execution ID"
+        },
+        "query_length": {
+          "type": "integer",
+          "description": "Length of query string in characters"
+        },
+        "results_returned": {
+          "type": "integer",
+          "description": "Number of patterns returned"
+        },
+        "execution_time_ms": {
+          "type": "number",
+          "description": "Query execution time in milliseconds"
+        },
+        "filters_applied": {
+          "type": "object",
+          "description": "Filters used in query",
+          "properties": {
+            "venture_filter": {
+              "type": "boolean"
+            },
+            "category_filter": {
+              "type": "boolean"
+            },
+            "confidence_filter": {
+              "type": "boolean"
+            }
+          }
+        },
+        "billable_units": {
+          "type": "number",
+          "description": "Number of billable units (1 per query)"
+        },
+        "plan_type": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"],
+          "description": "Account plan type at time of query"
+        }
+      }
+    },
+    "bruce-memory.synthesis.completed": {
+      "title": "Intelligence Synthesis Completed",
+      "description": "Emitted when an intelligence synthesis report is successfully generated",
+      "type": "object",
+      "required": [
+        "event_id",
+        "timestamp",
+        "account_id",
+        "synthesis_id",
+        "billable_units"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique event identifier"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "bruce-memory.synthesis.completed",
+          "description": "Event type identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the synthesis completed"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Account for which synthesis was generated"
+        },
+        "synthesis_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of synthesis report"
+        },
+        "synthesis_type": {
+          "type": "string",
+          "enum": ["scheduled", "on_demand", "automated"],
+          "description": "Type of synthesis trigger"
+        },
+        "period": {
+          "type": "string",
+          "enum": ["weekly", "monthly", "custom"],
+          "description": "Synthesis period"
+        },
+        "period_start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start of analysis period"
+        },
+        "period_end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End of analysis period"
+        },
+        "learnings_analyzed": {
+          "type": "integer",
+          "description": "Number of learnings included in synthesis"
+        },
+        "patterns_analyzed": {
+          "type": "integer",
+          "description": "Number of patterns analyzed"
+        },
+        "ventures_included": {
+          "type": "integer",
+          "description": "Number of ventures included"
+        },
+        "execution_time_ms": {
+          "type": "number",
+          "description": "Time to generate synthesis in milliseconds"
+        },
+        "billable_units": {
+          "type": "number",
+          "description": "Number of billable units (1 per synthesis)"
+        },
+        "plan_type": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"],
+          "description": "Account plan type at time of synthesis"
+        }
+      }
+    },
+    "bruce-memory.cross-venture-analysis.completed": {
+      "title": "Cross-Venture Analysis Completed",
+      "description": "Emitted when a cross-venture analysis job is successfully completed (Enterprise only)",
+      "type": "object",
+      "required": [
+        "event_id",
+        "timestamp",
+        "account_id",
+        "analysis_id",
+        "billable_units"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique event identifier"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "bruce-memory.cross-venture-analysis.completed",
+          "description": "Event type identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the analysis completed"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Enterprise account performing analysis"
+        },
+        "analysis_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of analysis job"
+        },
+        "analysis_scope": {
+          "type": "string",
+          "enum": ["all_ventures", "selected_ventures", "by_category"],
+          "description": "Scope of analysis"
+        },
+        "ventures_analyzed": {
+          "type": "integer",
+          "description": "Number of ventures included"
+        },
+        "patterns_identified": {
+          "type": "integer",
+          "description": "New cross-venture patterns identified"
+        },
+        "learnings_processed": {
+          "type": "integer",
+          "description": "Total learnings analyzed"
+        },
+        "execution_time_ms": {
+          "type": "number",
+          "description": "Total execution time in milliseconds"
+        },
+        "included_anonymized_global": {
+          "type": "boolean",
+          "description": "Whether anonymized global patterns were included"
+        },
+        "billable_units": {
+          "type": "number",
+          "description": "Number of billable units (ventures analyzed)"
+        },
+        "plan_type": {
+          "type": "string",
+          "enum": ["enterprise"],
+          "description": "Account plan type (always enterprise)"
+        }
+      }
+    },
+    "bruce-memory.namespace.provisioned": {
+      "title": "Vector DB Namespace Provisioned",
+      "description": "Emitted when a new vector database namespace is provisioned for an account",
+      "type": "object",
+      "required": [
+        "event_id",
+        "timestamp",
+        "account_id",
+        "namespace_id",
+        "billable_units"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique event identifier"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "bruce-memory.namespace.provisioned",
+          "description": "Event type identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When namespace was provisioned"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Account for which namespace was created"
+        },
+        "namespace_id": {
+          "type": "string",
+          "description": "Namespace identifier"
+        },
+        "provider": {
+          "type": "string",
+          "enum": ["pinecone", "weaviate", "milvus"],
+          "description": "Vector database provider"
+        },
+        "region": {
+          "type": "string",
+          "description": "Cloud region where namespace is hosted"
+        },
+        "storage_limit_gb": {
+          "type": "number",
+          "description": "Storage limit allocated to namespace"
+        },
+        "trigger_reason": {
+          "type": "string",
+          "enum": ["plan_upgrade", "manual_opt_in", "plan_downgrade_resize"],
+          "description": "Reason namespace was provisioned"
+        },
+        "billable_units": {
+          "type": "number",
+          "description": "Number of billable units (1 per namespace)"
+        },
+        "plan_type": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"],
+          "description": "Account plan type at time of provisioning"
+        }
+      }
+    }
+  },
+  "billing_event_summary": {
+    "description": "Summary of billable operations and their units",
+    "events": [
+      {
+        "event": "bruce-memory.learning.ingested",
+        "billable_unit": "1 unit per learning record",
+        "frequency": "on_demand",
+        "plan_eligibility": ["pro", "enterprise"],
+        "rate": "included in plan or per-unit overage"
+      },
+      {
+        "event": "bruce-memory.pattern.extracted",
+        "billable_unit": "1 unit per pattern extracted",
+        "frequency": "weekly (pro) or daily (enterprise)",
+        "plan_eligibility": ["pro", "enterprise"],
+        "rate": "included in plan"
+      },
+      {
+        "event": "bruce-memory.query.executed",
+        "billable_unit": "1 unit per query",
+        "frequency": "on_demand",
+        "plan_eligibility": ["free", "pro", "enterprise"],
+        "rate": "free tier limited, others included/overage"
+      },
+      {
+        "event": "bruce-memory.synthesis.completed",
+        "billable_unit": "1 unit per synthesis report",
+        "frequency": "monthly (enterprise), on_demand (pro)",
+        "plan_eligibility": ["pro", "enterprise"],
+        "rate": "included in plan"
+      },
+      {
+        "event": "bruce-memory.cross-venture-analysis.completed",
+        "billable_unit": "X units per venture analyzed",
+        "frequency": "on_demand",
+        "plan_eligibility": ["enterprise"],
+        "rate": "included in enterprise plan"
+      },
+      {
+        "event": "bruce-memory.namespace.provisioned",
+        "billable_unit": "1 unit per namespace",
+        "frequency": "one_time",
+        "plan_eligibility": ["pro", "enterprise"],
+        "rate": "one-time setup cost"
+      }
+    ]
+  }
+}

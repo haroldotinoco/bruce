@@ -1,0 +1,113 @@
+{
+  "workflow_id": "weekly-pattern-extraction",
+  "module": "bruce-memory",
+  "description": "Weekly batch job: clusters recent learnings by semantic similarity and extracts confirmed patterns",
+  "trigger": {
+    "type": "schedule",
+    "cron": "0 3 * * SUN"
+  },
+  "steps": [
+    {
+      "step_id": "retrieve-recent-learnings",
+      "agent": "learning-ingestion-agent",
+      "description": "Retrieve all learnings from last 7 days not yet processed for patterns",
+      "input": {
+        "from": "workflow.context",
+        "fields": [
+          "since_timestamp"
+        ]
+      },
+      "output_to": "recent-learnings",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "on_learnings_found": "cluster-by-similarity",
+        "on_empty": "skip-extraction"
+      },
+      "events_emitted": [
+        "bruce-memory.extraction.started"
+      ]
+    },
+    {
+      "step_id": "cluster-by-similarity",
+      "agent": "pattern-extractor",
+      "description": "Use vector similarity to cluster related learnings",
+      "input": {
+        "from": "retrieve-recent-learnings.output"
+      },
+      "output_to": "clusters",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "exponential",
+        "initial_delay_ms": 10000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "default": "extract-patterns"
+      },
+      "events_emitted": []
+    },
+    {
+      "step_id": "extract-patterns",
+      "agent": "pattern-extractor",
+      "description": "For each cluster with >= 3 ventures, attempt pattern extraction",
+      "input": {
+        "from": "cluster-by-similarity.output"
+      },
+      "output_to": "candidate-patterns",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "exponential",
+        "initial_delay_ms": 10000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "default": "validate-and-store-patterns"
+      },
+      "events_emitted": []
+    },
+    {
+      "step_id": "validate-and-store-patterns",
+      "agent": "pattern-extractor",
+      "description": "Validate confidence and evidence count; store patterns that meet threshold",
+      "input": {
+        "from": "extract-patterns.output"
+      },
+      "output_to": "stored-patterns",
+      "timeout_seconds": 120,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "linear",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": null,
+      "events_emitted": [
+        "bruce-memory.pattern.extracted",
+        "bruce-memory.pattern.rejected",
+        "bruce-memory.extraction.completed"
+      ]
+    },
+    {
+      "step_id": "skip-extraction",
+      "agent": null,
+      "description": "No new learnings this week — log and exit cleanly",
+      "input": {},
+      "output_to": null,
+      "timeout_seconds": 5,
+      "retry_policy": null,
+      "failure_policy": "fail_silently",
+      "next_step": null,
+      "events_emitted": [
+        "bruce-memory.extraction.skipped"
+      ]
+    }
+  ]
+}

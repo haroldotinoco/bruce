@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bruce-memory/contracts/memory-query",
+  "title": "MemoryQuery",
+  "description": "Schema for on-demand memory queries and their responses",
+  "type": "object",
+  "required": [
+    "query_id",
+    "question",
+    "requested_by_module"
+  ],
+  "properties": {
+    "query": {
+      "type": "object",
+      "properties": {
+        "query_id": {
+          "type": "string"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 10
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "venture_id": {
+              "type": "string"
+            },
+            "current_stage": {
+              "type": "string"
+            },
+            "market_segment": {
+              "type": "string"
+            }
+          }
+        },
+        "filters": {
+          "type": "object",
+          "properties": {
+            "min_confidence": {
+              "type": "number",
+              "default": 0.5
+            },
+            "market_segments": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "stages": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source_modules": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "requested_by_module": {
+          "type": "string"
+        },
+        "requested_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "query_id": {
+          "type": "string"
+        },
+        "relevant_patterns": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "properties": {
+              "pattern_id": {
+                "type": "string"
+              },
+              "statement": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "number"
+              },
+              "evidence_count": {
+                "type": "integer"
+              },
+              "relevance_score": {
+                "type": "number"
+              },
+              "action_implication": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "synthesis": {
+          "type": "string",
+          "description": "2-3 sentence synthesis of what memory knows about this question"
+        },
+        "confidence_overall": {
+          "type": "number"
+        },
+        "no_results": {
+          "type": "boolean"
+        },
+        "suggested_related_queries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "served_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "latency_ms": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Frontend Agent Input",
+  "type": "object",
+  "required": ["bdd_scenarios", "wireframes"],
+  "properties": {
+    "bdd_scenarios": {
+      "type": "array",
+      "description": "BDD scenarios for feature implementation"
+    },
+    "wireframes": {
+      "type": "array",
+      "description": "Wireframe references and screen definitions"
+    },
+    "design_tokens": {
+      "type": "object",
+      "description": "Brand color, typography, spacing tokens"
+    },
+    "api_contracts": {
+      "type": "array",
+      "description": "OpenAPI specifications for API integration"
+    },
+    "navigation_structure": {
+      "type": "object",
+      "description": "App navigation and routing configuration"
+    }
+  }
+}

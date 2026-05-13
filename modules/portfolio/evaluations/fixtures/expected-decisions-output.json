@@ -1,0 +1,202 @@
+{
+  "review_cycle_id": "cycle_20260406_00",
+  "created_at": "2026-04-06T18:00:00Z",
+  "decisions": [
+    {
+      "decision_id": "dec_20260406_001",
+      "venture_id": "complify",
+      "venture_name": "Complify",
+      "decision": "scale",
+      "confidence_score": 90,
+      "rationale": "Meets all 4 SCALE criteria: MRR growth 22% MoM for 3+ months, LTV/CAC 3.8x and improving, D30 retention 48%, composite health 78/100 for 4+ weeks. Exceptional team execution with strong market opportunity.",
+      "supporting_data_refs": [
+        "metrics_complify_20260401",
+        "metrics_complify_20260320",
+        "metrics_complify_20260306"
+      ],
+      "key_metrics_considered": {
+        "mrr": 18000,
+        "mrr_growth_pct": 0.22,
+        "dau": 340,
+        "retention_d30": 0.48,
+        "unit_economics_ltv_cac_ratio": 3.8,
+        "cac": 740,
+        "ltv": 2800,
+        "burn_rate": 12000,
+        "runway_months": 8
+      },
+      "milestones_for_next_period": [
+        {
+          "milestone": "Achieve $25,000+ MRR",
+          "target_date": "2026-05-31",
+          "success_criteria": "Monthly recurring revenue reaches $25,000 or higher"
+        },
+        {
+          "milestone": "Maintain CAC below $800",
+          "target_date": "2026-05-31",
+          "success_criteria": "Customer acquisition cost remains stable < $800"
+        },
+        {
+          "milestone": "Improve D30 retention to >50%",
+          "target_date": "2026-05-31",
+          "success_criteria": "Day 30 retention increases to 50%+"
+        },
+        {
+          "milestone": "Launch in healthcare vertical",
+          "target_date": "2026-06-15",
+          "success_criteria": "Healthcare compliance vertical launched with initial customers"
+        }
+      ],
+      "next_review_date": "2026-04-20",
+      "decided_by": "autonomous",
+      "decided_by_agent": "governance-decision-agent",
+      "decided_at": "2026-04-06T16:45:00Z",
+      "human_confirmation": {
+        "required": true,
+        "confirmed_at": "2026-04-06T14:30:00Z",
+        "confirmed_by": "Sarah Chen",
+        "confirmation_notes": "Exceptional metrics. Strong founder. Approve full scale plan."
+      }
+    },
+    {
+      "decision_id": "dec_20260406_002",
+      "venture_id": "zenote",
+      "venture_name": "ZenNote",
+      "decision": "iterate",
+      "confidence_score": 70,
+      "rationale": "Venture shows some traction (MRR growth post-pivot promising) but hypothesis only partially validated. GTM pivot to new channels showing early positive signals. Not ready to scale (D30 retention 32%, LTV/CAC 2.1x) nor kill (has runway, founder motivated, no kill criteria met).",
+      "supporting_data_refs": [
+        "metrics_zenote_20260406",
+        "customer_feedback_zenote_20260405"
+      ],
+      "key_metrics_considered": {
+        "mrr": 1200,
+        "mrr_growth_pct": 0.08,
+        "dau": 180,
+        "retention_d30": 0.32,
+        "unit_economics_ltv_cac_ratio": 2.1,
+        "burn_rate": 6000,
+        "runway_months": 6
+      },
+      "milestones_for_next_period": [
+        {
+          "milestone": "Test GTM channel 2",
+          "target_date": "2026-04-20",
+          "success_criteria": "Organic/community acquisition channel piloted; initial results tracked"
+        },
+        {
+          "milestone": "Define clear product differentiation",
+          "target_date": "2026-04-15",
+          "success_criteria": "Documented differentiation vs. Notion, Obsidian with customer validation"
+        },
+        {
+          "milestone": "Achieve 300 DAU",
+          "target_date": "2026-06-30",
+          "success_criteria": "Daily active users reach 300 (from current 180)"
+        }
+      ],
+      "next_review_date": "2026-04-20",
+      "decided_by": "autonomous",
+      "decided_by_agent": "governance-decision-agent",
+      "decided_at": "2026-04-06T16:45:00Z",
+      "human_confirmation": {
+        "required": false,
+        "confirmed_at": null,
+        "confirmed_by": null,
+        "confirmation_notes": "Standard ITERATE decision; no confirmation required per policy"
+      }
+    },
+    {
+      "decision_id": "dec_20260406_003",
+      "venture_id": "metathink",
+      "venture_name": "MetaThink",
+      "decision": "continue",
+      "confidence_score": 75,
+      "rationale": "Pre-launch stage; on schedule for April 20 launch. Beta feedback excellent (NPS 58). Team execution strong. No changes to allocation or strategy needed. Full focus on launch execution.",
+      "supporting_data_refs": [
+        "beta_feedback_metathink_20260405",
+        "launch_readiness_metathink_20260406"
+      ],
+      "key_metrics_considered": {
+        "dau": 45,
+        "users": 12,
+        "burn_rate": 4000,
+        "runway_months": 10
+      },
+      "milestones_for_next_period": [
+        {
+          "milestone": "Complete product launch",
+          "target_date": "2026-04-20",
+          "success_criteria": "Full public launch completed on schedule"
+        },
+        {
+          "milestone": "Achieve 500 registered users",
+          "target_date": "2026-05-15",
+          "success_criteria": "Post-launch user acquisition reaches 500"
+        },
+        {
+          "milestone": "Reach $1,000+ MRR",
+          "target_date": "2026-05-31",
+          "success_criteria": "Monthly recurring revenue reaches $1,000"
+        }
+      ],
+      "next_review_date": "2026-04-20",
+      "decided_by": "autonomous",
+      "decided_by_agent": "governance-decision-agent",
+      "decided_at": "2026-04-06T16:45:00Z",
+      "human_confirmation": null
+    },
+    {
+      "decision_id": "dec_20260406_004",
+      "venture_id": "taskflow",
+      "venture_name": "TaskFlow",
+      "decision": "continue",
+      "confidence_score": 65,
+      "rationale": "Health score 48 (at-risk but above kill threshold of 40). Runway 5.5 months sufficient for experimentation. Team motivated, founder committed. However, traction weak (MRR $800, DAU 120) and retention low (D30 28%). Escalation to kill evaluation mandatory if no traction inflection by April 27 (2 weeks from now).",
+      "supporting_data_refs": [
+        "metrics_taskflow_20260406",
+        "founder_call_taskflow_20260406"
+      ],
+      "key_metrics_considered": {
+        "mrr": 800,
+        "mrr_growth_pct": 0.02,
+        "dau": 120,
+        "retention_d30": 0.28,
+        "burn_rate": 8000,
+        "runway_months": 5.5
+      },
+      "milestones_for_next_period": [
+        {
+          "milestone": "Define 2-3 specific pivot experiments",
+          "target_date": "2026-04-13",
+          "success_criteria": "Clear pivot direction (market, product feature, GTM channel) documented and approved"
+        },
+        {
+          "milestone": "Achieve 50% increase in weekly new sign-ups",
+          "target_date": "2026-04-27",
+          "success_criteria": "Weekly new sign-up rate increases by at least 50% baseline (required for continuation)"
+        },
+        {
+          "milestone": "Stabilize D30 retention",
+          "target_date": "2026-05-04",
+          "success_criteria": "Day 30 retention stops declining; minimum stability required"
+        }
+      ],
+      "next_review_date": "2026-04-20",
+      "decided_by": "autonomous",
+      "decided_by_agent": "governance-decision-agent",
+      "decided_at": "2026-04-06T16:45:00Z",
+      "human_confirmation": null,
+      "escalation_notes": "URGENT: If no traction inflection by April 20 checkpoint, escalate to kill evaluation. Founder must define pivot direction by April 13."
+    }
+  ],
+  "portfolio_summary": {
+    "scale_decisions": 1,
+    "iterate_decisions": 1,
+    "continue_decisions": 2,
+    "pause_decisions": 0,
+    "kill_decisions": 0,
+    "human_confirmations_required": 1,
+    "human_confirmations_received": 1
+  }
+}

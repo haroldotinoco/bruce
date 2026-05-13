@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GTM-Planner Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "volume_number": {"type": "integer", "const": 5},
+    "volume_title": {"type": "string"},
+    "icp_definition": {
+      "type": "object",
+      "properties": {
+        "company_profile": {"type": "string"},
+        "buying_committee_size": {"type": "integer"},
+        "budget_authority": {"type": "string"},
+        "pain_intensity_score": {"type": "number"},
+        "where_to_find": {"type": "array", "items": {"type": "string"}},
+        "estimated_total_icp_companies": {"type": "integer"}
+      }
+    },
+    "channel_priorities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel": {"type": "string"},
+          "priority_rank": {"type": "integer"},
+          "why_this_channel": {"type": "string"},
+          "estimated_cac": {"type": "number"},
+          "year_1_revenue_target": {"type": "number"},
+          "year_3_revenue_target": {"type": "number"},
+          "launch_month": {"type": "integer"}
+        }
+      }
+    },
+    "launch_sequence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "phase": {"type": "string"},
+          "duration_weeks": {"type": "integer"},
+          "key_objectives": {"type": "array", "items": {"type": "string"}},
+          "team_composition": {"type": "string"},
+          "customer_targets": {"type": "string"},
+          "success_criteria": {"type": "string"}
+        }
+      }
+    },
+    "ninety_day_playbook": {
+      "type": "object",
+      "properties": {
+        "week_1_4": {
+          "type": "object",
+          "properties": {
+            "milestones": {"type": "array", "items": {"type": "string"}},
+            "activities": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "week_5_8": {
+          "type": "object",
+          "properties": {
+            "milestones": {"type": "array", "items": {"type": "string"}},
+            "activities": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "week_9_12": {
+          "type": "object",
+          "properties": {
+            "milestones": {"type": "array", "items": {"type": "string"}},
+            "activities": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      }
+    },
+    "budget_allocation": {
+      "type": "object",
+      "properties": {
+        "total_year_1_gtm_budget": {"type": "number"},
+        "sales_headcount_required": {"type": "integer"},
+        "marketing_budget": {"type": "number"},
+        "budget_by_channel": {
+          "type": "object",
+          "additionalProperties": {"type": "number"}
+        },
+        "cac_targets_by_channel": {
+          "type": "object",
+          "additionalProperties": {"type": "number"}
+        },
+        "payback_period_target_months": {"type": "number"}
+      }
+    },
+    "acquisition_funnel": {
+      "type": "object",
+      "properties": {
+        "awareness_to_first_call": {"type": "string"},
+        "first_call_to_demo": {"type": "string"},
+        "demo_to_proposal": {"type": "string"},
+        "proposal_to_close": {"type": "string"},
+        "sales_cycle_total_months": {"type": "number"},
+        "estimated_conversion_rate": {"type": "number"}
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "confidence_rationale": {"type": "string"},
+    "key_sections": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "volume_number", "volume_title", "icp_definition", "channel_priorities", "launch_sequence", "ninety_day_playbook", "budget_allocation", "confidence_score"]
+}

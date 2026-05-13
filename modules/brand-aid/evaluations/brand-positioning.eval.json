@@ -1,0 +1,19 @@
+{
+  "scenario_id": "brand_eval_001",
+  "title": "Brand positioning brief",
+  "input": {
+    "venture_name": "Acme",
+    "audience": "SMB finance teams"
+  },
+  "expected_output": {
+    "headline": "Clarity for growing finance teams"
+  },
+  "scoring": {
+    "headline_match": {
+      "type": "semantic_similarity",
+      "expectedPath": "headline",
+      "actualPath": "headline",
+      "threshold": 0.2
+    }
+  }
+}

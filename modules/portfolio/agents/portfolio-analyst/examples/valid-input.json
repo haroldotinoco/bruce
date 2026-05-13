@@ -1,0 +1,152 @@
+{
+  "review_cycle_id": "2026-Q2-review-001",
+  "review_timestamp": "2026-04-05T14:00:00Z",
+  "ventures": [
+    {
+      "venture_id": "v-001",
+      "name": "DataFlow Analytics",
+      "status": "active",
+      "weeks_since_launch": 24,
+      "health_report": {
+        "report_date": "2026-04-03",
+        "metrics": {
+          "traction": {
+            "mrr": 45000,
+            "arr": 540000,
+            "monthly_growth_rate": 0.18,
+            "active_users": 1250,
+            "user_growth_rate": 0.22,
+            "conversion_rate": 0.08,
+            "nps": 62
+          },
+          "financial": {
+            "runway_months": 18,
+            "monthly_burn_rate": 120000,
+            "cash_position": 2160000,
+            "cac": 450,
+            "ltv": 2700,
+            "cac_ltv_ratio": 0.167
+          },
+          "team": {
+            "headcount": 12,
+            "headcount_planned": 16,
+            "key_hires_filled": 4,
+            "key_hires_open": 2,
+            "team_velocity": "accelerating"
+          },
+          "market": {
+            "total_addressable_market": 8500000000,
+            "market_share_percent": 0.06,
+            "competitor_count": 12,
+            "customer_feedback": "Strong product-market fit signals, customers report 25% time savings"
+          }
+        }
+      },
+      "context": {
+        "sector": "B2B SaaS / Data Analytics",
+        "stage": "growth",
+        "previous_health_score": 78,
+        "flags": []
+      }
+    },
+    {
+      "venture_id": "v-002",
+      "name": "MediLink Connect",
+      "status": "active",
+      "weeks_since_launch": 16,
+      "health_report": {
+        "report_date": "2026-04-04",
+        "metrics": {
+          "traction": {
+            "mrr": 8000,
+            "arr": 96000,
+            "monthly_growth_rate": 0.35,
+            "active_users": 320,
+            "user_growth_rate": 0.28,
+            "conversion_rate": 0.12,
+            "nps": 58
+          },
+          "financial": {
+            "runway_months": 14,
+            "monthly_burn_rate": 85000,
+            "cash_position": 1190000,
+            "cac": 650,
+            "ltv": 4800,
+            "cac_ltv_ratio": 0.135
+          },
+          "team": {
+            "headcount": 8,
+            "headcount_planned": 11,
+            "key_hires_filled": 2,
+            "key_hires_open": 3,
+            "team_velocity": "steady"
+          },
+          "market": {
+            "total_addressable_market": 2300000000,
+            "market_share_percent": 0.004,
+            "competitor_count": 8,
+            "customer_feedback": "Early adopters enthusiastic, regulatory compliance concerns raised by prospects"
+          }
+        }
+      },
+      "context": {
+        "sector": "Healthcare Tech",
+        "stage": "early",
+        "previous_health_score": 65,
+        "flags": ["regulatory_risk"]
+      }
+    },
+    {
+      "venture_id": "v-003",
+      "name": "TruckRoute Pro",
+      "status": "active",
+      "weeks_since_launch": 32,
+      "health_report": {
+        "report_date": "2026-04-02",
+        "metrics": {
+          "traction": {
+            "mrr": 2000,
+            "arr": 24000,
+            "monthly_growth_rate": 0.05,
+            "active_users": 85,
+            "user_growth_rate": 0.08,
+            "conversion_rate": 0.03,
+            "nps": 42
+          },
+          "financial": {
+            "runway_months": 8,
+            "monthly_burn_rate": 75000,
+            "cash_position": 600000,
+            "cac": 2800,
+            "ltv": 3600,
+            "cac_ltv_ratio": 0.778
+          },
+          "team": {
+            "headcount": 5,
+            "headcount_planned": 5,
+            "key_hires_filled": 1,
+            "key_hires_open": 2,
+            "team_velocity": "decelerating"
+          },
+          "market": {
+            "total_addressable_market": 125000000,
+            "market_share_percent": 0.016,
+            "competitor_count": 18,
+            "customer_feedback": "Mixed signals - logistics integration complex, customer acquisition slow"
+          }
+        }
+      },
+      "context": {
+        "sector": "Supply Chain / Logistics",
+        "stage": "early",
+        "previous_health_score": 48,
+        "flags": ["low_traction", "high_cac"]
+      }
+    }
+  ],
+  "analysis_scope": {
+    "focus_areas": ["unit_economics", "team_health"],
+    "exclude_ventures": [],
+    "include_pattern_analysis": true
+  }
+}

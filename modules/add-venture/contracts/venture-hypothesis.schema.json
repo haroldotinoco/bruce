@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Venture Hypothesis",
+  "description": "Complete 8-volume venture hypothesis dossier for a funded opportunity",
+  "type": "object",
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Unique identifier for this venture hypothesis"
+    },
+    "opportunity_id": {
+      "type": "string",
+      "description": "Reference to source opportunity"
+    },
+    "venture_name": {
+      "type": "string",
+      "description": "Proposed venture name"
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "volumes": {
+      "type": "object",
+      "properties": {
+        "vol_1_opportunity": {
+          "type": "object",
+          "properties": {
+            "title": {"type": "string"},
+            "content": {"type": "string"},
+            "confidence_score": {"type": "number"}
+          }
+        },
+        "vol_2_customer_market": {
+          "type": "object",
+          "properties": {
+            "title": {"type": "string"},
+            "content": {"type": "string"},
+            "confidence_score": {"type": "number"}
+          }
+        },
+        "vol_3_value_proposition": {
+          "type": "object",
+          "properties": {
+            "title": {"type": "string"},
+            "content": {"type": "string"},
+            "confidence_score": {"type": "number"}
+          }
+        },
+        "vol_4_business_model": {
+          "type": "object",
+          "properties": {
+            "title": {"type": "string"},
+            "content": {"type": "string"},
+            "confidence_score": {"type": "number"}
+          }
+        },
+        "vol_5_go_to_market": {
+          "type": "object",
+          "properties": {
+            "title": {"type": "string"},
+            "content": {"type": "string"},
+            "confidence_score": {"type": "number"}
+          }
+        },
+        "vol_6_narrative_strategy": {
+          "type": "object",
+          "properties": {
+            "title": {"type": "string"},
+            "content": {"type": "string"},
+            "confidence_score": {"type": "number"}
+          }
+        },
+        "vol_7_risk_validation": {
+          "type": "object",
+          "properties": {
+            "title": {"type": "string"},
+            "content": {"type": "string"},
+            "confidence_score": {"type": "number"}
+          }
+        },
+        "vol_8_execution_roadmap": {
+          "type": "object",
+          "properties": {
+            "title": {"type": "string"},
+            "content": {"type": "string"},
+            "confidence_score": {"type": "number"}
+          }
+        }
+      }
+    },
+    "overall_dossier_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Composite score across all volumes"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["structuring", "structuring_in_progress", "structured", "rejected"]
+    },
+    "iteration_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "critique_feedback": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "iteration": {"type": "integer"},
+          "score": {"type": "number"},
+          "weak_volumes": {"type": "array", "items": {"type": "string"}},
+          "suggestions": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  },
+  "required": ["venture_id", "opportunity_id", "venture_name", "created_date", "status"]
+}

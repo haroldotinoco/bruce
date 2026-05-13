@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "meta": {
+    "description": "Single source of truth for OpenRouter model slugs and provider env keys. Edit aliases when OpenRouter renames models (see https://openrouter.ai/models).",
+    "agent_models": "Most agents use defaults.default_model (anthropic/claude-sonnet-4.6). Agents that need image/video input or heavy visual/UI work use google/gemma-4-26b-a4b-it:free — see each module's agents/*/capabilities.json.",
+    "byok_future": "Pool `venture` is not implemented in code yet. Plan: resolve apiKey via DB/vault keyed by venture_id (ExecutionContext), then fall back to platform env keys listed under credential_pools.platform."
+  },
+  "defaults": {
+    "default_provider": "openrouter",
+    "default_model": "anthropic/claude-sonnet-4.6"
+  },
+  "providers": {
+    "openrouter": {
+      "api_key_env": "OPENROUTER_API_KEY",
+      "base_url": "https://openrouter.ai/api/v1"
+    },
+    "anthropic": {
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "base_url": "https://api.anthropic.com"
+    },
+    "openai": {
+      "api_key_env": "OPENAI_API_KEY",
+      "base_url": "https://api.openai.com/v1"
+    }
+  },
+  "credential_pools": {
+    "platform": {
+      "note": "Communal keys for all tenants until BYOK.",
+      "openrouter": "OPENROUTER_API_KEY",
+      "anthropic": "ANTHROPIC_API_KEY",
+      "openai": "OPENAI_API_KEY"
+    },
+    "venture": {
+      "resolution": "db_or_vault",
+      "implementation": "pending",
+      "note": "Future: store encrypted keys per venture; runtime picks venture token for generated solutions, else platform pool."
+    }
+  },
+  "model_aliases": {
+    "claude-opus-4-6": "anthropic/claude-opus-4-6",
+    "claude-sonnet-4-6": "anthropic/claude-sonnet-4-6",
+    "claude-haiku-4-5": "anthropic/claude-haiku-4-5",
+    "gpt-4o": "openai/gpt-4o",
+    "gpt-4-turbo": "openai/gpt-4-turbo",
+    "o1": "openai/o1",
+    "o1-mini": "openai/o1-mini",
+    "sonnet": "anthropic/claude-sonnet-4-6",
+    "opus": "anthropic/claude-opus-4-6",
+    "haiku": "anthropic/claude-haiku-4-5",
+    "gpt-4": "openai/gpt-4o",
+    "gemini-pro": "google/gemini-2.0-flash-001",
+    "gemini-1.5-pro": "google/gemini-2.0-flash-001"
+  }
+}

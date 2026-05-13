@@ -1,0 +1,72 @@
+{
+  "venture_context": {
+    "name": "DataShield",
+    "stage": "growth",
+    "target_audience": "CISO and compliance teams at mid-market SaaS",
+    "product_market_fit_signal": "strong",
+    "competitive_context": "Post-Varonis acquisition deprioritization of mid-market creates window of opportunity"
+  },
+  "current_traction": {
+    "monthly_active_users": 45,
+    "monthly_recurring_revenue_usd": 54000,
+    "monthly_signup_rate": 12,
+    "monthly_churn_rate_percent": 5,
+    "nps_score": 62,
+    "unit_economics": {
+      "cac_usd": 400,
+      "ltv_usd": 60000,
+      "payback_period_months": 2.5
+    }
+  },
+  "gtm_performance": {
+    "active_channels": [
+      {
+        "channel": "paid-linkedin",
+        "monthly_spend": 10000,
+        "monthly_leads": 25,
+        "conversion_rate": 0.12,
+        "cac": 400
+      },
+      {
+        "channel": "partnerships",
+        "monthly_spend": 3000,
+        "monthly_leads": 8,
+        "conversion_rate": 0.15,
+        "cac": 375
+      },
+      {
+        "channel": "content-marketing",
+        "monthly_spend": 4000,
+        "monthly_leads": 5,
+        "conversion_rate": 0.2,
+        "cac": 800
+      }
+    ],
+    "monthly_marketing_budget": 17000,
+    "marketing_team_size": 2.5,
+    "highest_performing_channel": "partnerships",
+    "most_expensive_channel": "content-marketing"
+  },
+  "resources": {
+    "available_budget_for_experiments": 8000,
+    "team_capacity_fte": 0.5,
+    "existing_capabilities": [
+      "account-based-marketing",
+      "partnership-development",
+      "content-production"
+    ]
+  },
+  "goals": {
+    "growth_target_percent": 50,
+    "timeframe_months": 3,
+    "priority": "revenue-growth"
+  },
+  "constraints": {
+    "cannot_change": [
+      "pricing"
+    ],
+    "recent_experiments": [
+      "Product-led trial (failed: sales cycle too long)"
+    ]
+  }
+}

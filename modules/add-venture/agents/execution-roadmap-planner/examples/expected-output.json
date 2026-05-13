@@ -1,0 +1,44 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "volume_number": 8,
+  "volume_title": "Execution Roadmap",
+  "phases": [
+    {"phase_name": "Phase 1: Founder Sales Setup", "duration_weeks": 4, "objectives": ["Identify 20 target CCOs", "Validate ICP", "Secure 2 pilots"], "milestones": ["Prospect list finalized", "2 discovery calls completed", "2 pilots signed"], "resources_needed": "CEO + contractor sales advisor (part-time)", "budget": 25000, "success_criteria": ["2 pilot contracts signed", "Validated pain/gain fit"], "dependencies": []},
+    {"phase_name": "Phase 2: Product & First Customer", "duration_weeks": 4, "objectives": ["Deploy MVP to pilot customers", "Close first production customer", "Document success"], "milestones": ["Product ready for production", "1st customer live", "Case study drafted"], "resources_needed": "CEO, 1 Engineer, 1 Implementation specialist", "budget": 40000, "success_criteria": ["1 production customer", "90-day success metrics"], "dependencies": ["Phase 1 complete"]},
+    {"phase_name": "Phase 3: Scale & Measure", "duration_weeks": 8, "objectives": ["Scale to 3+ customers", "Launch partnership channel", "Optimize sales process"], "milestones": ["3rd customer signed", "2 partnerships in discussion", "CAC/LTV metrics validated"], "resources_needed": "VP Sales hire, 1 Sales Dev Rep, Customer Success lead", "budget": 90000, "success_criteria": ["3 customers by week 12", "Partnership pipeline active"], "dependencies": ["Phase 2 success"]}
+  ],
+  "critical_path": {
+    "longest_dependency_chain": ["ICP validation (weeks 1-2) → Customer discovery (weeks 2-4) → Product deployment (weeks 5-8) → Revenue (weeks 9-12)"],
+    "sequencing_requirements": ["Customer discovery must complete before product can be spec'd for needs", "First customer must be live before partnerships can reference it"],
+    "risk_delay_points": ["Product implementation overruns (extends week 5-8)", "Sales cycle slips (delays week 9+)"]
+  },
+  "resource_requirements": {
+    "headcount": {
+      "month_1_2": {"CEO": 1, "Contractor_Sales_Advisor": 0.5},
+      "month_3": {"CEO": 1, "Engineer": 1, "Implementation_Specialist": 0.5},
+      "month_4_6": {"CEO": 1, "VP_Sales": 1, "Sales_Dev_Rep": 1, "Engineer": 1, "Customer_Success": 0.5}
+    },
+    "hiring_timeline": ["Contractor sales advisor: Week 1", "VP Sales hire: Week 9"],
+    "tools_and_infrastructure_monthly": 8000,
+    "budget_allocation": {"Headcount": 1500000, "Tools_Infrastructure": 96000, "Sales_Marketing": 300000, "Office_Legal": 100000},
+    "total_runway_12_months": 1996000
+  },
+  "success_metrics_and_gates": [
+    {"phase": "Phase 1", "phase_gate_criteria": ["2 pilots signed", "Validated sales process"], "key_metrics": {"prospecting_conversion_rate": "20%", "sales_cycle": "4 weeks"}, "go_no_go_decision": "If <2 pilots signed → pivot messaging", "adjustment_triggers": ["Sales cycle >6 weeks → change approach", "Conversion <15% → modify pitch"]}
+  ],
+  "first_30_days": {
+    "focus_areas": ["Build target prospect list", "Initiate customer conversations", "Validate MVP roadmap"],
+    "week_1": ["Finalize target list of 20 CCOs", "Initiate 5 outreach calls", "Define pilot success metrics"],
+    "week_2": ["Complete 10 discovery calls", "Identify top 3 pilot candidates", "Document customer needs"],
+    "week_3": ["Scope 2 pilot agreements", "Confirm product requirements", "Schedule pilot kick-offs"],
+    "week_4": ["Sign 2 pilot contracts", "Begin implementations", "Establish communication cadence"],
+    "team_composition": "CEO + part-time sales advisor + 1 engineer (part-time on product planning)"
+  },
+  "assumptions": ["Phase durations realistic (4-8 weeks per phase)", "Hiring timeline feasible (VP Sales available)", "Budget estimate includes all costs"],
+  "data_gaps": ["Engineering buildout timeline not finalized", "Partnership availability TBD"],
+  "confidence_score": 71,
+  "confidence_rationale": "Roadmap is grounded in Vol 5 GTM plan and Vol 4 budget. Phases are sequenced logically. First 30 days are concrete. However, confidence not higher because engineering timeline is not detailed (Vol 8 assumes product readiness but doesn't plan it), and hiring assumptions haven't been tested.",
+  "key_sections": ["Phases", "Critical Path", "Resource Requirements", "Success Metrics & Gates", "First 30 Days"],
+  "execution_timestamp": "2026-04-06T10:55:00Z",
+  "agent_id": "execution-roadmap-planner"
+}

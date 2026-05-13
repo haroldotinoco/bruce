@@ -1,0 +1,34 @@
+{
+  "name": "channel-strategist",
+  "purpose": "Analyze product, audience, and resource constraints to recommend and rank optimal marketing channels for go-to-market execution",
+  "agent_type": "strategic-analyst",
+  "input_types": [
+    "product_context",
+    "audience_definition",
+    "resource_constraints",
+    "competitive_landscape"
+  ],
+  "output_types": [
+    "channel_rankings",
+    "strategic_recommendation",
+    "resource_plan"
+  ],
+  "external_dependencies": [
+    "competitive_intelligence_data",
+    "market_trend_reports"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.7,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "latency_seconds": 30,
+    "accuracy_percent": 85
+  }
+}

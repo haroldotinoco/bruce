@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Gate Enforcer Output",
+  "description": "Output from the Gate Enforcer agent - a gate evaluation decision",
+  "type": "object",
+  "required": ["gate_decision_id", "gate_name", "venture_id", "status", "score", "threshold"],
+  "properties": {
+    "gate_decision_id": {
+      "type": "string",
+      "pattern": "^gd-[a-z0-9]{8}$",
+      "description": "Unique identifier for this gate decision"
+    },
+    "gate_name": {
+      "type": "string",
+      "enum": ["post-screening", "post-structuring", "post-build", "post-launch", "post-traction"]
+    },
+    "venture_id": {
+      "type": "string",
+      "pattern": "^v-[a-z0-9]{8}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASSED", "FAILED", "BORDERLINE"],
+      "description": "Gate decision: PASSED (score ≥ threshold), FAILED (score < threshold - 5), BORDERLINE (in between)"
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Evaluation score on 0-100 scale"
+    },
+    "threshold": {
+      "type": "number",
+      "description": "Minimum score required to pass this gate"
+    },
+    "score_breakdown": {
+      "type": "object",
+      "description": "Score for each evaluation criterion with weight",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "score": { "type": "number", "minimum": 0, "maximum": 100 },
+          "weight": { "type": "number", "minimum": 0, "maximum": 1 },
+          "weighted_contribution": { "type": "number" },
+          "rationale": { "type": "string" },
+          "data_points": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Specific data points supporting this score"
+          }
+        }
+      }
+    },
+    "overall_rationale": {
+      "type": "string",
+      "description": "Summary explanation of the decision"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence in this decision (0.0-1.0)"
+    },
+    "confidence_rationale": {
+      "type": "string",
+      "description": "Explanation of confidence score - sources of uncertainty"
+    },
+    "escalation_required": {
+      "type": "boolean",
+      "description": "Whether human review required (true for BORDERLINE, false otherwise)"
+    },
+    "escalation_reason": {
+      "type": "string",
+      "description": "If escalation_required, explain why human review needed"
+    },
+    "key_strengths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What venture is doing well"
+    },
+    "key_weaknesses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Areas of concern"
+    },
+    "conditions_for_improvement": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "criterion": { "type": "string" },
+          "current_score": { "type": "number" },
+          "improvement_target": { "type": "number" },
+          "recommendations": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "description": "If FAILED or BORDERLINE, how to improve for next evaluation"
+    },
+    "recommendations_if_pass": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "If PASSED, recommendations for next stage"
+    },
+    "recommendations_if_fail": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "If FAILED, recommendations for remediation"
+    },
+    "evaluator_notes": {
+      "type": "string",
+      "description": "Additional context or observations from evaluator"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evaluation_duration_seconds": {
+      "type": "number",
+      "description": "How long the evaluation took"
+    },
+    "correlation_id": {
+      "type": "string"
+    }
+  }
+}

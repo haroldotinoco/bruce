@@ -1,0 +1,65 @@
+{
+  "module": "portfolio",
+  "description": "Investment governance engine plan limits",
+  "plans": {
+    "free": {
+      "enabled": false,
+      "portfolio_access": false,
+      "reason": "Portfolio module is pro/enterprise only"
+    },
+    "pro": {
+      "enabled": true,
+      "portfolio_access": true,
+      "portfolio_review_enabled": true,
+      "max_ventures_in_review": 5,
+      "review_frequency_weeks": 14,
+      "max_reviews_per_month": 2,
+      "governance_reports_enabled": true,
+      "decision_recording_enabled": true,
+      "custom_allocation_rules": false,
+      "full_governance_reports": false,
+      "features": [
+        "portfolio review",
+        "venture health analysis",
+        "basic governance decisions",
+        "standard governance reports",
+        "decision history"
+      ]
+    },
+    "enterprise": {
+      "enabled": true,
+      "portfolio_access": true,
+      "portfolio_review_enabled": true,
+      "max_ventures_in_review": null,
+      "review_frequency_weeks": 1,
+      "max_reviews_per_month": null,
+      "governance_reports_enabled": true,
+      "decision_recording_enabled": true,
+      "custom_allocation_rules": true,
+      "full_governance_reports": true,
+      "features": [
+        "unlimited portfolio reviews",
+        "venture health analysis",
+        "advanced governance decisions",
+        "full governance reports with custom rules",
+        "custom allocation models",
+        "real-time risk monitoring",
+        "audit trail and compliance",
+        "decision history and analytics",
+        "webhook integrations",
+        "custom reporting templates"
+      ]
+    }
+  },
+  "billing": {
+    "pro": {
+      "review_overage_charge_per_review": 50,
+      "max_reviews_monthly_before_overage": 2
+    },
+    "enterprise": {
+      "included_reviews": "unlimited",
+      "custom_allocation_rules_charge": "included",
+      "governance_report_generation": "included"
+    }
+  }
+}

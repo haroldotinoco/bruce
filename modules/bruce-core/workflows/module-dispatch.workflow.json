@@ -1,0 +1,125 @@
+{
+  "workflow_id": "module-dispatch",
+  "module": "bruce-core",
+  "description": "Generic module dispatch workflow used by module-dispatcher to send ventures to downstream modules with acknowledgment and timeout handling",
+  "trigger": {"type": "event", "event": "dispatch.requested"},
+  "steps": [
+    {
+      "step_id": "validate-dispatch-request",
+      "agent": "module-dispatcher",
+      "description": "Validate dispatch request has all required fields: target_module, venture_id, correlation_id",
+      "input": {"from": "trigger.payload", "fields": ["target_module", "venture_id", "correlation_id", "venture_context"]},
+      "output_to": "validation-result",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 500},
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "on_valid": "check-module-availability",
+        "on_invalid": "fail-dispatch"
+      },
+      "events_emitted": ["bruce-core.module.dispatch-validation-started"]
+    },
+    {
+      "step_id": "check-module-availability",
+      "agent": "module-dispatcher",
+      "description": "Check if target module is available and accepting dispatches",
+      "input": {"from": "validate-dispatch-request.output"},
+      "output_to": "availability-check",
+      "timeout_seconds": 15,
+      "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 500},
+      "failure_policy": "escalate_human",
+      "next_step": {
+        "on_available": "create-dispatch-record",
+        "on_unavailable": "escalate-module-unavailable"
+      },
+      "events_emitted": ["bruce-core.module.availability-checked"]
+    },
+    {
+      "step_id": "create-dispatch-record",
+      "agent": "venture-lifecycle-manager",
+      "description": "Create dispatch record in state tracking module handoff",
+      "input": {"from": "check-module-availability.output"},
+      "output_to": "dispatch-record",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 5, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": {"default": "send-module-event"},
+      "events_emitted": ["bruce-core.module.dispatch-record-created"]
+    },
+    {
+      "step_id": "send-module-event",
+      "agent": "module-dispatcher",
+      "description": "Send dispatch event to target module with venture context and correlation ID",
+      "input": {"from": "create-dispatch-record.output"},
+      "output_to": "event-send-result",
+      "timeout_seconds": 20,
+      "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 1000},
+      "failure_policy": "escalate_human",
+      "next_step": {"default": "await-module-ack"},
+      "events_emitted": ["bruce-core.module.dispatched"]
+    },
+    {
+      "step_id": "await-module-ack",
+      "agent": null,
+      "description": "Wait for target module to acknowledge dispatch within 60 seconds",
+      "input": {"from": "trigger.event", "event": "module.ack"},
+      "output_to": "module-ack",
+      "timeout_seconds": 60,
+      "retry_policy": null,
+      "failure_policy": "escalate_human",
+      "next_step": {
+        "on_ack_received": "update-dispatch-status",
+        "on_timeout": "handle-ack-timeout"
+      },
+      "events_emitted": []
+    },
+    {
+      "step_id": "update-dispatch-status",
+      "agent": "venture-lifecycle-manager",
+      "description": "Update dispatch status to 'in-progress' after module acknowledgment",
+      "input": {"from": "await-module-ack.output"},
+      "output_to": "status-update",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 5, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": null,
+      "events_emitted": ["bruce-core.module.dispatch-status-updated", "bruce-core.module.dispatch-acknowledged"]
+    },
+    {
+      "step_id": "handle-ack-timeout",
+      "agent": "governance-agent",
+      "description": "Handle module timeout when no acknowledgment received within 60 seconds",
+      "input": {"from": "create-dispatch-record.output"},
+      "output_to": "timeout-handling-result",
+      "timeout_seconds": 120,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 2000},
+      "failure_policy": "escalate_human",
+      "next_step": null,
+      "events_emitted": ["bruce-core.module.timeout", "bruce-core.module.dispatch-failed"]
+    },
+    {
+      "step_id": "fail-dispatch",
+      "agent": "venture-lifecycle-manager",
+      "description": "Mark dispatch as failed due to validation error",
+      "input": {"from": "validate-dispatch-request.output"},
+      "output_to": "failure-record",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": null,
+      "events_emitted": ["bruce-core.module.dispatch-failed"]
+    },
+    {
+      "step_id": "escalate-module-unavailable",
+      "agent": "governance-agent",
+      "description": "Escalate to human when target module is unavailable",
+      "input": {"from": "check-module-availability.output"},
+      "output_to": "escalation-record",
+      "timeout_seconds": 60,
+      "retry_policy": null,
+      "failure_policy": "escalate_human",
+      "next_step": null,
+      "events_emitted": ["bruce-core.module.unavailable", "bruce-core.escalation.initiated"]
+    }
+  ]
+}

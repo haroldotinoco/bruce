@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StartupOps Tenant Configuration",
+  "description": "Tenant context schema for StartupOps module defining operational health monitoring configuration per account",
+  "type": "object",
+  "required": [
+    "account_id",
+    "monitored_ventures",
+    "monitoring_frequency_hours",
+    "health_dimensions_enabled",
+    "anomaly_threshold_sigma"
+  ],
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique account identifier"
+    },
+    "plan": {
+      "type": "string",
+      "enum": ["free", "pro", "enterprise"],
+      "description": "Billing plan tier determining feature availability"
+    },
+    "monitored_ventures": {
+      "type": "array",
+      "description": "List of venture IDs being monitored under this account",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "minItems": 0
+    },
+    "monitoring_frequency_hours": {
+      "type": "number",
+      "minimum": 0.25,
+      "maximum": 168,
+      "description": "Frequency of health monitoring checks in hours (0.25 = 15min for enterprise, 6 for pro)"
+    },
+    "health_dimensions_enabled": {
+      "type": "array",
+      "description": "Dimensions of operational health to monitor",
+      "items": {
+        "type": "string",
+        "enum": [
+          "activation",
+          "retention",
+          "revenue",
+          "product_quality",
+          "financial_sustainability",
+          "market_fit"
+        ]
+      },
+      "minItems": 1
+    },
+    "anomaly_detection": {
+      "type": "object",
+      "description": "Anomaly detection configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "threshold_sigma": {
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 5.0,
+          "description": "Standard deviations from mean to trigger anomaly alert"
+        },
+        "lookback_days": {
+          "type": "integer",
+          "minimum": 7,
+          "maximum": 180,
+          "description": "Historical window for baseline calculation"
+        }
+      },
+      "required": ["enabled"]
+    },
+    "escalation_webhook": {
+      "type": "object",
+      "description": "Webhook configuration for anomaly escalations",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "urls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": "Webhook endpoints for escalations"
+        },
+        "retry_policy": {
+          "type": "object",
+          "properties": {
+            "max_retries": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            },
+            "backoff_seconds": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    "reporting_cadence": {
+      "type": "string",
+      "enum": ["weekly", "biweekly", "monthly", "custom"],
+      "description": "Frequency of health reports"
+    },
+    "report_recipients": {
+      "type": "array",
+      "description": "Email addresses for automated health reports",
+      "items": {
+        "type": "string",
+        "format": "email"
+      }
+    },
+    "data_sources": {
+      "type": "object",
+      "description": "Connected data source credentials and configuration per venture",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "venture_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "analytics": {
+            "type": "object",
+            "description": "Product analytics integration",
+            "properties": {
+              "provider": {
+                "type": "string",
+                "enum": ["mixpanel", "amplitude", "segment", "custom"]
+              },
+              "api_key_encrypted": {
+                "type": "string",
+                "description": "Encrypted API key for analytics provider"
+              },
+              "workspace_id": {
+                "type": "string"
+              }
+            }
+          },
+          "financial": {
+            "type": "object",
+            "description": "Financial data integration",
+            "properties": {
+              "provider": {
+                "type": "string",
+                "enum": ["stripe", "custom"]
+              },
+              "api_key_encrypted": {
+                "type": "string",
+                "description": "Encrypted API key for financial provider"
+              },
+              "account_id": {
+                "type": "string"
+              }
+            }
+          },
+          "gtm": {
+            "type": "object",
+            "description": "Go-to-market metrics integration",
+            "properties": {
+              "provider": {
+                "type": "string",
+                "enum": ["salesforce", "hubspot", "pipedrive", "custom"]
+              },
+              "api_key_encrypted": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "custom_thresholds": {
+      "type": "object",
+      "description": "Custom thresholds for health dimension scoring (enterprise only)",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "warning_level": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "critical_level": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of tenant configuration creation"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of last configuration update"
+    }
+  }
+}

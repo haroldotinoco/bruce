@@ -1,0 +1,189 @@
+{
+  "cycle_id": "scan-2024-04-01",
+  "scan_timestamp": "2024-04-06T06:00:00Z",
+  "total_discovered": 15,
+  "total_analyzed": 15,
+  "total_scored": 15,
+  "advancement_statistics": {
+    "advanced_count": 3,
+    "reconsider_count": 6,
+    "rejected_count": 6,
+    "advancement_rate": 0.2
+  },
+  "ranked_opportunities": [
+    {
+      "rank": 1,
+      "opportunity_id": "opp-2024-04-001",
+      "title": "AI-powered compliance automation for SMBs",
+      "score": 82,
+      "recommendation": "advance",
+      "priority": "high",
+      "market_size": {
+        "tam": 28000000000,
+        "sam": 4200000000,
+        "som": 180000000
+      },
+      "discovery_date": "2024-04-01T10:30:00Z",
+      "discovery_confidence": 0.82,
+      "tags": ["fintech", "compliance", "B2B-SaaS"],
+      "rationale": "Strong market size, regulatory tailwinds, clear differentiation path via AI-native architecture, solid exit potential ($100-500M). Multiple market signals: SEC enforcement surge, Series A funding activity, LinkedIn hiring trends."
+    },
+    {
+      "rank": 2,
+      "opportunity_id": "opp-2024-04-002",
+      "title": "Vertical AI for healthcare supply chain optimization",
+      "score": 78,
+      "recommendation": "advance",
+      "priority": "high",
+      "market_size": {
+        "tam": 32000000000,
+        "sam": 5100000000,
+        "som": 220000000
+      },
+      "discovery_date": "2024-03-31T14:15:00Z",
+      "discovery_confidence": 0.79,
+      "tags": ["healthcare", "supply-chain", "AI"],
+      "rationale": "Larger TAM than compliance automation, but execution complexity slightly higher (hardware integration). Portfolio alignment strong in healthcare vertical. Exit potential: $50-200M acquisition by healthcare IT player."
+    },
+    {
+      "rank": 3,
+      "opportunity_id": "opp-2024-04-003",
+      "title": "Real-time fraud detection for payment networks",
+      "score": 76,
+      "recommendation": "advance",
+      "priority": "medium",
+      "market_size": {
+        "tam": 18000000000,
+        "sam": 3200000000,
+        "som": 85000000
+      },
+      "discovery_date": "2024-04-02T09:45:00Z",
+      "discovery_confidence": 0.75,
+      "tags": ["fintech", "payments", "AI"],
+      "rationale": "Moderate TAM, competitive intensity higher (8 direct competitors), but defensible moat possible via machine learning superiority. Exit potential: $200-500M acquisition by payment processor or bank."
+    }
+  ],
+  "reconsider_opportunities": [
+    {
+      "rank": 4,
+      "opportunity_id": "opp-2024-04-004",
+      "title": "Sustainability tracking for supply chains",
+      "score": 68,
+      "recommendation": "reconsider",
+      "priority": "medium",
+      "rationale": "Market emerging but regulatory clarity uncertain. Requires additional analysis on customer willingness-to-pay before advancement decision."
+    },
+    {
+      "rank": 5,
+      "opportunity_id": "opp-2024-04-005",
+      "title": "AI-powered contract review for legal departments",
+      "score": 64,
+      "recommendation": "reconsider",
+      "priority": "medium",
+      "rationale": "Legal tech market competitive with 12+ players. Differentiation opportunity exists but requires deeper analysis of enterprise GTM viability."
+    },
+    {
+      "rank": 6,
+      "opportunity_id": "opp-2024-04-006",
+      "title": "Workforce optimization for manufacturing",
+      "score": 62,
+      "recommendation": "reconsider",
+      "priority": "low",
+      "rationale": "Strong problem statement but TAM confidence only 0.58 (below 0.6 threshold). Hold for additional market research before scoring decision."
+    },
+    {
+      "rank": 7,
+      "opportunity_id": "opp-2024-04-007",
+      "title": "Cybersecurity for healthcare IoT devices",
+      "score": 61,
+      "recommendation": "reconsider",
+      "priority": "low",
+      "rationale": "Multiple regulatory uncertainties in healthcare device market. Requires portfolio review of execution risk tolerance."
+    },
+    {
+      "rank": 8,
+      "opportunity_id": "opp-2024-04-008",
+      "title": "Customer retention AI for DTC brands",
+      "score": 60,
+      "recommendation": "reconsider",
+      "priority": "low",
+      "rationale": "Score at threshold boundary (60). Portfolio strategic fit unclear; recommend leadership review before advancing."
+    },
+    {
+      "rank": 9,
+      "opportunity_id": "opp-2024-04-009",
+      "title": "Predictive maintenance for industrial equipment",
+      "score": 60,
+      "recommendation": "reconsider",
+      "priority": "low",
+      "rationale": "Hardware dependency increases capital requirements. Recommend deeper analysis of CAC/LTV before advancing."
+    }
+  ],
+  "rejected_opportunities": [
+    {
+      "rank": 10,
+      "opportunity_id": "opp-2024-04-010",
+      "title": "Blockchain-based supply chain tracking",
+      "score": 10,
+      "recommendation": "reject",
+      "rationale": "Unproven customer demand (LTV/CAC 0.17 vs. 3.0 threshold), dominant incumbent (Walmart Food Trust), 47+ competitors, speculative TAM (0.45 confidence), regulatory uncertainty."
+    },
+    {
+      "rank": 11,
+      "opportunity_id": "opp-2024-04-011",
+      "title": "VR training platform for enterprise",
+      "score": 42,
+      "recommendation": "reject",
+      "rationale": "Hardware-dependent solution with capital-intensive manufacturing. Portfolio lacks VR infrastructure expertise. Exit potential unclear."
+    },
+    {
+      "rank": 12,
+      "opportunity_id": "opp-2024-04-012",
+      "title": "Cryptocurrency custody for institutional investors",
+      "score": 38,
+      "recommendation": "reject",
+      "rationale": "Regulatory path highly uncertain (>50% ambiguity). Compliance burden prohibitive without established fintech licensing. Policy exception (soft filter: regulatory ambiguity) triggered."
+    },
+    {
+      "rank": 13,
+      "opportunity_id": "opp-2024-04-013",
+      "title": "AI-powered fashion recommendation engine",
+      "score": 32,
+      "recommendation": "reject",
+      "rationale": "Consumer-focused (outside portfolio focus on B2B). Requires consumer marketing expertise. CAC high ($200K) relative to LTV ($15K/lifetime)."
+    },
+    {
+      "rank": 14,
+      "opportunity_id": "opp-2024-04-014",
+      "title": "Autonomous delivery robots for urban logistics",
+      "score": 28,
+      "recommendation": "reject",
+      "rationale": "Hardware-dependent, capital-intensive ($500M+ to scale), regulatory approval path unclear. Requires breakthrough in autonomous vehicles (non-core area)."
+    },
+    {
+      "rank": 15,
+      "opportunity_id": "opp-2024-04-015",
+      "title": "Social media analytics for consumer brands",
+      "score": 18,
+      "recommendation": "reject",
+      "rationale": "TAM <$100M (below minimum threshold), 15+ competitors, undifferentiated offering. Market saturated with low barriers to entry."
+    }
+  ],
+  "cycle_metadata": {
+    "scanner_agent_version": "market-scanner-v1.2",
+    "analyst_agent_version": "opportunity-analyst-v1.1",
+    "scoring_agent_version": "scoring-agent-v1.0",
+    "prioritization_agent_version": "prioritization-agent-v1.0",
+    "sources_queried": 127,
+    "geographic_coverage": ["North America", "Western Europe"],
+    "vertical_coverage": [
+      "healthcare",
+      "fintech",
+      "enterprise-software",
+      "supply-chain",
+      "sustainability"
+    ],
+    "total_processing_time_minutes": 120,
+    "cycle_completion_time": "2024-04-06T08:00:00Z"
+  }
+}

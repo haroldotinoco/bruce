@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Traction Report",
+  "description": "Weekly traction report with performance metrics across all channels",
+  "type": "object",
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "description": "Unique report identifier"
+    },
+    "venture_id": {
+      "type": "string"
+    },
+    "period": {
+      "type": "object",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "report_week": {
+          "type": "integer",
+          "description": "Week number since product launch"
+        }
+      }
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "type": "string"
+          },
+          "impressions": {
+            "type": "integer"
+          },
+          "clicks": {
+            "type": "integer"
+          },
+          "click_through_rate": {
+            "type": "number"
+          },
+          "signups": {
+            "type": "integer"
+          },
+          "activations": {
+            "type": "integer"
+          },
+          "activation_rate": {
+            "type": "number"
+          },
+          "revenue": {
+            "type": "number"
+          },
+          "spend": {
+            "type": "number"
+          },
+          "cac": {
+            "type": "number",
+            "description": "Cost per acquisition"
+          },
+          "conversion_rate": {
+            "type": "number",
+            "description": "Overall visitor to paying customer"
+          },
+          "roi": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "properties": {
+        "total_impressions": {
+          "type": "integer"
+        },
+        "total_clicks": {
+          "type": "integer"
+        },
+        "total_signups": {
+          "type": "integer"
+        },
+        "total_activations": {
+          "type": "integer"
+        },
+        "total_paying_users": {
+          "type": "integer"
+        },
+        "total_revenue": {
+          "type": "number"
+        },
+        "total_spend": {
+          "type": "number"
+        },
+        "overall_cac": {
+          "type": "number"
+        },
+        "overall_conversion_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "trends": {
+      "type": "object",
+      "properties": {
+        "week_over_week_signups_growth": {
+          "type": "number"
+        },
+        "week_over_week_revenue_growth": {
+          "type": "number"
+        },
+        "best_performing_channel": {
+          "type": "string"
+        },
+        "worst_performing_channel": {
+          "type": "string"
+        },
+        "cac_trend": {
+          "type": "string",
+          "enum": ["increasing", "decreasing", "stable"]
+        }
+      }
+    }
+  },
+  "required": ["report_id", "venture_id", "period", "channels", "totals"]
+}

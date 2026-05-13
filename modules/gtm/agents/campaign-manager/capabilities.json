@@ -1,0 +1,35 @@
+{
+  "name": "campaign-manager",
+  "purpose": "Create campaign briefs, design A/B test plans, allocate budgets by channel and segment, and establish daily monitoring protocols for marketing campaigns",
+  "agent_type": "operations-executor",
+  "input_types": [
+    "campaign_objective",
+    "target_audience",
+    "budget_constraints",
+    "ab_test_configuration"
+  ],
+  "output_types": [
+    "campaign_brief",
+    "ab_test_plan",
+    "budget_allocation",
+    "monitoring_protocol"
+  ],
+  "external_dependencies": [
+    "analytics_platform",
+    "ad_platform_apis"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.5,
+    "max_tokens": 6144,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "latency_seconds": 20,
+    "accuracy_percent": 85
+  }
+}

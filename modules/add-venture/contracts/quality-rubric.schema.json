@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Quality Rubric for Venture Dossier",
+  "description": "Scoring dimensions and thresholds used by venture-critic agent",
+  "type": "object",
+  "properties": {
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "market_clarity": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "weight": {"type": "number"},
+            "description": {"type": "string"},
+            "scoring_scale": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "score_range": {"type": "string"},
+                  "criteria": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "customer_evidence": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "weight": {"type": "number"},
+            "description": {"type": "string"},
+            "scoring_scale": {"type": "array"}
+          }
+        },
+        "model_soundness": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "weight": {"type": "number"},
+            "description": {"type": "string"},
+            "scoring_scale": {"type": "array"}
+          }
+        },
+        "gtm_realism": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "weight": {"type": "number"},
+            "description": {"type": "string"},
+            "scoring_scale": {"type": "array"}
+          }
+        },
+        "risk_awareness": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "weight": {"type": "number"},
+            "description": {"type": "string"},
+            "scoring_scale": {"type": "array"}
+          }
+        },
+        "narrative_quality": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "weight": {"type": "number"},
+            "description": {"type": "string"},
+            "scoring_scale": {"type": "array"}
+          }
+        }
+      }
+    },
+    "volume_scoring": {
+      "type": "object",
+      "properties": {
+        "vol_1": {"type": "object", "properties": {"weight": {"type": "number"}, "criteria": {"type": "array", "items": {"type": "string"}}}},
+        "vol_2": {"type": "object", "properties": {"weight": {"type": "number"}, "criteria": {"type": "array", "items": {"type": "string"}}}},
+        "vol_3": {"type": "object", "properties": {"weight": {"type": "number"}, "criteria": {"type": "array", "items": {"type": "string"}}}},
+        "vol_4": {"type": "object", "properties": {"weight": {"type": "number"}, "criteria": {"type": "array", "items": {"type": "string"}}}},
+        "vol_5": {"type": "object", "properties": {"weight": {"type": "number"}, "criteria": {"type": "array", "items": {"type": "string"}}}},
+        "vol_6": {"type": "object", "properties": {"weight": {"type": "number"}, "criteria": {"type": "array", "items": {"type": "string"}}}},
+        "vol_7": {"type": "object", "properties": {"weight": {"type": "number"}, "criteria": {"type": "array", "items": {"type": "string"}}}},
+        "vol_8": {"type": "object", "properties": {"weight": {"type": "number"}, "criteria": {"type": "array", "items": {"type": "string"}}}}
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "properties": {
+        "pass_score": {"type": "number", "description": "Overall score >= this threshold = approve"},
+        "iterate_lower_bound": {"type": "number", "description": "Score >= this and < pass = iterate"},
+        "reject_threshold": {"type": "number", "description": "Score < this = reject"},
+        "weak_volume_threshold": {"type": "number", "description": "Volume score < this = flag for iteration"},
+        "max_iterations": {"type": "integer", "description": "Max re-runs before forced rejection"}
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpsAdvisorInput",
+  "type": "object",
+  "required": ["health_report", "anomalies", "venture_context"],
+  "properties": {
+    "health_report": {
+      "type": "object",
+      "required": ["composite_score"],
+      "properties": {
+        "health_report_id": { "type": "string" },
+        "composite_score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "dimension_scores": { "type": "object" },
+        "at_risk_dimensions": { "type": "array" },
+        "critical_dimensions": { "type": "array" }
+      }
+    },
+    "anomalies": {
+      "type": "object",
+      "properties": {
+        "anomalies_detected": { "type": "array" },
+        "anomaly_count_by_severity": { "type": "object" },
+        "escalation_required": { "type": "boolean" }
+      }
+    },
+    "venture_context": {
+      "type": "object",
+      "required": ["stage"],
+      "properties": {
+        "venture_id": { "type": "string" },
+        "stage": { "type": "string", "enum": ["seed", "early", "growth"] },
+        "hypothesis": {
+          "type": "string",
+          "description": "Current product-market fit hypothesis"
+        },
+        "kill_criteria": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Metrics or conditions that would trigger wind-down decision"
+        }
+      }
+    }
+  }
+}

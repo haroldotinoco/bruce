@@ -1,0 +1,27 @@
+{
+  "name": "logo-designer",
+  "purpose": "Design distinctive logo concepts and render as production-ready SVG",
+  "input_types": [
+    "creative_direction",
+    "brand_name",
+    "visual_system"
+  ],
+  "output_types": [
+    "logo_concepts",
+    "svg_artifacts"
+  ],
+  "external_dependencies": [
+    "dall-e-3",
+    "svg-generation"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": "google/gemma-4-26b-a4b-it:free",
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.8,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

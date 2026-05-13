@@ -1,0 +1,239 @@
+{
+  "workflow_id": "portfolio-review-cycle",
+  "name": "Portfolio Review Cycle",
+  "description": "Full 2-4 week portfolio review cycle with analysis, risk assessment, allocation planning, governance decisions, human review, reporting, and emission of decisions to bruce-core",
+  "trigger": "scheduled",
+  "schedule": "every 2 weeks",
+  "version": "1.0",
+  "steps": [
+    {
+      "step_id": "portfolio-snapshot-collection",
+      "name": "Portfolio Snapshot Collection",
+      "description": "Collect all venture health reports from startup-ops module",
+      "type": "data-collection",
+      "input_from": "startup-ops",
+      "output_to": "data-store",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 3,
+        "backoff_seconds": 60,
+        "backoff_multiplier": 2
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "portfolio-analysis",
+      "events_emitted": [
+        {
+          "event_type": "portfolio.snapshot.collected",
+          "payload": {
+            "snapshot_id": "string",
+            "venture_count": "int",
+            "created_at": "timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "portfolio-analysis",
+      "name": "Portfolio Analysis",
+      "description": "Comparative analysis across all ventures using portfolio-analyst agent",
+      "type": "agent-execution",
+      "agent": "portfolio-analyst",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 120
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "risk-assessment",
+      "events_emitted": [
+        {
+          "event_type": "portfolio.analysis.completed",
+          "payload": {
+            "analysis_id": "string",
+            "ventures_analyzed": "int",
+            "key_metrics": "object"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "risk-assessment",
+      "name": "Risk Assessment",
+      "description": "Portfolio-level risk evaluation by risk-monitor agent",
+      "type": "agent-execution",
+      "agent": "risk-monitor",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 120
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "resource-allocation-planning",
+      "events_emitted": [
+        {
+          "event_type": "portfolio.risk.assessed",
+          "payload": {
+            "risk_assessment_id": "string",
+            "high_risk_ventures": "int",
+            "portfolio_risk_score": "float"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "resource-allocation-planning",
+      "name": "Resource Allocation Planning",
+      "description": "Compute allocation recommendations by allocation-agent",
+      "type": "agent-execution",
+      "agent": "allocation-agent",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 120
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "governance-decisions",
+      "events_emitted": [
+        {
+          "event_type": "resource.allocation.planned",
+          "payload": {
+            "allocation_plan_id": "string",
+            "total_budget_allocated": "float",
+            "ventures_affected": "int"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "governance-decisions",
+      "name": "Governance Decisions",
+      "description": "Make scale/iterate/pause/kill decisions per venture by governance-decision-agent",
+      "type": "agent-execution",
+      "agent": "governance-decision-agent",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 900,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 120
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "human-review-gate",
+      "events_emitted": [
+        {
+          "event_type": "venture.decision.made",
+          "payload": {
+            "decision_id": "string",
+            "venture_id": "string",
+            "decision": "enum[scale|iterate|pause|kill|continue]",
+            "confidence": "float"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "human-review-gate",
+      "name": "Human Review Gate",
+      "description": "Present decisions to operators for high-stakes ones (kill decisions always require human confirmation)",
+      "type": "human-gate",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 172800,
+      "rules": {
+        "auto_approve": {
+          "decision_type": "enum[scale|iterate|pause|continue]",
+          "scale_budget_increase_max": 1.5
+        },
+        "require_confirmation": {
+          "decision_type": "kill",
+          "scale_budget_increase": ">1.5",
+          "pause_duration": ">90 days"
+        }
+      },
+      "next_step": {
+        "if_approved": "portfolio-report",
+        "if_rejected": "governance-decisions",
+        "if_pending": "human-review-gate"
+      },
+      "events_emitted": [
+        {
+          "event_type": "human.confirmation.requested",
+          "payload": {
+            "decision_id": "string",
+            "venture_id": "string",
+            "requires_confirmation": "bool"
+          }
+        },
+        {
+          "event_type": "human.confirmation.received",
+          "payload": {
+            "decision_id": "string",
+            "approved": "bool",
+            "confirmed_at": "timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "portfolio-report",
+      "name": "Portfolio Report",
+      "description": "Compose governance report by portfolio-reporter agent",
+      "type": "agent-execution",
+      "agent": "portfolio-reporter",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 120
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "emit-decisions-to-bruce-core",
+      "events_emitted": [
+        {
+          "event_type": "portfolio.report.generated",
+          "payload": {
+            "report_id": "string",
+            "decisions_included": "int",
+            "generated_at": "timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "emit-decisions-to-bruce-core",
+      "name": "Emit Decisions to Bruce Core",
+      "description": "Emit portfolio-to-bruce-core handoff for each decided venture",
+      "type": "event-emission",
+      "input_from": "data-store",
+      "output_to": "bruce-core",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 3,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "retry_until_success",
+      "events_emitted": [
+        {
+          "event_type": "portfolio.decisions.emitted",
+          "payload": {
+            "cycle_id": "string",
+            "ventures_decided": "int",
+            "emitted_at": "timestamp"
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "created_at": "2026-04-06",
+    "updated_at": "2026-04-06",
+    "owner": "portfolio-module"
+  }
+}

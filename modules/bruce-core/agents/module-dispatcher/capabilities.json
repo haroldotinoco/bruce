@@ -1,0 +1,160 @@
+{
+  "agent_id": "module-dispatcher",
+  "agent_name": "Module Dispatcher",
+  "description": "Routes work to specialist modules and orchestrates execution",
+  "type": "routing_coordinator",
+  "uses_llm": false,
+  "capabilities": [
+    {
+      "id": "dispatch-routing",
+      "name": "Dispatch Routing",
+      "description": "Determine which modules to invoke based on stage"
+    },
+    {
+      "id": "dependency-resolution",
+      "name": "Dependency Resolution",
+      "description": "Calculate module execution order (parallel vs. sequential)"
+    },
+    {
+      "id": "parallel-orchestration",
+      "name": "Parallel Orchestration",
+      "description": "Execute independent modules concurrently"
+    },
+    {
+      "id": "timeout-monitoring",
+      "name": "Timeout Monitoring",
+      "description": "Detect and handle module timeouts"
+    },
+    {
+      "id": "retry-logic",
+      "name": "Retry Logic",
+      "description": "Apply exponential backoff and retry policy"
+    },
+    {
+      "id": "state-synchronization",
+      "name": "State Synchronization",
+      "description": "Track execution state across modules"
+    },
+    {
+      "id": "error-handling",
+      "name": "Error Handling",
+      "description": "Classify failures and determine recovery action"
+    }
+  ],
+  "dispatch_rules": {
+    "GENERATED_to_QUALIFIED": {
+      "modules": [
+        "opportunity_screening"
+      ],
+      "parallelization": "N/A",
+      "dependencies": [],
+      "timeout_per_module_seconds": 300
+    },
+    "QUALIFIED_to_STRUCTURED": {
+      "modules": [
+        "brand",
+        "builder",
+        "market",
+        "operator"
+      ],
+      "parallelization": "brand+builder parallel, then market+operator parallel (depends on brand+builder)",
+      "dependencies": {
+        "brand": [],
+        "builder": [],
+        "market": [
+          "brand",
+          "builder"
+        ],
+        "operator": [
+          "brand",
+          "builder"
+        ]
+      },
+      "timeout_per_module_seconds": 600
+    },
+    "STRUCTURED_to_BUILT": {
+      "modules": [
+        "market",
+        "operator"
+      ],
+      "parallelization": "N/A (sequential)",
+      "dependencies": {
+        "market": [],
+        "operator": []
+      },
+      "timeout_per_module_seconds": 600
+    },
+    "BUILT_to_LAUNCHED": {
+      "modules": [
+        "operator",
+        "market"
+      ],
+      "parallelization": "N/A (sequential)",
+      "dependencies": {
+        "operator": [],
+        "market": []
+      },
+      "timeout_per_module_seconds": 600
+    },
+    "LAUNCHED_to_OPERATING": {
+      "modules": [
+        "operator",
+        "portfolio"
+      ],
+      "parallelization": "N/A (sequential)",
+      "dependencies": {
+        "operator": [],
+        "portfolio": [
+          "operator"
+        ]
+      },
+      "timeout_per_module_seconds": 600
+    },
+    "portfolio_review_cycle": {
+      "modules": [
+        "portfolio"
+      ],
+      "trigger": "Every 7 days or on-demand",
+      "timeout_per_module_seconds": 900
+    }
+  },
+  "retry_policy": {
+    "transient_error": {
+      "max_retries": 3,
+      "backoff": "exponential",
+      "backoff_sequence": [
+        1,
+        2,
+        4
+      ]
+    },
+    "network_error": {
+      "max_retries": 3,
+      "backoff": "exponential"
+    },
+    "module_error": {
+      "max_retries": 2,
+      "backoff": "exponential"
+    },
+    "timeout": {
+      "max_retries": 1,
+      "escalate_after_first_failure": true
+    },
+    "unavailable": {
+      "max_retries": 0,
+      "escalate_immediately": true
+    }
+  },
+  "timeout_policy": {
+    "module_execution_timeout_seconds": 600,
+    "warning_threshold_seconds": 300,
+    "escalation_threshold_seconds": 600
+  },
+  "constraints": {
+    "deterministic_routing": true,
+    "no_decision_authority": true,
+    "strict_timeout_enforcement": true,
+    "atomic_batches": true,
+    "no_module_skipping": true
+  }
+}

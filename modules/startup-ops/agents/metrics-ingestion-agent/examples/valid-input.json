@@ -1,0 +1,11 @@
+{
+  "venture_id": "complify-ai-saas",
+  "ingestion_config": {
+    "sources": ["mixpanel", "stripe", "amplitude"],
+    "time_range": "6h",
+    "include_historical_comparison": true,
+    "force_refresh": false
+  },
+  "last_snapshot_ref": "snapshot-complify-20260402-1800",
+  "stage": "early"
+}

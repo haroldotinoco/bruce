@@ -1,0 +1,51 @@
+{
+  "module": "brand-aid",
+  "plans": {
+    "free": {
+      "enabled": false,
+      "reason": "brand-aid requires pro plan or higher"
+    },
+    "pro": {
+      "enabled": true,
+      "brand_identities_per_venture": 1,
+      "features": {
+        "brand_brief_creation": true,
+        "naming_workshop": true,
+        "visual_identity_direction": true,
+        "messaging_framework": true,
+        "tone_of_voice": true,
+        "brand_guidelines_document": true,
+        "standard_templates": true,
+        "custom_font_recommendations": false,
+        "multi_brand_support": false,
+        "custom_color_palettes": true
+      },
+      "output_formats": ["pdf", "markdown"],
+      "asset_storage_gb": 5,
+      "template_library": "standard",
+      "max_brand_revisions": 2
+    },
+    "enterprise": {
+      "enabled": true,
+      "brand_identities_per_venture": null,
+      "features": {
+        "brand_brief_creation": true,
+        "naming_workshop": true,
+        "visual_identity_direction": true,
+        "messaging_framework": true,
+        "tone_of_voice": true,
+        "brand_guidelines_document": true,
+        "standard_templates": true,
+        "custom_font_recommendations": true,
+        "multi_brand_support": true,
+        "custom_color_palettes": true
+      },
+      "output_formats": ["pdf", "markdown", "figma", "html", "json"],
+      "asset_storage_gb": 100,
+      "template_library": "full",
+      "max_brand_revisions": null,
+      "custom_guidelines_enabled": true,
+      "white_label_support": true
+    }
+  }
+}

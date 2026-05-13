@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Builder Module State",
+  "type": "object",
+  "properties": {
+    "active_builds": {
+      "type": "array",
+      "description": "Currently running builds",
+      "items": {
+        "type": "object",
+        "properties": {
+          "build_id": { "type": "string" },
+          "venture_id": { "type": "string" },
+          "current_stage": { "type": "string" },
+          "started_at": { "type": "string" },
+          "progress_percent": { "type": "number" }
+        }
+      }
+    },
+    "completed_builds_count": {
+      "type": "integer",
+      "description": "Total number of successfully completed builds"
+    },
+    "failed_builds_count": {
+      "type": "integer",
+      "description": "Total number of failed builds"
+    },
+    "avg_pipeline_duration_hours": {
+      "type": "number",
+      "description": "Average time to complete pipeline"
+    },
+    "stage_failure_rates": {
+      "type": "object",
+      "description": "Failure rate per stage (percentage)",
+      "properties": {
+        "functional_validation": { "type": "number" },
+        "ux_bdd_specification": { "type": "number" },
+        "solution_architecture": { "type": "number" },
+        "backend_development": { "type": "number" },
+        "frontend_development": { "type": "number" },
+        "qa_testing": { "type": "number" },
+        "security_audit": { "type": "number" },
+        "governance_review": { "type": "number" }
+      }
+    },
+    "stage_rework_rates": {
+      "type": "object",
+      "description": "Percentage of builds requiring rework per stage",
+      "properties": {
+        "backend_development": { "type": "number" },
+        "frontend_development": { "type": "number" },
+        "qa_testing": { "type": "number" }
+      }
+    },
+    "avg_build_quality_score": {
+      "type": "number",
+      "description": "Average code quality across completed builds"
+    },
+    "avg_test_coverage_percent": {
+      "type": "number",
+      "description": "Average test coverage across builds"
+    },
+    "avg_security_score": {
+      "type": "number",
+      "description": "Average security score across builds"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

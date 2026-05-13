@@ -1,0 +1,23 @@
+{
+  "name": "product-validator",
+  "purpose": "Validate functional requirements are complete and buildable before development begins",
+  "input_types": [
+    "venture_hypothesis",
+    "target_users",
+    "proposed_features"
+  ],
+  "output_types": [
+    "functional_spec"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.5,
+    "max_tokens": 6144,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

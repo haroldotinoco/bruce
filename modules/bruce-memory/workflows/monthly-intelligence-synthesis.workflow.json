@@ -1,0 +1,95 @@
+{
+  "workflow_id": "monthly-intelligence-synthesis",
+  "module": "bruce-memory",
+  "description": "Monthly synthesis of all patterns into actionable intelligence snapshot",
+  "trigger": {
+    "type": "schedule",
+    "cron": "0 6 1 * *"
+  },
+  "steps": [
+    {
+      "step_id": "retrieve-all-patterns",
+      "agent": "pattern-extractor",
+      "description": "Pull all patterns with confidence >= 0.7 from pattern store",
+      "input": {
+        "from": "workflow.context",
+        "fields": [
+          "min_confidence",
+          "since_months"
+        ]
+      },
+      "output_to": "qualified-patterns",
+      "timeout_seconds": 120,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "default": "cross-venture-analysis"
+      }
+    },
+    {
+      "step_id": "cross-venture-analysis",
+      "agent": "cross-venture-analyst",
+      "description": "Run bi-monthly cross-venture analysis to surface new correlations",
+      "input": {
+        "from": "retrieve-all-patterns.output"
+      },
+      "output_to": "cross-venture-findings",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "exponential",
+        "initial_delay_ms": 15000
+      },
+      "failure_policy": "continue_without",
+      "next_step": {
+        "default": "synthesize-intelligence"
+      }
+    },
+    {
+      "step_id": "synthesize-intelligence",
+      "agent": "intelligence-synthesizer",
+      "description": "Produce monthly intelligence snapshot from patterns + cross-venture analysis",
+      "input": {
+        "from_steps": [
+          "retrieve-all-patterns",
+          "cross-venture-analysis"
+        ]
+      },
+      "output_to": "intelligence-snapshot",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "exponential",
+        "initial_delay_ms": 15000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "default": "store-snapshot"
+      }
+    },
+    {
+      "step_id": "store-snapshot",
+      "agent": "learning-ingestion-agent",
+      "description": "Persist intelligence snapshot and emit to bruce-core",
+      "input": {
+        "from": "synthesize-intelligence.output"
+      },
+      "output_to": "stored-snapshot",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 5,
+        "backoff": "linear",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": null,
+      "events_emitted": [
+        "bruce-memory.intelligence.synthesized"
+      ]
+    }
+  ]
+}

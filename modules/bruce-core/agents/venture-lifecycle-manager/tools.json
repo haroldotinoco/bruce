@@ -1,0 +1,4 @@
+{
+  "tools": [],
+  "documentation": "Declarative tools in the old format are not executed by @bruce/agent-runtime. Use plain JSON output (callAgent path). Wire real tools when ToolRegistry supports them."
+}

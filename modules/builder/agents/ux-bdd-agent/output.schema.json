@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UX-BDD Agent Output",
+  "type": "object",
+  "required": ["bdd_scenarios", "user_flows", "acceptance_criteria"],
+  "properties": {
+    "wireframe_refs": {
+      "type": "array",
+      "description": "Array of artifact IDs for generated wireframes",
+      "items": {
+        "type": "string",
+        "description": "Artifact ID reference"
+      }
+    },
+    "bdd_scenarios": {
+      "type": "array",
+      "description": "Array of BDD scenarios in Gherkin format",
+      "items": {
+        "type": "object",
+        "required": ["scenario_id", "feature", "given", "when", "then"],
+        "properties": {
+          "scenario_id": {
+            "type": "string",
+            "description": "Unique scenario identifier"
+          },
+          "feature": {
+            "type": "string",
+            "description": "Feature name"
+          },
+          "given": {
+            "type": "array",
+            "description": "Given preconditions",
+            "items": { "type": "string" }
+          },
+          "when": {
+            "type": "array",
+            "description": "When action steps",
+            "items": { "type": "string" }
+          },
+          "then": {
+            "type": "array",
+            "description": "Then expected outcomes",
+            "items": { "type": "string" }
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"],
+            "description": "Scenario priority level"
+          },
+          "tags": {
+            "type": "array",
+            "description": "Tags for scenario categorization",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "user_flows": {
+      "type": "array",
+      "description": "Array of user flows with step definitions",
+      "items": {
+        "type": "object",
+        "required": ["flow_id", "name", "steps"],
+        "properties": {
+          "flow_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "step_number": { "type": "integer" },
+                "action": { "type": "string" },
+                "screen_ref": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "description": "Non-BDD acceptance criteria",
+      "items": {
+        "type": "object",
+        "properties": {
+          "criterion_id": { "type": "string" },
+          "description": { "type": "string" },
+          "verification_method": { "type": "string" }
+        }
+      }
+    },
+    "ux_annotations": {
+      "type": "object",
+      "description": "UX notes and annotations for wireframes",
+      "properties": {
+        "accessibility_notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "interaction_notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "error_handling_strategy": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "free": {
+    "dossiers_per_month": 1,
+    "volumes_included": [1, 2, 3],
+    "iterations_per_dossier": 0,
+    "download_formats": ["json"],
+    "critique_included": false,
+    "price_usd_month": 0,
+    "description": "Perfect for first-time users"
+  },
+  "pro": {
+    "dossiers_per_month": 5,
+    "volumes_included": [1, 2, 3, 4, 5, 6, 7, 8],
+    "iterations_per_dossier": 2,
+    "download_formats": ["json", "pdf"],
+    "critique_included": true,
+    "price_usd_month": 79,
+    "description": "For active venture builders"
+  },
+  "enterprise": {
+    "dossiers_per_month": -1,
+    "volumes_included": [1, 2, 3, 4, 5, 6, 7, 8],
+    "iterations_per_dossier": -1,
+    "download_formats": ["json", "pdf", "docx"],
+    "critique_included": true,
+    "white_label": true,
+    "api_rate_limit_rps": 100,
+    "price_usd_month": 399,
+    "description": "For organizations and white-label integrations"
+  }
+}

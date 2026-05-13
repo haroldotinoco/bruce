@@ -1,0 +1,46 @@
+{
+  "agent_id": "integration-agent",
+  "name": "Integration Agent",
+  "purpose": "Design and specify third-party integrations for the MVP — APIs, webhooks, OAuth flows, payment processors, analytics",
+  "input_types": [
+    "architecture_doc_ref",
+    "feature_backlog",
+    "tech_stack",
+    "existing_integrations",
+    "budget_tier",
+    "custom_requirements"
+  ],
+  "output_types": [
+    "integration_specification",
+    "cost_analysis",
+    "implementation_timeline"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 8000,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "capabilities": [
+    "Analyze MVP architecture and feature requirements",
+    "Recommend third-party integrations",
+    "Specify API endpoints and data contracts",
+    "Design authentication and authorization flows",
+    "Document error handling and retry strategies",
+    "Estimate implementation effort and costs",
+    "Identify integration dependencies",
+    "Flag PII and compliance concerns",
+    "Recommend cost-optimized solutions"
+  ],
+  "limits": {
+    "max_integrations_per_spec": 12,
+    "cannot_write_code": true,
+    "cannot_handle_secrets": true,
+    "cannot_conduct_security_audit": true
+  }
+}

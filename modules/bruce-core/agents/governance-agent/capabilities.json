@@ -1,0 +1,104 @@
+{
+  "agent_id": "governance-agent",
+  "agent_name": "Governance Agent",
+  "description": "Makes portfolio-level governance decisions on venture strategies",
+  "model": null,
+  "capabilities": [
+    {
+      "id": "health-analysis",
+      "name": "Health Analysis",
+      "description": "Analyze portfolio health reports across multiple dimensions"
+    },
+    {
+      "id": "decision-recommendation",
+      "name": "Decision Recommendation",
+      "description": "Recommend SCALE, ITERATE, PAUSE, or KILL decisions"
+    },
+    {
+      "id": "confidence-assessment",
+      "name": "Confidence Assessment",
+      "description": "Assess confidence in decisions (0.0-1.0)"
+    },
+    {
+      "id": "risk-identification",
+      "name": "Risk Identification",
+      "description": "Identify and prioritize risks"
+    },
+    {
+      "id": "action-planning",
+      "name": "Action Planning",
+      "description": "Recommend specific next steps"
+    },
+    {
+      "id": "portfolio-optimization",
+      "name": "Portfolio Optimization",
+      "description": "Analyze portfolio composition and recommend allocation changes"
+    }
+  ],
+  "decision_framework": {
+    "decisions": [
+      {
+        "decision": "SCALE",
+        "description": "Accelerate growth investment",
+        "confidence_threshold": 0.85,
+        "reversible": true
+      },
+      {
+        "decision": "ITERATE",
+        "description": "Optimize for product-market fit",
+        "confidence_threshold": 0.7,
+        "reversible": true
+      },
+      {
+        "decision": "PAUSE",
+        "description": "Temporary halt to resolve blockers",
+        "confidence_threshold": 0.75,
+        "reversible": true
+      },
+      {
+        "decision": "KILL",
+        "description": "Terminate venture",
+        "confidence_threshold": 0.85,
+        "reversible": false,
+        "requires_human_approval": true
+      }
+    ]
+  },
+  "decision_triggers": {
+    "SCALE": [
+      "post-traction gate PASSED",
+      "month_2_retention >= 50%",
+      "cac_ltv >= 3.0",
+      "wow_growth >= 15% for 4+ weeks",
+      "team_capacity_available"
+    ],
+    "ITERATE": [
+      "growth >= 10% and < 15% WoW",
+      "unit_economics improving but below target",
+      "product_fit signals mixed",
+      "post-traction gate BORDERLINE"
+    ],
+    "PAUSE": [
+      "critical_blocker_identified",
+      "burn_rate_unsustainable",
+      "founder_health_issue",
+      "market_headwind",
+      "resource_reallocation_needed"
+    ],
+    "KILL": [
+      "post-launch gate failures >= 2 consecutive",
+      "post-traction gate score < 60",
+      "founder_withdrawal",
+      "fundamental_market_misalignment",
+      "unresolvable_regulatory_barrier"
+    ]
+  },
+  "constraints": {
+    "not_binding": true,
+    "data_driven": true,
+    "auditable": true,
+    "no_favorites": true,
+    "confidence_calibrated": true
+  },
+  "provider": "openrouter"
+}

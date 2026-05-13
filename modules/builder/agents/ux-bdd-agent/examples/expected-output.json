@@ -1,0 +1,197 @@
+{
+  "wireframe_refs": [
+    "artifact-dashboard-001",
+    "artifact-login-001",
+    "artifact-document-gen-001",
+    "artifact-policy-library-001"
+  ],
+  "bdd_scenarios": [
+    {
+      "scenario_id": "BDD-LOGIN-001",
+      "feature": "User Authentication",
+      "given": [
+        "User is on the login page",
+        "User has valid account credentials"
+      ],
+      "when": [
+        "User enters email 'user@example.com'",
+        "User enters password correctly",
+        "User clicks 'Log In' button"
+      ],
+      "then": [
+        "User is redirected to the dashboard",
+        "Dashboard displays user's recent compliance tasks",
+        "Session cookie is set"
+      ],
+      "priority": "critical",
+      "tags": ["authentication", "happy-path"]
+    },
+    {
+      "scenario_id": "BDD-LOGIN-002",
+      "feature": "User Authentication",
+      "given": [
+        "User is on the login page",
+        "User does not have an account"
+      ],
+      "when": [
+        "User enters email 'newuser@example.com'",
+        "User clicks 'Log In' button"
+      ],
+      "then": [
+        "Error message 'Account not found' appears",
+        "User remains on login page",
+        "A 'Create Account' link is displayed"
+      ],
+      "priority": "high",
+      "tags": ["authentication", "error-handling"]
+    },
+    {
+      "scenario_id": "BDD-DASHBOARD-001",
+      "feature": "Dashboard Overview",
+      "given": [
+        "User is authenticated",
+        "User is on the dashboard",
+        "There are 3 pending compliance tasks"
+      ],
+      "when": [
+        "Dashboard loads"
+      ],
+      "then": [
+        "Compliance status card shows 'In Progress'",
+        "Pending tasks section lists all 3 tasks",
+        "Recent audit history is visible",
+        "Cards have correct brand color scheme"
+      ],
+      "priority": "critical",
+      "tags": ["dashboard", "happy-path"]
+    },
+    {
+      "scenario_id": "BDD-DOCGEN-001",
+      "feature": "Document Generation",
+      "given": [
+        "User is authenticated",
+        "User is on the Documents page",
+        "User has selected 'Privacy Policy' template"
+      ],
+      "when": [
+        "User fills in company name 'Acme Corp'",
+        "User fills in contact email 'privacy@acme.com'",
+        "User clicks 'Generate' button"
+      ],
+      "then": [
+        "AI processes the request within 5 seconds",
+        "Generated document appears in preview",
+        "Document is syntactically valid markdown",
+        "User can approve or regenerate the document"
+      ],
+      "priority": "critical",
+      "tags": ["document-generation", "ai-integration"]
+    }
+  ],
+  "user_flows": [
+    {
+      "flow_id": "UF-001",
+      "name": "Login and Dashboard Access",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "User navigates to login page",
+          "screen_ref": "artifact-login-001"
+        },
+        {
+          "step_number": 2,
+          "action": "User enters credentials",
+          "screen_ref": "artifact-login-001"
+        },
+        {
+          "step_number": 3,
+          "action": "System validates and redirects",
+          "screen_ref": "artifact-dashboard-001"
+        },
+        {
+          "step_number": 4,
+          "action": "Dashboard loads with user's data",
+          "screen_ref": "artifact-dashboard-001"
+        }
+      ]
+    },
+    {
+      "flow_id": "UF-002",
+      "name": "Generate Compliance Document",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "User clicks 'New Document' from dashboard",
+          "screen_ref": "artifact-dashboard-001"
+        },
+        {
+          "step_number": 2,
+          "action": "Document template selection modal opens",
+          "screen_ref": "artifact-document-gen-001"
+        },
+        {
+          "step_number": 3,
+          "action": "User selects template type",
+          "screen_ref": "artifact-document-gen-001"
+        },
+        {
+          "step_number": 4,
+          "action": "Template form loads with fields",
+          "screen_ref": "artifact-document-gen-001"
+        },
+        {
+          "step_number": 5,
+          "action": "User fills in fields and clicks Generate",
+          "screen_ref": "artifact-document-gen-001"
+        },
+        {
+          "step_number": 6,
+          "action": "AI generates document and shows preview",
+          "screen_ref": "artifact-document-gen-001"
+        },
+        {
+          "step_number": 7,
+          "action": "User approves and document is saved",
+          "screen_ref": "artifact-document-gen-001"
+        }
+      ]
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "criterion_id": "AC-001",
+      "description": "All form inputs must have clear labels and helper text for required fields",
+      "verification_method": "Visual inspection of wireframes and component review"
+    },
+    {
+      "criterion_id": "AC-002",
+      "description": "Error messages must appear within 1 second of invalid input detection",
+      "verification_method": "Automated QA test with response time assertion"
+    },
+    {
+      "criterion_id": "AC-003",
+      "description": "Color contrast ratio must meet WCAG AA standards (4.5:1 for text)",
+      "verification_method": "Automated accessibility testing tools"
+    },
+    {
+      "criterion_id": "AC-004",
+      "description": "Dashboard must load within 2 seconds on 4G connection",
+      "verification_method": "Performance testing with network throttling"
+    }
+  ],
+  "ux_annotations": {
+    "accessibility_notes": [
+      "All interactive elements must be keyboard navigable",
+      "Form fields must have associated labels for screen readers",
+      "Error messages must use clear, non-color-dependent indicators",
+      "Focus states must be visible with minimum 2px outline"
+    ],
+    "interaction_notes": [
+      "Buttons should show loading state during document generation",
+      "Modal dialogs must trap focus and have clear close mechanisms",
+      "Dropdown menus should open on click, not hover",
+      "Toast notifications should auto-dismiss after 5 seconds"
+    ],
+    "error_handling_strategy": "Display inline validation errors near form fields. Use modal alerts for critical errors. Provide clear next steps or remediation suggestions in all error messages."
+  }
+}

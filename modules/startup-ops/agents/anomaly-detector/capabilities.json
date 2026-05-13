@@ -1,0 +1,66 @@
+{
+  "agent_id": "anomaly-detector",
+  "name": "Anomaly Detector",
+  "description": "Detects statistically significant anomalies and concerning trends in operational metrics",
+  "version": "1.0.0",
+  "capabilities": [
+    {
+      "id": "z_score_analysis",
+      "name": "Z-Score Anomaly Detection",
+      "description": "Calculate z-scores against 4-week rolling average to identify > 2-sigma deviations"
+    },
+    {
+      "id": "trend_analysis",
+      "name": "Trend Analysis",
+      "description": "Detect concerning trends (3+ weeks consecutive decline) and positive breakouts"
+    },
+    {
+      "id": "percentage_change_detection",
+      "name": "Percentage Change Detection",
+      "description": "Flag metrics with > 30% week-over-week changes"
+    },
+    {
+      "id": "severity_classification",
+      "name": "Severity Classification",
+      "description": "Classify anomalies as critical, warning, or info based on impact and metric importance"
+    },
+    {
+      "id": "escalation_routing",
+      "name": "Escalation Routing",
+      "description": "Identify anomalies requiring immediate escalation based on criticality"
+    },
+    {
+      "id": "recommendation_generation",
+      "name": "Recommendation Generation",
+      "description": "Generate investigation and remediation recommendations for each anomaly"
+    },
+    {
+      "id": "context_aware_analysis",
+      "name": "Context-Aware Analysis",
+      "description": "Adjust sensitivity based on health score context and known events"
+    },
+    {
+      "id": "false_positive_filtering",
+      "name": "False Positive Filtering",
+      "description": "Reduce false positives from normal metric volatility"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "z_score_threshold",
+      "description": "Z-score > 2.0 required for statistical anomaly flag"
+    },
+    {
+      "id": "minimum_history",
+      "description": "Require 2+ historical snapshots for trend analysis"
+    },
+    {
+      "id": "percentage_change_threshold",
+      "description": "Flag > 30% week-over-week change as automatic anomaly"
+    },
+    {
+      "id": "execution_timeout",
+      "description": "Complete detection within 120 seconds"
+    }
+  ]
+}

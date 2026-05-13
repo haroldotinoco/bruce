@@ -1,0 +1,242 @@
+BRUCEAI CONTRACT ARCHITECTURE
+=============================
+
+CENTRAL ENTITY (Source of Truth):
+  venture-lifecycle.schema.json
+    ├── venture_id
+    ├── status (generated → qualified → structured → built → launched → operating → iterating → scaling → paused → killed)
+    ├── opportunity_context (problem, market_segment, tam, validation_score)
+    ├── hypothesis (value_prop, target_audience, business_model, success_metrics)
+    ├── brand_context (name, positioning, tone, visual_mood, logo_svg, color_palette, typography)
+    ├── product_context (mvp_scope, tech_stack, repo_url, deployed_url)
+    ├── launch_context (gtm_channels, campaign_ids, launch_date)
+    ├── performance_metrics (dau, mrr, retention, churn, burn_rate, runway)
+    └── governance_history (append-only decisions with rationale, confidence, timestamp)
+
+COMMUNICATION INFRASTRUCTURE:
+  
+  module-handoff.schema.json
+    ├── Standard envelope for all inter-module communication
+    ├── Carries module-specific payload
+    ├── Metadata: correlation_id, trace_id (distributed tracing)
+    ├── Validation results against target schema
+    └── Context references to artifacts/state snapshots
+
+  module-event.schema.json
+    ├── Async event emission for non-blocking updates
+    ├── Event types: venture_initialized, qualified, hypothesis_updated, metrics_checkpoint, etc.
+    ├── Severity levels: info, warning, error, critical
+    └── Pub/sub subscriber tracking
+
+REGISTRY & ROUTING:
+
+  provider-registry.schema.json
+    ├── LLM provider definitions (openai, anthropic, google)
+    ├── Models available, capabilities, rate limits
+    ├── Fallback ordering for failover
+    └── Used by capabilities.json in each agent
+
+  artifact-store.schema.json
+    ├── Metadata for binary artifacts (images, SVGs, PDFs, code, reports)
+    ├── Storage backends: s3, local, figma, github, inline
+    ├── Access control and retention policies
+    └── Linked from venture state and other schemas
+
+MODULE-TO-MODULE HANDOFF FLOW:
+
+  Workflow: Opportunity Discovery
+  ════════════════════════════════
+  opportunity (opportunity-to-venture.schema.json)
+        ↓ [problem_statement, market_segment, tam, validation_score > 70]
+  add-venture (synthesizes inputs)
+        ↓ [venture_record initialized with hypothes]
+  bruce-core (portfolio-to-bruce-core.schema.json)
+        ↓ [decision: continue/iterate/pause/kill]
+  Update venture_lifecycle.status
+
+  Workflow: Venture Structuring (Parallel)
+  ════════════════════════════════════════
+  add-venture → venture-to-brand.schema.json
+        ↓
+  brand-aid
+        ↓ [brand-to-builder.schema.json]
+        ├─────────────────────────────┐
+        │                             │
+        v                             v
+  builder (receives                builder (receives
+  brand assets)                   product spec)
+      ↑                               ↓
+      └─────────────────────────────┘
+        [Both receive from
+         venture-to-builder.schema.json]
+
+  Workflow: Go-to-Market
+  ════════════════════════
+  builder (product_url, features shipped)
+        ↓ [builder-to-gtm.schema.json]
+  gtm
+        ↓ [gtm-to-startup-ops.schema.json]
+  startup-ops
+        ↓ [startup-ops-to-portfolio.schema.json - weekly]
+  portfolio
+        ↓ [portfolio-to-bruce-core.schema.json]
+  bruce-core
+        ↓ [decision: scale/iterate/pause/kill]
+  Update venture_lifecycle.status + resource allocation
+
+PAYLOAD EVOLUTION THROUGH PIPELINE:
+
+  Input: Opportunity
+  ├─ problem_statement: "Teams spend 15 hours/week on manual reporting"
+  ├─ market_segment: "Enterprise Analytics"
+  ├─ tam: $12B
+  └─ validation_score: 82 ✓ QUALIFIES
+
+  ↓ opportunity-to-venture.schema.json
+
+  Add-Venture Module receives opportunity + venture_id:
+  ├─ Structures hypothesis
+  ├─ Initializes venture_record
+  └─ Emits venture-to-brand + venture-to-builder (parallel)
+
+  ↓ venture-to-brand.schema.json
+
+  Brand-Aid Module receives hypothesis:
+  ├─ value_proposition: "One-click analytics dashboards"
+  ├─ target_audience: {segment: "VP Analytics at $100M+ companies"}
+  ├─ positioning: "The no-code alternative to BI tools"
+  ├─ tone_of_voice: ["professional", "empowering"]
+  └─ visual_mood: ["modern", "minimal"]
+
+  ↓ brand-to-builder.schema.json
+
+  Builder Module receives brand assets:
+  ├─ logo_svg: "<svg>..."
+  ├─ color_palette: {primary: #0066FF, secondary: #00D9FF}
+  ├─ typography: {heading_font: "Inter Bold", body_font: "Inter Regular"}
+  └─ brand_voice_summary: "Authoritative yet approachable..."
+
+  ↓ builder-to-gtm.schema.json
+
+  GTM Module receives product readiness:
+  ├─ product_url: "https://app.product.com"
+  ├─ launch_readiness_score: 85
+  ├─ key_differentiators: ["No-code", "Real-time", "Affordable"]
+  ├─ target_user_profile: {segment: "VP Analytics", pain_point: "Manual dashboards"}
+  └─ known_limitations: ["Can't yet connect to legacy ERP systems"]
+
+  ↓ gtm-to-startup-ops.schema.json
+
+  StartupOps Module receives launch config:
+  ├─ launch_channels: ["paid_search", "content", "partnerships"]
+  ├─ critical_metrics: [{metric: "DAU", target: 100}, {metric: "MRR", target: 5000}]
+  ├─ hypothesis: "VP Analytics will adopt for dashboard automation"
+  └─ analytics_configuration: {events: [...], funnel: [...]}
+
+  ↓ Weekly: startup-ops-to-portfolio.schema.json
+
+  Portfolio Module receives health report:
+  ├─ health_scores: {activation: 65, retention: 42, revenue: 20, financial: 60, market_fit: 55}
+  ├─ metric_snapshots: {dau: 45, mau: 120, mrr: 2100, churn: 8%, burn: 25k}
+  ├─ anomalies: [{metric: "DAU", trend: "down", severity: "high"}]
+  ├─ hypothesis_status: "validating" (need 2 more weeks)
+  └─ suggested_decision: "iterate" (improve activation funnel)
+
+  ↓ portfolio-to-bruce-core.schema.json
+
+  Bruce-Core Module receives decision:
+  ├─ decision: "iterate"
+  ├─ rationale: "Product-market fit signals present but activation weak"
+  ├─ confidence: 75
+  ├─ resource_increase: {headcount: 1, budget: +$10k/month}
+  ├─ experiments: [{exp: "Onboarding flow A/B test", timeline: 2 weeks}]
+  └─ next_review_date: "2026-05-03"
+
+  ↓ Update venture_lifecycle.status = "iterating"
+    Write governance_history decision record
+    Allocate resources
+
+SCHEMA VALIDATION CHAIN:
+
+  agent_output
+        ↓ [validate against module_handoff envelope]
+  payload extracted
+        ↓ [validate against target schema]
+        ↓ e.g., if from=builder, to=gtm: validate against builder-to-gtm.schema.json
+  ✓ VALID → proceed handoff, record trace_id
+  ✗ INVALID → retry with modified prompt, or escalate to human
+        ↓
+  update venture_lifecycle.status
+  emit module_event for subscribers
+  log to governance_history
+
+AUDIT TRAIL EXAMPLE:
+
+  venture_lifecycle.governance_history = [
+    {
+      decision_id: "uuid-1",
+      decision_type: "qualify",
+      rationale: "Validation score 82 > 70 threshold",
+      confidence: 92,
+      decided_by_agent: "opportunity",
+      timestamp: "2026-04-01T10:00:00Z",
+      correlation_id: "workflow-1"
+    },
+    {
+      decision_id: "uuid-2",
+      decision_type: "iterate",
+      rationale: "Health scores show activation bottleneck. Recommend onboarding experiments.",
+      confidence: 75,
+      decided_by_agent: "portfolio",
+      timestamp: "2026-04-08T14:30:00Z",
+      correlation_id: "workflow-8",
+      supporting_data_refs: ["portfolio-report-uuid", "metric-snapshot-uuid"]
+    },
+    ...
+  ]
+
+SCHEMA DEPENDENCIES MAP:
+
+  venture-lifecycle.schema.json (central, read/write by all)
+        ↑↓
+  module-handoff.schema.json (wraps all inter-module communication)
+        ↑↓
+  opportunity-to-venture.schema.json
+  venture-to-brand.schema.json
+  brand-to-builder.schema.json
+  venture-to-builder.schema.json
+  builder-to-gtm.schema.json
+  gtm-to-startup-ops.schema.json
+  startup-ops-to-portfolio.schema.json
+  portfolio-to-bruce-core.schema.json
+        ↑↓
+  module-event.schema.json (async updates)
+        ↑↓
+  provider-registry.schema.json (used by capabilities.json)
+  artifact-store.schema.json (referenced by multiple schemas)
+
+ADDING A NEW HANDOFF:
+
+  1. Define new schema: module-x-to-module-y.schema.json
+  2. Add to module-x output.schema.json
+  3. Add to module-y input.schema.json
+  4. Update workflow orchestrator
+  5. Add validation in module-y to check against new schema
+  6. Update venture-lifecycle if new fields needed
+
+EXAMPLE: Add "QA Certification" Module
+
+  new-module: qa-certification
+  ├─ Receives: builder-to-qa.schema.json
+  │  ├─ product_url
+  │  ├─ test_coverage_report
+  │  └─ critical_paths
+  ├─ Produces: qa-to-gtm.schema.json
+  │  ├─ certification_status (ready|needs_work)
+  │  ├─ test_results
+  │  ├─ known_issues
+  │  └─ go_live_readiness_score
+  ├─ Updates: venture_lifecycle
+  │  └─ product_context.qa_certification_status
+  └─ Workflow: builder → qa-certification → gtm
+

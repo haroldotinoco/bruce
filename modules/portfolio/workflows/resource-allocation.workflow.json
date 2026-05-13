@@ -1,0 +1,126 @@
+{
+  "workflow_id": "resource-allocation",
+  "name": "Resource Allocation Decision Workflow",
+  "description": "Allocation decision workflow: data collection -> allocation calculation -> human review -> emit allocation updates to bruce-core",
+  "trigger": "scheduled",
+  "schedule": "every 2 weeks",
+  "version": "1.0",
+  "steps": [
+    {
+      "step_id": "data-collection",
+      "name": "Data Collection",
+      "description": "Collect current portfolio state and allocation targets",
+      "type": "data-collection",
+      "input_from": "startup-ops",
+      "output_to": "data-store",
+      "timeout_seconds": 180,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "allocation-calculation",
+      "events_emitted": [
+        {
+          "event_type": "allocation.data.collected",
+          "payload": {
+            "collection_id": "string",
+            "ventures_in_scope": "int"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "allocation-calculation",
+      "name": "Allocation Calculation",
+      "description": "Calculate resource allocation recommendations by allocation-agent",
+      "type": "agent-execution",
+      "agent": "allocation-agent",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 120
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "human-review",
+      "events_emitted": [
+        {
+          "event_type": "allocation.calculated",
+          "payload": {
+            "allocation_plan_id": "string",
+            "total_budget": "float"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "human-review",
+      "name": "Human Review",
+      "description": "Human review gate for large allocation changes",
+      "type": "human-gate",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 172800,
+      "rules": {
+        "auto_approve": {
+          "max_budget_delta_pct": 20,
+          "max_headcount_delta": 2
+        },
+        "require_confirmation": {
+          "budget_delta_pct": ">20",
+          "headcount_delta": ">=3"
+        }
+      },
+      "next_step": {
+        "if_approved": "emit-allocation-updates",
+        "if_rejected": "allocation-calculation"
+      },
+      "events_emitted": [
+        {
+          "event_type": "allocation.review.requested",
+          "payload": {
+            "allocation_plan_id": "string"
+          }
+        },
+        {
+          "event_type": "allocation.review.approved",
+          "payload": {
+            "allocation_plan_id": "string",
+            "approved_at": "timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "emit-allocation-updates",
+      "name": "Emit Allocation Updates",
+      "description": "Emit allocation updates to bruce-core for execution",
+      "type": "event-emission",
+      "input_from": "data-store",
+      "output_to": "bruce-core",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 3,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "retry_until_success",
+      "events_emitted": [
+        {
+          "event_type": "resource.allocated",
+          "payload": {
+            "allocation_plan_id": "string",
+            "ventures_allocated": "int",
+            "emitted_at": "timestamp"
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "created_at": "2026-04-06",
+    "updated_at": "2026-04-06",
+    "owner": "portfolio-module"
+  }
+}

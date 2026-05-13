@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Frontend Agent Output",
+  "type": "object",
+  "required": ["build_status"],
+  "properties": {
+    "code_repo_ref": {
+      "type": "string",
+      "description": "Artifact ID for generated frontend repository"
+    },
+    "components_generated": {
+      "type": "array",
+      "description": "List of generated components",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "path": { "type": "string" },
+          "props": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "type": { "type": "string" },
+                "required": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "pages_generated": {
+      "type": "array",
+      "description": "List of generated pages",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "path": { "type": "string" },
+          "route": { "type": "string" }
+        }
+      }
+    },
+    "build_status": {
+      "type": "string",
+      "enum": ["success", "failed"],
+      "description": "Build completion status"
+    },
+    "lighthouse_score_estimate": {
+      "type": "number",
+      "description": "Estimated Lighthouse score (0-100)"
+    },
+    "build_errors": {
+      "type": "array",
+      "description": "Build errors if any",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file": { "type": "string" },
+          "error": { "type": "string" }
+        }
+      }
+    },
+    "integration_notes": {
+      "type": "string",
+      "description": "Notes on backend API integration and testing"
+    }
+  }
+}

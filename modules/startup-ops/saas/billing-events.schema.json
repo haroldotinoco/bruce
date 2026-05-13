@@ -1,0 +1,384 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StartupOps Billing Events Schema",
+  "description": "Billing events emitted by StartupOps module for usage tracking, metering, and invoice generation",
+  "type": "object",
+  "properties": {
+    "startup-ops.monitoring.activated": {
+      "type": "object",
+      "description": "Emitted when StartupOps monitoring is activated for a venture",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": ["startup-ops.monitoring.activated"]
+        },
+        "account_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "venture_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "trigger": {
+          "type": "string",
+          "enum": ["gtm_launch", "manual_activation"],
+          "description": "What triggered the monitoring activation"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["pro", "enterprise"]
+        },
+        "monitoring_frequency_hours": {
+          "type": "number",
+          "description": "Monitoring check frequency in hours"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "account_id",
+        "venture_id",
+        "trigger",
+        "timestamp"
+      ]
+    },
+    "startup-ops.health-check.completed": {
+      "type": "object",
+      "description": "Emitted when a health check completes, regardless of result",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": ["startup-ops.health-check.completed"]
+        },
+        "account_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "venture_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "check_duration_seconds": {
+          "type": "number",
+          "description": "Time taken to complete the health check"
+        },
+        "data_sources_accessed": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "mixpanel",
+              "amplitude",
+              "segment",
+              "stripe",
+              "salesforce",
+              "hubspot",
+              "pipedrive"
+            ]
+          },
+          "description": "Which data sources were queried during this check"
+        },
+        "dimensions_calculated": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Health dimensions included in this check"
+        },
+        "overall_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "status": {
+          "type": "string",
+          "enum": ["success", "partial_failure", "failure"],
+          "description": "Whether the health check succeeded"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "account_id",
+        "venture_id",
+        "status",
+        "timestamp"
+      ]
+    },
+    "startup-ops.anomaly.detected": {
+      "type": "object",
+      "description": "Emitted when an anomaly is detected in venture operational health",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": ["startup-ops.anomaly.detected"]
+        },
+        "account_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "venture_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "anomaly_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "dimension": {
+          "type": "string",
+          "enum": [
+            "activation",
+            "retention",
+            "revenue",
+            "product_quality",
+            "financial_sustainability",
+            "market_fit"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["warning", "critical"],
+          "description": "Severity level of the anomaly"
+        },
+        "sigma_deviation": {
+          "type": "number",
+          "description": "Standard deviations from baseline"
+        },
+        "detected_value": {
+          "type": "number",
+          "description": "Current observed value"
+        },
+        "baseline_value": {
+          "type": "number",
+          "description": "Historical baseline value"
+        },
+        "anomaly_count_this_period": {
+          "type": "integer",
+          "description": "Number of anomalies detected this billing period for this venture"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "account_id",
+        "venture_id",
+        "anomaly_id",
+        "dimension",
+        "severity",
+        "timestamp"
+      ]
+    },
+    "startup-ops.escalation.triggered": {
+      "type": "object",
+      "description": "Emitted when an escalation action is triggered for detected anomalies",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": ["startup-ops.escalation.triggered"]
+        },
+        "account_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "venture_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "escalation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "escalation_type": {
+          "type": "string",
+          "enum": ["webhook", "email", "slack", "pagerduty"],
+          "description": "Type of escalation triggered"
+        },
+        "anomalies_included": {
+          "type": "integer",
+          "description": "Number of anomalies included in this escalation"
+        },
+        "webhook_count": {
+          "type": "integer",
+          "description": "Number of webhook endpoints called"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["sent", "failed", "partial"],
+          "description": "Escalation delivery status"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "account_id",
+        "venture_id",
+        "escalation_id",
+        "timestamp"
+      ]
+    },
+    "startup-ops.report.generated": {
+      "type": "object",
+      "description": "Emitted when a health report is generated (weekly or custom)",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": ["startup-ops.report.generated"]
+        },
+        "account_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "venture_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "report_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "report_type": {
+          "type": "string",
+          "enum": ["weekly", "custom"],
+          "description": "Type of report generated"
+        },
+        "period_start": {
+          "type": "string",
+          "format": "date"
+        },
+        "period_end": {
+          "type": "string",
+          "format": "date"
+        },
+        "format": {
+          "type": "string",
+          "enum": ["json", "pdf"],
+          "description": "Report output format"
+        },
+        "pages": {
+          "type": "integer",
+          "description": "Number of pages in PDF report (if applicable)"
+        },
+        "anomalies_included": {
+          "type": "integer",
+          "description": "Number of anomalies in the report"
+        },
+        "recommendations_included": {
+          "type": "integer",
+          "description": "Number of recommendations in the report"
+        },
+        "recipients_count": {
+          "type": "integer",
+          "description": "Number of recipients who received the report"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "account_id",
+        "venture_id",
+        "report_id",
+        "report_type",
+        "timestamp"
+      ]
+    }
+  },
+  "billing_aggregation": {
+    "description": "How billing events are aggregated for invoicing",
+    "per_month": {
+      "venture_activations": {
+        "description": "Each activation counts as 1 unit. Reactivating a previously monitored venture is a new unit.",
+        "pricing": "Fixed per activated venture per month"
+      },
+      "health_checks_performed": {
+        "description": "Total count of health checks performed across all ventures. For pro tier at 6-hour frequency: ~120 checks/venture/month. Enterprise with real-time (15-min): ~2880 checks/venture/month.",
+        "pricing": "Included in plan tier (metered for overage)"
+      },
+      "anomalies_detected": {
+        "description": "Total count of anomalies detected. Used for alerting/monitoring feature usage.",
+        "pricing": "Included with anomaly detection enabled"
+      },
+      "escalations_triggered": {
+        "description": "Count of escalation events sent to webhooks, emails, integrations. Used to validate feature usage.",
+        "pricing": "Included with escalation feature"
+      },
+      "reports_generated": {
+        "description": "Count of weekly and custom reports generated. Custom reports may have additional charges on enterprise.",
+        "pricing": "Weekly included, custom may have additional per-report cost"
+      }
+    }
+  },
+  "metering": {
+    "description": "Real-time metering for usage beyond plan limits",
+    "health_checks_overage": {
+      "description": "If a venture exceeds frequency limits (e.g., triggered health checks beyond included checks), overage is charged per check",
+      "tier": "pro",
+      "base_included": "720 checks/month (6-hour frequency * 30 days * monitored ventures)",
+      "overage_unit_price": "0.001 per check"
+    },
+    "custom_reports_overage": {
+      "description": "Enterprise accounts get N custom reports included; additional reports are metered",
+      "tier": "enterprise",
+      "base_included": "4 custom reports/month per account",
+      "overage_unit_price": "50 per additional report"
+    },
+    "additional_ventures": {
+      "description": "Pro tier allows up to 5 ventures. Additional ventures are metered at per-venture cost",
+      "tier": "pro",
+      "limit": 5,
+      "overage_unit_price": "100 per additional venture per month"
+    }
+  },
+  "event_routing": {
+    "description": "How events flow to billing system",
+    "kafka_topic": "startup-ops-billing-events",
+    "event_schema_registry": "startup-ops.billing",
+    "downstream_systems": [
+      "metering-engine",
+      "invoicing-service",
+      "analytics-warehouse",
+      "usage-dashboard"
+    ]
+  }
+}

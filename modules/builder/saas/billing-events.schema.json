@@ -1,0 +1,473 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Builder Billing Events Schema",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/SpecCreatedEvent"
+    },
+    {
+      "$ref": "#/definitions/ArchitectureDefinedEvent"
+    },
+    {
+      "$ref": "#/definitions/SprintPlannedEvent"
+    },
+    {
+      "$ref": "#/definitions/RoadmapGeneratedEvent"
+    },
+    {
+      "$ref": "#/definitions/MVPApprovedEvent"
+    }
+  ],
+  "definitions": {
+    "SpecCreatedEvent": {
+      "type": "object",
+      "title": "builder.spec.created",
+      "description": "Published when an MVP specification is created from a brand identity",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "spec_id",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "builder.spec.created"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Account identifier for billing purposes"
+        },
+        "venture_id": {
+          "type": "string",
+          "description": "Associated venture identifier"
+        },
+        "spec_id": {
+          "type": "string",
+          "description": "Unique identifier for the MVP specification"
+        },
+        "brand_id": {
+          "type": "string",
+          "description": "Associated brand identity from brand-aid module"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"],
+          "description": "Account plan tier at time of event"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp of event"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "session_id": {
+              "type": "string"
+            },
+            "venture_name": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ArchitectureDefinedEvent": {
+      "type": "object",
+      "title": "builder.architecture.defined",
+      "description": "Published when technical architecture is defined for an MVP specification",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "spec_id",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "builder.architecture.defined"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "spec_id": {
+          "type": "string"
+        },
+        "architecture_id": {
+          "type": "string",
+          "description": "Unique identifier for the architecture definition"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"]
+        },
+        "tech_stack": {
+          "type": "object",
+          "description": "Selected technology stack",
+          "properties": {
+            "frontend_framework": {
+              "type": "string"
+            },
+            "backend_framework": {
+              "type": "string"
+            },
+            "database": {
+              "type": "string"
+            },
+            "authentication": {
+              "type": "string"
+            },
+            "hosting_platform": {
+              "type": "string"
+            },
+            "monitoring_tools": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "architecture_type": {
+          "type": "string",
+          "enum": [
+            "monolithic",
+            "microservices",
+            "serverless",
+            "hybrid"
+          ],
+          "description": "Overall architecture pattern"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "custom_architecture_review": {
+              "type": "boolean",
+              "description": "Whether custom architecture review was performed (enterprise feature)"
+            },
+            "architecture_complexity": {
+              "type": "string",
+              "enum": ["simple", "moderate", "complex"]
+            },
+            "scalability_tier": {
+              "type": "string",
+              "enum": ["startup", "growth", "enterprise"]
+            }
+          }
+        }
+      }
+    },
+    "SprintPlannedEvent": {
+      "type": "object",
+      "title": "builder.sprint.planned",
+      "description": "Published when sprint plans are created for an MVP specification",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "spec_id",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "builder.sprint.planned"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "spec_id": {
+          "type": "string"
+        },
+        "sprint_count": {
+          "type": "integer",
+          "description": "Number of sprints planned",
+          "minimum": 1
+        },
+        "sprint_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identifiers for each sprint"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"]
+        },
+        "planning_details": {
+          "type": "object",
+          "properties": {
+            "total_stories": {
+              "type": "integer"
+            },
+            "total_tasks": {
+              "type": "integer"
+            },
+            "total_story_points": {
+              "type": "number"
+            },
+            "team_size": {
+              "type": "integer"
+            },
+            "methodology": {
+              "type": "string",
+              "enum": ["agile", "lean", "waterfall", "kanban"]
+            }
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "average_story_points_per_sprint": {
+              "type": "number"
+            },
+            "estimated_development_weeks": {
+              "type": "number"
+            },
+            "multi_team_sprint_plan": {
+              "type": "boolean",
+              "description": "Whether multiple teams were planned (enterprise feature)"
+            }
+          }
+        }
+      }
+    },
+    "RoadmapGeneratedEvent": {
+      "type": "object",
+      "title": "builder.roadmap.generated",
+      "description": "Published when a development roadmap is generated from sprint plans",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "spec_id",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "builder.roadmap.generated"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "spec_id": {
+          "type": "string"
+        },
+        "roadmap_id": {
+          "type": "string",
+          "description": "Unique identifier for the roadmap"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"]
+        },
+        "roadmap_summary": {
+          "type": "object",
+          "properties": {
+            "total_phases": {
+              "type": "integer"
+            },
+            "total_duration_weeks": {
+              "type": "number"
+            },
+            "key_milestones": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "phase_breakdown": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "phase_name": {
+                    "type": "string"
+                  },
+                  "duration_weeks": {
+                    "type": "number"
+                  },
+                  "deliverables": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "roadmap_formats_generated": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["markdown", "pdf", "json", "asana", "monday"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "MVPApprovedEvent": {
+      "type": "object",
+      "title": "builder.mvp.approved",
+      "description": "Published when MVP specification is approved and ready for handoff to GTM module",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "spec_id",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "builder.mvp.approved"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "spec_id": {
+          "type": "string",
+          "description": "Approved MVP specification identifier"
+        },
+        "brand_id": {
+          "type": "string",
+          "description": "Associated brand from brand-aid module"
+        },
+        "brand_name": {
+          "type": "string"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"]
+        },
+        "mvp_deliverables": {
+          "type": "object",
+          "description": "Summary of MVP specification",
+          "properties": {
+            "feature_count": {
+              "type": "integer",
+              "description": "Total features in MVP"
+            },
+            "sprint_count": {
+              "type": "integer"
+            },
+            "story_count": {
+              "type": "integer"
+            },
+            "acceptance_criteria_count": {
+              "type": "integer"
+            },
+            "estimated_development_weeks": {
+              "type": "number"
+            },
+            "team_size": {
+              "type": "integer"
+            }
+          }
+        },
+        "specification_exports": {
+          "type": "object",
+          "description": "Formats in which specification was exported",
+          "properties": {
+            "formats": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "markdown",
+                  "pdf",
+                  "jira",
+                  "asana",
+                  "monday",
+                  "linear",
+                  "json"
+                ]
+              }
+            },
+            "total_file_size_kb": {
+              "type": "number"
+            }
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "approval_notes": {
+              "type": "string"
+            },
+            "workflow_duration_seconds": {
+              "type": "number",
+              "description": "Time from spec creation to approval"
+            },
+            "completed_steps": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "context_ingestion",
+                  "architecture_definition",
+                  "feature_prioritization",
+                  "sprint_planning",
+                  "acceptance_criteria"
+                ]
+              }
+            },
+            "gtm_handoff_initiated": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }
+}

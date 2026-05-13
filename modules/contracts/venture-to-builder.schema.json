@@ -1,0 +1,390 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/venture-to-builder.schema.json",
+  "title": "Venture to Builder Handoff",
+  "description": "Handoff from add-venture module to builder module (runs in parallel with brand-aid handoff). Encapsulates product hypothesis, MVP scope, tech requirements, and success metrics to enable technical implementation planning.",
+  "type": "object",
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Venture identifier (UUID v4)"
+    },
+    "mvp_scope": {
+      "type": "object",
+      "description": "MVP definition - what must ship, what defers",
+      "properties": {
+        "core_features": {
+          "type": "array",
+          "description": "Must-have features for launch",
+          "items": {
+            "type": "object",
+            "properties": {
+              "feature_name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "user_stories": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "e.g., 'As a user, I want to X so that Y'"
+                }
+              },
+              "acceptance_criteria": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["critical", "high", "medium", "low"]
+              },
+              "estimated_effort": {
+                "type": "string",
+                "description": "e.g., 'L' (Large), 'M' (Medium), 'S' (Small) or in days"
+              }
+            },
+            "required": ["feature_name", "description"]
+          },
+          "minItems": 1
+        },
+        "out_of_scope": {
+          "type": "array",
+          "description": "Explicitly deferred features (for v2+)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "feature_name": {
+                "type": "string"
+              },
+              "rationale": {
+                "type": "string",
+                "description": "Why is this deferred?"
+              }
+            }
+          }
+        },
+        "integrations": {
+          "type": "array",
+          "description": "Third-party services to integrate",
+          "items": {
+            "type": "object",
+            "properties": {
+              "service_name": {
+                "type": "string",
+                "description": "e.g., 'Stripe', 'Auth0', 'SendGrid'"
+              },
+              "purpose": {
+                "type": "string"
+              },
+              "required_for_mvp": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "required": ["core_features"]
+    },
+    "tech_stack": {
+      "type": "object",
+      "description": "Technology choices",
+      "properties": {
+        "frontend": {
+          "type": "object",
+          "properties": {
+            "framework": {
+              "type": "string",
+              "description": "e.g., 'React 18'"
+            },
+            "language": {
+              "type": "string",
+              "description": "e.g., 'TypeScript'"
+            },
+            "build_tool": {
+              "type": "string",
+              "description": "e.g., 'Vite'"
+            },
+            "ui_library": {
+              "type": "string",
+              "description": "e.g., 'Tailwind CSS', 'Shadcn/ui'"
+            },
+            "state_management": {
+              "type": "string",
+              "description": "e.g., 'Redux', 'Zustand', 'Context API'"
+            }
+          }
+        },
+        "backend": {
+          "type": "object",
+          "properties": {
+            "runtime": {
+              "type": "string",
+              "description": "e.g., 'Node.js 20', 'Python 3.11'"
+            },
+            "framework": {
+              "type": "string",
+              "description": "e.g., 'Express', 'FastAPI', 'Rails'"
+            },
+            "language": {
+              "type": "string",
+              "description": "e.g., 'JavaScript', 'Python', 'Ruby'"
+            },
+            "api_style": {
+              "type": "string",
+              "enum": ["rest", "graphql", "grpc"],
+              "description": "API architecture"
+            }
+          }
+        },
+        "database": {
+          "type": "object",
+          "properties": {
+            "primary": {
+              "type": "string",
+              "description": "e.g., 'PostgreSQL 15'"
+            },
+            "cache": {
+              "type": "string",
+              "description": "e.g., 'Redis'"
+            },
+            "search": {
+              "type": "string",
+              "description": "e.g., 'Elasticsearch', 'Meilisearch'"
+            }
+          }
+        },
+        "infrastructure": {
+          "type": "object",
+          "properties": {
+            "hosting": {
+              "type": "string",
+              "description": "e.g., 'AWS', 'Vercel', 'Heroku', 'DigitalOcean'"
+            },
+            "compute": {
+              "type": "string",
+              "description": "e.g., 'ECS', 'Lambda', 'App Engine'"
+            },
+            "cdn": {
+              "type": "string",
+              "description": "e.g., 'CloudFront', 'Cloudflare'"
+            },
+            "storage": {
+              "type": "string",
+              "description": "e.g., 'S3', 'Google Cloud Storage'"
+            }
+          }
+        },
+        "authentication": {
+          "type": "string",
+          "description": "e.g., 'OAuth2', 'JWT', 'Magic Links'"
+        },
+        "analytics": {
+          "type": "array",
+          "description": "Analytics tools to integrate",
+          "items": {
+            "type": "string",
+            "description": "e.g., 'Mixpanel', 'Amplitude', 'Segment'"
+          }
+        }
+      },
+      "required": ["frontend", "backend", "database", "infrastructure"]
+    },
+    "non_functional_requirements": {
+      "type": "object",
+      "description": "Performance and quality targets",
+      "properties": {
+        "target_response_time_ms": {
+          "type": "integer",
+          "description": "e.g., 200ms for API responses"
+        },
+        "uptime_sla": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "e.g., 99.5"
+        },
+        "max_concurrent_users": {
+          "type": "integer",
+          "description": "Expected concurrent users at launch"
+        },
+        "projected_users_month_6": {
+          "type": "integer",
+          "description": "Projected users 6 months post-launch"
+        }
+      }
+    },
+    "user_stories": {
+      "type": "array",
+      "description": "Core user journeys and stories",
+      "items": {
+        "type": "object",
+        "properties": {
+          "story_title": {
+            "type": "string"
+          },
+          "story_text": {
+            "type": "string",
+            "description": "e.g., 'As a user, I want to X so that Y'"
+          },
+          "acceptance_criteria": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "flow_steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "success_metrics": {
+      "type": "array",
+      "description": "KPIs for MVP validation",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric_name": {
+            "type": "string",
+            "description": "e.g., 'Sign-up Conversion', 'Feature Activation'"
+          },
+          "target_value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "description": "e.g., '%', 'days', 'count'"
+          },
+          "how_to_measure": {
+            "type": "string",
+            "description": "Implementation details"
+          }
+        }
+      }
+    },
+    "ux_requirements": {
+      "type": "object",
+      "description": "UX and design requirements",
+      "properties": {
+        "target_devices": {
+          "type": "array",
+          "description": "e.g., 'Desktop', 'Mobile', 'Tablet'",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mobile_first": {
+          "type": "boolean",
+          "description": "Is this mobile-first?"
+        },
+        "accessibility_requirements": {
+          "type": "string",
+          "enum": ["wcag_a", "wcag_aa", "wcag_aaa"],
+          "description": "Accessibility compliance level"
+        },
+        "browser_support": {
+          "type": "array",
+          "description": "Browsers to support",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "security_requirements": {
+      "type": "object",
+      "description": "Security and compliance needs",
+      "properties": {
+        "data_encryption": {
+          "type": "boolean",
+          "description": "Require data encryption at rest and in transit?"
+        },
+        "gdpr_compliance": {
+          "type": "boolean"
+        },
+        "soc2_compliance": {
+          "type": "boolean"
+        },
+        "pci_dss_compliance": {
+          "type": "boolean",
+          "description": "If handling payments"
+        },
+        "authentication_method": {
+          "type": "string",
+          "description": "e.g., 'OAuth', 'SAML'"
+        },
+        "user_data_retention": {
+          "type": "string",
+          "description": "e.g., 'Delete within 30 days of account closure'"
+        }
+      }
+    },
+    "compliance_requirements": {
+      "type": "array",
+      "description": "Industry/region-specific compliance",
+      "items": {
+        "type": "string",
+        "description": "e.g., 'HIPAA', 'Financial Services regulations'"
+      }
+    },
+    "deployment_strategy": {
+      "type": "object",
+      "description": "How will MVP be deployed and released?",
+      "properties": {
+        "deployment_frequency": {
+          "type": "string",
+          "description": "e.g., 'Daily', 'Weekly'"
+        },
+        "ci_cd_pipeline": {
+          "type": "string",
+          "description": "e.g., 'GitHub Actions', 'CircleCI'"
+        },
+        "rollback_strategy": {
+          "type": "string",
+          "description": "How to handle failed deployments"
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "description": "Technical decisions still to be made",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "impact": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "venture_id",
+    "mvp_scope",
+    "tech_stack",
+    "user_stories",
+    "success_metrics"
+  ],
+  "additionalProperties": false
+}

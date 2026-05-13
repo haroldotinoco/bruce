@@ -1,0 +1,32 @@
+{
+  "name": "value-proposition-designer",
+  "purpose": "Design value proposition: what product does, for whom, what problem it solves, why better than alternatives, gain creators, pain relievers",
+  "input_types": [
+    "briefing",
+    "volume_1_opportunity",
+    "volume_2_customer_market"
+  ],
+  "output_types": [
+    "volume_3_value_proposition"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.6,
+    "max_tokens": 6144,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 120,
+    "content_depth_target": 1750,
+    "confidence_calibration_threshold": 0.85
+  },
+  "cost_estimation": {
+    "avg_cost_per_volume_usd": 0.11,
+    "max_cost_per_volume_usd": 0.22
+  }
+}

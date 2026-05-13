@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Campaign Brief",
+  "description": "Campaign brief specifying objectives, creative, budget, and success metrics",
+  "type": "object",
+  "properties": {
+    "campaign_id": {
+      "type": "string",
+      "description": "Unique campaign identifier"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Reference to venture"
+    },
+    "campaign_name": {
+      "type": "string",
+      "description": "Human-readable campaign name"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["paid_search", "paid_social", "organic_social", "content_marketing", "organic_search", "partnerships", "direct_sales", "events", "referral", "email", "influencer", "community"],
+      "description": "Primary channel for this campaign"
+    },
+    "objective": {
+      "type": "string",
+      "enum": ["awareness", "consideration", "conversion", "retention", "upsell"],
+      "description": "Campaign objective in funnel"
+    },
+    "target_audience": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "segment": {
+          "type": "string"
+        },
+        "job_titles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "company_size": {
+          "type": "string"
+        },
+        "geography": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "buyer_persona": {
+          "type": "string"
+        }
+      }
+    },
+    "creative_brief": {
+      "type": "object",
+      "properties": {
+        "headline": {
+          "type": "string"
+        },
+        "subheading": {
+          "type": "string"
+        },
+        "body_copy": {
+          "type": "string"
+        },
+        "cta": {
+          "type": "string",
+          "description": "Call-to-action text"
+        },
+        "visual_theme": {
+          "type": "string"
+        },
+        "tone": {
+          "type": "string",
+          "enum": ["professional", "casual", "technical", "inspirational", "humorous"]
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "total_budget": {
+          "type": "number",
+          "description": "Total campaign budget in USD"
+        },
+        "duration_days": {
+          "type": "integer",
+          "description": "Campaign duration in days"
+        },
+        "daily_budget": {
+          "type": "number",
+          "description": "Daily budget allocation"
+        }
+      },
+      "required": ["total_budget", "duration_days"]
+    },
+    "duration": {
+      "type": "object",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "ab_variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "variant_id": {
+            "type": "string"
+          },
+          "variant_name": {
+            "type": "string"
+          },
+          "variant_description": {
+            "type": "string"
+          },
+          "expected_traffic_split": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      },
+      "description": "A/B test variants"
+    },
+    "success_metrics": {
+      "type": "object",
+      "properties": {
+        "kpis": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "metric": {
+                "type": "string",
+                "enum": ["impressions", "clicks", "ctr", "cpc", "cpa", "conversions", "roas", "ltv", "roi"]
+              },
+              "target_value": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "success_criteria": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": ["campaign_id", "venture_id", "campaign_name", "channel", "objective", "target_audience", "budget", "duration"]
+}

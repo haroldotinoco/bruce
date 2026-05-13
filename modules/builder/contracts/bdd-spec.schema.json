@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BDD Specification",
+  "type": "object",
+  "required": ["spec_id", "venture_id", "features"],
+  "properties": {
+    "spec_id": {
+      "type": "string",
+      "description": "Unique BDD spec identifier"
+    },
+    "venture_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "features": {
+      "type": "array",
+      "description": "Gherkin features with scenarios",
+      "items": {
+        "type": "object",
+        "required": ["feature_id", "name"],
+        "properties": {
+          "feature_id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "scenarios": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["scenario_id", "name", "given", "when", "then"],
+              "properties": {
+                "scenario_id": { "type": "string" },
+                "name": { "type": "string" },
+                "given": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "when": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "then": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "priority": {
+                  "type": "string",
+                  "enum": ["critical", "high", "medium", "low"]
+                },
+                "tags": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "user_flows": {
+      "type": "array",
+      "description": "User journey definitions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "flow_id": { "type": "string" },
+          "name": { "type": "string" },
+          "actor": { "type": "string" },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "step_number": { "type": "integer" },
+                "action": { "type": "string" },
+                "expected_outcome": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "description": "Non-BDD acceptance criteria",
+      "items": {
+        "type": "object",
+        "properties": {
+          "criterion_id": { "type": "string" },
+          "description": { "type": "string" },
+          "verification_method": { "type": "string" }
+        }
+      }
+    },
+    "wireframe_refs": {
+      "type": "array",
+      "description": "References to wireframe artifacts",
+      "items": { "type": "string" }
+    },
+    "test_environment_requirements": {
+      "type": "object",
+      "description": "Test data and environment setup needed",
+      "properties": {
+        "test_data_fixtures": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "mock_services": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "database_setup": { "type": "string" }
+      }
+    },
+    "total_scenarios": {
+      "type": "integer"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

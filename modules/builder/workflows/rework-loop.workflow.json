@@ -1,0 +1,161 @@
+{
+  "workflow_id": "rework-loop",
+  "name": "Rework Loop",
+  "description": "Triggered when QA fails to route back to correct agent for rework",
+  "version": "1.0.0",
+  "purpose": "Handle test failures by rerouting to appropriate agent for code fixes",
+  "trigger": {
+    "source": "qa-testing",
+    "condition": "pass_rate_percent < 90",
+    "failure_types": ["frontend_failure", "backend_failure", "data_failure"]
+  },
+  "stages": [
+    {
+      "stage_number": 1,
+      "stage_id": "analyze-failures",
+      "agent": "system",
+      "name": "Analyze Test Failures",
+      "description": "Categorize failed scenarios by failure type",
+      "input_from": ["qa_report", "test_results"],
+      "output_to": ["failure_analysis"],
+      "timeout_seconds": 300,
+      "logic": {
+        "categorize_failures": [
+          {
+            "failure_pattern": "UI_element_not_found|CSS_selector_failed|rendering_mismatch",
+            "category": "frontend_failure",
+            "route_to": "frontend-agent"
+          },
+          {
+            "failure_pattern": "API_error|validation_failed|business_logic_error",
+            "category": "backend_failure",
+            "route_to": "backend-agent"
+          },
+          {
+            "failure_pattern": "data_missing|database_error|query_failed",
+            "category": "data_failure",
+            "route_to": "backend-agent"
+          }
+        ]
+      },
+      "events_emitted": [
+        {
+          "event": "rework.failures-analyzed",
+          "payload": { "frontend_failures": "{{frontend_count}}", "backend_failures": "{{backend_count}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "stage_id": "check-rework-count",
+      "agent": "system",
+      "name": "Check Rework Cycle Count",
+      "description": "Verify rework cycle hasn't exceeded maximum (3)",
+      "input_from": ["failure_analysis", "execution_state"],
+      "output_to": ["rework_allowed"],
+      "timeout_seconds": 60,
+      "logic": {
+        "if": "rework_cycle_count < 3",
+        "then": "continue_rework",
+        "else": "escalate_to_human"
+      },
+      "events_emitted": [
+        {
+          "event": "rework.cycle-check",
+          "payload": { "cycle_count": "{{rework_cycle_count}}", "allowed": "{{rework_allowed}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "stage_id": "frontend-rework",
+      "agent": "frontend-agent",
+      "name": "Frontend Rework",
+      "description": "Fix frontend issues and regenerate frontend code",
+      "input_from": ["frontend_failures", "code_repo_frontend"],
+      "output_to": ["code_repo_frontend_fixed"],
+      "timeout_seconds": 3600,
+      "conditional": "failure_analysis.category == 'frontend_failure'",
+      "events_emitted": [
+        {
+          "event": "rework.frontend-started",
+          "payload": { "failed_scenarios": "{{failure_count}}" }
+        },
+        {
+          "event": "rework.frontend-completed",
+          "payload": { "build_status": "{{build_status}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "stage_id": "backend-rework",
+      "agent": "backend-agent",
+      "name": "Backend Rework",
+      "description": "Fix backend issues and regenerate backend code",
+      "input_from": ["backend_failures", "code_repo_backend"],
+      "output_to": ["code_repo_backend_fixed"],
+      "timeout_seconds": 3600,
+      "conditional": "failure_analysis.category == 'backend_failure' OR failure_analysis.category == 'data_failure'",
+      "events_emitted": [
+        {
+          "event": "rework.backend-started",
+          "payload": { "failed_scenarios": "{{failure_count}}" }
+        },
+        {
+          "event": "rework.backend-completed",
+          "payload": { "build_status": "{{build_status}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "stage_id": "retest-fixed-code",
+      "agent": "qa-agent",
+      "name": "Re-test Fixed Code",
+      "description": "Run QA tests again on fixed code",
+      "input_from": ["qa_report", "staging_url"],
+      "output_to": ["qa_report_retry"],
+      "timeout_seconds": 1800,
+      "increment": "rework_cycle_count",
+      "events_emitted": [
+        {
+          "event": "rework.retest-started",
+          "payload": { "cycle": "{{rework_cycle_count}}" }
+        },
+        {
+          "event": "rework.retest-completed",
+          "payload": { "pass_rate": "{{pass_rate_percent}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 6,
+      "stage_id": "evaluate-retry",
+      "agent": "system",
+      "name": "Evaluate Retry Results",
+      "description": "Check if rework resolved failures",
+      "input_from": ["qa_report_retry"],
+      "output_to": ["retry_decision"],
+      "timeout_seconds": 60,
+      "logic": {
+        "if": "pass_rate_percent >= 90",
+        "then": "proceed_to_security_audit",
+        "else_if": "rework_cycle_count < 3",
+        "then": "loop_back_to_analyze_failures",
+        "else": "escalate_to_human"
+      },
+      "events_emitted": [
+        {
+          "event": "rework.evaluation-complete",
+          "payload": { "decision": "{{retry_decision}}", "final_pass_rate": "{{pass_rate_percent}}" }
+        }
+      ]
+    }
+  ],
+  "configuration": {
+    "max_rework_cycles": 3,
+    "escalation_threshold": "critical_count > 5 OR rework_cycle_count >= 3",
+    "failure_notification": "slack_channel:build-alerts"
+  }
+}

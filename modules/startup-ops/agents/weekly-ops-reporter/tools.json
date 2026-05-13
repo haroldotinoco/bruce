@@ -1,0 +1,14 @@
+{
+  "tools": [
+    {
+      "name": "historical_lookup",
+      "type": "state_query",
+      "description": "Retrieve previous week's report for comparison"
+    },
+    {
+      "name": "metric_summarization",
+      "type": "internal",
+      "description": "Identify top 15 KPIs from complete metric set"
+    }
+  ]
+}

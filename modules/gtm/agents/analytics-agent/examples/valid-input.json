@@ -1,0 +1,85 @@
+{
+  "campaign_id": "CAMP-2024-Q2-CISO-ABM-001",
+  "campaign_context": {
+    "name": "DataShield CISO LinkedIn ABM Campaign Q2",
+    "channel": "paid-linkedin",
+    "target_value": 400,
+    "budget": 12000,
+    "launch_date": "2024-04-08",
+    "data_collection_date": "2024-04-20"
+  },
+  "success_metric": {
+    "name": "cost_per_lead",
+    "target": 400,
+    "unit": "USD"
+  },
+  "performance_data": {
+    "overall": {
+      "impressions": 48500,
+      "clicks": 1245,
+      "conversions": 28,
+      "spend_usd": 9800,
+      "ctr_percent": 2.57,
+      "conversion_rate_percent": 2.25,
+      "cost_per_conversion": 350,
+      "roas": 1.8
+    },
+    "by_variant": {
+      "control_neutral_messaging": {
+        "impressions": 24250,
+        "clicks": 580,
+        "conversions": 12,
+        "spend_usd": 4900
+      },
+      "variant_urgency_messaging": {
+        "impressions": 24250,
+        "clicks": 665,
+        "conversions": 16,
+        "spend_usd": 4900
+      }
+    },
+    "by_audience_segment": {
+      "segment_ciso_title": {
+        "impressions": 28000,
+        "clicks": 780,
+        "conversions": 20
+      },
+      "segment_cfo_security_focus": {
+        "impressions": 20500,
+        "clicks": 465,
+        "conversions": 8
+      }
+    },
+    "time_series": [
+      {"date": "2024-04-08", "impressions": 3200, "clicks": 65, "conversions": 1, "spend_usd": 700},
+      {"date": "2024-04-09", "impressions": 3500, "clicks": 92, "conversions": 2, "spend_usd": 750},
+      {"date": "2024-04-10", "impressions": 4100, "clicks": 120, "conversions": 3, "spend_usd": 800},
+      {"date": "2024-04-11", "impressions": 3800, "clicks": 98, "conversions": 2, "spend_usd": 700},
+      {"date": "2024-04-12", "impressions": 3200, "clicks": 75, "conversions": 2, "spend_usd": 650},
+      {"date": "2024-04-13", "impressions": 2900, "clicks": 55, "conversions": 1, "spend_usd": 600},
+      {"date": "2024-04-14", "impressions": 3100, "clicks": 68, "conversions": 2, "spend_usd": 650},
+      {"date": "2024-04-15", "impressions": 3500, "clicks": 105, "conversions": 3, "spend_usd": 750},
+      {"date": "2024-04-16", "impressions": 3800, "clicks": 110, "conversions": 3, "spend_usd": 800},
+      {"date": "2024-04-17", "impressions": 3400, "clicks": 95, "conversions": 2, "spend_usd": 700},
+      {"date": "2024-04-18", "impressions": 3600, "clicks": 102, "conversions": 2, "spend_usd": 750},
+      {"date": "2024-04-19", "impressions": 3700, "clicks": 105, "conversions": 2, "spend_usd": 800},
+      {"date": "2024-04-20", "impressions": 3900, "clicks": 113, "conversions": 3, "spend_usd": 850}
+    ]
+  },
+  "historical_benchmarks": {
+    "previous_campaign_ctr": 1.95,
+    "previous_campaign_conversion_rate": 1.8,
+    "previous_campaign_cpc": 8.5,
+    "platform_average_ctr": 1.5,
+    "industry_average_cpc": 9.2
+  },
+  "external_context": {
+    "platform_updates": [
+      "LinkedIn algorithm update on April 15 (reduced organic visibility, increased paid performance)"
+    ],
+    "market_events": [
+      "DataShield product announcement April 10 (lifted brand awareness)"
+    ],
+    "technical_issues": []
+  }
+}

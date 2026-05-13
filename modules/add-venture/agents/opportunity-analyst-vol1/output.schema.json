@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opportunity Analyst Vol 1 Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "volume_number": {"type": "integer", "const": 1},
+    "volume_title": {"type": "string", "const": "Opportunity Diagnosis"},
+    "content": {
+      "type": "object",
+      "properties": {
+        "problem_anatomy": {
+          "type": "object",
+          "properties": {
+            "core_problem": {"type": "string"},
+            "problem_evolution": {"type": "string"},
+            "stakeholder_impact": {"type": "string"},
+            "current_workarounds": {"type": "array", "items": {"type": "string"}},
+            "acceptance_criteria": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "market_readiness": {
+          "type": "object",
+          "properties": {
+            "maturity_stage": {"type": "string"},
+            "demand_signals": {"type": "array", "items": {"type": "string"}},
+            "competitive_activation": {"type": "string"},
+            "urgency_drivers": {"type": "array", "items": {"type": "string"}},
+            "timeline_assessment": {"type": "string"}
+          }
+        },
+        "addressable_market": {
+          "type": "object",
+          "properties": {
+            "tam_analysis": {"type": "string"},
+            "sam_definition": {"type": "string"},
+            "som_realistic": {"type": "string"},
+            "growth_trajectory": {"type": "string"},
+            "unit_economics_feasibility": {"type": "string"}
+          }
+        },
+        "macro_context": {
+          "type": "object",
+          "properties": {
+            "industry_trends": {"type": "array", "items": {"type": "string"}},
+            "regulatory_shifts": {"type": "string"},
+            "technology_enablers": {"type": "array", "items": {"type": "string"}},
+            "economic_context": {"type": "string"},
+            "demographic_drivers": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "opportunity_thesis": {
+          "type": "string",
+          "description": "One-paragraph hypothesis statement"
+        }
+      },
+      "required": ["problem_anatomy", "market_readiness", "addressable_market", "opportunity_thesis"]
+    },
+    "key_assumptions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "validation_roadmap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assumption": {"type": "string"},
+          "validation_method": {"type": "string"},
+          "success_criteria": {"type": "string"}
+        }
+      }
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "confidence_rationale": {"type": "string"},
+    "critical_unknowns": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "volume_number", "content", "confidence_score"]
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Execution State Schema",
+  "description": "Ephemeral state during workflow execution - cleared after workflow completes",
+  "type": "object",
+  "properties": {
+    "current_workflow_id": {
+      "type": "string",
+      "pattern": "^wf-[a-z0-9]{8}$",
+      "description": "Active workflow being executed"
+    },
+    "current_workflow_type": {
+      "type": "string",
+      "enum": ["venture-onboarding", "module-dispatch", "gate-evaluation", "portfolio-review"],
+      "description": "Type of workflow"
+    },
+    "current_step": {
+      "type": "object",
+      "properties": {
+        "step_id": { "type": "string" },
+        "step_name": { "type": "string" },
+        "start_time": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["pending", "in_progress", "completed", "failed"] }
+      }
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture being processed (if applicable)"
+    },
+    "pending_human_approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "escalation_id": { "type": "string" },
+          "escalation_type": { "type": "string" },
+          "required_by": { "type": "string", "format": "date-time" },
+          "context": { "type": "string" },
+          "venture_id": { "type": "string" }
+        }
+      },
+      "description": "Human decisions awaiting response"
+    },
+    "in_flight_module_calls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "module_name": { "type": "string" },
+          "dispatch_batch_id": { "type": "string" },
+          "start_time": { "type": "string", "format": "date-time" },
+          "timeout_at": { "type": "string", "format": "date-time" },
+          "status": { "type": "string" }
+        }
+      },
+      "description": "Modules currently executing"
+    },
+    "retry_counts": {
+      "type": "object",
+      "description": "Retry count per module/step",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "workflow_start_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "estimated_completion_time": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

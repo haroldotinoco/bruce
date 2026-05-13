@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Integration Agent Input",
+  "type": "object",
+  "required": ["architecture_doc_ref", "feature_backlog", "tech_stack"],
+  "properties": {
+    "architecture_doc_ref": {
+      "type": "object",
+      "description": "Reference to architecture documentation",
+      "properties": {
+        "document_id": { "type": "string" },
+        "version": { "type": "string" },
+        "url": { "type": "string" }
+      }
+    },
+    "feature_backlog": {
+      "type": "array",
+      "description": "MVP feature list with integration requirements",
+      "items": {
+        "type": "object",
+        "properties": {
+          "feature_id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "required_integrations": { "type": "array", "items": { "type": "string" } },
+          "priority": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "acceptance_criteria": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "tech_stack": {
+      "type": "object",
+      "description": "Technology stack for the MVP",
+      "properties": {
+        "backend_framework": { "type": "string" },
+        "backend_language": { "type": "string" },
+        "frontend_framework": { "type": "string" },
+        "frontend_language": { "type": "string" },
+        "database": { "type": "string" },
+        "hosting_platform": { "type": "string" },
+        "runtime_environment": { "type": "string" }
+      }
+    },
+    "existing_integrations": {
+      "type": "array",
+      "description": "List of integrations already in place or planned",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "status": { "type": "string", "enum": ["active", "planned", "deprecated"] },
+          "auth_method": { "type": "string" }
+        }
+      }
+    },
+    "budget_tier": {
+      "type": "string",
+      "description": "Funding stage for cost-based recommendations",
+      "enum": ["pre-seed", "seed", "series-a", "series-b", "enterprise"],
+      "default": "seed"
+    },
+    "custom_requirements": {
+      "type": "object",
+      "description": "Additional requirements or constraints",
+      "properties": {
+        "compliance_requirements": { "type": "array", "items": { "type": "string" } },
+        "geographic_constraints": { "type": "array", "items": { "type": "string" } },
+        "performance_requirements": { "type": "object" },
+        "availability_sla": { "type": "string" }
+      }
+    }
+  }
+}

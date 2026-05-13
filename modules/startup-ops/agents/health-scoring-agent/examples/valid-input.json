@@ -1,0 +1,38 @@
+{
+  "metric_snapshot": {
+    "snapshot_id": "snapshot-complify-20260406-1430",
+    "venture_id": "complify-ai-saas",
+    "collected_at": "2026-04-06T14:30:00Z",
+    "metrics": {
+      "product": {
+        "dau": { "value": 3240 },
+        "activation_rate": { "value": 68.5 },
+        "d7_retention": { "value": 52.3 },
+        "d30_retention": { "value": 38.7 },
+        "onboarding_completion_rate": { "value": 71.2 }
+      },
+      "revenue": {
+        "mrr": { "value": 28500 },
+        "arr": { "value": 342000 },
+        "mrr_growth_rate": { "value": 4.9 },
+        "new_mrr": { "value": 4200 },
+        "churned_mrr": { "value": 2800 }
+      },
+      "acquisition": {
+        "ltv_cac_ratio": { "value": 10.0 }
+      },
+      "financial": {
+        "runway_months": { "value": 8.2 },
+        "burn_rate": { "value": 45000 },
+        "gross_margin": { "value": 78.5 }
+      }
+    }
+  },
+  "stage": "early",
+  "nps_data": {
+    "score": 62,
+    "sample_size": 125,
+    "collected_at": "2026-04-03T00:00:00Z"
+  },
+  "previous_health_report_ref": "health-report-complify-20260403-1430"
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Risk-Validation-Analyst Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "volume_number": {"type": "integer", "const": 7},
+    "volume_title": {"type": "string"},
+    "critical_assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assumption": {"type": "string"},
+          "risk_level": {"type": "string", "enum": ["high", "medium", "low"]},
+          "validation_method": {"type": "string"},
+          "timeline_days": {"type": "integer"},
+          "success_criteria": {"type": "string"},
+          "priority_rank": {"type": "integer"}
+        }
+      }
+    },
+    "risk_matrix": {
+      "type": "object",
+      "properties": {
+        "high_impact_high_likelihood": {"type": "array", "items": {"type": "string"}},
+        "high_impact_medium_likelihood": {"type": "array", "items": {"type": "string"}},
+        "high_impact_low_likelihood": {"type": "array", "items": {"type": "string"}},
+        "medium_impact_high_likelihood": {"type": "array", "items": {"type": "string"}},
+        "other_risks": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "kill_criteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "criterion": {"type": "string"},
+          "measurement_method": {"type": "string"},
+          "kill_threshold": {"type": "string"},
+          "timeline_days": {"type": "integer"}
+        }
+      },
+      "minItems": 3,
+      "maxItems": 5
+    },
+    "validation_roadmap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "experiment_name": {"type": "string"},
+          "assumption_testing": {"type": "array", "items": {"type": "string"}},
+          "method": {"type": "string"},
+          "duration_days": {"type": "integer"},
+          "success_metric": {"type": "string"},
+          "expected_learning": {"type": "string"},
+          "go_no_go_decision": {"type": "string"}
+        }
+      }
+    },
+    "minimum_viable_validation": {
+      "type": "object",
+      "properties": {
+        "first_30_days": {"type": "array", "items": {"type": "string"}},
+        "target_learning": {"type": "array", "items": {"type": "string"}},
+        "resource_requirement": {"type": "string"}
+      }
+    },
+    "risk_mitigation_strategy": {
+      "type": "object",
+      "properties": {
+        "top_5_risks": {"type": "array", "items": {"type": "string"}},
+        "mitigation_actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "risk": {"type": "string"},
+              "action": {"type": "string"},
+              "timeline_weeks": {"type": "integer"}
+            }
+          }
+        },
+        "unmitigatable_risks": {"type": "array", "items": {"type": "string"}},
+        "total_de_risking_timeline_months": {"type": "number"}
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "confidence_rationale": {"type": "string"},
+    "key_sections": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "volume_number", "volume_title", "critical_assumptions", "risk_matrix", "kill_criteria", "validation_roadmap", "minimum_viable_validation", "risk_mitigation_strategy", "confidence_score"]
+}

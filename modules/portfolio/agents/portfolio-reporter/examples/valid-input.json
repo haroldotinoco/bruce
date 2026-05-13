@@ -1,0 +1,45 @@
+{
+  "portfolio_snapshot": {
+    "review_cycle_id": "2026-Q2-review-001",
+    "total_ventures": 3,
+    "ventures_ranked": [
+      {"venture_id": "v-001", "name": "DataFlow Analytics", "rank": 1, "health_score": 84},
+      {"venture_id": "v-002", "name": "MediLink Connect", "rank": 2, "health_score": 72},
+      {"venture_id": "v-003", "name": "TruckRoute Pro", "rank": 3, "health_score": 45}
+    ],
+    "patterns": [
+      {"pattern_id": "pattern-001", "description": "Strong PMF correlates with CAC/LTV <0.2"}
+    ],
+    "outliers": [
+      {"venture_id": "v-003", "name": "TruckRoute Pro", "outlier_type": "negative_surprise"}
+    ]
+  },
+  "risk_assessment": {
+    "overall_risk_score": 68,
+    "risk_rating": "high",
+    "risk_dimensions": {
+      "concentration_risk_score": 42,
+      "burn_rate_risk_score": 55,
+      "runway_distribution_risk_score": 62
+    }
+  },
+  "allocation_decisions": {
+    "allocation_recommendations": [
+      {"venture_id": "v-001", "name": "DataFlow Analytics", "recommended_monthly_budget": 140000, "budget_delta": 20000},
+      {"venture_id": "v-002", "name": "MediLink Connect", "recommended_monthly_budget": 95000, "budget_delta": 10000},
+      {"venture_id": "v-003", "name": "TruckRoute Pro", "recommended_monthly_budget": 20000, "budget_delta": -55000}
+    ]
+  },
+  "governance_decisions": {
+    "decisions": [
+      {"venture_id": "v-001", "name": "DataFlow Analytics", "decision": "scale", "confidence_score": 94},
+      {"venture_id": "v-002", "name": "MediLink Connect", "decision": "iterate", "confidence_score": 88},
+      {"venture_id": "v-003", "name": "TruckRoute Pro", "decision": "kill", "confidence_score": 91}
+    ]
+  },
+  "report_config": {
+    "audience": "operators",
+    "include_appendices": true,
+    "focus_areas": ["execution", "hiring", "risk_mitigation"]
+  }
+}

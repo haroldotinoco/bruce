@@ -1,0 +1,503 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/portfolio-to-bruce-core.schema.json",
+  "title": "Portfolio to Bruce-Core Handoff",
+  "description": "Handoff from portfolio module to bruce-core module. Portfolio aggregates multi-venture health data and recommends strategic decisions. Bruce-core reviews and executes those decisions, updating venture states and resource allocation.",
+  "type": "object",
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Venture identifier (UUID v4)"
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date",
+      "description": "When this review was conducted"
+    },
+    "review_period": {
+      "type": "object",
+      "description": "Period being reviewed",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "venture_status": {
+      "type": "string",
+      "enum": [
+        "generated",
+        "qualified",
+        "structured",
+        "built",
+        "launched",
+        "operating",
+        "iterating",
+        "scaling",
+        "paused",
+        "killed"
+      ],
+      "description": "Current venture status"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["scale", "iterate", "pause", "kill", "continue"],
+      "description": "Recommended decision for this venture"
+    },
+    "decision_type": {
+      "type": "string",
+      "enum": [
+        "continue_current_path",
+        "increase_investment",
+        "shift_hypothesis",
+        "temporary_pause",
+        "permanent_termination"
+      ],
+      "description": "Type of decision being recommended"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Explanation for recommendation"
+    },
+    "supporting_health_scores": {
+      "type": "object",
+      "description": "Health scores driving this decision",
+      "properties": {
+        "activation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "retention": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "revenue": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "product_quality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "financial": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "market_fit": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "supporting_metrics": {
+      "type": "object",
+      "description": "Key metrics reviewed",
+      "properties": {
+        "dau": {
+          "type": "number"
+        },
+        "mau": {
+          "type": "number"
+        },
+        "mrr": {
+          "type": "number"
+        },
+        "arr": {
+          "type": "number"
+        },
+        "retention_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "churn_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "burn_rate": {
+          "type": "number"
+        },
+        "runway_months": {
+          "type": "number"
+        },
+        "cac": {
+          "type": "number"
+        },
+        "ltv": {
+          "type": "number"
+        },
+        "ltv_cac_ratio": {
+          "type": "number"
+        }
+      }
+    },
+    "trend_analysis": {
+      "type": "object",
+      "description": "How are metrics trending?",
+      "properties": {
+        "user_growth_trend": {
+          "type": "string",
+          "enum": ["accelerating", "steady", "decelerating", "contracting"]
+        },
+        "retention_trend": {
+          "type": "string",
+          "enum": ["improving", "stable", "declining"]
+        },
+        "revenue_trend": {
+          "type": "string",
+          "enum": ["growing", "flat", "declining"]
+        },
+        "financial_runway_trend": {
+          "type": "string",
+          "enum": ["improving", "stable", "worsening"]
+        }
+      }
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confidence in this recommendation"
+    },
+    "risk_flags": {
+      "type": "array",
+      "description": "Risks to monitor",
+      "items": {
+        "type": "object",
+        "properties": {
+          "risk": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "mitigation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "if_scale_decision": {
+      "type": "object",
+      "description": "If decision is SCALE, what does that look like?",
+      "properties": {
+        "justification": {
+          "type": "string",
+          "description": "Why should this be scaled?"
+        },
+        "key_strengths": {
+          "type": "array",
+          "description": "What is working well?",
+          "items": {
+            "type": "string"
+          }
+        },
+        "resource_increase": {
+          "type": "object",
+          "properties": {
+            "headcount_delta": {
+              "type": "integer",
+              "description": "Add X engineers/team members"
+            },
+            "budget_delta_usd": {
+              "type": "number",
+              "description": "Increase monthly budget by"
+            }
+          }
+        },
+        "next_milestones": {
+          "type": "array",
+          "description": "What should be achieved in next period?",
+          "items": {
+            "type": "string"
+          }
+        },
+        "success_metrics": {
+          "type": "array",
+          "description": "What would validate this scaling decision?",
+          "items": {
+            "type": "object",
+            "properties": {
+              "metric": {
+                "type": "string"
+              },
+              "target_value": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "if_iterate_decision": {
+      "type": "object",
+      "description": "If decision is ITERATE, what needs to change?",
+      "properties": {
+        "justification": {
+          "type": "string",
+          "description": "Why not scale yet?"
+        },
+        "current_bottleneck": {
+          "type": "string",
+          "description": "What's limiting growth?"
+        },
+        "experiments_to_run": {
+          "type": "array",
+          "description": "What should be tested?",
+          "items": {
+            "type": "object",
+            "properties": {
+              "experiment": {
+                "type": "string"
+              },
+              "hypothesis": {
+                "type": "string"
+              },
+              "success_criteria": {
+                "type": "string"
+              },
+              "timeline_weeks": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "resource_allocation": {
+          "type": "object",
+          "properties": {
+            "headcount_delta": {
+              "type": "integer"
+            },
+            "budget_delta_usd": {
+              "type": "number"
+            }
+          }
+        },
+        "next_review_date": {
+          "type": "string",
+          "format": "date",
+          "description": "When should this be reassessed?"
+        }
+      }
+    },
+    "if_pause_decision": {
+      "type": "object",
+      "description": "If decision is PAUSE, what's the plan?",
+      "properties": {
+        "justification": {
+          "type": "string",
+          "description": "Why pause?"
+        },
+        "pause_duration_weeks": {
+          "type": "integer",
+          "description": "How long to pause?"
+        },
+        "pause_objectives": {
+          "type": "array",
+          "description": "What should be accomplished during pause?",
+          "items": {
+            "type": "string"
+          }
+        },
+        "resource_reduction": {
+          "type": "object",
+          "properties": {
+            "headcount_reduction": {
+              "type": "integer"
+            },
+            "budget_reduction_usd": {
+              "type": "number"
+            }
+          }
+        },
+        "resume_criteria": {
+          "type": "array",
+          "description": "What must be true to resume?",
+          "items": {
+            "type": "string"
+          }
+        },
+        "resume_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Planned resume date (if known)"
+        }
+      }
+    },
+    "if_kill_decision": {
+      "type": "object",
+      "description": "If decision is KILL, what's the exit plan?",
+      "properties": {
+        "justification": {
+          "type": "string",
+          "description": "Why kill?"
+        },
+        "why_not_viable": {
+          "type": "array",
+          "description": "Fundamental blockers",
+          "items": {
+            "type": "string"
+          }
+        },
+        "learnings_for_portfolio": {
+          "type": "array",
+          "description": "What did we learn?",
+          "items": {
+            "type": "string"
+          }
+        },
+        "shutdown_plan": {
+          "type": "array",
+          "description": "Steps to wind down",
+          "items": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string"
+              },
+              "responsible_party": {
+                "type": "string"
+              },
+              "timeline": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "team_transition": {
+          "type": "string",
+          "description": "Where do team members go?"
+        }
+      }
+    },
+    "resource_impact": {
+      "type": "object",
+      "description": "Overall resource impact of decision",
+      "properties": {
+        "monthly_budget_delta_usd": {
+          "type": "number",
+          "description": "Change to monthly spend"
+        },
+        "headcount_delta": {
+          "type": "integer",
+          "description": "Net change in headcount"
+        }
+      }
+    },
+    "supporting_data_refs": {
+      "type": "array",
+      "description": "References to reports, metrics, artifacts supporting this decision",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_review_date": {
+      "type": "string",
+      "format": "date",
+      "description": "When should this venture be reviewed again?"
+    },
+    "milestones_for_next_period": {
+      "type": "array",
+      "description": "What should be accomplished before next review?",
+      "items": {
+        "type": "object",
+        "properties": {
+          "milestone": {
+            "type": "string"
+          },
+          "target_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "success_criteria": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "comparability_to_portfolio": {
+      "type": "object",
+      "description": "How does this venture compare to portfolio peers?",
+      "properties": {
+        "performance_percentile": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Where does this rank in portfolio?"
+        },
+        "peer_comparison": {
+          "type": "string",
+          "description": "How does it compare to similar stage ventures?"
+        }
+      }
+    },
+    "portfolio_context": {
+      "type": "object",
+      "description": "Portfolio-level context for this decision",
+      "properties": {
+        "portfolio_health": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Overall portfolio health"
+        },
+        "total_ventures_in_portfolio": {
+          "type": "integer"
+        },
+        "ventures_scaling": {
+          "type": "integer"
+        },
+        "ventures_iterating": {
+          "type": "integer"
+        },
+        "ventures_paused": {
+          "type": "integer"
+        },
+        "total_monthly_budget": {
+          "type": "number"
+        }
+      }
+    },
+    "decision_ready": {
+      "type": "boolean",
+      "description": "Is this ready for bruce-core to execute?"
+    },
+    "escalation_flags": {
+      "type": "array",
+      "description": "Issues that require human review/approval",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prepared_by": {
+      "type": "string",
+      "description": "Which portfolio agent instance prepared this"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "venture_id",
+    "review_date",
+    "venture_status",
+    "decision",
+    "rationale",
+    "confidence_score"
+  ],
+  "additionalProperties": false
+}

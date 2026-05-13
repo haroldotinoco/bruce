@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Builder Tenant Schema",
+  "type": "object",
+  "required": [
+    "account_id",
+    "venture_id",
+    "plan",
+    "created_at"
+  ],
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "Account identifier for tenant isolation",
+      "minLength": 1
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Associated venture identifier",
+      "minLength": 1
+    },
+    "plan": {
+      "type": "string",
+      "enum": ["free", "pro", "enterprise"],
+      "description": "Subscription plan tier"
+    },
+    "max_sprints": {
+      "type": ["integer", "null"],
+      "description": "Maximum number of sprints allowed (null for unlimited)",
+      "minimum": 1
+    },
+    "tech_stack_preferences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "frontend_framework",
+              "backend_framework",
+              "database",
+              "authentication",
+              "hosting",
+              "monitoring",
+              "payment_processor"
+            ]
+          },
+          "preference": {
+            "type": "string",
+            "description": "Preferred technology for this category"
+          }
+        }
+      },
+      "description": "Account or venture-specific technology preferences"
+    },
+    "team_size": {
+      "type": ["integer", "null"],
+      "description": "Expected development team size",
+      "minimum": 1
+    },
+    "methodology": {
+      "type": "string",
+      "enum": ["agile", "lean", "waterfall", "kanban"],
+      "description": "Development methodology preference"
+    },
+    "max_team_members": {
+      "type": ["integer", "null"],
+      "description": "Maximum team members allowed (null for unlimited)",
+      "minimum": 1
+    },
+    "output_formats_enabled": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["markdown", "pdf", "jira", "asana", "monday", "linear", "json"]
+      },
+      "description": "Supported output export formats"
+    },
+    "api_access_enabled": {
+      "type": "boolean",
+      "description": "Whether API access is enabled for this tenant"
+    },
+    "webhooks_enabled": {
+      "type": "boolean",
+      "description": "Whether webhooks are enabled for event-driven integrations"
+    },
+    "custom_workflows_support": {
+      "type": "boolean",
+      "description": "Whether custom workflow templates are supported"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the tenant was provisioned"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    },
+    "is_active": {
+      "type": "boolean",
+      "description": "Whether the tenant is currently active"
+    }
+  }
+}

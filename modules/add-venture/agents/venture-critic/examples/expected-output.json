@@ -1,0 +1,53 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "critique_timestamp": "2026-04-06T11:00:00Z",
+  "overall_score": 76,
+  "dimension_scores": {
+    "market_clarity": 78,
+    "customer_evidence": 74,
+    "model_soundness": 72,
+    "gtm_realism": 75,
+    "risk_awareness": 79,
+    "narrative_quality": 76
+  },
+  "volume_scores": {
+    "vol_1": 78,
+    "vol_2": 74,
+    "vol_3": 75,
+    "vol_4": 68,
+    "vol_5": 75,
+    "vol_6": 76,
+    "vol_7": 79,
+    "vol_8": 71
+  },
+  "weak_volumes": ["vol_4"],
+  "specific_feedback": [
+    {
+      "volume": "vol_4",
+      "issue": "Business model assumes $250K ACV but only 2 data points from willingness-to-pay research",
+      "recommendation": "Vol 4 should flag pricing uncertainty more explicitly; recommend broader pricing research in Vol 7 validation roadmap",
+      "severity": "medium"
+    },
+    {
+      "volume": "vol_8",
+      "issue": "Engineering timeline not detailed; assumes product ready but no build plan",
+      "recommendation": "Vol 8 should include engineering roadmap or defer technical details to subsequent planning",
+      "severity": "medium"
+    }
+  ],
+  "coherence_assessment": {
+    "narrative_coherence": "Volumes tell coherent story: regulatory pressure (Vol 1) → CCOs need compliance (Vol 2) → our solution (Vol 3) → economics work (Vol 4) → can reach market (Vol 5) → compelling brand (Vol 6)",
+    "internal_contradictions": [],
+    "assumption_validation": "All major assumptions in Vols 1-6 are identified in Vol 7 validation roadmap; good linkage"
+  },
+  "improvement_required": true,
+  "approval_recommendation": "iterate",
+  "iteration_guidance": {
+    "weak_volumes_to_rework": ["vol_4"],
+    "focus_areas": ["Strengthen pricing validation in Vol 4 or defer to Vol 7", "Detail engineering buildout assumptions"],
+    "timeline_days": 14
+  },
+  "critique_notes": "Strong venture hypothesis overall. Market opportunity is clear, customer problem is well-articulated, risk awareness is strong. Primary weakness is Vol 4 pricing assumptions are somewhat thin (2 customer pricing points, extrapolated to $250K median). Vol 8 execution plan is clear but could include more engineering detail. Recommend re-run Vol 4 with expanded pricing validation, then re-critique. Expected score post-iteration: 78-80.",
+  "execution_timestamp": "2026-04-06T11:00:00Z",
+  "agent_id": "venture-critic"
+}

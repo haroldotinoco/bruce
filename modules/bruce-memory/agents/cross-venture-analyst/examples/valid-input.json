@@ -1,0 +1,115 @@
+{
+  "ventures_data": [
+    {
+      "venture_id": "v-001",
+      "venture_name": "DataFlow Analytics",
+      "stage": "iterating",
+      "market_segment": "B2B SaaS - Data Analytics",
+      "business_model": "Freemium subscription",
+      "outcome": "ongoing",
+      "weeks_live": 24,
+      "key_metrics": {
+        "mrr": 45000,
+        "cac": 890,
+        "ltv": 8900,
+        "cac_ltv_ratio": 0.1,
+        "monthly_growth_rate": 0.18,
+        "churn_rate": 0.05,
+        "customer_count": 187
+      },
+      "learning_records": [
+        {
+          "learning_id": "learn-001",
+          "narrative": "Freemium model drove rapid user acquisition; paid conversion lagged behind benchmarks initially but improved 40% with sales team addition",
+          "confidence": 0.85
+        },
+        {
+          "learning_id": "learn-002",
+          "narrative": "Developer-first GTM (communities, docs, samples) proved 3x more efficient than enterprise sales for this segment",
+          "confidence": 0.92
+        }
+      ]
+    },
+    {
+      "venture_id": "v-002",
+      "venture_name": "MediLink Connect",
+      "stage": "launched",
+      "market_segment": "Healthcare SaaS",
+      "business_model": "Enterprise licensing",
+      "outcome": "ongoing",
+      "weeks_live": 18,
+      "key_metrics": {
+        "arr": 120000,
+        "cac": 4200,
+        "ltv": 42000,
+        "cac_ltv_ratio": 0.1,
+        "sales_cycle_weeks": 20,
+        "demo_to_close_rate": 0.15,
+        "pipeline": 280000
+      },
+      "learning_records": [
+        {
+          "learning_id": "learn-003",
+          "narrative": "Healthcare procurement cycles 4-6 months vs 8 weeks for non-regulated SaaS; HIPAA compliance requirements added 3 months to first customer",
+          "confidence": 0.88
+        }
+      ]
+    },
+    {
+      "venture_id": "v-004",
+      "venture_name": "CloudSync Pro",
+      "stage": "scaling",
+      "market_segment": "B2B SaaS - Infrastructure",
+      "business_model": "Usage-based pricing",
+      "outcome": "success",
+      "weeks_live": 48,
+      "key_metrics": {
+        "arr": 2100000,
+        "cac": 780,
+        "ltv": 15600,
+        "cac_ltv_ratio": 0.05,
+        "monthly_growth_rate": 0.22,
+        "nrr": 1.35,
+        "customer_count": 420
+      },
+      "learning_records": [
+        {
+          "learning_id": "learn-004",
+          "narrative": "Low CAC/LTV ratio (0.05) enabled aggressive scaling; customers on usage model showed 35% NRR and high retention",
+          "confidence": 0.91
+        }
+      ]
+    },
+    {
+      "venture_id": "v-003",
+      "venture_name": "TruckRoute Pro",
+      "stage": "killed",
+      "market_segment": "Supply Chain SaaS",
+      "business_model": "Per-transaction fees",
+      "outcome": "failure",
+      "weeks_live": 32,
+      "key_metrics": {
+        "cac": 2800,
+        "ltv": 3600,
+        "cac_ltv_ratio": 0.78,
+        "conversion_rate": 0.03,
+        "churn_rate": 0.25,
+        "months_to_assessment": 7
+      },
+      "learning_records": [
+        {
+          "learning_id": "learn-005",
+          "narrative": "Supply chain software requires deep domain expertise; team lacked logistics background and struggled to understand buyer needs. CAC/LTV ratio 0.78 made unit economics unsustainable.",
+          "confidence": 0.89
+        }
+      ]
+    }
+  ],
+  "analysis_type": "success_factors",
+  "time_range": {
+    "start": "2026-01-01",
+    "end": "2026-04-05"
+  },
+  "min_ventures_in_pattern": 3,
+  "focus_segments": []
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Naming Candidate",
+  "type": "object",
+  "required": ["name", "approach", "rationale", "overall_score"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The candidate brand name"
+    },
+    "approach": {
+      "type": "string",
+      "enum": ["semantic", "metaphorical", "invented", "alliterative", "multilingual"],
+      "description": "The naming approach or strategy"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Why this name works for the brand"
+    },
+    "overall_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall score 0-100"
+    },
+    "scores_by_criteria": {
+      "type": "object",
+      "description": "Scores for each naming criterion",
+      "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 100 }
+    },
+    "domain_status": {
+      "type": "string",
+      "description": "Availability of .com domain"
+    },
+    "trademark_risk": {
+      "type": "string",
+      "description": "Trademark conflict risk assessment"
+    },
+    "pronunciation": {
+      "type": "string",
+      "description": "How to pronounce the name"
+    }
+  }
+}

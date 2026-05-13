@@ -1,0 +1,545 @@
+openapi: 3.0.0
+info:
+  title: Bruce Core API
+  description: Main API gateway and account management for Bruce platform
+  version: 1.0.0
+servers:
+  - url: https://api.bruce.local
+    description: Production server
+  - url: https://staging-api.bruce.local
+    description: Staging server
+
+paths:
+  /ventures:
+    post:
+      summary: Create a new venture
+      description: Creates a new venture under the current account
+      operationId: createVenture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - opportunity_id
+              properties:
+                name:
+                  type: string
+                  description: Venture name
+                opportunity_id:
+                  type: string
+                  description: ID of the opportunity being converted to venture
+                description:
+                  type: string
+                  description: Venture description
+                team_leads:
+                  type: array
+                  items:
+                    type: string
+                  description: Email addresses of initial team leads
+      responses:
+        '201':
+          description: Venture created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venture'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+    get:
+      summary: List all ventures for account
+      description: Retrieves all ventures associated with the current account
+      operationId: listVentures
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of ventures to return
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          description: Number of ventures to skip
+          schema:
+            type: integer
+            default: 0
+        - name: status
+          in: query
+          description: Filter by venture status
+          schema:
+            type: string
+            enum: [active, paused, archived, rejected]
+      responses:
+        '200':
+          description: List of ventures
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ventures:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Venture'
+                  total:
+                    type: integer
+        '401':
+          description: Unauthorized
+
+  /ventures/{venture_id}:
+    get:
+      summary: Get venture details
+      description: Retrieves detailed information about a specific venture
+      operationId: getVenture
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Venture details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VentureDetail'
+        '404':
+          description: Venture not found
+        '401':
+          description: Unauthorized
+    patch:
+      summary: Update venture status
+      description: Updates the status or other properties of a venture
+      operationId: updateVenture
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [active, paused, archived, rejected]
+                  description: New venture status
+                description:
+                  type: string
+                  description: Updated description
+                metadata:
+                  type: object
+                  description: Additional metadata
+      responses:
+        '200':
+          description: Venture updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venture'
+        '400':
+          description: Invalid request
+        '404':
+          description: Venture not found
+        '401':
+          description: Unauthorized
+
+  /account:
+    get:
+      summary: Get account details
+      description: Retrieves account information including plan, limits, and enabled modules
+      operationId: getAccount
+      responses:
+        '200':
+          description: Account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized
+    patch:
+      summary: Update account settings
+      description: Updates account-level settings and preferences
+      operationId: updateAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                billing_email:
+                  type: string
+                  format: email
+                company_name:
+                  type: string
+                webhook_url:
+                  type: string
+                  format: uri
+                  description: URL for billing and event webhooks
+                settings:
+                  type: object
+                  description: Account-level settings
+      responses:
+        '200':
+          description: Account updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+
+  /modules:
+    get:
+      summary: List enabled modules for account
+      description: Retrieves list of all modules available and their activation status
+      operationId: listModules
+      responses:
+        '200':
+          description: List of modules
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  modules:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Module'
+        '401':
+          description: Unauthorized
+
+  /modules/{module_id}/activate:
+    post:
+      summary: Activate a module
+      description: Activates a module for the current account
+      operationId: activateModule
+      parameters:
+        - name: module_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config:
+                  type: object
+                  description: Module-specific configuration
+      responses:
+        '200':
+          description: Module activated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Module'
+        '400':
+          description: Invalid request or module already active
+        '404':
+          description: Module not found
+        '401':
+          description: Unauthorized
+
+  /jobs/{job_id}:
+    get:
+      summary: Get workflow job status
+      description: Retrieves the status and progress of a background job
+      operationId: getJob
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '404':
+          description: Job not found
+        '401':
+          description: Unauthorized
+
+  /events:
+    get:
+      summary: Get audit event log
+      description: Retrieves audit events for the account
+      operationId: getEvents
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: event_type
+          in: query
+          schema:
+            type: string
+          description: Filter by event type
+        - name: since
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: Filter events after this timestamp
+      responses:
+        '200':
+          description: List of audit events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuditEvent'
+                  total:
+                    type: integer
+        '401':
+          description: Unauthorized
+
+components:
+  schemas:
+    Venture:
+      type: object
+      required:
+        - id
+        - account_id
+        - name
+        - status
+        - created_at
+      properties:
+        id:
+          type: string
+          description: Unique venture identifier
+        account_id:
+          type: string
+          description: Account this venture belongs to
+        name:
+          type: string
+          description: Venture name
+        description:
+          type: string
+          description: Venture description
+        opportunity_id:
+          type: string
+          description: Source opportunity ID
+        status:
+          type: string
+          enum: [active, paused, archived, rejected]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    VentureDetail:
+      allOf:
+        - $ref: '#/components/schemas/Venture'
+        - type: object
+          properties:
+            hypothesis:
+              type: object
+              description: Venture hypothesis structure
+              properties:
+                executive_summary:
+                  type: string
+                market_sizing:
+                  type: object
+                team_requirements:
+                  type: array
+                  items:
+                    type: object
+                product_definition:
+                  type: object
+                risk_assessment:
+                  type: array
+                  items:
+                    type: object
+                go_no_go_recommendation:
+                  type: string
+                  enum: [go, no_go, conditional]
+            team_leads:
+              type: array
+              items:
+                type: string
+            metadata:
+              type: object
+
+    Account:
+      type: object
+      required:
+        - id
+        - plan
+        - created_at
+      properties:
+        id:
+          type: string
+          description: Account ID
+        plan:
+          type: string
+          enum: [free, pro, enterprise]
+          description: Current billing plan
+        limits:
+          type: object
+          properties:
+            ventures:
+              type: integer
+            active_modules:
+              type: integer
+            api_calls_per_month:
+              type: integer
+        enabled_modules:
+          type: array
+          items:
+            type: string
+          description: List of activated module IDs
+        billing_email:
+          type: string
+          format: email
+        company_name:
+          type: string
+        webhook_url:
+          type: string
+          format: uri
+        settings:
+          type: object
+          description: Account settings
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Module:
+      type: object
+      required:
+        - id
+        - name
+        - status
+      properties:
+        id:
+          type: string
+          description: Module identifier
+        name:
+          type: string
+          description: Human-readable module name
+        description:
+          type: string
+          description: Module description
+        status:
+          type: string
+          enum: [available, active, inactive, deprecated]
+        config:
+          type: object
+          description: Current module configuration
+        activated_at:
+          type: string
+          format: date-time
+
+    Job:
+      type: object
+      required:
+        - id
+        - status
+        - created_at
+      properties:
+        id:
+          type: string
+          description: Job ID
+        status:
+          type: string
+          enum: [pending, running, completed, failed]
+        progress:
+          type: object
+          properties:
+            current:
+              type: integer
+            total:
+              type: integer
+            percentage:
+              type: number
+        result:
+          type: object
+          description: Job result data
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+        created_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+
+    AuditEvent:
+      type: object
+      required:
+        - id
+        - event_type
+        - timestamp
+      properties:
+        id:
+          type: string
+        event_type:
+          type: string
+          description: Type of audit event
+        actor:
+          type: string
+          description: User or system that triggered the event
+        resource_type:
+          type: string
+        resource_id:
+          type: string
+        changes:
+          type: object
+          description: What changed
+        metadata:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

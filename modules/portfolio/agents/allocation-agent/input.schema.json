@@ -1,0 +1,200 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Allocation Agent Input",
+  "description": "Portfolio health, risk, and venture requirements for resource allocation decision",
+  "required": ["ventures", "portfolio_state"],
+  "properties": {
+    "ventures": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "description": "All active ventures with current allocation and requirements",
+      "items": {
+        "type": "object",
+        "required": ["venture_id", "name", "health_score", "runway_months", "monthly_burn_rate"],
+        "properties": {
+          "venture_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sector": {
+            "type": "string"
+          },
+          "stage": {
+            "type": "string",
+            "enum": ["pre-launch", "early", "growth", "mature"]
+          },
+          "health_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "traction_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "runway_months": {
+            "type": "number"
+          },
+          "monthly_revenue": {
+            "type": "number"
+          },
+          "monthly_burn_rate": {
+            "type": "number"
+          },
+          "current_allocation": {
+            "type": "object",
+            "description": "Current resource allocation",
+            "properties": {
+              "monthly_budget_usd": {
+                "type": "number"
+              },
+              "headcount": {
+                "type": "integer"
+              },
+              "allocated_infrastructure_costs": {
+                "type": "number"
+              }
+            }
+          },
+          "resource_requirements": {
+            "type": "object",
+            "description": "Venture's stated resource needs",
+            "properties": {
+              "hiring_plan": {
+                "type": "object",
+                "properties": {
+                  "open_roles": {
+                    "type": "integer"
+                  },
+                  "critical_hires": {
+                    "type": "integer"
+                  },
+                  "cost_per_hire": {
+                    "type": "number"
+                  }
+                }
+              },
+              "budget_increase_request": {
+                "type": "number",
+                "description": "Additional monthly budget requested (USD)"
+              },
+              "infrastructure_needs": {
+                "type": "string",
+                "description": "Infrastructure requirements (e.g., 'dedicated database', '3rd party API access')"
+              },
+              "shared_resource_candidates": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Venture IDs this venture could share resources with"
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "decision_pending", "paused"]
+          }
+        }
+      }
+    },
+    "portfolio_state": {
+      "type": "object",
+      "description": "Current portfolio-level state and constraints",
+      "required": ["total_available_budget_monthly", "current_allocation_summary"],
+      "properties": {
+        "total_available_budget_monthly": {
+          "type": "number",
+          "description": "Total capital available to allocate per month"
+        },
+        "current_allocation_summary": {
+          "type": "object",
+          "properties": {
+            "total_monthly_allocation": {
+              "type": "number"
+            },
+            "total_headcount": {
+              "type": "integer"
+            },
+            "allocation_by_stage": {
+              "type": "object",
+              "description": "Current budget by stage"
+            }
+          }
+        },
+        "portfolio_constraints": {
+          "type": "object",
+          "properties": {
+            "max_concentration_percent": {
+              "type": "number",
+              "default": 60
+            },
+            "min_avg_runway_months": {
+              "type": "number",
+              "default": 12
+            },
+            "max_portfolio_burn_monthly": {
+              "type": "number"
+            }
+          }
+        },
+        "risk_assessment": {
+          "type": "object",
+          "description": "Risk findings from risk-monitor to inform allocation",
+          "properties": {
+            "concentration_risk_score": {
+              "type": "number"
+            },
+            "codependency_risks": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "ventures_at_risk": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "allocation_strategy": {
+      "type": "object",
+      "description": "Strategy parameters for allocation decision",
+      "properties": {
+        "strategy_type": {
+          "type": "string",
+          "enum": ["growth_focused", "risk_mitigation", "balanced"],
+          "default": "balanced",
+          "description": "High-level strategy"
+        },
+        "priority_ventures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Venture IDs to prioritize for additional resources"
+        },
+        "ventures_to_wind_down": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Venture IDs receiving runway-only allocation"
+        },
+        "resource_efficiency_target": {
+          "type": "number",
+          "description": "Target revenue per $1 spend (e.g., 0.15 = $0.15 revenue per $1 allocated)"
+        }
+      }
+    }
+  }
+}

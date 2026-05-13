@@ -1,0 +1,16 @@
+{
+  "query_id": "q-20260405-001",
+  "question": "What do we know about GTM strategies that work well for developer tools and SaaS platforms?",
+  "context": {
+    "current_stage": "launched",
+    "market_segment": "B2B SaaS - Developer Tools"
+  },
+  "filters": {
+    "min_confidence": 0.5,
+    "market_segments": ["B2B SaaS"],
+    "stages": ["launched", "operating", "iterating", "scaling"],
+    "source_modules": ["pattern-extractor", "cross-venture-analyst"]
+  },
+  "requested_by_module": "opportunity",
+  "requested_at": "2026-04-05T14:30:00Z"
+}

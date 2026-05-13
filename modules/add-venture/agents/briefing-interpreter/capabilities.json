@@ -1,0 +1,31 @@
+{
+  "name": "briefing-interpreter",
+  "purpose": "Transform raw opportunity into standardized briefing for 8-volume structuring pipeline",
+  "input_types": [
+    "opportunity",
+    "portfolio_context"
+  ],
+  "output_types": [
+    "venture_briefing"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 4096,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 45,
+    "briefing_completeness_threshold": 0.95,
+    "clarity_score_minimum": 0.85
+  },
+  "cost_estimation": {
+    "avg_cost_per_briefing_usd": 0.05,
+    "max_cost_per_briefing_usd": 0.1
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Governance Decision Agent Output",
+  "description": "Final governance decisions for all ventures in review cycle",
+  "required": ["governance_decisions"],
+  "properties": {
+    "governance_decisions": {
+      "type": "object",
+      "required": ["decision_timestamp", "decisions", "summary"],
+      "properties": {
+        "decision_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "decisions": {
+          "type": "array",
+          "description": "Per-venture governance decisions",
+          "items": {
+            "type": "object",
+            "required": ["venture_id", "name", "decision", "confidence_score", "rationale"],
+            "properties": {
+              "venture_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "decision": {
+                "type": "string",
+                "enum": ["scale", "iterate", "pause", "kill"]
+              },
+              "confidence_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Confidence in this decision"
+              },
+              "rationale": {
+                "type": "string",
+                "description": "Clear explanation of decision"
+              },
+              "supporting_metrics": {
+                "type": "object",
+                "description": "Key metrics supporting decision",
+                "properties": {
+                  "health_score": {
+                    "type": "number"
+                  },
+                  "traction_score": {
+                    "type": "number"
+                  },
+                  "monthly_growth_rate": {
+                    "type": "number"
+                  },
+                  "cac_ltv_ratio": {
+                    "type": "number"
+                  },
+                  "runway_months": {
+                    "type": "number"
+                  }
+                }
+              },
+              "kill_criteria_met": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "criterion": {
+                      "type": "string"
+                    },
+                    "evidence": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "description": "If kill decision: which criteria triggered it"
+              },
+              "next_milestones": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "milestone": {
+                      "type": "string"
+                    },
+                    "target_date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "success_criteria": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "description": "What needs to happen next"
+              },
+              "resource_recommendation": {
+                "type": "string",
+                "enum": ["increase", "maintain", "decrease"],
+                "description": "Resource level from allocation-agent"
+              },
+              "risk_flags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Specific risks to monitor post-decision"
+              },
+              "human_review_required": {
+                "type": "boolean",
+                "description": "Does this decision require human approval?"
+              },
+              "decision_reversibility": {
+                "type": "string",
+                "enum": ["easily_reversible", "moderately_reversible", "difficult_to_reverse"],
+                "description": "Can this decision be reversed?"
+              }
+            }
+          }
+        },
+        "summary": {
+          "type": "object",
+          "description": "Portfolio-level decision summary",
+          "properties": {
+            "total_ventures_reviewed": {
+              "type": "integer"
+            },
+            "decisions_by_type": {
+              "type": "object",
+              "properties": {
+                "scale": {
+                  "type": "integer"
+                },
+                "iterate": {
+                  "type": "integer"
+                },
+                "pause": {
+                  "type": "integer"
+                },
+                "kill": {
+                  "type": "integer"
+                }
+              }
+            },
+            "ventures_requiring_human_review": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "total_budget_impact": {
+              "type": "number",
+              "description": "Total monthly budget change from decisions (USD)"
+            },
+            "portfolio_narrative": {
+              "type": "string",
+              "description": "High-level summary of governance cycle"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "dall-e-3",
+    "purpose": "Generate concept reference images for logo ideation (not final logos)",
+    "usage": "Create mood/concept visualizations to guide SVG design process"
+  },
+  {
+    "name": "svg-generator",
+    "purpose": "Render final logos as production-quality SVG code",
+    "usage": "Convert design concepts to hand-optimized, scalable SVG"
+  }
+]

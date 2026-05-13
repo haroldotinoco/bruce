@@ -1,0 +1,21 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "opportunity_id": "opp-ai-compliance-v1",
+  "briefing": {},
+  "vol_1_opportunity": {
+    "opportunity_thesis": "The opportunity is to build the compliance platform for AI in financial services because regulatory pressure is accelerating"
+  },
+  "vol_2_customer_market": {
+    "jtbd_map": {
+      "functional_jobs": ["Prove model explainability to regulators"]
+    }
+  },
+  "vol_3_value_proposition": {
+    "core_value_proposition": "ComplianceAI provides an integrated platform that automatically documents model behavior and generates regulatory reports"
+  },
+  "vol_5_gtm": {
+    "icp_definition": {
+      "company_profile": "Chief Compliance Officer at Top 100 US banks"
+    }
+  }
+}

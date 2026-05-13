@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Narrative-Strategist Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "volume_number": {"type": "integer", "const": 6},
+    "volume_title": {"type": "string"},
+    "one_liner": {"type": "string"},
+    "elevator_pitches": {
+      "type": "object",
+      "properties": {
+        "thirty_seconds": {"type": "string"},
+        "two_minutes": {"type": "string"}
+      }
+    },
+    "messaging_pillars": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pillar": {"type": "string"},
+          "why_matters": {"type": "string"},
+          "supporting_evidence": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "tone_of_voice": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Descriptors of brand personality (e.g., confident, expert, pragmatic)"
+    },
+    "brand_narrative": {
+      "type": "object",
+      "properties": {
+        "heros_journey": {"type": "string"},
+        "what_we_stand_for": {"type": "string"},
+        "customer_transformation": {"type": "string"},
+        "why_now": {"type": "string"}
+      }
+    },
+    "investor_pitch_hook": {"type": "string"},
+    "tagline_candidates": {
+      "type": "array",
+      "items": {"type": "string"},
+      "maxItems": 5
+    },
+    "stakeholder_narratives": {
+      "type": "object",
+      "properties": {
+        "customer_narrative": {"type": "string"},
+        "investor_narrative": {"type": "string"},
+        "employee_narrative": {"type": "string"},
+        "partner_narrative": {"type": "string"}
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "confidence_rationale": {"type": "string"},
+    "key_sections": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "volume_number", "volume_title", "one_liner", "elevator_pitches", "messaging_pillars", "tone_of_voice", "brand_narrative", "investor_pitch_hook", "confidence_score"]
+}

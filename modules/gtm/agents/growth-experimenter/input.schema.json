@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Growth Experimenter Input",
+  "description": "Current traction, GTM performance, and constraints for growth experimentation planning",
+  "required": ["venture_context", "current_traction", "gtm_performance"],
+  "properties": {
+    "venture_context": {
+      "type": "object",
+      "required": ["name", "stage", "target_audience"],
+      "properties": {
+        "name": {"type": "string"},
+        "stage": {
+          "type": "string",
+          "enum": ["pre-launch", "early-traction", "growth", "scale"],
+          "description": "Venture stage"
+        },
+        "target_audience": {"type": "string"},
+        "product_market_fit_signal": {
+          "type": "string",
+          "enum": ["unclear", "weak", "moderate", "strong"],
+          "description": "Evidence of product-market fit"
+        },
+        "competitive_context": {"type": "string"}
+      }
+    },
+    "current_traction": {
+      "type": "object",
+      "required": ["monthly_active_users"],
+      "properties": {
+        "monthly_active_users": {"type": "integer"},
+        "monthly_recurring_revenue_usd": {"type": "number"},
+        "monthly_signup_rate": {"type": "integer"},
+        "monthly_churn_rate_percent": {"type": "number"},
+        "nps_score": {"type": "number"},
+        "unit_economics": {
+          "type": "object",
+          "properties": {
+            "cac_usd": {"type": "number"},
+            "ltv_usd": {"type": "number"},
+            "payback_period_months": {"type": "number"}
+          }
+        }
+      }
+    },
+    "gtm_performance": {
+      "type": "object",
+      "required": ["active_channels"],
+      "properties": {
+        "active_channels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "channel": {"type": "string"},
+              "monthly_spend": {"type": "number"},
+              "monthly_leads": {"type": "integer"},
+              "conversion_rate": {"type": "number"},
+              "cac": {"type": "number"}
+            }
+          }
+        },
+        "monthly_marketing_budget": {"type": "number"},
+        "marketing_team_size": {"type": "number"},
+        "highest_performing_channel": {"type": "string"},
+        "most_expensive_channel": {"type": "string"}
+      }
+    },
+    "resources": {
+      "type": "object",
+      "required": ["available_budget", "team_capacity"],
+      "properties": {
+        "available_budget_for_experiments": {"type": "number"},
+        "team_capacity_fte": {"type": "number"},
+        "existing_capabilities": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "goals": {
+      "type": "object",
+      "properties": {
+        "growth_target_percent": {
+          "type": "number",
+          "description": "Desired growth rate (%)"
+        },
+        "timeframe_months": {
+          "type": "integer"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["user-growth", "revenue-growth", "profitability", "market-share"],
+          "description": "Primary business priority"
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "cannot_change": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "What is off-limits for experimentation (e.g., 'pricing', 'product features')"
+        },
+        "recent_experiments": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Recent experiments to avoid repeating"
+        }
+      }
+    }
+  }
+}

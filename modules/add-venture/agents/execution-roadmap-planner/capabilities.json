@@ -1,0 +1,35 @@
+{
+  "name": "execution-roadmap-planner",
+  "purpose": "Build 90-day execution roadmap with milestones, resource requirements, sequencing, and success gates",
+  "input_types": [
+    "volume_1_opportunity",
+    "volume_2_customer_market",
+    "volume_3_value_proposition",
+    "volume_4_business_model",
+    "volume_5_gtm",
+    "volume_7_risk_validation"
+  ],
+  "output_types": [
+    "volume_8_execution_roadmap"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 6144,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 120,
+    "content_depth_target": 1750,
+    "confidence_calibration_threshold": 0.85
+  },
+  "cost_estimation": {
+    "avg_cost_per_volume_usd": 0.1,
+    "max_cost_per_volume_usd": 0.2
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opportunity",
+  "description": "Core opportunity entity representing a market opportunity for venture creation",
+  "type": "object",
+  "properties": {
+    "opportunity_id": {
+      "type": "string",
+      "description": "Unique identifier (UUID format)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Brief opportunity title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the opportunity"
+    },
+    "problem_statement": {
+      "type": "string",
+      "description": "Core problem being addressed"
+    },
+    "target_segment": {
+      "type": "string",
+      "description": "Primary customer segment"
+    },
+    "market_size_estimate": {
+      "type": "object",
+      "properties": {
+        "tam": {
+          "type": "number",
+          "description": "Total addressable market in USD"
+        },
+        "sam": {
+          "type": "number",
+          "description": "Serviceable addressable market in USD"
+        },
+        "som": {
+          "type": "number",
+          "description": "Serviceable obtainable market in USD"
+        },
+        "currency": {
+          "type": "string",
+          "default": "USD"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence level of estimate (0-1)"
+        }
+      },
+      "required": ["tam", "sam", "som"]
+    },
+    "competition_landscape": {
+      "type": "object",
+      "properties": {
+        "direct_competitors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Direct competitor names"
+        },
+        "indirect_competitors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Indirect competitor names"
+        },
+        "competitive_intensity": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "description": "Intensity of competition in market"
+        },
+        "differentiation_opportunities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Potential differentiation strategies"
+        }
+      }
+    },
+    "discovery_source": {
+      "type": "string",
+      "description": "Where/how this opportunity was discovered"
+    },
+    "discovery_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When opportunity was discovered"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["discovered", "screening", "analyzing", "scored", "rejected", "advanced"],
+      "description": "Current status in opportunity pipeline"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Categorization tags"
+    }
+  },
+  "required": ["opportunity_id", "title", "description", "problem_statement", "target_segment", "market_size_estimate", "discovery_source", "discovery_date", "status"]
+}

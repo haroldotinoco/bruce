@@ -1,0 +1,406 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/gtm-to-startup-ops.schema.json",
+  "title": "GTM to StartupOps Handoff",
+  "description": "Handoff from gtm module to startup-ops module. Encapsulates launch configuration, analytics setup, and hypothesis validation framework for operational monitoring.",
+  "type": "object",
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Venture identifier (UUID v4)"
+    },
+    "launch_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Actual or planned launch date"
+    },
+    "go_live_status": {
+      "type": "string",
+      "enum": ["pre_launch", "launched", "paused"],
+      "description": "Current launch status"
+    },
+    "gtm_strategy_summary": {
+      "type": "string",
+      "description": "High-level GTM strategy summary"
+    },
+    "target_market": {
+      "type": "string",
+      "description": "Primary market/segment being targeted"
+    },
+    "target_customer_profile": {
+      "type": "object",
+      "description": "ICP for this launch",
+      "properties": {
+        "segment": {
+          "type": "string"
+        },
+        "pain_point": {
+          "type": "string"
+        },
+        "buying_authority": {
+          "type": "string"
+        }
+      }
+    },
+    "launch_channels": {
+      "type": "array",
+      "description": "Channels being activated for launch",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel_name": {
+            "type": "string",
+            "enum": [
+              "organic",
+              "paid_search",
+              "paid_social",
+              "content",
+              "partnerships",
+              "pr",
+              "community",
+              "direct_sales",
+              "influencer",
+              "affiliate",
+              "email"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "launch_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "responsible_person": {
+            "type": "string"
+          },
+          "budget_allocated": {
+            "type": "number",
+            "description": "Budget in USD"
+          }
+        }
+      }
+    },
+    "campaign_ids": {
+      "type": "array",
+      "description": "Active campaign IDs for tracking",
+      "items": {
+        "type": "object",
+        "properties": {
+          "campaign_id": {
+            "type": "string"
+          },
+          "campaign_name": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "analytics_configuration": {
+      "type": "object",
+      "description": "Analytics setup for tracking launch success",
+      "properties": {
+        "analytics_provider": {
+          "type": "string",
+          "description": "e.g., 'Mixpanel', 'Amplitude', 'custom'"
+        },
+        "events_to_track": {
+          "type": "array",
+          "description": "Key events for monitoring",
+          "items": {
+            "type": "object",
+            "properties": {
+              "event_name": {
+                "type": "string",
+                "description": "e.g., 'user_signup', 'feature_activated'"
+              },
+              "event_description": {
+                "type": "string"
+              },
+              "tracking_method": {
+                "type": "string",
+                "description": "How is this tracked? (e.g., 'client SDK', 'server-side')"
+              },
+              "attributes_to_capture": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "funnel_definition": {
+          "type": "object",
+          "description": "Primary conversion funnel",
+          "properties": {
+            "funnel_name": {
+              "type": "string"
+            },
+            "funnel_steps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "step_name": {
+                    "type": "string"
+                  },
+                  "event_name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dashboard_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to analytics dashboard"
+        }
+      }
+    },
+    "critical_metrics": {
+      "type": "array",
+      "description": "Metrics to monitor obsessively",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric_name": {
+            "type": "string",
+            "description": "e.g., 'DAU', 'Signups', 'Feature Activation Rate'"
+          },
+          "definition": {
+            "type": "string",
+            "description": "How is it calculated?"
+          },
+          "target_value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "tracking_interval": {
+            "type": "string",
+            "enum": ["realtime", "hourly", "daily", "weekly"],
+            "description": "How often to check"
+          },
+          "alert_threshold": {
+            "type": "number",
+            "description": "Alert if metric falls below this (or goes above, depending on metric)"
+          }
+        }
+      }
+    },
+    "hypothesis_being_validated": {
+      "type": "object",
+      "description": "Core hypothesis this launch validates",
+      "properties": {
+        "hypothesis_statement": {
+          "type": "string",
+          "description": "The core hypothesis being tested"
+        },
+        "success_criteria": {
+          "type": "array",
+          "description": "How will we know if hypothesis is validated?",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "target_metric": {
+                "type": "string"
+              },
+              "target_value": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "validation_timeline_weeks": {
+          "type": "integer",
+          "description": "How many weeks to validate?"
+        },
+        "decision_logic": {
+          "type": "string",
+          "description": "How do we decide if validated vs invalidated?"
+        }
+      }
+    },
+    "customer_acquisition_strategy": {
+      "type": "object",
+      "description": "How will customers be acquired?",
+      "properties": {
+        "cac_target_usd": {
+          "type": "number",
+          "description": "Target customer acquisition cost"
+        },
+        "ltv_estimate_usd": {
+          "type": "number",
+          "description": "Estimated lifetime value"
+        },
+        "ltv_cac_ratio_target": {
+          "type": "number",
+          "description": "Target LTV:CAC ratio (e.g., 3:1)"
+        },
+        "acquisition_channels_priority": {
+          "type": "array",
+          "description": "Prioritized channels for acquisition",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "activation_strategy": {
+      "type": "object",
+      "description": "How will users be activated?",
+      "properties": {
+        "target_activation_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "% of signups to become active users"
+        },
+        "activation_definition": {
+          "type": "string",
+          "description": "What defines an 'active' user for this product?"
+        },
+        "key_activation_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "retention_strategy": {
+      "type": "object",
+      "description": "How will users be retained?",
+      "properties": {
+        "target_retention_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Target monthly retention %"
+        },
+        "churn_monitoring": {
+          "type": "array",
+          "description": "How to identify at-risk users",
+          "items": {
+            "type": "string"
+          }
+        },
+        "retention_initiatives": {
+          "type": "array",
+          "description": "Actions to improve retention",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "revenue_model": {
+      "type": "object",
+      "description": "Revenue generation strategy",
+      "properties": {
+        "revenue_streams": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "e.g., 'Subscriptions', 'Usage-based fees'"
+          }
+        },
+        "target_mrr_usd": {
+          "type": "number",
+          "description": "Target MRR by launch (can be 0 for freemium)"
+        },
+        "target_arr_usd": {
+          "type": "number",
+          "description": "Target ARR"
+        },
+        "payback_period_months": {
+          "type": "number",
+          "description": "Target CAC payback period"
+        }
+      }
+    },
+    "pre_launch_checklist": {
+      "type": "array",
+      "description": "Items that must be complete before launch",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["complete", "in_progress", "not_started", "blocked"]
+          },
+          "owner": {
+            "type": "string"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "launch_risks": {
+      "type": "array",
+      "description": "Known launch risks and mitigation",
+      "items": {
+        "type": "object",
+        "properties": {
+          "risk": {
+            "type": "string"
+          },
+          "probability": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "impact": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "mitigation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "post_launch_review_date": {
+      "type": "string",
+      "format": "date",
+      "description": "When to review launch results"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "venture_id",
+    "launch_date",
+    "gtm_strategy_summary",
+    "target_market",
+    "launch_channels",
+    "analytics_configuration",
+    "critical_metrics",
+    "hypothesis_being_validated"
+  ],
+  "additionalProperties": false
+}

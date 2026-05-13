@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Content System Agent Input",
+  "description": "Product messaging, positioning, and distribution context for content system design",
+  "required": ["product", "target_audience", "distribution_channels", "brand_guidelines"],
+  "properties": {
+    "product": {
+      "type": "object",
+      "required": ["name", "core_value_prop", "category", "key_differentiators"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "core_value_prop": {
+          "type": "string",
+          "description": "Single sentence value proposition"
+        },
+        "category": {
+          "type": "string"
+        },
+        "key_differentiators": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Top 3 ways product differs from competitors"
+        },
+        "target_use_cases": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Specific use cases (e.g., 'preventing insider data theft', 'reducing mean-time-to-incident')"
+        }
+      }
+    },
+    "target_audience": {
+      "type": "object",
+      "required": ["personas"],
+      "properties": {
+        "personas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "role", "pain_points", "values"],
+            "properties": {
+              "name": {"type": "string"},
+              "role": {"type": "string"},
+              "pain_points": {
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "values": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "What matters to this persona (e.g., 'cost savings', 'ease of use', 'compliance')"
+              }
+            }
+          }
+        }
+      }
+    },
+    "distribution_channels": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["linkedin", "twitter", "newsletter", "blog", "tiktok", "youtube", "instagram", "industry-publication", "podcast", "webinar", "community"]
+      },
+      "description": "Where content will be published"
+    },
+    "brand_guidelines": {
+      "type": "object",
+      "required": ["tone", "voice_examples"],
+      "properties": {
+        "tone": {
+          "type": "string",
+          "enum": ["formal", "conversational", "provocative", "educational", "playful"],
+          "description": "Overall brand tone"
+        },
+        "voice_examples": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Examples of brand voice (e.g., 'We explain complex security in plain English')"
+        },
+        "messaging_pillars": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Brand messaging pillars (optional; will be refined)"
+        },
+        "brand_colors": {
+          "type": "string",
+          "description": "Brand colors or palette"
+        },
+        "logo_url": {
+          "type": "string"
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "content_team_size": {
+          "type": "number",
+          "description": "FTE dedicated to content production"
+        },
+        "publishing_frequency": {
+          "type": "string",
+          "enum": ["daily", "3x-weekly", "2x-weekly", "weekly", "bi-weekly"],
+          "description": "Desired content publishing cadence"
+        },
+        "outsourcing_available": {
+          "type": "boolean",
+          "description": "Can hire external writers/designers?"
+        }
+      }
+    },
+    "success_metrics": {
+      "type": "object",
+      "properties": {
+        "monthly_engagement_target": {"type": "integer"},
+        "monthly_lead_target": {"type": "integer"},
+        "content_reuse_target_percent": {
+          "type": "integer",
+          "description": "% of template-generated vs custom content"
+        }
+      }
+    }
+  }
+}

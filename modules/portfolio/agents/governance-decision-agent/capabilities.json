@@ -1,0 +1,23 @@
+{
+  "name": "governance-decision-agent",
+  "purpose": "Make final governance decisions (scale/iterate/pause/kill) for each venture with full rationale and confidence, applying decision policy and supporting data",
+  "input_types": [
+    "portfolio_analysis",
+    "risk_assessment",
+    "allocation_recommendations"
+  ],
+  "output_types": [
+    "governance_decisions"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

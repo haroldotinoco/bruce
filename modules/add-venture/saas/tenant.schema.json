@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AddVenture Tenant Schema",
+  "description": "Account/organization record for multi-tenant SaaS",
+  "type": "object",
+  "required": [
+    "account_id",
+    "plan",
+    "created_at"
+  ],
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "Clerk organization ID or user ID",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "plan": {
+      "type": "string",
+      "enum": [
+        "free",
+        "pro",
+        "enterprise"
+      ],
+      "description": "Current plan tier"
+    },
+    "plan_updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time plan was changed"
+    },
+    "stripe_customer_id": {
+      "type": "string",
+      "nullable": true,
+      "description": "Stripe customer ID for billing"
+    },
+    "stripe_subscription_id": {
+      "type": "string",
+      "nullable": true,
+      "description": "Active Stripe subscription"
+    },
+    "billing_email": {
+      "type": "string",
+      "format": "email",
+      "nullable": true
+    },
+    "usage_this_period": {
+      "type": "object",
+      "description": "Usage counters for current billing period",
+      "properties": {
+        "dossiers_created": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "iterations_requested": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "volumes_downloaded": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "period_start": {
+      "type": "string",
+      "format": "date",
+      "description": "Start of current billing period"
+    },
+    "period_end": {
+      "type": "string",
+      "format": "date",
+      "description": "End of current billing period"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "nullable": true,
+      "description": "Custom metadata (company name, industry, etc.)"
+    }
+  }
+}

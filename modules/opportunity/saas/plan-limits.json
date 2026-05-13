@@ -1,0 +1,41 @@
+{
+  "free": {
+    "scans_per_month": 2,
+    "opportunities_per_scan": 5,
+    "opportunities_advanced_per_month": 1,
+    "scan_depth": "basic",
+    "webhook_notifications": false,
+    "export_formats": [
+      "json"
+    ],
+    "price_usd_month": 0
+  },
+  "pro": {
+    "scans_per_month": 20,
+    "opportunities_per_scan": 25,
+    "opportunities_advanced_per_month": 10,
+    "scan_depth": "deep",
+    "webhook_notifications": true,
+    "export_formats": [
+      "json",
+      "pdf",
+      "csv"
+    ],
+    "price_usd_month": 49
+  },
+  "enterprise": {
+    "scans_per_month": -1,
+    "opportunities_per_scan": -1,
+    "opportunities_advanced_per_month": -1,
+    "scan_depth": "deep",
+    "webhook_notifications": true,
+    "export_formats": [
+      "json",
+      "pdf",
+      "csv",
+      "xlsx"
+    ],
+    "custom_scoring_weights": true,
+    "price_usd_month": 299
+  }
+}

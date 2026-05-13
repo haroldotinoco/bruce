@@ -1,0 +1,26 @@
+{
+  "name": "brand-book-composer",
+  "purpose": "Assemble complete brand identity into professional brand book (PDF + JSON)",
+  "input_types": [
+    "brand_identity",
+    "brand_critique"
+  ],
+  "output_types": [
+    "brand_book",
+    "design_tokens"
+  ],
+  "external_dependencies": [
+    "pdf-generation",
+    "json-export"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": "google/gemma-4-26b-a4b-it:free",
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.4,
+    "max_tokens": 6144,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

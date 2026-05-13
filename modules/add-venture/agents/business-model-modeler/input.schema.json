@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Business-Model-Modeler Input",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "opportunity_id": {"type": "string"},
+    "briefing": {"type": "object"},
+    "vol_1_opportunity": {"type": "object"},
+    "vol_2_customer_market": {"type": "object"},
+    "vol_3_value_proposition": {"type": "object"}
+  },
+  "required": ["venture_id", "opportunity_id", "briefing", "vol_1_opportunity", "vol_2_customer_market", "vol_3_value_proposition"]
+}

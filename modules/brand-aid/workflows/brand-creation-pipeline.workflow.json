@@ -1,0 +1,265 @@
+{
+  "workflow_id": "brand-creation-pipeline",
+  "name": "Brand Creation Pipeline",
+  "description": "9-stage sequential pipeline for creating comprehensive brand identity",
+  "version": "1.0.0",
+  "stages": [
+    {
+      "stage_number": 1,
+      "stage_id": "brand-strategy",
+      "agent": "brand-strategist",
+      "name": "Brand Strategy Definition",
+      "description": "Develop positioning, messaging, and brand architecture",
+      "input_from": ["venture_spec", "market_positioning"],
+      "output_to": ["brand_strategy"],
+      "timeout_seconds": 1800,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 1.5
+      },
+      "failure_policy": "BLOCK",
+      "next_stage": "market-research",
+      "parallel_with": "market-research",
+      "events_emitted": [
+        {
+          "event": "brand.stage.started",
+          "payload": { "stage": "brand-strategy" }
+        },
+        {
+          "event": "brand.stage.passed",
+          "payload": { "stage": "brand-strategy", "output": "brand_strategy" }
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "stage_id": "market-research",
+      "agent": "market-analyst",
+      "name": "Market Research & Competitive Analysis",
+      "description": "Analyze market trends, competitors, and positioning opportunities",
+      "input_from": ["venture_spec", "market_positioning"],
+      "output_to": ["market_research"],
+      "timeout_seconds": 1800,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 1.5
+      },
+      "failure_policy": "BLOCK",
+      "parallel_with": "brand-strategy",
+      "next_stage": "creative-direction",
+      "events_emitted": [
+        {
+          "event": "brand.stage.started",
+          "payload": { "stage": "market-research" }
+        },
+        {
+          "event": "brand.stage.passed",
+          "payload": { "stage": "market-research", "output": "market_research" }
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "stage_id": "creative-direction",
+      "agent": "creative-director",
+      "name": "Creative Direction & Visual Identity",
+      "description": "Define visual style, color palette, typography, and design direction",
+      "input_from": ["brand_strategy", "market_research"],
+      "output_to": ["creative_direction"],
+      "timeout_seconds": 2400,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 2.0
+      },
+      "failure_policy": "BLOCK",
+      "dependencies": ["brand-strategy", "market-research"],
+      "next_stage": "naming",
+      "events_emitted": [
+        {
+          "event": "brand.stage.started",
+          "payload": { "stage": "creative-direction" }
+        },
+        {
+          "event": "brand.stage.passed",
+          "payload": { "stage": "creative-direction" }
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "stage_id": "naming",
+      "agent": "naming-agent",
+      "name": "Brand Naming",
+      "description": "Generate and evaluate brand name candidates",
+      "input_from": ["brand_strategy", "market_research"],
+      "output_to": ["naming_candidates"],
+      "timeout_seconds": 1800,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 1.5
+      },
+      "failure_policy": "BLOCK",
+      "next_stage": "visual-system-design",
+      "events_emitted": [
+        {
+          "event": "brand.stage.started",
+          "payload": { "stage": "naming" }
+        },
+        {
+          "event": "brand.stage.passed",
+          "payload": { "stage": "naming", "output": "naming_candidates" }
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "stage_id": "visual-system-design",
+      "agent": "visual-system-designer",
+      "name": "Visual System Design",
+      "description": "Create comprehensive design system with colors, typography, components",
+      "input_from": ["creative_direction", "naming_candidates"],
+      "output_to": ["design_system", "design_tokens"],
+      "timeout_seconds": 2400,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 2.0
+      },
+      "failure_policy": "BLOCK",
+      "next_stage": "logo-design",
+      "events_emitted": [
+        {
+          "event": "brand.stage.started",
+          "payload": { "stage": "visual-system-design" }
+        },
+        {
+          "event": "brand.stage.passed",
+          "payload": { "stage": "visual-system-design" }
+        }
+      ]
+    },
+    {
+      "stage_number": 6,
+      "stage_id": "logo-design",
+      "agent": "logo-designer",
+      "name": "Logo Design",
+      "description": "Generate logo variations and brand mark",
+      "input_from": ["design_system", "naming_candidates"],
+      "output_to": ["logo_assets", "logo_variations"],
+      "timeout_seconds": 2400,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 2.0
+      },
+      "failure_policy": "BLOCK",
+      "next_stage": "brand-critique",
+      "events_emitted": [
+        {
+          "event": "brand.stage.started",
+          "payload": { "stage": "logo-design" }
+        },
+        {
+          "event": "brand.logo-generated",
+          "payload": { "stage": "logo-design", "asset_count": "{{asset_count}}" }
+        },
+        {
+          "event": "brand.stage.passed",
+          "payload": { "stage": "logo-design" }
+        }
+      ]
+    },
+    {
+      "stage_number": 7,
+      "stage_id": "brand-critique",
+      "agent": "brand-critic",
+      "name": "Brand Critique & Refinement",
+      "description": "Evaluate brand identity against criteria and iterate if needed",
+      "input_from": ["brand_strategy", "design_system", "logo_assets", "naming_candidates"],
+      "output_to": ["critique_report"],
+      "timeout_seconds": 1800,
+      "retry_policy": {
+        "max_retries": 0,
+        "backoff_multiplier": 1.0
+      },
+      "failure_policy": "ITERATION_LOOP",
+      "gate": {
+        "condition": "overall_score >= 75",
+        "failure_action": "BRAND_ITERATION",
+        "max_iterations": 2
+      },
+      "next_stage": "brand-book-composition",
+      "iteration_target": "brand-iteration",
+      "events_emitted": [
+        {
+          "event": "brand.stage.started",
+          "payload": { "stage": "brand-critique" }
+        },
+        {
+          "event": "brand.critique-completed",
+          "payload": { "overall_score": "{{overall_score}}", "feedback": "{{key_feedback}}" }
+        },
+        {
+          "event": "brand.stage.passed",
+          "payload": { "stage": "brand-critique", "score": "{{overall_score}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 8,
+      "stage_id": "brand-book-composition",
+      "agent": "brand-book-composer",
+      "name": "Brand Book Composition",
+      "description": "Create comprehensive brand guidelines document with all specifications",
+      "input_from": ["brand_strategy", "design_system", "logo_assets", "naming_candidates", "critique_report"],
+      "output_to": ["brand_book", "brand_book_pdf", "figma_tokens"],
+      "timeout_seconds": 2400,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 1.5
+      },
+      "failure_policy": "BLOCK",
+      "next_stage": "emit-to-bruce-core",
+      "events_emitted": [
+        {
+          "event": "brand.stage.started",
+          "payload": { "stage": "brand-book-composition" }
+        },
+        {
+          "event": "brand.book-generated",
+          "payload": { "stage": "brand-book-composition", "formats": ["PDF", "JSON", "Figma"] }
+        },
+        {
+          "event": "brand.stage.passed",
+          "payload": { "stage": "brand-book-composition" }
+        }
+      ]
+    },
+    {
+      "stage_number": 9,
+      "stage_id": "emit-to-bruce-core",
+      "agent": "system",
+      "name": "Emit to Bruce Core",
+      "description": "Emit brand-ready event to core BruceAI system",
+      "input_from": ["brand_book", "design_tokens"],
+      "output_to": ["brand_ready_event"],
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_multiplier": 1.0
+      },
+      "failure_policy": "NONE",
+      "next_stage": null,
+      "events_emitted": [
+        {
+          "event": "brand-aid.brand-ready",
+          "payload": { "project_id": "{{project_id}}", "venture_id": "{{venture_id}}" }
+        }
+      ]
+    }
+  ],
+  "global_config": {
+    "timezone": "UTC",
+    "parallel_stages": ["brand-strategy", "market-research"],
+    "max_total_duration_minutes": 120,
+    "notification_channels": ["slack", "email"]
+  }
+}

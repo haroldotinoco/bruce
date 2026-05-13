@@ -1,0 +1,30 @@
+{
+  "name": "opportunity-analyst",
+  "purpose": "Conduct deep analysis of discovered opportunities with market sizing, competitive analysis, and problem framing",
+  "input_types": [
+    "raw_opportunity",
+    "analysis_focus"
+  ],
+  "output_types": [
+    "structured_opportunity"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.5,
+    "max_tokens": 32768
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 60,
+    "opportunities_analyzed_per_cycle": 12,
+    "analysis_completeness_threshold": 0.95,
+    "data_quality_threshold": 0.85
+  },
+  "cost_estimation": {
+    "avg_cost_per_opportunity_usd": 0.08,
+    "max_cost_per_cycle_usd": 1.5
+  }
+}

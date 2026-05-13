@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Allocation Agent Output",
+  "description": "Resource allocation recommendations for all ventures and portfolio",
+  "required": ["allocation_decision"],
+  "properties": {
+    "allocation_decision": {
+      "type": "object",
+      "required": ["decision_timestamp", "allocation_recommendations", "portfolio_impact_summary"],
+      "properties": {
+        "decision_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "allocation_recommendations": {
+          "type": "array",
+          "description": "Resource allocation per venture",
+          "items": {
+            "type": "object",
+            "required": ["venture_id", "name", "recommended_monthly_budget", "budget_rationale"],
+            "properties": {
+              "venture_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "current_monthly_budget": {
+                "type": "number"
+              },
+              "recommended_monthly_budget": {
+                "type": "number"
+              },
+              "budget_delta": {
+                "type": "number",
+                "description": "Change from current (USD)"
+              },
+              "budget_change_percent": {
+                "type": "number",
+                "description": "% change from current"
+              },
+              "budget_rationale": {
+                "type": "string",
+                "description": "Why this budget level"
+              },
+              "current_headcount": {
+                "type": "integer"
+              },
+              "recommended_headcount": {
+                "type": "integer"
+              },
+              "headcount_delta": {
+                "type": "integer"
+              },
+              "headcount_rationale": {
+                "type": "string"
+              },
+              "hiring_priorities": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Top roles to fill (if hiring recommended)"
+              },
+              "resource_sharing_targets": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "venture_id": {
+                      "type": "string"
+                    },
+                    "resource_type": {
+                      "type": "string",
+                      "enum": ["infrastructure", "expertise", "tools"]
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "estimated_savings": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "description": "Opportunities to share resources with other ventures"
+              },
+              "confidence_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Confidence in this allocation"
+              },
+              "implementation_timeline": {
+                "type": "string",
+                "enum": ["immediate", "this_month", "next_month", "next_quarter"],
+                "description": "When to implement changes"
+              }
+            }
+          }
+        },
+        "resource_sharing_opportunities": {
+          "type": "array",
+          "description": "Cross-venture resource sharing recommendations",
+          "items": {
+            "type": "object",
+            "properties": {
+              "opportunity_id": {
+                "type": "string"
+              },
+              "ventures_involved": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "resource_type": {
+                "type": "string",
+                "enum": ["infrastructure", "expertise", "tools"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "estimated_monthly_savings": {
+                "type": "number"
+              },
+              "implementation_complexity": {
+                "type": "string",
+                "enum": ["low", "medium", "high"]
+              },
+              "implementation_cost": {
+                "type": "number"
+              },
+              "payback_period_months": {
+                "type": "number"
+              },
+              "dependency_risk": {
+                "type": "string",
+                "enum": ["low", "medium", "high"],
+                "description": "Risk of codependency creation"
+              }
+            }
+          }
+        },
+        "portfolio_impact_summary": {
+          "type": "object",
+          "description": "Portfolio-level impact of allocation decision",
+          "properties": {
+            "previous_total_allocation": {
+              "type": "number",
+              "description": "Current total monthly allocation (USD)"
+            },
+            "new_total_allocation": {
+              "type": "number",
+              "description": "Proposed total monthly allocation (USD)"
+            },
+            "allocation_delta": {
+              "type": "number"
+            },
+            "allocation_delta_percent": {
+              "type": "number"
+            },
+            "ventures_increasing_budget": {
+              "type": "integer"
+            },
+            "ventures_decreasing_budget": {
+              "type": "integer"
+            },
+            "ventures_frozen": {
+              "type": "integer"
+            },
+            "projected_avg_runway_months": {
+              "type": "number",
+              "description": "Average runway across portfolio after allocation"
+            },
+            "projected_concentration_percent": {
+              "type": "number",
+              "description": "Top 3 ventures % of allocation after change"
+            },
+            "concentration_trend": {
+              "type": "string",
+              "enum": ["improving", "stable", "worsening"]
+            },
+            "expected_portfolio_impact": {
+              "type": "string",
+              "description": "Narrative of expected portfolio impact (e.g., traction improvement, runway extension, risk reduction)"
+            },
+            "portfolio_constraints_met": {
+              "type": "object",
+              "properties": {
+                "max_concentration_met": {
+                  "type": "boolean"
+                },
+                "min_runway_met": {
+                  "type": "boolean"
+                },
+                "max_burn_met": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "implementation_notes": {
+          "type": "string",
+          "description": "Tactical notes on implementation (e.g., timing dependencies, communication strategy)"
+        },
+        "risks_and_mitigations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "risk": {
+                "type": "string"
+              },
+              "mitigation": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "Risks created by this allocation and suggested mitigations"
+        }
+      }
+    }
+  }
+}

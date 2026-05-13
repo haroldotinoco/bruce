@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@bruce/contracts": ["packages/contracts/src/index.ts"],
+      "@bruce/contracts/generated/*": ["packages/contracts/src/generated/*"],
+      "@bruce/db": ["packages/db/src/index.ts"],
+      "@bruce/llm": ["packages/llm/src/index.ts"],
+      "@bruce/redis": ["packages/redis/src/index.ts"],
+      "@bruce/storage": ["packages/storage/src/index.ts"],
+      "@bruce/auth": ["packages/auth/src/index.ts"],
+      "@bruce/events": ["packages/events/src/index.ts"],
+      "@bruce/logger": ["packages/logger/src/index.ts"],
+      "@bruce/agent-runtime": ["packages/agent-runtime/src/index.ts"]
+    }
+  },
+  "include": ["apps/*/src/**/*.ts", "packages/*/src/**/*.ts", "modules"]
+}

@@ -1,0 +1,56 @@
+{
+  "example": "Expected governance decision: SCALE",
+  "portfolio_decision_id": "pd-scale001",
+  "decision": "SCALE",
+  "venture_id": "v-abc12345",
+  "venture_name": "CloudSync",
+  "reasoning": "CloudSync demonstrates exceptional growth and unit economics metrics. Month 2 retention of 52% exceeds target (45%), CAC-LTV of 4.1:1 is strong, and week-over-week growth of 18% over sustained period shows market validation. Team is fully staffed and executing well. Competitive entrant is on radar but not yet material. Recommend scaling customer acquisition investment 2-3x to capitalize on strong market position.",
+  "confidence_score": 0.88,
+  "confidence_rationale": "High confidence based on consistent strong metrics across all dimensions. Slight uncertainty around competitive entrant trajectory and new hire integration, but metrics trajectory is positive and team capacity exists. Historical ITERATE decision has been validated by subsequent metric improvements.",
+  "supporting_metrics": {
+    "month_1_retention": 0.68,
+    "month_2_retention": 0.52,
+    "cac_ltv_ratio": 4.1,
+    "wow_growth_pct": 18,
+    "nps": 42,
+    "burn_rate_months": 22
+  },
+  "key_strengths": [
+    "Exceptional month 2 retention (52% vs 45% target)",
+    "Strong CAC-LTV ratio (4.1:1 vs 3:1 target)",
+    "Consistent WoW growth (18% over 4+ weeks)",
+    "Healthy gross margin (68%)",
+    "22-month runway provides flexibility",
+    "Experienced, fully-staffed team"
+  ],
+  "key_risks": [
+    "Competitive entrant emerging with unknown feature set",
+    "Sales infrastructure scaling risk during rapid hiring",
+    "Potential market saturation in 12-18 months"
+  ],
+  "recommended_actions": [
+    "Allocate $750K for customer acquisition in Q2 (3x current spend)",
+    "Hire 2 sales engineers within 4 weeks",
+    "Establish competitive intelligence process to monitor emerging competitor",
+    "Expand CAC attribution modeling to identify highest-ROI channels",
+    "Secure 2-3 enterprise reference customers for case studies"
+  ],
+  "contingency_plans": [
+    {
+      "condition": "WoW growth drops below 10% for 2 consecutive weeks",
+      "action": "Pause CAC spend increase, pivot to retention optimization"
+    },
+    {
+      "condition": "Competitor gains 15%+ market share in target segment",
+      "action": "Escalate to ITERATE mode, focus on differentiation"
+    }
+  ],
+  "timeline": "Begin SCALE actions immediately. 6-week acceleration phase (April-May). Re-evaluate at end of May for adjustment.",
+  "next_review_date": "2026-05-05",
+  "decision_category": "growth_decision",
+  "reversibility": "reversible",
+  "required_approvals": [],
+  "decided_by": "governance-agent",
+  "decided_at": "2026-04-05T16:00:00Z",
+  "correlation_id": "corr-gov-001"
+}

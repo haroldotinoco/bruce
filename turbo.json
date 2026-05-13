@@ -1,0 +1,65 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "package.json", "tsconfig.json"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "test/**", "package.json"],
+      "outputs": ["coverage/**"]
+    },
+    "type-check": {
+      "inputs": ["src/**", "tsconfig.json"]
+    },
+    "lint": {
+      "inputs": ["src/**", ".eslintrc.cjs"]
+    },
+    "db:migrate": {
+      "cache": false,
+      "env": ["DATABASE_URL"]
+    },
+    "clean": {
+      "cache": false
+    }
+  },
+  "globalEnv": ["NODE_ENV", "CI", "TURBO_TOKEN"],
+  "globalPassThroughEnv": [
+    "DATABASE_URL",
+    "REDIS_URL",
+    "ENABLE_BULLMQ_WORKERS",
+    "BETTERSTACK_SOURCE_TOKEN",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_WEBHOOK_SECRET",
+    "STRIPE_PRODUCT_FREE",
+    "STRIPE_PRODUCT_PRO",
+    "STRIPE_PRODUCT_ENTERPRISE",
+    "APP_URL",
+    "BRUCE_ADMIN_USER_IDS",
+    "QDRANT_URL",
+    "TEMPORAL_ADDRESS",
+    "TEMPORAL_NAMESPACE",
+    "ENABLE_TEMPORAL_WORKER",
+    "OPENROUTER_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "OPENAI_API_KEY",
+    "CLERK_SECRET_KEY",
+    "CLERK_PUBLISHABLE_KEY",
+    "SERPER_API_KEY",
+    "SERPER_API_URL",
+    "ENABLE_WEEKLY_OPPORTUNITY_DISCOVERY",
+    "WEEKLY_OPPORTUNITY_ACCOUNT_ID",
+    "WEEKLY_OPPORTUNITY_THEMES",
+    "BRUCE_MODULES_DIR",
+    "AUTH_DEV_JWT_ONLY",
+    "BRUCE_DISABLE_PLAN_LIMITS",
+    "ENABLE_BILLING",
+    "BRUCE_GATEWAY_CORS_ORIGINS"
+  ]
+}

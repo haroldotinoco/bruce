@@ -1,0 +1,4 @@
+{
+  "tools": [],
+  "documentation": "Use plain JSON output until ToolRegistry wires real module invocation."
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Billing Events — Opportunity Module",
+  "type": "object",
+  "properties": {
+    "opportunity_scan": {
+      "description": "One opportunity scan executed",
+      "unit": "scan",
+      "price_per_unit_cents": 50
+    }
+  }
+}

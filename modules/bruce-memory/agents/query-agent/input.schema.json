@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bruce-memory/agents/query-agent/input",
+  "title": "QueryAgentInput",
+  "type": "object",
+  "required": ["query_id", "question", "requested_by_module"],
+  "properties": {
+    "query_id": {
+      "type": "string",
+      "description": "Unique query identifier"
+    },
+    "question": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Natural language question about patterns in memory"
+    },
+    "context": {
+      "type": "object",
+      "description": "Optional context to narrow search",
+      "properties": {
+        "venture_id": {
+          "type": "string"
+        },
+        "current_stage": {
+          "type": "string"
+        },
+        "market_segment": {
+          "type": "string"
+        }
+      }
+    },
+    "filters": {
+      "type": "object",
+      "properties": {
+        "min_confidence": {
+          "type": "number",
+          "default": 0.5
+        },
+        "market_segments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "requested_by_module": {
+      "type": "string",
+      "description": "Which BruceAI module is requesting this query"
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

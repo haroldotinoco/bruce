@@ -1,0 +1,10 @@
+{
+  "tools": [
+    {
+      "name": "vector_db",
+      "type": "mcp",
+      "description": "Vector database for similarity search and clustering of learnings",
+      "operations": ["similarity_search", "cluster"]
+    }
+  ]
+}

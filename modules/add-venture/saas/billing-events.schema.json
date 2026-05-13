@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AddVenture Billing Events",
+  "description": "Events that trigger usage billing and metering",
+  "type": "object",
+  "properties": {
+    "dossier.created": {
+      "type": "object",
+      "description": "Triggered when dossier generation starts",
+      "properties": {
+        "event_type": {
+          "const": "dossier.created"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "dossier_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "billing_units": {
+          "type": "integer",
+          "const": 1
+        }
+      }
+    },
+    "dossier.completed": {
+      "type": "object",
+      "description": "Triggered when dossier generation completes successfully",
+      "properties": {
+        "event_type": {
+          "const": "dossier.completed"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "dossier_id": {
+          "type": "string"
+        },
+        "volumes_generated": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "processing_time_seconds": {
+          "type": "integer"
+        },
+        "billing_units": {
+          "type": "integer",
+          "const": 1,
+          "description": "Billed once per completed dossier"
+        }
+      }
+    },
+    "iteration.completed": {
+      "type": "object",
+      "description": "Triggered when iteration on volumes completes",
+      "properties": {
+        "event_type": {
+          "const": "iteration.completed"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "dossier_id": {
+          "type": "string"
+        },
+        "volumes_iterated": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 1
+        },
+        "feedback_provided": {
+          "type": "boolean"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "billing_units": {
+          "type": "integer",
+          "const": 1,
+          "description": "Billed once per iteration"
+        }
+      }
+    },
+    "volume.downloaded": {
+      "type": "object",
+      "description": "Triggered when any volume is downloaded (for metering optional)",
+      "properties": {
+        "event_type": {
+          "const": "volume.downloaded"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "dossier_id": {
+          "type": "string"
+        },
+        "volume_number": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "format": {
+          "type": "string",
+          "enum": ["json", "pdf"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "billing_units": {
+          "type": "integer",
+          "const": 0,
+          "description": "Optional metering; typically not charged per download"
+        }
+      }
+    },
+    "dossier.failed": {
+      "type": "object",
+      "description": "Triggered when dossier generation fails; no billing",
+      "properties": {
+        "event_type": {
+          "const": "dossier.failed"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "dossier_id": {
+          "type": "string"
+        },
+        "error_code": {
+          "type": "string"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "billing_units": {
+          "type": "integer",
+          "const": 0,
+          "description": "No charge for failed jobs"
+        }
+      }
+    }
+  }
+}

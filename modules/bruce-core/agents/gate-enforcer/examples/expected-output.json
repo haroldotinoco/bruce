@@ -1,0 +1,83 @@
+{
+  "example": "Expected output: Post-Screening Gate PASSED",
+  "gate_decision_id": "gd-xyz98765",
+  "gate_name": "post-screening",
+  "venture_id": "v-abc12345",
+  "status": "PASSED",
+  "score": 78,
+  "threshold": 70,
+  "score_breakdown": {
+    "founder_capability": {
+      "score": 82,
+      "weight": 0.25,
+      "weighted_contribution": 20.5,
+      "rationale": "Alice has 8 years enterprise software experience at Salesforce, led 3 product launches with strong execution. First-time founder is minor risk but mitigated by technical depth and execution bias.",
+      "data_points": [
+        "8 years VP Engineering at Salesforce",
+        "Shipped 3 enterprise products",
+        "Strong technical background (BS Stanford)",
+        "Execution bias (sales + technical skills)"
+      ]
+    },
+    "problem_fit": {
+      "score": 76,
+      "weight": 0.25,
+      "weighted_contribution": 19.0,
+      "rationale": "All 18 customer interviews confirmed strong pain point. Finance teams spend 4-10 hours/week on manual data sync. Willingness to pay of $5-10K/month per customer is solid. Problem validated and urgent.",
+      "data_points": [
+        "18 customer interviews all confirmed pain",
+        "4-10 hours per week current manual work",
+        "$5-10K/month willingness to pay",
+        "Impacting finance team productivity bottleneck"
+      ]
+    },
+    "tam_analysis": {
+      "score": 72,
+      "weight": 0.25,
+      "weighted_contribution": 18.0,
+      "rationale": "Large market with $850M TAM in enterprise integration. Serviceable market of $150M in mid-market finance segment is addressable. 15% CAGR shows strong growth trajectory. Conservative estimate given adjacent market size.",
+      "data_points": [
+        "$850M TAM in enterprise integration",
+        "$150M serviceable market in target segment",
+        "15% CAGR growth rate",
+        "Mid-market segment growing faster than enterprise"
+      ]
+    },
+    "feasibility": {
+      "score": 79,
+      "weight": 0.25,
+      "weighted_contribution": 19.75,
+      "rationale": "MVP technically feasible with clear architecture (REST APIs + webhooks). 8-month timeline with 4 engineers is reasonable. Data validation and customer onboarding are identified risks but not showstoppers.",
+      "data_points": [
+        "REST API + webhook architecture is proven approach",
+        "8-month MVP timeline with 4-person team is reasonable",
+        "Technical founders can mitigate complexity",
+        "Customer onboarding identified but solvable"
+      ]
+    }
+  },
+  "overall_rationale": "CloudSync demonstrates strong fundamentals across all screening criteria. Founder (Alice) has deep enterprise software experience with proven execution track record. Problem is well-validated through 18 customer interviews with quantified pain. Market size is substantial ($850M TAM, $150M serviceable). MVP is technically feasible with reasonable timeline and team size. All gates cleared. Recommend advancement to QUALIFIED stage and structured business planning.",
+  "confidence_score": 0.91,
+  "confidence_rationale": "High confidence due to comprehensive customer validation (18 interviews), clear technical approach, and experienced founder. Minor uncertainty on founder capability as first-time founder, but mitigated by deep technical background and execution bias. TAM estimate is conservative but well-supported.",
+  "escalation_required": false,
+  "key_strengths": [
+    "Experienced technical founder with proven execution track record at enterprise scale",
+    "Strong problem validation via 18 customer interviews with consistent feedback",
+    "Large addressable market with double-digit growth rate",
+    "Clear technical architecture with proven approach"
+  ],
+  "key_weaknesses": [
+    "First-time founder with no prior startup experience (mitigated by depth of expertise)",
+    "Competitive landscape includes general automation tools (Zapier) and native integrations"
+  ],
+  "conditions_for_improvement": [],
+  "recommendations_if_pass": [
+    "In structuring phase, focus on customer acquisition channel strategy (direct sales vs. marketplace vs. integrations)",
+    "Recommend assigning experienced operator advisor with enterprise SaaS go-to-market expertise",
+    "Validate pricing model in customer conversations during structuring phase"
+  ],
+  "evaluator_notes": "This is a high-quality opportunity. Alice's background is ideal for building enterprise integrations. The 18-customer validation is exceptional and shows problem urgency. Primary risk is execution as first-time founder in a capital-intensive space, but her experience mitigates this significantly. If finances permit, pairing with experienced COO/operator would be valuable.",
+  "evaluated_at": "2026-04-05T14:20:00Z",
+  "evaluation_duration_seconds": 47,
+  "correlation_id": "corr-gate-001"
+}

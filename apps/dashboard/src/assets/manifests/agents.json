@@ -1,0 +1,843 @@
+[
+  {
+    "id": "add-venture/briefing-interpreter",
+    "module": "add-venture",
+    "name": "briefing-interpreter",
+    "label": "Briefing Interpreter",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/business-model-modeler",
+    "module": "add-venture",
+    "name": "business-model-modeler",
+    "label": "Business Model Modeler",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/customer-market-architect",
+    "module": "add-venture",
+    "name": "customer-market-architect",
+    "label": "Customer Market Architect",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/dossier-composer",
+    "module": "add-venture",
+    "name": "dossier-composer",
+    "label": "Dossier Composer",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/execution-roadmap-planner",
+    "module": "add-venture",
+    "name": "execution-roadmap-planner",
+    "label": "Execution Roadmap Planner",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/gtm-planner",
+    "module": "add-venture",
+    "name": "gtm-planner",
+    "label": "Gtm Planner",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/narrative-strategist",
+    "module": "add-venture",
+    "name": "narrative-strategist",
+    "label": "Narrative Strategist",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/opportunity-analyst-vol1",
+    "module": "add-venture",
+    "name": "opportunity-analyst-vol1",
+    "label": "Opportunity Analyst Vol1",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/risk-validation-analyst",
+    "module": "add-venture",
+    "name": "risk-validation-analyst",
+    "label": "Risk Validation Analyst",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/value-proposition-designer",
+    "module": "add-venture",
+    "name": "value-proposition-designer",
+    "label": "Value Proposition Designer",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "add-venture/venture-critic",
+    "module": "add-venture",
+    "name": "venture-critic",
+    "label": "Venture Critic",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "brand-aid/brand-book-composer",
+    "module": "brand-aid",
+    "name": "brand-book-composer",
+    "label": "Brand Book Composer",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "brand-aid/brand-critic",
+    "module": "brand-aid",
+    "name": "brand-critic",
+    "label": "Brand Critic",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "brand-aid/brand-strategist",
+    "module": "brand-aid",
+    "name": "brand-strategist",
+    "label": "Brand Strategist",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "brand-aid/creative-director",
+    "module": "brand-aid",
+    "name": "creative-director",
+    "label": "Creative Director",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "brand-aid/logo-designer",
+    "module": "brand-aid",
+    "name": "logo-designer",
+    "label": "Logo Designer",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "brand-aid/market-analyst",
+    "module": "brand-aid",
+    "name": "market-analyst",
+    "label": "Market Analyst",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "brand-aid/naming-agent",
+    "module": "brand-aid",
+    "name": "naming-agent",
+    "label": "Naming Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "brand-aid/visual-system-designer",
+    "module": "brand-aid",
+    "name": "visual-system-designer",
+    "label": "Visual System Designer",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "bruce-core/gate-enforcer",
+    "module": "bruce-core",
+    "name": "gate-enforcer",
+    "label": "Gate Enforcer",
+    "description": "Evaluates ventures against stage gate criteria and produces pass/fail decisions",
+    "capabilities": [
+      {
+        "id": "criterion-scoring",
+        "name": "Criterion Scoring",
+        "description": "Evaluate individual criteria and assign scores on 0-100 scale"
+      },
+      {
+        "id": "data-analysis",
+        "name": "Data Analysis",
+        "description": "Analyze module outputs, metrics, and qualitative feedback"
+      },
+      {
+        "id": "weight-calculation",
+        "name": "Weight Calculation",
+        "description": "Calculate weighted average across criteria"
+      },
+      {
+        "id": "threshold-logic",
+        "name": "Threshold Logic",
+        "description": "Apply pass/fail/borderline decision logic based on threshold"
+      },
+      {
+        "id": "confidence-assessment",
+        "name": "Confidence Assessment",
+        "description": "Assess confidence in decision and identify sources of uncertainty"
+      },
+      {
+        "id": "rationale-generation",
+        "name": "Rationale Generation",
+        "description": "Generate detailed, justified rationale for decision"
+      },
+      {
+        "id": "escalation-flagging",
+        "name": "Escalation Flagging",
+        "description": "Identify when human review required (BORDERLINE cases)"
+      }
+    ]
+  },
+  {
+    "id": "bruce-core/governance-agent",
+    "module": "bruce-core",
+    "name": "governance-agent",
+    "label": "Governance Agent",
+    "description": "Makes portfolio-level governance decisions on venture strategies",
+    "capabilities": [
+      {
+        "id": "health-analysis",
+        "name": "Health Analysis",
+        "description": "Analyze portfolio health reports across multiple dimensions"
+      },
+      {
+        "id": "decision-recommendation",
+        "name": "Decision Recommendation",
+        "description": "Recommend SCALE, ITERATE, PAUSE, or KILL decisions"
+      },
+      {
+        "id": "confidence-assessment",
+        "name": "Confidence Assessment",
+        "description": "Assess confidence in decisions (0.0-1.0)"
+      },
+      {
+        "id": "risk-identification",
+        "name": "Risk Identification",
+        "description": "Identify and prioritize risks"
+      },
+      {
+        "id": "action-planning",
+        "name": "Action Planning",
+        "description": "Recommend specific next steps"
+      },
+      {
+        "id": "portfolio-optimization",
+        "name": "Portfolio Optimization",
+        "description": "Analyze portfolio composition and recommend allocation changes"
+      }
+    ]
+  },
+  {
+    "id": "bruce-core/module-dispatcher",
+    "module": "bruce-core",
+    "name": "module-dispatcher",
+    "label": "Module Dispatcher",
+    "description": "Routes work to specialist modules and orchestrates execution",
+    "capabilities": [
+      {
+        "id": "dispatch-routing",
+        "name": "Dispatch Routing",
+        "description": "Determine which modules to invoke based on stage"
+      },
+      {
+        "id": "dependency-resolution",
+        "name": "Dependency Resolution",
+        "description": "Calculate module execution order (parallel vs. sequential)"
+      },
+      {
+        "id": "parallel-orchestration",
+        "name": "Parallel Orchestration",
+        "description": "Execute independent modules concurrently"
+      },
+      {
+        "id": "timeout-monitoring",
+        "name": "Timeout Monitoring",
+        "description": "Detect and handle module timeouts"
+      },
+      {
+        "id": "retry-logic",
+        "name": "Retry Logic",
+        "description": "Apply exponential backoff and retry policy"
+      },
+      {
+        "id": "state-synchronization",
+        "name": "State Synchronization",
+        "description": "Track execution state across modules"
+      },
+      {
+        "id": "error-handling",
+        "name": "Error Handling",
+        "description": "Classify failures and determine recovery action"
+      }
+    ]
+  },
+  {
+    "id": "bruce-core/venture-lifecycle-manager",
+    "module": "bruce-core",
+    "name": "venture-lifecycle-manager",
+    "label": "Venture Lifecycle Manager",
+    "description": "Manages complete venture lifecycle state machine and stage transitions",
+    "capabilities": [
+      {
+        "id": "state-machine-validation",
+        "name": "State Machine Validation",
+        "description": "Validate venture transitions against lifecycle state machine rules",
+        "input_type": "venture_state + requested_transition",
+        "output_type": "boolean + rationale"
+      },
+      {
+        "id": "gate-integration",
+        "name": "Gate Integration",
+        "description": "Consume gate decisions and determine stage progression",
+        "input_type": "gate_decision + venture_state",
+        "output_type": "advance/hold decision"
+      },
+      {
+        "id": "prerequisite-checking",
+        "name": "Prerequisite Checking",
+        "description": "Verify all module outputs available before advancing",
+        "input_type": "venture_state + module_outputs",
+        "output_type": "boolean + missing_list"
+      },
+      {
+        "id": "blocker-resolution",
+        "name": "Blocker Resolution",
+        "description": "Assess blocker status and age, determine if blocking advancement",
+        "input_type": "venture_state + blocker_list",
+        "output_type": "blocked/unblocked + escalation_required"
+      },
+      {
+        "id": "sla-monitoring",
+        "name": "SLA Monitoring",
+        "description": "Track time in stage and alert on SLA breach",
+        "input_type": "venture_state + stage_entry_time",
+        "output_type": "sla_status + escalation_if_breached"
+      },
+      {
+        "id": "module-dispatch-orchestration",
+        "name": "Module Dispatch Orchestration",
+        "description": "Determine which modules to dispatch based on new stage",
+        "input_type": "venture_state + new_stage",
+        "output_type": "module_dispatch_request"
+      },
+      {
+        "id": "escalation-routing",
+        "name": "Escalation Routing",
+        "description": "Route ambiguous decisions to appropriate human stakeholders",
+        "input_type": "venture_state + decision_context",
+        "output_type": "escalation_request + sla"
+      },
+      {
+        "id": "event-emission",
+        "name": "Event Emission",
+        "description": "Emit lifecycle events for state transitions",
+        "input_type": "venture_state + decision",
+        "output_type": "event list"
+      }
+    ]
+  },
+  {
+    "id": "bruce-memory/cross-venture-analyst",
+    "module": "bruce-memory",
+    "name": "cross-venture-analyst",
+    "label": "Cross Venture Analyst",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "bruce-memory/intelligence-synthesizer",
+    "module": "bruce-memory",
+    "name": "intelligence-synthesizer",
+    "label": "Intelligence Synthesizer",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "bruce-memory/learning-ingestion-agent",
+    "module": "bruce-memory",
+    "name": "learning-ingestion-agent",
+    "label": "Learning Ingestion Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "bruce-memory/pattern-extractor",
+    "module": "bruce-memory",
+    "name": "pattern-extractor",
+    "label": "Pattern Extractor",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "bruce-memory/query-agent",
+    "module": "bruce-memory",
+    "name": "query-agent",
+    "label": "Query Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "builder/backend-agent",
+    "module": "builder",
+    "name": "backend-agent",
+    "label": "Backend Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "builder/frontend-agent",
+    "module": "builder",
+    "name": "frontend-agent",
+    "label": "Frontend Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "builder/governance-agent",
+    "module": "builder",
+    "name": "governance-agent",
+    "label": "Governance Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "builder/Integration Agent",
+    "module": "builder",
+    "name": "Integration Agent",
+    "label": "Integration Agent",
+    "description": "",
+    "capabilities": [
+      "Analyze MVP architecture and feature requirements",
+      "Recommend third-party integrations",
+      "Specify API endpoints and data contracts",
+      "Design authentication and authorization flows",
+      "Document error handling and retry strategies",
+      "Estimate implementation effort and costs",
+      "Identify integration dependencies",
+      "Flag PII and compliance concerns",
+      "Recommend cost-optimized solutions"
+    ]
+  },
+  {
+    "id": "builder/product-validator",
+    "module": "builder",
+    "name": "product-validator",
+    "label": "Product Validator",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "builder/qa-agent",
+    "module": "builder",
+    "name": "qa-agent",
+    "label": "Qa Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "builder/security-agent",
+    "module": "builder",
+    "name": "security-agent",
+    "label": "Security Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "builder/solution-architect",
+    "module": "builder",
+    "name": "solution-architect",
+    "label": "Solution Architect",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "builder/ux-bdd-agent",
+    "module": "builder",
+    "name": "ux-bdd-agent",
+    "label": "Ux Bdd Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "gtm/analytics-agent",
+    "module": "gtm",
+    "name": "analytics-agent",
+    "label": "Analytics Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "gtm/campaign-manager",
+    "module": "gtm",
+    "name": "campaign-manager",
+    "label": "Campaign Manager",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "gtm/channel-strategist",
+    "module": "gtm",
+    "name": "channel-strategist",
+    "label": "Channel Strategist",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "gtm/content-system-agent",
+    "module": "gtm",
+    "name": "content-system-agent",
+    "label": "Content System Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "gtm/growth-experimenter",
+    "module": "gtm",
+    "name": "growth-experimenter",
+    "label": "Growth Experimenter",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "gtm/weekly-governance-agent",
+    "module": "gtm",
+    "name": "weekly-governance-agent",
+    "label": "Weekly Governance Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "opportunity/market-scanner",
+    "module": "opportunity",
+    "name": "market-scanner",
+    "label": "Market Scanner",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "opportunity/opportunity-analyst",
+    "module": "opportunity",
+    "name": "opportunity-analyst",
+    "label": "Opportunity Analyst",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "opportunity/prioritization-agent",
+    "module": "opportunity",
+    "name": "prioritization-agent",
+    "label": "Prioritization Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "opportunity/scoring-agent",
+    "module": "opportunity",
+    "name": "scoring-agent",
+    "label": "Scoring Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "portfolio/allocation-agent",
+    "module": "portfolio",
+    "name": "allocation-agent",
+    "label": "Allocation Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "portfolio/governance-decision-agent",
+    "module": "portfolio",
+    "name": "governance-decision-agent",
+    "label": "Governance Decision Agent",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "portfolio/portfolio-analyst",
+    "module": "portfolio",
+    "name": "portfolio-analyst",
+    "label": "Portfolio Analyst",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "portfolio/portfolio-reporter",
+    "module": "portfolio",
+    "name": "portfolio-reporter",
+    "label": "Portfolio Reporter",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "portfolio/risk-monitor",
+    "module": "portfolio",
+    "name": "risk-monitor",
+    "label": "Risk Monitor",
+    "description": "",
+    "capabilities": []
+  },
+  {
+    "id": "startup-ops/Anomaly Detector",
+    "module": "startup-ops",
+    "name": "Anomaly Detector",
+    "label": "Anomaly Detector",
+    "description": "Detects statistically significant anomalies and concerning trends in operational metrics",
+    "capabilities": [
+      {
+        "id": "z_score_analysis",
+        "name": "Z-Score Anomaly Detection",
+        "description": "Calculate z-scores against 4-week rolling average to identify > 2-sigma deviations"
+      },
+      {
+        "id": "trend_analysis",
+        "name": "Trend Analysis",
+        "description": "Detect concerning trends (3+ weeks consecutive decline) and positive breakouts"
+      },
+      {
+        "id": "percentage_change_detection",
+        "name": "Percentage Change Detection",
+        "description": "Flag metrics with > 30% week-over-week changes"
+      },
+      {
+        "id": "severity_classification",
+        "name": "Severity Classification",
+        "description": "Classify anomalies as critical, warning, or info based on impact and metric importance"
+      },
+      {
+        "id": "escalation_routing",
+        "name": "Escalation Routing",
+        "description": "Identify anomalies requiring immediate escalation based on criticality"
+      },
+      {
+        "id": "recommendation_generation",
+        "name": "Recommendation Generation",
+        "description": "Generate investigation and remediation recommendations for each anomaly"
+      },
+      {
+        "id": "context_aware_analysis",
+        "name": "Context-Aware Analysis",
+        "description": "Adjust sensitivity based on health score context and known events"
+      },
+      {
+        "id": "false_positive_filtering",
+        "name": "False Positive Filtering",
+        "description": "Reduce false positives from normal metric volatility"
+      }
+    ]
+  },
+  {
+    "id": "startup-ops/Health Scoring Agent",
+    "module": "startup-ops",
+    "name": "Health Scoring Agent",
+    "label": "Health Scoring Agent",
+    "description": "Computes operational health scores across 6 dimensions with stage-appropriate rubrics",
+    "capabilities": [
+      {
+        "id": "activation_scoring",
+        "name": "Activation Dimension Scoring",
+        "description": "Score activation health based on conversion rate and onboarding completion"
+      },
+      {
+        "id": "retention_scoring",
+        "name": "Retention Dimension Scoring",
+        "description": "Score retention health based on D7/D30 retention and churn metrics"
+      },
+      {
+        "id": "revenue_scoring",
+        "name": "Revenue Dimension Scoring",
+        "description": "Score revenue health based on MRR growth, ARR trajectory, and new vs churned MRR"
+      },
+      {
+        "id": "product_quality_scoring",
+        "name": "Product Quality Dimension Scoring",
+        "description": "Score product quality based on NPS, feature adoption, and engagement"
+      },
+      {
+        "id": "financial_sustainability_scoring",
+        "name": "Financial Sustainability Dimension Scoring",
+        "description": "Score financial health based on runway, burn rate trend, and unit economics"
+      },
+      {
+        "id": "market_fit_scoring",
+        "name": "Market Fit Dimension Scoring",
+        "description": "Score market fit based on NPS trend, organic growth, and activation trends"
+      },
+      {
+        "id": "composite_scoring",
+        "name": "Composite Score Calculation",
+        "description": "Calculate weighted average composite health score with stage-dependent weights"
+      },
+      {
+        "id": "trend_analysis",
+        "name": "Trend Analysis",
+        "description": "Determine trend direction (improving, stable, declining) for each dimension"
+      },
+      {
+        "id": "risk_flagging",
+        "name": "Risk Flagging",
+        "description": "Identify at-risk (20-39) and critical (< 20) dimensional scores"
+      },
+      {
+        "id": "stage_aware_evaluation",
+        "name": "Stage-Aware Evaluation",
+        "description": "Apply different rubrics and weights based on venture stage (seed, early, growth)"
+      }
+    ]
+  },
+  {
+    "id": "startup-ops/Metrics Ingestion Agent",
+    "module": "startup-ops",
+    "name": "Metrics Ingestion Agent",
+    "label": "Metrics Ingestion Agent",
+    "description": "Collects and normalizes metrics from multiple data sources into unified snapshots",
+    "capabilities": [
+      {
+        "id": "product_metrics_collection",
+        "name": "Product Metrics Collection",
+        "description": "Extract product analytics metrics (DAU, WAU, MAU, retention, activation) from Mixpanel or Amplitude"
+      },
+      {
+        "id": "revenue_metrics_collection",
+        "name": "Revenue Metrics Collection",
+        "description": "Extract revenue metrics (MRR, ARR, churn, customer counts) from Stripe"
+      },
+      {
+        "id": "acquisition_metrics_collection",
+        "name": "Acquisition Metrics Collection",
+        "description": "Extract acquisition metrics (CAC, LTV, channel breakdown) from GTM module and payment providers"
+      },
+      {
+        "id": "metrics_normalization",
+        "name": "Metrics Normalization",
+        "description": "Transform raw metrics from different sources into unified schema with consistent units and time alignment"
+      },
+      {
+        "id": "deviation_detection",
+        "name": "Deviation Detection",
+        "description": "Compare current metrics against previous snapshot to identify significant changes (> 20%)"
+      },
+      {
+        "id": "historical_comparison",
+        "name": "Historical Comparison",
+        "description": "Maintain and reference previous snapshots for baseline calculation and trend analysis"
+      },
+      {
+        "id": "source_health_tracking",
+        "name": "Source Health Tracking",
+        "description": "Monitor health and availability of each data source, track success rates and failures"
+      },
+      {
+        "id": "completeness_calculation",
+        "name": "Completeness Calculation",
+        "description": "Calculate percentage of required metrics successfully collected and flag partial data"
+      },
+      {
+        "id": "fault_tolerance",
+        "name": "Fault Tolerance",
+        "description": "Continue with partial data when sources fail; only fail if fewer than 2 sources available"
+      },
+      {
+        "id": "freshness_validation",
+        "name": "Freshness Validation",
+        "description": "Validate that collected metrics meet freshness SLA (< 12 hours for product, < 48 hours for revenue)"
+      }
+    ]
+  },
+  {
+    "id": "startup-ops/Ops Advisor",
+    "module": "startup-ops",
+    "name": "Ops Advisor",
+    "label": "Ops Advisor",
+    "description": "Translates health scores and anomalies into prioritized, actionable recommendations",
+    "capabilities": [
+      {
+        "id": "health_interpretation",
+        "name": "Health Interpretation",
+        "description": "Analyze health scores to identify root cause areas needing attention"
+      },
+      {
+        "id": "anomaly_prioritization",
+        "name": "Anomaly Prioritization",
+        "description": "Rank anomalies by business impact to surface most important issues"
+      },
+      {
+        "id": "recommendation_generation",
+        "name": "Recommendation Generation",
+        "description": "Generate specific, actionable recommendations addressing identified issues"
+      },
+      {
+        "id": "urgency_assessment",
+        "name": "Urgency Assessment",
+        "description": "Classify recommendations as immediate, this week, or next cycle"
+      },
+      {
+        "id": "impact_estimation",
+        "name": "Impact Estimation",
+        "description": "Estimate expected business outcome from recommended actions"
+      },
+      {
+        "id": "risk_summarization",
+        "name": "Risk Summarization",
+        "description": "Synthesize risk picture into executive summary"
+      },
+      {
+        "id": "context_awareness",
+        "name": "Context Awareness",
+        "description": "Consider venture stage, hypothesis, and kill criteria in recommendations"
+      }
+    ]
+  },
+  {
+    "id": "startup-ops/Weekly Ops Reporter",
+    "module": "startup-ops",
+    "name": "Weekly Ops Reporter",
+    "label": "Weekly Ops Reporter",
+    "description": "Synthesizes operational data into comprehensive weekly health reports for governance",
+    "capabilities": [
+      {
+        "id": "narrative_synthesis",
+        "name": "Narrative Synthesis",
+        "description": "Compose compelling executive summary from operational data"
+      },
+      {
+        "id": "trend_analysis",
+        "name": "Trend Analysis",
+        "description": "Compare week-over-week health changes and historical trends"
+      },
+      {
+        "id": "holistic_reporting",
+        "name": "Holistic Reporting",
+        "description": "Integrate metrics, scores, anomalies, and recommendations into single narrative"
+      },
+      {
+        "id": "governance_support",
+        "name": "Governance Support",
+        "description": "Provide sufficient detail for board/investor decision-making"
+      },
+      {
+        "id": "metric_summarization",
+        "name": "Metric Summarization",
+        "description": "Condense 100+ metrics into top 15 KPIs for executive review"
+      },
+      {
+        "id": "historical_record",
+        "name": "Historical Record",
+        "description": "Create searchable, archived reports for pattern analysis"
+      },
+      {
+        "id": "executive_communication",
+        "name": "Executive Communication",
+        "description": "Communicate operational status in language suitable for board audience"
+      }
+    ]
+  }
+]

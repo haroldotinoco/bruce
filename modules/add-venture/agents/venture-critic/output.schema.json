@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Venture-Critic Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "critique_timestamp": {"type": "string", "format": "date-time"},
+    "overall_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "dimension_scores": {
+      "type": "object",
+      "properties": {
+        "market_clarity": {"type": "number"},
+        "customer_evidence": {"type": "number"},
+        "model_soundness": {"type": "number"},
+        "gtm_realism": {"type": "number"},
+        "risk_awareness": {"type": "number"},
+        "narrative_quality": {"type": "number"}
+      }
+    },
+    "volume_scores": {
+      "type": "object",
+      "additionalProperties": {"type": "number"}
+    },
+    "weak_volumes": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Volumes scoring <65 flagged for iteration"
+    },
+    "specific_feedback": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "volume": {"type": "string"},
+          "issue": {"type": "string"},
+          "recommendation": {"type": "string"},
+          "severity": {"type": "string", "enum": ["critical", "high", "medium"]}
+        }
+      }
+    },
+    "coherence_assessment": {
+      "type": "object",
+      "properties": {
+        "narrative_coherence": {"type": "string"},
+        "internal_contradictions": {"type": "array", "items": {"type": "string"}},
+        "assumption_validation": {"type": "string"}
+      }
+    },
+    "improvement_required": {"type": "boolean"},
+    "approval_recommendation": {"type": "string", "enum": ["advance", "iterate", "reject"]},
+    "iteration_guidance": {
+      "type": "object",
+      "properties": {
+        "weak_volumes_to_rework": {"type": "array", "items": {"type": "string"}},
+        "focus_areas": {"type": "array", "items": {"type": "string"}},
+        "timeline_days": {"type": "integer"}
+      }
+    },
+    "critique_notes": {"type": "string"},
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "critique_timestamp", "overall_score", "dimension_scores", "volume_scores", "approval_recommendation"]
+}

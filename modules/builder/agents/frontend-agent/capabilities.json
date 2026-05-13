@@ -1,0 +1,26 @@
+{
+  "name": "frontend-agent",
+  "purpose": "Generates production-ready frontend code (React/Next.js): components, pages, routing, state management, brand token integration",
+  "input_types": [
+    "bdd_scenarios",
+    "wireframes",
+    "design_tokens",
+    "api_contracts"
+  ],
+  "output_types": [
+    "code_repository",
+    "component_library",
+    "ui_implementation"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": "google/gemma-4-26b-a4b-it:free",
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.1,
+    "max_tokens": 8000,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

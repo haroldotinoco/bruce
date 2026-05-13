@@ -1,0 +1,13 @@
+{
+  "tools": [
+    {
+      "name": "playwright",
+      "type": "mcp",
+      "mcp_server": "playwright-mcp",
+      "capabilities": ["navigate", "click", "form_input", "screenshot", "assert_text", "assert_element", "wait_for"],
+      "required": true,
+      "auth_ref": null,
+      "target_env_ref": "env:QA_STAGING_URL"
+    }
+  ]
+}

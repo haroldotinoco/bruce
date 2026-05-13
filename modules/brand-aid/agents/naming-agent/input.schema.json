@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Naming Agent Input",
+  "type": "object",
+  "required": ["creative_direction", "positioning"],
+  "properties": {
+    "creative_direction": {
+      "type": "object",
+      "description": "Creative direction brief from creative-director",
+      "properties": {
+        "naming_criteria": { "type": "array", "items": { "type": "string" } },
+        "key_visual_metaphors": { "type": "array", "items": { "type": "string" } },
+        "brand_voice_examples": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "positioning": {
+      "type": "string",
+      "description": "Brand positioning from brand strategy"
+    },
+    "target_customer": {
+      "type": "string",
+      "description": "Target customer segment description"
+    },
+    "competitive_names": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Competitor brand names to avoid similarity with"
+    },
+    "naming_preferences": {
+      "type": "object",
+      "properties": {
+        "preferred_length_syllables": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "preferred_style": { "type": "array", "items": { "type": "string" } },
+        "cultural_context": { "type": "string" },
+        "international_availability": { "type": "boolean" }
+      }
+    }
+  }
+}

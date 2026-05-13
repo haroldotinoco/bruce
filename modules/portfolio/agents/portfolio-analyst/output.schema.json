@@ -1,0 +1,245 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Portfolio Analysis Output",
+  "description": "Comprehensive portfolio snapshot with rankings, patterns, and outliers",
+  "required": ["portfolio_snapshot"],
+  "properties": {
+    "portfolio_snapshot": {
+      "type": "object",
+      "required": ["review_timestamp", "review_cycle_id", "total_ventures", "ventures_ranked", "data_quality_summary", "analyst_confidence"],
+      "properties": {
+        "review_timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When analysis was completed"
+        },
+        "review_cycle_id": {
+          "type": "string",
+          "description": "Reference to input review cycle"
+        },
+        "total_ventures": {
+          "type": "integer",
+          "description": "Total ventures analyzed"
+        },
+        "ventures_ranked": {
+          "type": "array",
+          "description": "Ventures ranked by health score (highest first)",
+          "items": {
+            "type": "object",
+            "required": ["venture_id", "name", "health_score", "rank", "health_dimensions", "confidence"],
+            "properties": {
+              "venture_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "rank": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Overall rank (1 = healthiest)"
+              },
+              "health_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Composite health score"
+              },
+              "health_dimensions": {
+                "type": "object",
+                "description": "Score breakdown by dimension",
+                "properties": {
+                  "traction_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "financial_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "team_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "market_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              },
+              "trend": {
+                "type": "string",
+                "enum": ["improving", "stable", "declining"],
+                "description": "Health trend vs previous period"
+              },
+              "score_change": {
+                "type": "number",
+                "description": "Points change from previous health score"
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Confidence in this score (% of dimensions with current data)"
+              },
+              "critical_metrics": {
+                "type": "array",
+                "description": "Key metrics supporting the score",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "metric": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": ["number", "string"]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": ["healthy", "warning", "critical"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patterns": {
+          "type": "array",
+          "description": "Cross-venture patterns identified",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pattern_id": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string",
+                "description": "Clear statement of the pattern"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["success_factor", "blocker", "correlation", "timing"],
+                "description": "Type of pattern"
+              },
+              "affected_ventures": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Venture IDs exhibiting this pattern"
+              },
+              "affected_count": {
+                "type": "integer"
+              },
+              "evidence": {
+                "type": "string",
+                "description": "Quantitative or qualitative evidence"
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "recommendation": {
+                "type": "string",
+                "description": "Suggested action based on pattern"
+              }
+            }
+          }
+        },
+        "outliers": {
+          "type": "array",
+          "description": "Ventures deviating significantly from expected performance",
+          "items": {
+            "type": "object",
+            "properties": {
+              "venture_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "outlier_type": {
+                "type": "string",
+                "enum": ["positive_surprise", "negative_surprise", "trajectory_mismatch", "risk_emergence"],
+                "description": "Type of deviation"
+              },
+              "description": {
+                "type": "string",
+                "description": "What is unusual about this venture"
+              },
+              "evidence": {
+                "type": "string",
+                "description": "Supporting data"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["low", "medium", "high"],
+                "description": "How urgent this outlier is"
+              },
+              "recommended_action": {
+                "type": "string",
+                "description": "Suggested response"
+              }
+            }
+          }
+        },
+        "data_quality_summary": {
+          "type": "object",
+          "required": ["completeness_percent", "stale_fields_percent"],
+          "properties": {
+            "completeness_percent": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "% of health metrics across all ventures with current data"
+            },
+            "stale_fields_percent": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "% of fields >14 days old"
+            },
+            "ventures_with_issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "venture_id": {
+                    "type": "string"
+                  },
+                  "issue": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "analyst_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Overall confidence in this analysis (higher = more complete data)"
+        },
+        "next_decision_focus": {
+          "type": "array",
+          "description": "Decisions that should be prioritized in governance cycle",
+          "items": {
+            "type": "string"
+          }
+        },
+        "analysis_notes": {
+          "type": "string",
+          "description": "Additional context or caveats"
+        }
+      }
+    }
+  }
+}

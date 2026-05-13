@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Product Validator Input",
+  "type": "object",
+  "required": ["venture_hypothesis", "target_users"],
+  "properties": {
+    "venture_hypothesis": {
+      "type": "string",
+      "description": "The venture hypothesis and problem statement"
+    },
+    "target_users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segment": { "type": "string" },
+          "needs": { "type": "array", "items": { "type": "string" } },
+          "use_case": { "type": "string" }
+        }
+      },
+      "description": "Target user segments and their needs"
+    },
+    "proposed_features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "priority": { "type": "string", "enum": ["critical", "high", "medium", "low"] }
+        }
+      },
+      "description": "Proposed features for MVP"
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "tech_stack": { "type": "string" },
+        "timeline": { "type": "string" },
+        "team_size": { "type": "integer" },
+        "budget": { "type": "string" }
+      },
+      "description": "Technical, timeline, and resource constraints"
+    },
+    "success_metrics": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "How we define MVP success"
+    }
+  }
+}

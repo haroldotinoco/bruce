@@ -1,0 +1,665 @@
+openapi: 3.0.0
+info:
+  title: StartupOps API
+  description: Continuous operational health monitoring API for venture management
+  version: 1.0.0
+  contact:
+    name: StartupOps Module Team
+
+servers:
+  - url: https://api.bruce.local/startup-ops/v1
+    description: Production
+
+tags:
+  - name: Data Sources
+    description: Connect and manage data source integrations
+  - name: Health Checks
+    description: Monitor venture operational health
+  - name: Anomalies
+    description: Retrieve detected anomalies and thresholds
+  - name: Recommendations
+    description: Get operational recommendations
+  - name: Reports
+    description: Generate and retrieve health reports
+  - name: Portfolio
+    description: Aggregate health across ventures
+
+paths:
+  /ventures/{venture_id}/connect:
+    post:
+      summary: Connect data source to venture
+      description: |
+        Establish connection to a data source (analytics, financial, GTM) for operational monitoring.
+        Returns validation result and credentials status.
+      tags:
+        - Data Sources
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - provider
+                - credential
+              properties:
+                provider:
+                  type: string
+                  enum:
+                    - mixpanel
+                    - amplitude
+                    - segment
+                    - stripe
+                    - salesforce
+                    - hubspot
+                    - pipedrive
+                  description: Data source provider
+                credential:
+                  type: object
+                  description: Provider-specific credentials (API key, OAuth token, workspace ID)
+                  example:
+                    api_key: sk_live_abc123
+                    workspace_id: workspace_xyz
+      responses:
+        200:
+          description: Data source connected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [connected, validating]
+                  provider:
+                    type: string
+                  connected_at:
+                    type: string
+                    format: date-time
+                  validation:
+                    type: object
+                    properties:
+                      is_valid:
+                        type: boolean
+                      metrics_available:
+                        type: array
+                        items:
+                          type: string
+                      last_validated_at:
+                        type: string
+                        format: date-time
+        400:
+          description: Invalid provider or credential format
+        403:
+          description: Insufficient permissions or plan tier not enabled
+        409:
+          description: Data source already connected
+
+  /ventures/{venture_id}/health-check:
+    post:
+      summary: Trigger health check
+      description: |
+        Manually trigger a health check for the venture across all 6 dimensions.
+        Returns immediate health score calculation.
+      tags:
+        - Health Checks
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include_metrics:
+                  type: boolean
+                  description: Include raw metrics in response
+                  default: false
+      responses:
+        200:
+          description: Health check completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthScore'
+        408:
+          description: Health check timeout (check status later)
+        503:
+          description: Data source unavailable
+
+  /ventures/{venture_id}/health:
+    get:
+      summary: Get current health score
+      description: |
+        Retrieve the latest operational health score for the venture.
+        Includes scores for all 6 dimensions and overall health.
+      tags:
+        - Health Checks
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_history
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Include last 7 days of health score history
+      responses:
+        200:
+          description: Current health score
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HealthScore'
+                  - type: object
+                    properties:
+                      history:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/HealthScore'
+                        description: Last 7 days if include_history=true
+        404:
+          description: Venture not found or no health data yet
+
+  /ventures/{venture_id}/anomalies:
+    get:
+      summary: List detected anomalies
+      description: |
+        Retrieve anomalies detected in the past time period.
+        Supports filtering by dimension and severity.
+      tags:
+        - Anomalies
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: days_back
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 90
+            default: 7
+          description: Number of days to look back
+        - name: severity
+          in: query
+          schema:
+            type: string
+            enum: [warning, critical, all]
+            default: all
+          description: Filter by severity
+        - name: dimension
+          in: query
+          schema:
+            type: string
+            enum:
+              - activation
+              - retention
+              - revenue
+              - product_quality
+              - financial_sustainability
+              - market_fit
+          description: Filter by health dimension
+      responses:
+        200:
+          description: List of anomalies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  anomalies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AnomalyEvent'
+                  total_count:
+                    type: integer
+                  critical_count:
+                    type: integer
+                  warning_count:
+                    type: integer
+        404:
+          description: Venture not found
+
+  /ventures/{venture_id}/recommendations:
+    get:
+      summary: Get operational recommendations
+      description: |
+        Retrieve AI-generated operational recommendations based on current health anomalies
+        and historical trends.
+      tags:
+        - Recommendations
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: priority
+          in: query
+          schema:
+            type: string
+            enum: [critical, high, all]
+            default: high
+          description: Minimum recommendation priority
+      responses:
+        200:
+          description: List of recommendations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Recommendation'
+                  generated_at:
+                    type: string
+                    format: date-time
+        404:
+          description: Venture not found or insufficient data for recommendations
+
+  /ventures/{venture_id}/reports/weekly:
+    get:
+      summary: Get latest weekly health report
+      description: |
+        Retrieve the most recent weekly health report for the venture.
+        Includes dimension summaries, anomalies, and recommendations.
+      tags:
+        - Reports
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: format
+          in: query
+          schema:
+            type: string
+            enum: [json, pdf]
+            default: json
+          description: Response format
+      responses:
+        200:
+          description: Weekly health report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthReport'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Venture not found or no report available
+        406:
+          description: Requested format not available for this plan
+
+  /ventures/{venture_id}/reports/custom:
+    post:
+      summary: Generate custom health report
+      description: |
+        Generate a custom health report for a specific date range.
+        Available on enterprise plan only.
+      tags:
+        - Reports
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - start_date
+                - end_date
+              properties:
+                start_date:
+                  type: string
+                  format: date
+                end_date:
+                  type: string
+                  format: date
+                dimensions:
+                  type: array
+                  items:
+                    type: string
+                  description: Filter to specific dimensions
+                include_recommendations:
+                  type: boolean
+                  default: true
+      responses:
+        202:
+          description: Report generation started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  report_id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum: [generating]
+                  estimated_completion:
+                    type: string
+                    format: date-time
+        403:
+          description: Custom reports require enterprise plan
+        422:
+          description: Invalid date range
+
+  /portfolio/health:
+    get:
+      summary: Get portfolio-level health aggregate
+      description: |
+        Retrieve aggregated health score across all monitored ventures.
+        Shows distribution of dimension scores and top concerns.
+      tags:
+        - Portfolio
+      parameters:
+        - name: group_by
+          in: query
+          schema:
+            type: string
+            enum: [dimension, venture, stage]
+            default: dimension
+          description: Grouping strategy for aggregate
+      responses:
+        200:
+          description: Portfolio health summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolio_health_score:
+                    type: number
+                    minimum: 0
+                    maximum: 100
+                    description: Weighted average across all ventures
+                  venture_count:
+                    type: integer
+                  ventures:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        venture_id:
+                          type: string
+                          format: uuid
+                        name:
+                          type: string
+                        health_score:
+                          type: number
+                        top_anomalies:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              dimension:
+                                type: string
+                              severity:
+                                type: string
+                  dimension_summary:
+                    type: object
+                    additionalProperties:
+                      type: number
+                    description: Average score per dimension across portfolio
+                  critical_anomalies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AnomalyEvent'
+                  generated_at:
+                    type: string
+                    format: date-time
+
+components:
+  schemas:
+    HealthScore:
+      type: object
+      properties:
+        venture_id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        overall_score:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Weighted health score across all dimensions
+        dimensions:
+          type: object
+          properties:
+            activation:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: User activation progress (onboarding completion, first value, etc)
+            retention:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: User/customer retention health (DAU/MAU, churn rate, cohort health)
+            revenue:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: Revenue generation and MRR/ARR health
+            product_quality:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: Product stability and reliability (error rates, crash frequency)
+            financial_sustainability:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: Burn rate, runway, unit economics health
+            market_fit:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: Product-market fit indicators (NPS, usage intensity, feature adoption)
+        metadata:
+          type: object
+          properties:
+            calculation_version:
+              type: string
+            metrics_count:
+              type: integer
+            data_freshness_minutes:
+              type: integer
+              description: Minutes since last metric update
+
+    AnomalyEvent:
+      type: object
+      properties:
+        anomaly_id:
+          type: string
+          format: uuid
+        venture_id:
+          type: string
+          format: uuid
+        dimension:
+          type: string
+          enum:
+            - activation
+            - retention
+            - revenue
+            - product_quality
+            - financial_sustainability
+            - market_fit
+        severity:
+          type: string
+          enum: [warning, critical]
+        detected_value:
+          type: number
+          description: Current observed value
+        baseline_value:
+          type: number
+          description: Historical mean
+        sigma_deviation:
+          type: number
+          description: Number of standard deviations from baseline
+        detected_at:
+          type: string
+          format: date-time
+        resolved_at:
+          type: string
+          format: date-time
+          nullable: true
+        triggering_metrics:
+          type: object
+          description: Specific metrics that triggered the anomaly
+
+    Recommendation:
+      type: object
+      properties:
+        recommendation_id:
+          type: string
+          format: uuid
+        dimension:
+          type: string
+        priority:
+          type: string
+          enum: [critical, high, medium, low]
+        title:
+          type: string
+          description: Short recommendation title
+        description:
+          type: string
+          description: Detailed explanation of the recommendation
+        suggested_actions:
+          type: array
+          items:
+            type: string
+          description: Specific actions to improve health
+        expected_impact:
+          type: string
+          enum: [high, medium, low]
+        implementation_effort:
+          type: string
+          enum: [low, medium, high]
+        references:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              url:
+                type: string
+              title:
+                type: string
+
+    HealthReport:
+      type: object
+      properties:
+        report_id:
+          type: string
+          format: uuid
+        venture_id:
+          type: string
+          format: uuid
+        report_period:
+          type: object
+          properties:
+            start_date:
+              type: string
+              format: date
+            end_date:
+              type: string
+              format: date
+        generated_at:
+          type: string
+          format: date-time
+        summary:
+          type: object
+          properties:
+            overall_health_score:
+              type: number
+              minimum: 0
+              maximum: 100
+            trend:
+              type: string
+              enum: [improving, stable, declining]
+            key_highlights:
+              type: array
+              items:
+                type: string
+        dimension_analysis:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              score:
+                type: number
+              trend:
+                type: string
+              key_metrics:
+                type: array
+                items:
+                  type: object
+        anomalies:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnomalyEvent'
+        recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recommendation'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Account-scoped JWT token containing account_id and monitored ventures
+
+security:
+  - bearerAuth: []
+
+x-response-codes:
+  403:
+    description: Insufficient permissions, plan tier not enabled, or venture not in monitored list
+  429:
+    description: Rate limit exceeded (based on plan tier)
+  500:
+    description: Internal server error
+  503:
+    description: Service unavailable or data source temporarily unavailable

@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand Strategist Input",
+  "type": "object",
+  "required": ["venture_hypothesis", "target_customer", "problem_statement"],
+  "properties": {
+    "venture_hypothesis": {
+      "type": "string",
+      "description": "The core venture hypothesis: what problem does this solve, for whom, and why now?"
+    },
+    "target_customer": {
+      "type": "object",
+      "description": "Target customer profile",
+      "required": ["segment", "needs", "pain_points"],
+      "properties": {
+        "segment": {
+          "type": "string",
+          "description": "Customer segment description"
+        },
+        "needs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Primary needs this venture addresses"
+        },
+        "pain_points": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Current pain points"
+        }
+      }
+    },
+    "problem_statement": {
+      "type": "string",
+      "description": "The specific problem the venture solves"
+    },
+    "competitive_landscape": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "competitor": { "type": "string" },
+          "positioning": { "type": "string" },
+          "strengths": { "type": "array", "items": { "type": "string" } },
+          "weaknesses": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "description": "Known competitors and their positioning (optional, for context)"
+    },
+    "business_model": {
+      "type": "object",
+      "description": "Basic business model for context",
+      "properties": {
+        "revenue_model": { "type": "string" },
+        "customer_acquisition": { "type": "string" },
+        "unit_economics": { "type": "string" }
+      }
+    },
+    "desired_perception": {
+      "type": "string",
+      "description": "How should customers perceive this brand? (aspirational)"
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Any constraints or requirements for the brand strategy"
+    }
+  }
+}

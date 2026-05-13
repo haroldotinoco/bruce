@@ -1,0 +1,74 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "volume_number": 6,
+  "volume_title": "Narrative Strategy",
+  "one_liner": "ComplianceAI turns regulatory uncertainty into confidence by automating AI compliance for financial institutions.",
+  "elevator_pitches": {
+    "thirty_seconds": "Banks are deploying AI faster than they can prove it's compliant. ComplianceAI automatically documents model behavior and generates the regulatory reports CCOs need to prove compliance to the Fed. We help banks move from anxiety to confidence.",
+    "two_minutes": "Banks face a paradox: regulators demand explainability for AI models, but compliance teams are drowning in manual audits. They need integrated compliance monitoring, not point solutions. ComplianceAI solves this by automating model documentation and generating audit-ready reports that satisfy regulatory requirements. Our platform integrates with existing model stacks and produces compliance certifications quarterly. We've helped Top 50 banks reduce audit time from 3 months to 2 weeks while proving compliance to the Federal Reserve."
+  },
+  "messaging_pillars": [
+    {
+      "pillar": "Regulatory Confidence",
+      "why_matters": "CCOs need to prove compliance to regulators; anxiety is existential risk",
+      "supporting_evidence": ["Automated audit trails satisfy Fed requirements", "Quarterly compliance certifications", "Proven with Top 50 banks"]
+    },
+    {
+      "pillar": "Operational Efficiency",
+      "why_matters": "Manual audits are expensive and slow; automation frees teams for strategic work",
+      "supporting_evidence": ["80% reduction in manual audit time", "Support for 50+ models simultaneously", "Integrates with existing model stacks"]
+    },
+    {
+      "pillar": "Integrated Platform",
+      "why_matters": "Point solutions don't cover full compliance lifecycle; integration is critical",
+      "supporting_evidence": ["Monitoring + reporting in one platform", "Works with any model architecture", "Customizable to bank-specific policies"]
+    }
+  ],
+  "tone_of_voice": [
+    "Expert and authoritative (we know AI compliance deeply)",
+    "Pragmatic and solution-focused (we solve real problems)",
+    "Calm and confident (we reduce anxiety)",
+    "Clear and accessible (avoid technical jargon)"
+  ],
+  "brand_narrative": {
+    "heros_journey": "Before: CCOs deploy AI but can't prove compliance; anxiety about regulatory enforcement. During: ComplianceAI automates documentation and reporting. After: Confidence that models are compliant; audits are fast; regulators see strong governance.",
+    "what_we_stand_for": "We believe AI should accelerate business, not slow it down with compliance burden. Compliance shouldn't be a bottleneck; it should be automated.",
+    "customer_transformation": "Banks move from compliance anxiety to confidence. They deploy AI faster, reduce audit costs, and demonstrate governance to regulators.",
+    "why_now": "Regulatory pressure on AI is accelerating (Federal Reserve, SEC, OCC guidance 2023-2024). Banks are deploying more AI models but lack tools to manage compliance. Market window is urgent."
+  },
+  "investor_pitch_hook": "We're building the compliance infrastructure for AI in banking. Regulators are requiring explainability and audit trails; banks have no integrated tools. We've achieved $1M ARR with Top 50 banks and have a clear path to $10M+ in a market where compliance is non-optional.",
+  "tagline_candidates": [
+    "Compliance Confidence for AI",
+    "Where AI Meets Regulatory Requirements",
+    "Automate Your AI Compliance",
+    "Turn AI Uncertainty Into Proof",
+    "The Compliance Platform for AI"
+  ],
+  "stakeholder_narratives": {
+    "customer_narrative": "We help you deploy AI with confidence. Manual audits are slow and error-prone; we automate them. You reduce compliance costs, speed up audits, and prove to regulators that your AI governance is strong.",
+    "investor_narrative": "We're capturing the compliance infrastructure layer for AI in financial services. Banks must prove AI compliance; we're the platform they trust. Large bank customers with high switching costs. Path to $50M+ market.",
+    "employee_narrative": "We're solving a critical problem: AI compliance is becoming essential and banks lack tools. You'll work on a hard technical problem (explaining black-box models) with customers who desperately need solutions. We're moving fast in a huge market.",
+    "partner_narrative": "Compliance consultants already advise banks on AI governance. We're the tool they recommend to their clients. Partner with us to deliver compliance faster to your customers and unlock services revenue."
+  },
+  "assumptions": [
+    "Customers prioritize regulatory confidence over feature breadth",
+    "Banks prefer integrated platform over multiple point solutions",
+    "Brand personality should feel expert and calm (reduce anxiety, not add excitement)"
+  ],
+  "data_gaps": [
+    "Customer perception of brand personality (needs messaging research)",
+    "Investor response to narrative (needs investor interviews)",
+    "Competitor narratives (Regulatory AI and ModelWatch positioning unknown)"
+  ],
+  "confidence_score": 76,
+  "confidence_rationale": "Brand narrative is clear and grounded in Vol 1 opportunity thesis. Positioning is distinct (integrated compliance platform vs. monitoring-only competitors). Messaging pillars resonate with Vol 2 ICP (regulatory confidence, operational efficiency). Tone is appropriate for financial services. However, confidence not higher because brand personality hasn't been validated with customers, and investor hook needs testing with real investors. Stakeholder narratives are differentiated but could be richer.",
+  "key_sections": [
+    "Brand Narrative",
+    "Positioning & Messaging",
+    "Stakeholder-Specific Narratives",
+    "Messaging Framework",
+    "Launch & Communication Strategy"
+  ],
+  "execution_timestamp": "2026-04-06T10:40:00Z",
+  "agent_id": "narrative-strategist"
+}

@@ -1,0 +1,142 @@
+{
+  "ventures": [
+    {
+      "venture_id": "v-001",
+      "name": "DataFlow Analytics",
+      "sector": "B2B SaaS",
+      "stage": "growth",
+      "health_score": 84,
+      "traction_score": 87,
+      "runway_months": 18,
+      "monthly_revenue": 45000,
+      "monthly_burn_rate": 120000,
+      "current_allocation": {
+        "monthly_budget_usd": 120000,
+        "headcount": 12,
+        "allocated_infrastructure_costs": 8000
+      },
+      "resource_requirements": {
+        "hiring_plan": {
+          "open_roles": 2,
+          "critical_hires": 1,
+          "cost_per_hire": 15000
+        },
+        "budget_increase_request": 30000,
+        "infrastructure_needs": "Need additional data warehouse capacity",
+        "shared_resource_candidates": []
+      },
+      "status": "active"
+    },
+    {
+      "venture_id": "v-002",
+      "name": "MediLink Connect",
+      "sector": "Healthcare Tech",
+      "stage": "early",
+      "health_score": 72,
+      "traction_score": 78,
+      "runway_months": 14,
+      "monthly_revenue": 8000,
+      "monthly_burn_rate": 85000,
+      "current_allocation": {
+        "monthly_budget_usd": 85000,
+        "headcount": 8,
+        "allocated_infrastructure_costs": 5000
+      },
+      "resource_requirements": {
+        "hiring_plan": {
+          "open_roles": 3,
+          "critical_hires": 2,
+          "cost_per_hire": 18000
+        },
+        "budget_increase_request": 25000,
+        "infrastructure_needs": "Regulatory compliance infrastructure",
+        "shared_resource_candidates": ["v-001"]
+      },
+      "status": "active"
+    },
+    {
+      "venture_id": "v-003",
+      "name": "TruckRoute Pro",
+      "sector": "Supply Chain",
+      "stage": "early",
+      "health_score": 45,
+      "traction_score": 38,
+      "runway_months": 8,
+      "monthly_revenue": 2000,
+      "monthly_burn_rate": 75000,
+      "current_allocation": {
+        "monthly_budget_usd": 75000,
+        "headcount": 5,
+        "allocated_infrastructure_costs": 4000
+      },
+      "resource_requirements": {
+        "hiring_plan": {
+          "open_roles": 0,
+          "critical_hires": 0,
+          "cost_per_hire": 0
+        },
+        "budget_increase_request": 0,
+        "infrastructure_needs": null,
+        "shared_resource_candidates": ["v-004"]
+      },
+      "status": "decision_pending"
+    },
+    {
+      "venture_id": "v-004",
+      "name": "Supply Forecast AI",
+      "sector": "Supply Chain",
+      "stage": "early",
+      "health_score": 58,
+      "traction_score": 62,
+      "runway_months": 11,
+      "monthly_revenue": 12000,
+      "monthly_burn_rate": 65000,
+      "current_allocation": {
+        "monthly_budget_usd": 65000,
+        "headcount": 6,
+        "allocated_infrastructure_costs": 4500
+      },
+      "resource_requirements": {
+        "hiring_plan": {
+          "open_roles": 2,
+          "critical_hires": 1,
+          "cost_per_hire": 16000
+        },
+        "budget_increase_request": 15000,
+        "infrastructure_needs": "ML model serving infrastructure",
+        "shared_resource_candidates": ["v-003"]
+      },
+      "status": "active"
+    }
+  ],
+  "portfolio_state": {
+    "total_available_budget_monthly": 360000,
+    "current_allocation_summary": {
+      "total_monthly_allocation": 345000,
+      "total_headcount": 31,
+      "allocation_by_stage": {
+        "growth": 120000,
+        "early": 225000
+      }
+    },
+    "portfolio_constraints": {
+      "max_concentration_percent": 60,
+      "min_avg_runway_months": 12,
+      "max_portfolio_burn_monthly": 400000
+    },
+    "risk_assessment": {
+      "concentration_risk_score": 42,
+      "codependency_risks": [
+        "eng-lead-001 shared between v-002 and v-003",
+        "Infrastructure shared between v-003 and v-004"
+      ],
+      "ventures_at_risk": ["v-003"]
+    }
+  },
+  "allocation_strategy": {
+    "strategy_type": "balanced",
+    "priority_ventures": ["v-001", "v-004"],
+    "ventures_to_wind_down": [],
+    "resource_efficiency_target": 0.12
+  }
+}

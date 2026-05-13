@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HealthReport",
+  "description": "Operational health scores across 6 dimensions with trends and risk flags",
+  "type": "object",
+  "required": ["health_report_id", "venture_id", "scored_at", "stage", "dimension_scores", "composite_score", "at_risk_dimensions", "critical_dimensions"],
+  "properties": {
+    "health_report_id": { "type": "string" },
+    "venture_id": { "type": "string" },
+    "scored_at": { "type": "string", "format": "date-time" },
+    "stage": { "type": "string", "enum": ["seed", "early", "growth"] },
+    "dimension_scores": {
+      "type": "object",
+      "properties": {
+        "activation": { "type": "object", "properties": { "score": { "type": "number", "minimum": 0, "maximum": 100 }, "status": { "type": "string" } } },
+        "retention": { "type": "object", "properties": { "score": { "type": "number", "minimum": 0, "maximum": 100 }, "status": { "type": "string" } } },
+        "revenue": { "type": "object", "properties": { "score": { "type": "number", "minimum": 0, "maximum": 100 }, "status": { "type": "string" } } },
+        "product_quality": { "type": "object", "properties": { "score": { "type": "number", "minimum": 0, "maximum": 100 }, "status": { "type": "string" } } },
+        "financial_sustainability": { "type": "object", "properties": { "score": { "type": "number", "minimum": 0, "maximum": 100 }, "status": { "type": "string" } } },
+        "market_fit": { "type": "object", "properties": { "score": { "type": "number", "minimum": 0, "maximum": 100 }, "status": { "type": "string" } } }
+      }
+    },
+    "composite_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "composite_status": { "type": "string", "enum": ["critical", "warning", "healthy"] },
+    "trends": { "type": "object" },
+    "at_risk_dimensions": { "type": "array" },
+    "critical_dimensions": { "type": "array" },
+    "period": { "type": "object", "properties": { "start": { "type": "string", "format": "date-time" }, "end": { "type": "string", "format": "date-time" } } },
+    "metric_snapshot_id": { "type": "string" }
+  }
+}

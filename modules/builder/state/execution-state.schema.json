@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Build Execution State",
+  "type": "object",
+  "required": ["build_id", "venture_id", "current_stage"],
+  "properties": {
+    "build_id": {
+      "type": "string"
+    },
+    "venture_id": {
+      "type": "string"
+    },
+    "current_stage": {
+      "type": "string"
+    },
+    "stage_results": {
+      "type": "object",
+      "description": "Output and status from each completed stage",
+      "properties": {
+        "functional_validation": { "type": "object" },
+        "ux_bdd_specification": { "type": "object" },
+        "solution_architecture": { "type": "object" },
+        "backend_development": { "type": "object" },
+        "frontend_development": { "type": "object" },
+        "qa_testing": { "type": "object" },
+        "security_audit": { "type": "object" },
+        "governance_review": { "type": "object" }
+      }
+    },
+    "rework_counts": {
+      "type": "object",
+      "description": "Number of rework cycles per stage",
+      "properties": {
+        "backend_development": { "type": "integer" },
+        "frontend_development": { "type": "integer" },
+        "qa_testing": { "type": "integer" }
+      }
+    },
+    "artifacts_produced": {
+      "type": "object",
+      "description": "All artifact references generated",
+      "properties": {
+        "functional_spec_ref": { "type": "string" },
+        "bdd_spec_ref": { "type": "string" },
+        "wireframes_refs": { "type": "array" },
+        "architecture_spec_ref": { "type": "string" },
+        "backend_code_ref": { "type": "string" },
+        "frontend_code_ref": { "type": "string" },
+        "qa_report_ref": { "type": "string" },
+        "security_report_ref": { "type": "string" },
+        "governance_report_ref": { "type": "string" }
+      }
+    },
+    "blocking_issues": {
+      "type": "array",
+      "description": "Current blocking issues preventing progress",
+      "items": {
+        "type": "object",
+        "properties": {
+          "issue_id": { "type": "string" },
+          "stage": { "type": "string" },
+          "description": { "type": "string" },
+          "severity": { "type": "string" },
+          "created_at": { "type": "string" }
+        }
+      }
+    },
+    "gate_decisions": {
+      "type": "object",
+      "description": "Gate evaluation results",
+      "properties": {
+        "functional_validation_gate": { "type": "string" },
+        "bdd_gate": { "type": "string" },
+        "architecture_gate": { "type": "string" },
+        "backend_build_gate": { "type": "string" },
+        "frontend_build_gate": { "type": "string" },
+        "qa_gate": { "type": "string" },
+        "security_gate": { "type": "string" },
+        "launch_gate": { "type": "string" }
+      }
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

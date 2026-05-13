@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand Book Output",
+  "type": "object",
+  "required": ["brand_book_pdf", "brand_book_json", "export_manifest"],
+  "properties": {
+    "brand_book_pdf": {
+      "type": "object",
+      "properties": {
+        "file_path": { "type": "string" },
+        "file_size_kb": { "type": "number" },
+        "page_count": { "type": "integer" },
+        "sections": { "type": "array", "items": { "type": "string" } }
+      },
+      "description": "PDF brand book document"
+    },
+    "brand_book_json": {
+      "type": "object",
+      "description": "Complete brand identity in JSON format",
+      "properties": {
+        "metadata": { "type": "object" },
+        "strategy": { "type": "object" },
+        "visual_system": { "type": "object" },
+        "logo": { "type": "object" },
+        "naming": { "type": "object" },
+        "usage_guidelines": { "type": "object" }
+      }
+    },
+    "design_tokens_json": {
+      "type": "object",
+      "description": "Design tokens in JSON format for implementation"
+    },
+    "design_tokens_css": {
+      "type": "string",
+      "description": "Design tokens as CSS custom properties"
+    },
+    "design_tokens_figma": {
+      "type": "string",
+      "description": "Design tokens for Figma variables import"
+    },
+    "export_manifest": {
+      "type": "object",
+      "properties": {
+        "timestamp": { "type": "string" },
+        "brand_name": { "type": "string" },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "format": { "type": "string" },
+              "path": { "type": "string" },
+              "size_kb": { "type": "number" }
+            }
+          }
+        },
+        "critique_score": { "type": "integer" }
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Creative Direction Output",
+  "type": "object",
+  "required": [
+    "creative_brief",
+    "mood_board_description",
+    "visual_language_criteria",
+    "naming_criteria",
+    "tone_of_voice_guidelines"
+  ],
+  "properties": {
+    "creative_brief": {
+      "type": "string",
+      "description": "2-3 paragraph synthesis of strategy and market research, framing the creative challenge"
+    },
+    "mood_board_description": {
+      "type": "string",
+      "description": "Sensory and emotional description of the visual direction (color, texture, energy, materiality)"
+    },
+    "visual_language_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Adjectives and principles guiding visual execution (e.g., 'clean and minimal', 'warm and inviting')"
+    },
+    "naming_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Specific attributes the brand name should embody (e.g., 'memorable', 'conveys partnership', 'domain-available')"
+    },
+    "tone_of_voice_guidelines": {
+      "type": "string",
+      "description": "How the brand communicates: formality level, emotional register, key linguistic patterns"
+    },
+    "design_token_guidance": {
+      "type": "object",
+      "properties": {
+        "color_temperature": { "type": "string" },
+        "color_vibrancy": { "type": "string" },
+        "typography_attitude": { "type": "string" },
+        "spacing_philosophy": { "type": "string" },
+        "imagery_style": { "type": "string" }
+      },
+      "description": "Guidance for design token selection"
+    },
+    "key_visual_metaphors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Metaphors, symbols, or concepts to explore in visual design"
+    },
+    "brand_voice_examples": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 5,
+      "description": "Sample sentences or phrases in the brand voice"
+    },
+    "constraints_and_guardrails": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What to avoid, boundary conditions for creative execution"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "scoring-agent",
+  "purpose": "Apply standardized scoring framework to evaluate opportunities across market size, urgency, competition, and strategic fit dimensions",
+  "input_types": [
+    "analyzed_opportunity",
+    "scoring_context"
+  ],
+  "output_types": [
+    "opportunity_score"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.2,
+    "max_tokens": 4096
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 45,
+    "opportunities_scored_per_cycle": 20,
+    "scoring_consistency_threshold": 0.95
+  },
+  "cost_estimation": {
+    "avg_cost_per_opportunity_usd": 0.03,
+    "max_cost_per_cycle_usd": 0.75
+  }
+}

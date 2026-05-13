@@ -1,0 +1,383 @@
+{
+  "governance_report": {
+    "report_metadata": {
+      "title": "BruceAI Portfolio Governance Report: Q2 2026 Review Cycle",
+      "report_date": "2026-04-05",
+      "review_cycle": "2026-Q2-review-001",
+      "audience": "operators",
+      "total_ventures_reviewed": 3
+    },
+    "executive_summary": {
+      "portfolio_health_snapshot": "Portfolio health is bifurcated with strong performers (DataFlow, MediLink) offset by critical underperformer (TruckRoute). Overall portfolio health adequate (median score 72) but skewed by one outlier venture. Traction concentrated in 2 ventures with strong unit economics; burn rate manageable at current allocation. Recommended action: scale strongest venture, iterate on promising second venture, and execute orderly wind-down of underperforming venture.",
+      "key_findings": [
+        "DataFlow Analytics exceeds scale criteria across all dimensions: health 84, growth 18% MoM, CAC/LTV 0.167. Recommended for acceleration.",
+        "MediLink Connect shows exceptional 35% MoM growth but doesn't meet scale criteria due to regulatory compliance gaps. Iteration focus on HIPAA/compliance before scaling.",
+        "TruckRoute Pro is failing: CAC/LTV 0.778 (>2x threshold), minimal traction at week 32, declining team health, 8-month runway. Kill decision recommended.",
+        "Portfolio concentration manageable at 43% in top 3 but concentrated on single venture (DataFlow 43%). Recommend geographic diversification.",
+        "Resource sharing opportunities identified between DataFlow/Supply Forecast (ML infrastructure) and MediLink/DataFlow (compliance expertise). Est. $8.5K/month savings."
+      ],
+      "governance_decisions_summary": {
+        "scale_count": 1,
+        "iterate_count": 1,
+        "pause_count": 0,
+        "kill_count": 1
+      },
+      "critical_action_items": [
+        "Execute orderly wind-down of TruckRoute Pro (week 32 stagnation, unsustainable burn) - timeline 6 weeks",
+        "Hire compliance engineering lead for MediLink (target May 1) to unblock scale pathway",
+        "Initiate scale funding/headcount for DataFlow Analytics (target implementation this month)",
+        "Resolve eng-lead-001 single point of failure between MediLink/TruckRoute (recruiting backup by May 15)",
+        "Execute Q3 knowledge extraction from TruckRoute postmortem for supply chain learnings"
+      ],
+      "portfolio_outlook": "Strong near-term growth trajectory led by DataFlow scaling (18% MoM), supported by MediLink's exceptional growth iteration (35% MoM pending compliance resolution). TruckRoute wind-down will reduce portfolio burn by $55K/month, improving runway health from 12.1 months to 13.2 months. Key risks: concentration on DataFlow (43% of traction), dependency on compliance hiring for MediLink, market timing on geographic expansion. Next review: 2 weeks post-decision to monitor execution."
+    },
+    "venture_narratives": [
+      {
+        "venture_id": "v-001",
+        "name": "DataFlow Analytics",
+        "rank": 1,
+        "health_section": {
+          "health_score": 84,
+          "health_trend": "improving",
+          "key_metrics": {
+            "traction_score": 87,
+            "monthly_growth": "18%",
+            "runway": "18 months",
+            "cac_ltv_ratio": 0.167,
+            "nps": 62
+          },
+          "narrative": "DataFlow continues to execute exceptionally well across all dimensions. Strong product-market fit evident in customer feedback (NPS 62), efficient customer acquisition (CAC $450 vs LTV $2,700), and consistent growth (18% MoM). Team is strong and accelerating. Health score improved 6 points from previous review. Market opportunity is substantial ($8.5B TAM) with DataFlow capturing only 0.06%, suggesting significant headroom for growth."
+        },
+        "decision_section": {
+          "decision": "SCALE",
+          "confidence": 94,
+          "rationale": "DataFlow exceeds all scale criteria. Recommended action: increase monthly budget from $120K to $140K (+16.7%), grow headcount from 12 to 14 FTE, and implement geographic expansion to EU. Strong unit economics and runway support sustained investment."
+        },
+        "allocation_section": {
+          "current_budget": 120000,
+          "new_budget": 140000,
+          "budget_change": 20000,
+          "headcount_change": 2,
+          "narrative": "Budget increase of $20K/month supports 2 critical hires (data architect and sales engineer) and data warehouse scaling. Headcount growth from 12 to 14 is modest relative to traction and runway. Budget phased over 4 weeks to allow hiring ramp."
+        },
+        "milestones_section": [
+          {
+            "milestone": "Hire 2 engineers (data architect, sales engineer)",
+            "target_date": "2026-05-15",
+            "success_criteria": "Both roles filled and onboarded"
+          },
+          {
+            "milestone": "Scale data warehouse infrastructure",
+            "target_date": "2026-06-01",
+            "success_criteria": "Support 50% user growth without performance degradation"
+          },
+          {
+            "milestone": "Expand to EU market",
+            "target_date": "2026-07-01",
+            "success_criteria": "First EU customer, localization roadmap"
+          },
+          {
+            "milestone": "Maintain 15%+ MoM growth",
+            "target_date": "2026-07-15",
+            "success_criteria": "Growth rate sustained or accelerated"
+          }
+        ],
+        "risks_section": []
+      },
+      {
+        "venture_id": "v-002",
+        "name": "MediLink Connect",
+        "rank": 2,
+        "health_section": {
+          "health_score": 72,
+          "health_trend": "improving",
+          "key_metrics": {
+            "traction_score": 78,
+            "monthly_growth": "35%",
+            "runway": "14 months",
+            "cac_ltv_ratio": 0.135,
+            "nps": 58
+          },
+          "narrative": "MediLink demonstrates exceptional growth momentum with 35% MoM user acquisition and strong unit economics (CAC/LTV 0.135). Customer feedback positive (NPS 58). However, health score is held below scale threshold due to team gaps (3 key hires open, only 8 FTE total) and significant regulatory compliance requirements (HIPAA, data privacy). Team is adequate but stretched; regulatory risk is material but addressable."
+        },
+        "decision_section": {
+          "decision": "ITERATE",
+          "confidence": 88,
+          "rationale": "Exceptional traction growth justifies continued investment, but compliance gaps and team constraints prevent scale decision. Recommend focused iteration: (1) Fill compliance engineering lead role, (2) Build regulatory roadmap, (3) Validate healthcare customer fit, (4) Re-evaluate in 6 weeks with path to scale. If compliance risks are resolved and team is strengthened, scale decision likely in next cycle."
+        },
+        "allocation_section": {
+          "current_budget": 85000,
+          "new_budget": 95000,
+          "budget_change": 10000,
+          "headcount_change": 2,
+          "narrative": "Budget increase of $10K/month supports hiring 2 critical roles: compliance engineering lead (essential for regulatory pathway) and full-stack engineer (product execution). Increase is modest due to 14-month runway (6-12 month band allows 10% increases max per policy)."
+        },
+        "milestones_section": [
+          {
+            "milestone": "Hire compliance engineering lead",
+            "target_date": "2026-05-01",
+            "success_criteria": "Role filled, HIPAA roadmap developed"
+          },
+          {
+            "milestone": "Complete HIPAA compliance audit",
+            "target_date": "2026-06-15",
+            "success_criteria": "Full compliance certification"
+          },
+          {
+            "milestone": "Land first healthcare enterprise customer",
+            "target_date": "2026-07-15",
+            "success_criteria": "Deal closed, customer onboarded"
+          },
+          {
+            "milestone": "Iteration review decision point",
+            "target_date": "2026-05-20",
+            "success_criteria": "Assess if scale criteria achievable"
+          }
+        ],
+        "risks_section": [
+          "Regulatory compliance requirements may delay growth trajectory",
+          "Team constraints in compliance expertise require immediate hiring",
+          "Healthcare sales cycles longer - verify CAC sustainability as market matures"
+        ]
+      },
+      {
+        "venture_id": "v-003",
+        "name": "TruckRoute Pro",
+        "rank": 3,
+        "health_section": {
+          "health_score": 45,
+          "health_trend": "declining",
+          "key_metrics": {
+            "traction_score": 38,
+            "monthly_growth": "5%",
+            "runway": "8 months",
+            "cac_ltv_ratio": 0.778,
+            "nps": 42
+          },
+          "narrative": "TruckRoute Pro is underperforming across all dimensions. 32 weeks post-launch with minimal traction (5% MoM growth, 3% conversion rate), poor unit economics (CAC $2,800 vs LTV $3,600, ratio 0.778), and declining team health. Health score trending down. Burn rate ($75K/month) is unsustainable relative to revenue ($2K/month). Runway of 8 months is critical. Core GTM hypothesis (logistics software) appears unproven after sufficient market exposure."
+        },
+        "decision_section": {
+          "decision": "KILL",
+          "confidence": 91,
+          "rationale": "TruckRoute Pro meets multiple kill criteria: (1) CAC/LTV ratio 0.778 exceeds 2x LTV threshold with no trajectory improvement, (2) minimal traction at week 32 (5% MoM growth, 3% conversion), (3) unsustainable burn rate ($75K monthly against $2K revenue). Recommended action: Execute orderly wind-down over 6 weeks. Extract learning from supply chain vertical experience. Preserve team relationships for potential future ventures."
+        },
+        "allocation_section": {
+          "current_budget": 75000,
+          "new_budget": 20000,
+          "budget_change": -55000,
+          "headcount_change": -2,
+          "narrative": "Budget reduction from $75K to $20K/month (runtime-only budget) pending final kill decision approval. Headcount reduced to minimal operational team (founder + 2 engineers) to maintain option for pivot if approved by leadership. Expect final wind-down to complete by end of May."
+        },
+        "milestones_section": [
+          {
+            "milestone": "Team notification and exit planning",
+            "target_date": "2026-04-06",
+            "success_criteria": "Team informed, retention plan discussed"
+          },
+          {
+            "milestone": "Structured postmortem and learning extraction",
+            "target_date": "2026-04-13",
+            "success_criteria": "Kill postmortem completed, key learnings documented"
+          },
+          {
+            "milestone": "Customer notification and wind-down",
+            "target_date": "2026-04-20",
+            "success_criteria": "All customers notified, migration plan for active users"
+          },
+          {
+            "milestone": "Infrastructure and asset cleanup",
+            "target_date": "2026-05-15",
+            "success_criteria": "Systems decommissioned, IP archived"
+          },
+          {
+            "milestone": "Final financial closeout",
+            "target_date": "2026-05-31",
+            "success_criteria": "All obligations settled"
+          }
+        ],
+        "risks_section": [
+          "Team morale impact from kill decision - proactive communication essential",
+          "Shared infrastructure with Supply Forecast AI (v-004) requires careful migration",
+          "Ensure wind-down doesn't disrupt other ventures or damage team morale across portfolio"
+        ]
+      }
+    ],
+    "portfolio_insights": {
+      "sector_analysis": [
+        {
+          "sector": "B2B SaaS",
+          "venture_count": 1,
+          "health_average": 84,
+          "common_patterns": ["Strong product-market fit", "Efficient customer acquisition"],
+          "common_risks": []
+        },
+        {
+          "sector": "Healthcare Tech",
+          "venture_count": 1,
+          "health_average": 72,
+          "common_patterns": ["Strong traction growth"],
+          "common_risks": ["Regulatory complexity"]
+        },
+        {
+          "sector": "Supply Chain",
+          "venture_count": 1,
+          "health_average": 45,
+          "common_patterns": [],
+          "common_risks": ["Market competition", "GTM execution"]
+        }
+      ],
+      "success_factors": [
+        "Strong product-market fit evidenced by CAC/LTV ratio <0.2",
+        "Consistent growth trajectory (15%+ MoM monthly growth)",
+        "Efficient team execution relative to traction",
+        "Clear market validation (NPS >55, conversion rates >5%)"
+      ],
+      "systemic_risks": [
+        "Concentration: DataFlow represents 43% of portfolio traction; geographic diversification recommended",
+        "Runway cliff: Multiple ventures in 8-14 month runway band; decisions needed in Q2/Q3",
+        "Burn rate: Portfolio net burn $278K/month against $67K revenue; dependent on continuous fundraising",
+        "Codependency: eng-lead-001 shared between 2 ventures creates single point of failure"
+      ],
+      "resource_efficiency": {
+        "portfolio_revenue_per_dollar_spent": 0.19,
+        "high_efficiency_ventures": ["DataFlow Analytics (0.375)", "MediLink Connect (0.094)"],
+        "low_efficiency_ventures": ["TruckRoute Pro (0.027)"]
+      }
+    },
+    "action_items": [
+      {
+        "priority": 1,
+        "action": "Execute orderly wind-down of TruckRoute Pro with 6-week timeline",
+        "owner": "VP Operations",
+        "timeline": "Start immediately, complete by May 31",
+        "success_criteria": "All team members transitioned, customers notified, systems decommissioned",
+        "ventures_affected": ["v-003"]
+      },
+      {
+        "priority": 2,
+        "action": "Initiate hiring for 2 critical roles: compliance engineer (MediLink) and data architect (DataFlow)",
+        "owner": "VP People",
+        "timeline": "Launch search immediately, target closing by May 15",
+        "success_criteria": "Both roles filled and candidates onboarded",
+        "ventures_affected": ["v-001", "v-002"]
+      },
+      {
+        "priority": 3,
+        "action": "Recruit backup engineering lead to reduce single point of failure between MediLink/TruckRoute",
+        "owner": "VP Operations",
+        "timeline": "Target completion by May 15",
+        "success_criteria": "50% redundancy on critical path achieved",
+        "ventures_affected": ["v-002", "v-003"]
+      },
+      {
+        "priority": 4,
+        "action": "Implement infrastructure sharing between DataFlow/Supply Forecast (ML models) to reduce costs",
+        "owner": "VP Infrastructure",
+        "timeline": "Implementation within 2 weeks, full cost realization by June 1",
+        "success_criteria": "$2K/month cost savings achieved, SLA defined",
+        "ventures_affected": ["v-001", "v-004"]
+      },
+      {
+        "priority": 5,
+        "action": "Launch geographic expansion for DataFlow to EU market (hedge concentration risk)",
+        "owner": "DataFlow CEO",
+        "timeline": "Target July 1 market entry",
+        "success_criteria": "First EU customer acquired, localization infrastructure in place",
+        "ventures_affected": ["v-001"]
+      },
+      {
+        "priority": 6,
+        "action": "Extract learning and conduct postmortem for TruckRoute Pro kill decision",
+        "owner": "VP Strategy",
+        "timeline": "Postmortem within 2 weeks of wind-down notice",
+        "success_criteria": "Supply chain learnings documented for bruce-memory system",
+        "ventures_affected": ["v-003"]
+      }
+    ],
+    "risk_summary": {
+      "overall_risk_rating": "HIGH",
+      "critical_risks": [
+        {
+          "risk": "Concentration risk: DataFlow represents 43% of portfolio traction; single venture failure impacts portfolio",
+          "mitigation": "Accelerate MediLink scale pathway and geographic diversification of DataFlow to EU"
+        },
+        {
+          "risk": "Runway cliff: Multiple ventures in critical runway band (8-14 months); decisions needed urgently",
+          "mitigation": "Execute TruckRoute wind-down immediately; accelerate MediLink hiring for scale certification"
+        },
+        {
+          "risk": "Burn rate unsustainable: Portfolio $278K net monthly burn requires continuous fundraising",
+          "mitigation": "TruckRoute wind-down saves $55K/month; efficiency improvements target additional $30K/month"
+        },
+        {
+          "risk": "Codependency: eng-lead-001 critical for both MediLink and TruckRoute; single point of failure",
+          "mitigation": "Recruit backup engineer; distribute responsibilities across teams by May 15"
+        },
+        {
+          "risk": "Regulatory execution: MediLink's scale pathway depends on successful HIPAA compliance achievement",
+          "mitigation": "Hire compliance lead immediately; establish clear compliance milestones with external advisors"
+        }
+      ]
+    },
+    "appendices": {
+      "venture_metrics_table": [
+        {
+          "venture": "DataFlow Analytics",
+          "health_score": 84,
+          "traction_score": 87,
+          "monthly_growth": "18%",
+          "runway_months": 18,
+          "cac_ltv_ratio": 0.167,
+          "decision": "SCALE"
+        },
+        {
+          "venture": "MediLink Connect",
+          "health_score": 72,
+          "traction_score": 78,
+          "monthly_growth": "35%",
+          "runway_months": 14,
+          "cac_ltv_ratio": 0.135,
+          "decision": "ITERATE"
+        },
+        {
+          "venture": "TruckRoute Pro",
+          "health_score": 45,
+          "traction_score": 38,
+          "monthly_growth": "5%",
+          "runway_months": 8,
+          "cac_ltv_ratio": 0.778,
+          "decision": "KILL"
+        }
+      ],
+      "decision_changelog": [
+        {
+          "venture": "DataFlow Analytics",
+          "previous_decision": "SCALE (2026-02-15)",
+          "current_decision": "SCALE (2026-04-05)",
+          "change": "Reaffirmed; metrics improving"
+        },
+        {
+          "venture": "MediLink Connect",
+          "previous_decision": "ITERATE (2026-02-15)",
+          "current_decision": "ITERATE (2026-04-05)",
+          "change": "Continued; path to scale identified"
+        },
+        {
+          "venture": "TruckRoute Pro",
+          "previous_decision": "ITERATE (2026-02-15)",
+          "current_decision": "KILL (2026-04-05)",
+          "change": "Escalated from iterate to kill; kill criteria now met"
+        }
+      ],
+      "glossary": {
+        "health_score": "Composite 0-100 score assessing venture across traction, financial, team, and market dimensions",
+        "traction_score": "0-100 score focused on user acquisition, growth rate, and revenue momentum",
+        "CAC": "Customer Acquisition Cost - average cost to acquire one customer",
+        "LTV": "Lifetime Value - total profit expected from one customer over their lifetime",
+        "CAC/LTV Ratio": "Efficiency metric; ideal <0.3 (customer worth 3x+ acquisition cost)",
+        "Runway": "Months of operations sustainable at current burn rate with available cash",
+        "MoM Growth": "Month-over-month growth rate"
+      }
+    }
+  }
+}

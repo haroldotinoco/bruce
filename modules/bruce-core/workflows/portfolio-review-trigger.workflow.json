@@ -1,0 +1,110 @@
+{
+  "workflow_id": "portfolio-review-trigger",
+  "module": "bruce-core",
+  "description": "Triggers and coordinates the portfolio review cycle on a schedule or when critical anomalies are detected",
+  "trigger": {
+    "type": "event_or_schedule",
+    "schedule": "0 9 * * 1",
+    "schedule_description": "Every Monday at 9 AM",
+    "alternative_trigger": "anomaly.critical_detected"
+  },
+  "parameters": {
+    "review_frequency_days": {
+      "type": "number",
+      "default": 14,
+      "description": "Standard review cycle is every 2 weeks"
+    },
+    "critical_anomaly_threshold": {
+      "type": "number",
+      "default": 0.8,
+      "description": "Anomaly confidence score above which immediate review is triggered"
+    }
+  },
+  "steps": [
+    {
+      "step_id": "initiate-review-cycle",
+      "agent": "venture-lifecycle-manager",
+      "description": "Initiate portfolio review cycle, record start time and scope",
+      "input": {"from": "trigger.payload", "fields": ["trigger_type", "anomaly_details"]},
+      "output_to": "review-cycle-init",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": {"default": "collect-all-venture-health-data"},
+      "events_emitted": ["bruce-core.portfolio.review-cycle-started"]
+    },
+    {
+      "step_id": "collect-all-venture-health-data",
+      "agent": "governance-agent",
+      "description": "Collect health metrics and state for all active ventures in portfolio",
+      "input": {"from": "initiate-review-cycle.output"},
+      "output_to": "health-data",
+      "timeout_seconds": 300,
+      "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 2000},
+      "failure_policy": "fail_and_notify",
+      "data_collection_scope": {
+        "fields": ["venture_id", "current_stage", "kpi_status", "risk_indicators", "anomalies", "last_review_date", "gate_history"],
+        "include_all_ventures": true,
+        "include_archived": false
+      },
+      "next_step": {"default": "dispatch-to-portfolio-module"},
+      "events_emitted": ["bruce-core.portfolio.data-collection-completed"]
+    },
+    {
+      "step_id": "dispatch-to-portfolio-module",
+      "agent": "module-dispatcher",
+      "description": "Dispatch collected health data to Portfolio module for comprehensive analysis",
+      "input": {"from": "collect-all-venture-health-data.output"},
+      "output_to": "portfolio-dispatch-result",
+      "timeout_seconds": 120,
+      "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 5000},
+      "failure_policy": "escalate_human",
+      "dispatch_details": {
+        "target_module": "portfolio",
+        "batch_size": null,
+        "description": "Send entire portfolio snapshot for analysis and recommendations"
+      },
+      "next_step": {"default": "await-portfolio-decisions"},
+      "events_emitted": ["bruce-core.module.dispatched"]
+    },
+    {
+      "step_id": "await-portfolio-decisions",
+      "agent": null,
+      "description": "Wait for Portfolio module to complete analysis and emit recommendations",
+      "input": {"from": "trigger.event", "event": "portfolio.analysis-completed"},
+      "output_to": "portfolio-decisions",
+      "timeout_seconds": 3600,
+      "retry_policy": null,
+      "failure_policy": "escalate_human",
+      "next_step": {"default": "apply-decisions-to-venture-states"},
+      "events_emitted": []
+    },
+    {
+      "step_id": "apply-decisions-to-venture-states",
+      "agent": "venture-lifecycle-manager",
+      "description": "Apply portfolio review decisions to individual venture states",
+      "input": {"from": "await-portfolio-decisions.output"},
+      "output_to": "state-updates",
+      "timeout_seconds": 300,
+      "retry_policy": {"max_attempts": 5, "backoff": "linear", "initial_delay_ms": 2000},
+      "failure_policy": "fail_and_notify",
+      "decision_types": {
+        "description": "Process decisions: flag_for_review, reduce_resource_allocation, increase_investment, escalate_risk, recommend_pivot, recommend_wind_down"
+      },
+      "next_step": {"default": "emit-post-review-events"},
+      "events_emitted": ["bruce-core.venture.state-updated"]
+    },
+    {
+      "step_id": "emit-post-review-events",
+      "agent": "module-dispatcher",
+      "description": "Emit completion and summary events for downstream consumption",
+      "input": {"from": "apply-decisions-to-venture-states.output"},
+      "output_to": "final-events",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": null,
+      "events_emitted": ["bruce-core.portfolio.review-cycle-completed", "bruce-core.portfolio.decisions-applied"]
+    }
+  ]
+}

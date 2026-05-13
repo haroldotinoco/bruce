@@ -1,0 +1,134 @@
+{
+  "performance_summary": {
+    "success_metric": "Cost per qualified lead",
+    "target_value": 400,
+    "achieved_value": 350,
+    "variance_percent": 12.5,
+    "status": "exceeding-target",
+    "confidence_level": 0.96,
+    "data_completeness_percent": 100
+  },
+  "segment_breakdown": [
+    {
+      "segment_name": "variant_urgency_messaging",
+      "metric_value": 306,
+      "target": 400,
+      "vs_target": "above-target",
+      "sample_size": 16,
+      "trend": "stable",
+      "statistical_significance": true
+    },
+    {
+      "segment_name": "control_neutral_messaging",
+      "metric_value": 408,
+      "target": 400,
+      "vs_target": "on-target",
+      "sample_size": 12,
+      "trend": "stable",
+      "statistical_significance": false
+    },
+    {
+      "segment_name": "audience_ciso_title",
+      "metric_value": 245,
+      "target": 400,
+      "vs_target": "above-target",
+      "sample_size": 20,
+      "trend": "improving",
+      "statistical_significance": true
+    },
+    {
+      "segment_name": "audience_cfo_security_focus",
+      "metric_value": 517,
+      "target": 400,
+      "vs_target": "below-target",
+      "sample_size": 8,
+      "trend": "stable",
+      "statistical_significance": false
+    }
+  ],
+  "winning_patterns": [
+    {
+      "pattern": "Problem-driven urgency messaging (Insider threats cost $15.4M) outperforms feature-focused messaging by 25%",
+      "segments": [
+        "variant_urgency_messaging"
+      ],
+      "performance_lift": 25
+    },
+    {
+      "pattern": "CISO title targeting significantly outperforms CFO + security focus targeting (2.1x better CPL)",
+      "segments": [
+        "audience_ciso_title"
+      ],
+      "performance_lift": 110
+    },
+    {
+      "pattern": "Trend improving over campaign window - early days had lower conversion rates, improving by day 10+",
+      "segments": [
+        "overall"
+      ],
+      "performance_lift": 40
+    }
+  ],
+  "losing_patterns": [
+    {
+      "pattern": "CFO + security focus audience does not respond well to insider threat messaging (30% below target)",
+      "segments": [
+        "audience_cfo_security_focus"
+      ],
+      "performance_loss": -30
+    },
+    {
+      "pattern": "Neutral/feature-focused messaging slightly underperforms urgency variant (2% below target)",
+      "segments": [
+        "control_neutral_messaging"
+      ],
+      "performance_loss": -2
+    }
+  ],
+  "surprising_findings": [
+    "CISO audience is 2.1x more responsive than CFO audience despite both being decision-makers. Suggests audience precision more important than seniority.",
+    "Platform algorithm update on April 15 correlated with conversion rate improvement (+15% day 15-20 vs. day 8-14). May indicate platform favoring high-performing ads or organic lift from product announcement providing credibility.",
+    "First 3 days showed sub-optimal CTR and conversion rate, suggesting ad learning phase. Suggests campaign could benefit from 5-7 day lead time before measurement window for platform optimization."
+  ],
+  "root_cause_analysis": {
+    "what_worked": "Problem-driven messaging resonates 25% better than feature-focused messaging with CISO audience. This aligns with CISO psychology: they lead with risk mitigation, not feature adoption. The $15.4M cost figure provides concrete urgency/ROI anchor.",
+    "what_didnt_work": "CFO + security focus audience (likely CFOs who touch security) are less responsive to insider threat narrative. These personas may prioritize different value drivers (cost savings, ease of implementation) vs. CISOs (risk reduction). Suggests audience segmentation should be role-based, not responsibility-based.",
+    "external_factors_impact": [
+      {
+        "factor": "Product announcement (April 10) lifted brand awareness and likely improves conversion quality",
+        "estimated_impact": 10
+      },
+      {
+        "factor": "LinkedIn algorithm update (April 15) improved delivery efficiency for high-performing ads",
+        "estimated_impact": 15
+      },
+      {
+        "factor": "Weekend effect (April 13-14): lower traffic/engagement as expected",
+        "estimated_impact": -5
+      }
+    ]
+  },
+  "interpretation": "The DataShield CISO LinkedIn ABM campaign exceeded target cost-per-lead by 12.5%, achieving $350 CPL vs. $400 target. The urgency-focused variant (Insider threats cost companies $15.4M) significantly outperformed the neutral feature-focused control by 25%, suggesting problem-driven messaging resonates better with CISO psychology. More importantly, the CISO-specific audience performed 2.1x better than the broader CFO+security segment, indicating that role-based targeting precision is more valuable than seniority or responsibility-based targeting. Trends improved over the campaign window, with conversion rates rising 40% from day 8 to day 20, likely driven by platform algorithm optimization and the April 10 product announcement providing brand credibility. The CFO audience underperformance suggests this persona may respond better to cost/efficiency messaging rather than risk-mitigation framing.",
+  "recommendation": {
+    "action": "scale-campaign",
+    "rationale": "Campaign exceeded primary success metric (CPL target) by 12.5% with 96% confidence. The variant A/B test shows statistically significant winner (urgency messaging +25% better). Most importantly, CISO-specific audience achieved 2.1x better performance, providing a clear scaling lever. Campaign can be scaled 50-100% with higher confidence in ROI given variant clarity and audience insight.",
+    "next_steps": [
+      "Scale variant_urgency_messaging from $4,900 to $8,000/month budget (67% increase)",
+      "Pause CFO+security_focus audience segment (underperforming by 30%); redirect to CISO + VP Security segments",
+      "Launch second test: Test 3 different proof points (insider threat cost, compliance risk, competitor mentions) to identify highest-resonating narrative within problem-driven frame",
+      "Implement 5-7 day pre-measurement window to allow LinkedIn algorithm learning before ROI evaluation begins",
+      "Run retargeting campaign to leads generated in this phase (28 leads from $9,800 spend; potential follow-up value)"
+    ],
+    "next_data_to_collect": [
+      "Lead quality score (form fill completeness, intent signals) to validate that improved CPL is not artifact of lower-quality leads",
+      "MQL-to-SQL conversion rate for these leads (campaign measures lead generation, not sales quality)",
+      "Competitor mention lift (how many leads mention awareness of competitors pre-campaign vs. post-campaign)",
+      "Creative fatigue metrics (CTR trend over time for each variant) to inform refresh cycle"
+    ]
+  },
+  "comparison_to_benchmarks": {
+    "vs_historical": "12.5% better than previous campaign ($350 vs. $400 historical CPL). Improvement driven primarily by better audience targeting (CISO-specific vs. general security buyer).",
+    "vs_platform_average": "38% better than LinkedIn platform average CPL (~$567 for B2B/security), suggesting premium audience quality or effective messaging alignment.",
+    "vs_industry": "CISO buying committee campaigns typically see $450-600 CPL range. This campaign at $350 is in top quartile, likely due to direct CISO targeting vs. broader security decision-maker targeting."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "content-system-agent",
+  "purpose": "Design scalable content systems including messaging matrix, content calendar, and copywriting templates to enable high-velocity content production",
+  "agent_type": "strategic-designer",
+  "input_types": [
+    "product_positioning",
+    "target_audience_personas",
+    "distribution_channels",
+    "brand_guidelines"
+  ],
+  "output_types": [
+    "messaging_framework",
+    "content_calendar",
+    "copywriting_templates",
+    "approval_workflows"
+  ],
+  "external_dependencies": [
+    "product_team_positioning",
+    "brand_guidelines"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.8,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "latency_seconds": 25,
+    "accuracy_percent": 80
+  }
+}

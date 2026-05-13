@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MetricsIngestionInput",
+  "type": "object",
+  "required": ["venture_id", "ingestion_config"],
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Unique identifier for the venture",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "ingestion_config": {
+      "type": "object",
+      "required": ["sources", "time_range"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["mixpanel", "stripe", "amplitude", "gtm"]
+          },
+          "description": "List of data sources to ingest from",
+          "minItems": 1
+        },
+        "time_range": {
+          "type": "string",
+          "enum": ["6h", "24h", "7d", "30d"],
+          "description": "Time range for metric collection"
+        },
+        "include_historical_comparison": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to include comparison with previous snapshot"
+        },
+        "force_refresh": {
+          "type": "boolean",
+          "default": false,
+          "description": "Force fresh API calls, ignore cache"
+        }
+      }
+    },
+    "last_snapshot_ref": {
+      "type": "string",
+      "nullable": true,
+      "description": "Reference to previous metric snapshot for comparison and baseline calculation"
+    },
+    "stage": {
+      "type": "string",
+      "enum": ["seed", "early", "growth"],
+      "default": "seed",
+      "description": "Venture stage for stage-appropriate metric selection"
+    }
+  }
+}

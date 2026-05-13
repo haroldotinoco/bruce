@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QA Agent Output",
+  "type": "object",
+  "required": ["test_results", "overall_status", "pass_rate_percent"],
+  "properties": {
+    "test_results": {
+      "type": "array",
+      "description": "Individual test results per scenario",
+      "items": {
+        "type": "object",
+        "required": ["scenario_id", "status"],
+        "properties": {
+          "scenario_id": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "fail"]
+          },
+          "duration_ms": { "type": "integer" },
+          "screenshot_ref": { "type": "string" },
+          "error_message": { "type": "string" },
+          "failed_step": { "type": "string" }
+        }
+      }
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": ["pass", "fail"],
+      "description": "Overall test execution status"
+    },
+    "pass_rate_percent": {
+      "type": "number",
+      "description": "Percentage of passed tests"
+    },
+    "critical_failures": {
+      "type": "array",
+      "description": "Critical issues blocking deployment",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario_id": { "type": "string" },
+          "failure_type": { "type": "string" },
+          "impact": { "type": "string" }
+        }
+      }
+    },
+    "qa_report_ref": {
+      "type": "string",
+      "description": "Artifact ID for detailed QA report"
+    },
+    "test_environment_used": {
+      "type": "object",
+      "properties": {
+        "browser": { "type": "string" },
+        "staging_url": { "type": "string" },
+        "test_execution_time": { "type": "string" }
+      }
+    }
+  }
+}

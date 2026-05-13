@@ -1,0 +1,163 @@
+{
+  "workflow_id": "anomaly-escalation",
+  "module": "startup-ops",
+  "description": "Fast-track urgent escalation workflow: immediate advice for critical anomalies with portfolio notification and human gate",
+  "version": "1.0",
+  "trigger": {
+    "type": "event",
+    "event_source": "real-time-monitoring",
+    "event_type": "anomaly.escalation.initiated"
+  },
+  "context": {
+    "priority": "critical",
+    "response_time_sla": 15,
+    "notification_targets": ["portfolio", "leadership"]
+  },
+  "steps": [
+    {
+      "step_id": "rapid-advisory",
+      "agent": "ops-advisor",
+      "description": "Generate immediate recommendations and action items for the critical anomaly",
+      "input": {
+        "from": "workflow.trigger",
+        "fields": ["critical_anomalies", "metrics_context", "health_baseline"]
+      },
+      "output_to": "urgent-advice",
+      "timeout_seconds": 120,
+      "retry_policy": {
+        "max_attempts": 1,
+        "backoff": "none"
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "default": "notify-portfolio"
+      },
+      "events_emitted": ["anomaly.urgent.advice.generated"]
+    },
+    {
+      "step_id": "notify-portfolio",
+      "agent": null,
+      "description": "Send urgent notification to portfolio module about critical anomaly",
+      "input": {
+        "from": "urgent-advice",
+        "fields": ["advice", "severity", "recommended_actions"]
+      },
+      "output_to": "portfolio.escalation_channel",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "default": "human-escalation-gate"
+      },
+      "events_emitted": ["portfolio.notified"]
+    },
+    {
+      "step_id": "human-escalation-gate",
+      "agent": null,
+      "description": "Human review gate for critical anomaly escalation",
+      "input": {
+        "from": ["urgent-advice", "portfolio.escalation_channel"],
+        "fields": ["anomaly_details", "recommendations", "portfolio_response"]
+      },
+      "output_to": "escalation.decision",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_attempts": 1,
+        "backoff": "none"
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "approved": "emit-escalation-decision",
+        "deferred": "log-deferral",
+        "rejected": "log-rejection"
+      },
+      "events_emitted": ["escalation.gate.review_initiated"],
+      "human_escalation": {
+        "required": true,
+        "timeout_minutes": 5,
+        "escalation_team": "ops-leadership",
+        "notification_channels": ["slack", "email"]
+      }
+    },
+    {
+      "step_id": "emit-escalation-decision",
+      "agent": null,
+      "description": "Emit final escalation decision to monitoring system",
+      "input": {
+        "from": "escalation.decision",
+        "fields": ["decision", "human_feedback", "action_items"]
+      },
+      "output_to": "monitoring-system.dispatch",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "notify_and_continue",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["escalation.decision.emitted"]
+    },
+    {
+      "step_id": "log-deferral",
+      "agent": null,
+      "description": "Log deferred escalation for audit trail",
+      "input": {
+        "from": "escalation.decision",
+        "fields": ["deferral_reason", "deferred_until"]
+      },
+      "output_to": "audit.log",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["escalation.deferred"]
+    },
+    {
+      "step_id": "log-rejection",
+      "agent": null,
+      "description": "Log rejected escalation for audit trail",
+      "input": {
+        "from": "escalation.decision",
+        "fields": ["rejection_reason"]
+      },
+      "output_to": "audit.log",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["escalation.rejected"]
+    }
+  ],
+  "error_handlers": {
+    "on_step_failure": "escalate_immediately",
+    "on_workflow_timeout": "escalate_immediately",
+    "escalation_threshold": 0
+  },
+  "metrics": {
+    "target_duration_minutes": 15,
+    "success_criteria": {
+      "advice_generated": true,
+      "portfolio_notified": true,
+      "human_review_completed": true
+    }
+  }
+}

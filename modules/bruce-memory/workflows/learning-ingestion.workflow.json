@@ -1,0 +1,112 @@
+{
+  "workflow_id": "learning-ingestion",
+  "module": "bruce-memory",
+  "description": "Receives a learning record from any module, validates, normalizes, embeds, and stores it",
+  "trigger": {
+    "type": "event",
+    "event": "*.learning.submitted"
+  },
+  "steps": [
+    {
+      "step_id": "validate-learning",
+      "agent": "learning-ingestion-agent",
+      "description": "Validate learning record meets minimum quality criteria (has quantitative data, tied to venture, has confidence >= 0.4)",
+      "input": {
+        "from": "trigger.payload"
+      },
+      "output_to": "validation-result",
+      "timeout_seconds": 30,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 1000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "on_valid": "normalize-learning",
+        "on_invalid": "reject-learning"
+      },
+      "events_emitted": [
+        "bruce-memory.learning.validation-started"
+      ]
+    },
+    {
+      "step_id": "normalize-learning",
+      "agent": "learning-ingestion-agent",
+      "description": "Normalize to canonical learning-record.schema.json format",
+      "input": {
+        "from": "validate-learning.output"
+      },
+      "output_to": "normalized-learning",
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "default": "embed-and-store"
+      },
+      "events_emitted": []
+    },
+    {
+      "step_id": "embed-and-store",
+      "agent": "learning-ingestion-agent",
+      "description": "Generate embedding and store in vector DB + persistent store",
+      "input": {
+        "from": "normalize-learning.output"
+      },
+      "output_to": "storage-result",
+      "timeout_seconds": 30,
+      "retry_policy": {
+        "max_attempts": 5,
+        "backoff": "exponential",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "default": "confirm-ingestion"
+      },
+      "events_emitted": [
+        "bruce-memory.learning.ingested"
+      ]
+    },
+    {
+      "step_id": "reject-learning",
+      "agent": "learning-ingestion-agent",
+      "description": "Log rejection reason and notify source module",
+      "input": {
+        "from": "validate-learning.output"
+      },
+      "output_to": "rejection-result",
+      "timeout_seconds": 15,
+      "retry_policy": null,
+      "failure_policy": "fail_silently",
+      "next_step": null,
+      "events_emitted": [
+        "bruce-memory.learning.rejected"
+      ]
+    },
+    {
+      "step_id": "confirm-ingestion",
+      "agent": null,
+      "description": "Emit confirmation event to source module",
+      "input": {
+        "from": "embed-and-store.output"
+      },
+      "output_to": null,
+      "timeout_seconds": 10,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "linear",
+        "initial_delay_ms": 500
+      },
+      "failure_policy": "fail_silently",
+      "next_step": null,
+      "events_emitted": [
+        "bruce-memory.learning.confirmed"
+      ]
+    }
+  ]
+}

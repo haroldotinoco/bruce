@@ -1,0 +1,32 @@
+{
+  "code_repo_ref": "artifact-backend-repo-001",
+  "api_endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/register",
+      "handler": "AuthController.register"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "handler": "AuthController.login"
+    }
+  ],
+  "test_coverage_percent": 85,
+  "code_quality_score": 92,
+  "generated_files": [
+    "src/modules/auth/auth.controller.ts",
+    "src/modules/auth/auth.service.ts",
+    "src/modules/auth/dto/login.dto.ts",
+    "src/modules/auth/dto/register.dto.ts",
+    "src/modules/auth/auth.controller.spec.ts",
+    "src/modules/auth/auth.service.spec.ts",
+    "src/database/entities/user.entity.ts",
+    "src/database/migrations/001-create-users-table.ts",
+    "docker-compose.yml",
+    "Dockerfile"
+  ],
+  "build_status": "success",
+  "build_errors": [],
+  "deployment_notes": "Backend built successfully with 85% test coverage. To deploy: 1. Build Docker image: docker build -t complify-backend . 2. Run migrations: npm run typeorm migration:run 3. Start service: docker-compose up. All API endpoints implemented per OpenAPI spec. JWT authentication configured. Health check endpoint at /health."
+}

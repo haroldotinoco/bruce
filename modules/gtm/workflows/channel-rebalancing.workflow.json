@@ -1,0 +1,16 @@
+{
+  "workflow_id": "channel-rebalancing",
+  "module": "gtm",
+  "description": "Automatic rebalancing when CAC thresholds triggered",
+  "version": "1.0",
+  "trigger": {"type": "event", "event": "gtm.channel.cac_threshold_exceeded"},
+  "steps": [
+    {"step_id": "validate-trigger", "agent": null, "description": "Verify CAC threshold sustained (not anomaly)", "input": {"from": "workflow.trigger", "fields": ["channel", "cac_violation_count"]}, "output_to": "trigger-validated", "timeout_seconds": 60, "retry_policy": {"max_attempts": 1, "backoff": "none"}, "failure_policy": "block_and_alert", "next_step": {"condition": "violation_count >= 2", "true": "performance-analysis", "false": "notify_and_end"}, "events_emitted": ["gtm.rebalancing.initiated"]},
+    {"step_id": "performance-analysis", "agent": "analytics-agent", "description": "Analyze underperforming and overperforming channels", "input": {"from": "trigger-validated", "fields": ["all_channels", "metrics"]}, "output_to": "analysis", "timeout_seconds": 600, "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 5000}, "failure_policy": "skip_and_notify", "next_step": {"default": "reallocation-calculation"}, "events_emitted": ["gtm.rebalancing.analysis.complete"]},
+    {"step_id": "reallocation-calculation", "agent": "campaign-manager", "description": "Calculate optimal budget reallocation", "input": {"from": "analysis", "fields": ["channel_performance", "constraints"]}, "output_to": "reallocation-plan", "timeout_seconds": 300, "retry_policy": {"max_attempts": 1, "backoff": "none"}, "failure_policy": "skip_and_notify", "next_step": {"default": "budget-adjustment"}, "events_emitted": ["gtm.reallocation.planned"]},
+    {"step_id": "budget-adjustment", "agent": null, "description": "Apply budget adjustments to channels", "input": {"from": "reallocation-plan", "fields": ["budget_changes", "implementation_timeline"]}, "output_to": "budget-adjusted", "timeout_seconds": 300, "retry_policy": {"max_attempts": 2, "backoff": "exponential", "initial_delay_ms": 3000}, "failure_policy": "mark_failed_and_continue", "next_step": {"default": "notification"}, "events_emitted": ["gtm.budget.adjusted", "gtm.channels.rebalanced"]},
+    {"step_id": "notification", "agent": null, "description": "Notify stakeholders of rebalancing", "input": {"from": "budget-adjusted", "fields": ["changes", "rationale"]}, "output_to": "external", "timeout_seconds": 60, "retry_policy": {"max_attempts": 1, "backoff": "none"}, "failure_policy": "skip_and_notify", "next_step": {"default": "workflow-complete"}, "events_emitted": ["gtm.rebalancing.notified"]}
+  ],
+  "error_handlers": {"on_step_failure": "notify_and_log", "on_workflow_timeout": "fail_fast"},
+  "metrics": {"target_duration_minutes": 30}
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AddVenture Execution State",
+  "type": "object",
+  "properties": {
+    "current_venture_processing": {
+      "type": "object",
+      "properties": {
+        "venture_id": {"type": "string"},
+        "opportunity_id": {"type": "string"},
+        "current_phase": {
+          "type": "string",
+          "enum": ["briefing_interpretation", "volume_structuring", "critique_review", "iteration", "dossier_composition", "complete"]
+        },
+        "current_volume_processing": {"type": "integer"},
+        "iteration_count": {"type": "integer"},
+        "start_time": {"type": "string", "format": "date-time"}
+      }
+    },
+    "partial_volumes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "venture_id": {"type": "string"},
+          "volume_number": {"type": "integer"},
+          "content": {"type": "object"},
+          "confidence_score": {"type": "number"}
+        }
+      }
+    },
+    "volumes_completed": {
+      "type": "array",
+      "items": {"type": "integer"},
+      "description": "List of volumes completed in current structuring job"
+    },
+    "critique_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "iteration": {"type": "integer"},
+          "overall_score": {"type": "number"},
+          "weak_volumes": {"type": "array", "items": {"type": "integer"}}
+        }
+      }
+    },
+    "processing_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "venture_id": {"type": "string"},
+          "error": {"type": "string"},
+          "timestamp": {"type": "string", "format": "date-time"},
+          "agent_id": {"type": "string"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "vulnerabilities": [
+    {
+      "id": "SEC-001",
+      "title": "Missing Content Security Policy Header",
+      "severity": "medium",
+      "description": "API does not include Content-Security-Policy header in responses",
+      "affected_component": "API Gateway",
+      "recommendation": "Add CSP header to all responses: Content-Security-Policy: default-src 'self'",
+      "cwe_id": "CWE-693"
+    },
+    {
+      "id": "SEC-002",
+      "title": "Outdated bcrypt dependency",
+      "severity": "low",
+      "description": "bcrypt@5.0.0 has known timing vulnerabilities, update to 5.1.1",
+      "affected_component": "dependencies/bcrypt",
+      "recommendation": "Update to bcrypt@5.1.1 or later",
+      "cwe_id": "CWE-327"
+    }
+  ],
+  "overall_security_score": 82,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 1,
+  "launch_blocked": false,
+  "security_report_ref": "artifact-security-report-001",
+  "owasp_compliance": {
+    "a01_broken_access_control": "PASS - Role-based access control properly implemented",
+    "a02_cryptographic_failures": "PASS - All sensitive data encrypted at rest and in transit",
+    "a03_injection": "PASS - All queries parameterized via TypeORM ORM",
+    "a04_insecure_design": "PASS - Architecture follows security-first principles",
+    "a05_security_misconfiguration": "WARN - Missing CSP header (low impact)",
+    "a06_vulnerable_outdated_components": "WARN - One outdated dependency with low severity",
+    "a07_authentication_failures": "PASS - JWT with 1-hour expiration, bcrypt password hashing",
+    "a08_software_data_integrity_failures": "PASS - Schema validation on all inputs",
+    "a09_logging_monitoring_failures": "PASS - Comprehensive audit logging configured",
+    "a10_ssrf": "PASS - All external URLs validated and whitelisted"
+  }
+}

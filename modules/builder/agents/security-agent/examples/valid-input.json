@@ -1,0 +1,24 @@
+{
+  "code_repo_ref": "artifact-backend-repo-001",
+  "deployed_staging_url": "https://staging.complify.example.com",
+  "api_contract_refs": [
+    "artifact-openapi-auth-001",
+    "artifact-openapi-documents-001"
+  ],
+  "infrastructure_spec": {
+    "cloud_provider": "AWS",
+    "services": [
+      {
+        "name": "RDS PostgreSQL",
+        "configuration": {
+          "multi_az": true,
+          "encryption": "AES-256"
+        }
+      }
+    ]
+  },
+  "compliance_requirements": [
+    "GDPR",
+    "SOC 2 Type II"
+  ]
+}

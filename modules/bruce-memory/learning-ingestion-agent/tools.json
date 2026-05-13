@@ -1,0 +1,10 @@
+{
+  "tools": [
+    {
+      "name": "vector_db",
+      "type": "mcp",
+      "description": "Vector database (Pinecone/Weaviate) for storing learning embeddings and similarity search",
+      "operations": ["write", "similarity_search"]
+    }
+  ]
+}

@@ -1,0 +1,316 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Portfolio Reporter Output",
+  "description": "Comprehensive portfolio governance report for stakeholders",
+  "required": ["governance_report"],
+  "properties": {
+    "governance_report": {
+      "type": "object",
+      "required": ["report_metadata", "executive_summary", "venture_narratives"],
+      "properties": {
+        "report_metadata": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "report_date": {
+              "type": "string",
+              "format": "date"
+            },
+            "review_cycle": {
+              "type": "string"
+            },
+            "audience": {
+              "type": "string"
+            },
+            "total_ventures_reviewed": {
+              "type": "integer"
+            }
+          }
+        },
+        "executive_summary": {
+          "type": "object",
+          "properties": {
+            "portfolio_health_snapshot": {
+              "type": "string",
+              "description": "High-level health assessment"
+            },
+            "key_findings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 3,
+              "maxItems": 5,
+              "description": "Top 3-5 findings from analysis"
+            },
+            "governance_decisions_summary": {
+              "type": "object",
+              "properties": {
+                "scale_count": {
+                  "type": "integer"
+                },
+                "iterate_count": {
+                  "type": "integer"
+                },
+                "pause_count": {
+                  "type": "integer"
+                },
+                "kill_count": {
+                  "type": "integer"
+                }
+              }
+            },
+            "critical_action_items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "description": "Most urgent actions"
+            },
+            "portfolio_outlook": {
+              "type": "string",
+              "description": "Qualitative assessment of next period"
+            }
+          }
+        },
+        "venture_narratives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "venture_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "rank": {
+                "type": "integer"
+              },
+              "health_section": {
+                "type": "object",
+                "properties": {
+                  "health_score": {
+                    "type": "number"
+                  },
+                  "health_trend": {
+                    "type": "string"
+                  },
+                  "key_metrics": {
+                    "type": "object"
+                  },
+                  "narrative": {
+                    "type": "string"
+                  }
+                }
+              },
+              "decision_section": {
+                "type": "object",
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "type": "number"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  }
+                }
+              },
+              "allocation_section": {
+                "type": "object",
+                "properties": {
+                  "current_budget": {
+                    "type": "number"
+                  },
+                  "new_budget": {
+                    "type": "number"
+                  },
+                  "budget_change": {
+                    "type": "number"
+                  },
+                  "headcount_change": {
+                    "type": "integer"
+                  },
+                  "narrative": {
+                    "type": "string"
+                  }
+                }
+              },
+              "milestones_section": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "milestone": {
+                      "type": "string"
+                    },
+                    "target_date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "success_criteria": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "risks_section": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "portfolio_insights": {
+          "type": "object",
+          "properties": {
+            "sector_analysis": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "sector": {
+                    "type": "string"
+                  },
+                  "venture_count": {
+                    "type": "integer"
+                  },
+                  "health_average": {
+                    "type": "number"
+                  },
+                  "common_patterns": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "common_risks": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "success_factors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Common factors in top-performing ventures"
+            },
+            "systemic_risks": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Portfolio-level risks to monitor"
+            },
+            "resource_efficiency": {
+              "type": "object",
+              "properties": {
+                "portfolio_revenue_per_dollar_spent": {
+                  "type": "number"
+                },
+                "high_efficiency_ventures": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "low_efficiency_ventures": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "action_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "priority": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Priority rank (1 = most urgent)"
+              },
+              "action": {
+                "type": "string"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "timeline": {
+                "type": "string"
+              },
+              "success_criteria": {
+                "type": "string"
+              },
+              "ventures_affected": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "risk_summary": {
+          "type": "object",
+          "properties": {
+            "overall_risk_rating": {
+              "type": "string"
+            },
+            "critical_risks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "risk": {
+                    "type": "string"
+                  },
+                  "mitigation": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "appendices": {
+          "type": "object",
+          "properties": {
+            "venture_metrics_table": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "decision_changelog": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "glossary": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  }
+}

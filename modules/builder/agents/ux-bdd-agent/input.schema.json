@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UX-BDD Agent Input",
+  "type": "object",
+  "required": ["functional_spec", "user_flows"],
+  "properties": {
+    "functional_spec": { "type": "object" },
+    "user_flows": { "type": "array", "items": { "type": "object" } },
+    "design_system": { "type": "object", "description": "Brand visual system (optional)" },
+    "accessibility_requirements": { "type": "object" }
+  }
+}

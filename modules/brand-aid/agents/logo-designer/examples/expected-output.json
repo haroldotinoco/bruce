@@ -1,0 +1,76 @@
+{
+  "concepts": [
+    {
+      "concept_name": "The Handshake",
+      "visual_metaphor": "Two curved lines forming a handshake, subtly forming an upward arrow",
+      "rationale": "Directly embodies partnership and growth. Simple, memorable, scalable. Works at all sizes.",
+      "design_approach": "Minimal geometric abstraction. Two symmetrical curves meeting at center, suggesting both equal partnership and upward movement.",
+      "strengths": [
+        "Clear partnership symbolism",
+        "Implies growth and movement",
+        "Scales beautifully from 16px to 512px",
+        "Monochrome-effective"
+      ],
+      "considerations": [
+        "Handshake is familiar but can feel generic; differentiated by upward movement arrow",
+        "Requires careful curve refinement for 16px readability"
+      ]
+    },
+    {
+      "concept_name": "The Ascent",
+      "visual_metaphor": "An elegant ascending path or mountain, with a figure at the peak, representing professional growth",
+      "rationale": "Evokes upward trajectory and career progression. Professional and aspirational. Unique positioning.",
+      "design_approach": "Minimalist mountain shape with human silhouette at summit. Uses negative space for refinement.",
+      "strengths": [
+        "Strong growth metaphor",
+        "Unique vs. competitor logos",
+        "Works well as icon"
+      ],
+      "considerations": [
+        "Figure detail can be lost at small scales; may need simplification"
+      ]
+    },
+    {
+      "concept_name": "The Bridge",
+      "visual_metaphor": "A bridge connecting two points, representing connection between freelancer and brand",
+      "rationale": "Bridges represent connection, trust, and passage to better opportunities. Professional and metaphorically strong.",
+      "design_approach": "Architectural-inspired bridge form. Clean arches or lines connecting two points.",
+      "strengths": [
+        "Strong partnership metaphor",
+        "Architectural sophistication aligns with Sage archetype",
+        "Distinctive"
+      ],
+      "considerations": [
+        "Needs refinement to avoid looking generic or corporate"
+      ]
+    }
+  ],
+  "recommended_concept": {
+    "concept_name": "The Handshake + Growth Arrow",
+    "rationale": "Most immediately communicates partnership while also suggesting upward movement and growth. Simple enough to work at all scales, sophisticated enough to reflect Sage positioning. Strong against competitor logos (none use this exact metaphor).",
+    "design_decisions": "Two curved lines forming a handshake at center, with negative space creating an upward arrow. Primary color (Sage Blue #1B3A52) for main icon; optional warm accent (#D4A574) for arrow. Clean, minimal geometry. Typography: 'Faire' in Crimson Text (serif) below icon for wordmark.",
+    "strategic_fit": "Embodiesthe core brand promise (partnership + fair value through growth). Directly contradicts Upwork's transactional language. Works across all applications. Reinforces Sage (thoughtful, trusted advisor) and Mentor (supporting growth) archetypes."
+  },
+  "svg_output": {
+    "horizontal_lockup": "<svg viewBox=\"0 0 240 64\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"logo-horizontal\"><g id=\"icon\"><path d=\"M12 32 Q20 24 32 32 Q20 40 12 32\" fill=\"none\" stroke=\"#1B3A52\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 32 Q44 24 56 32 Q44 40 36 32\" fill=\"none\" stroke=\"#1B3A52\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M32 32 L32 16\" stroke=\"#D4A574\" stroke-width=\"2\" stroke-linecap=\"round\"/><polygon points=\"32,12 28,20 36,20\" fill=\"#D4A574\"/></g><text x=\"70\" y=\"45\" font-family=\"Crimson Text, serif\" font-size=\"32\" font-weight=\"700\" fill=\"#1B3A52\">Faire</text></g></svg>",
+    "vertical_lockup": "<svg viewBox=\"0 0 80 120\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"logo-vertical\"><g id=\"icon\"><path d=\"M20 40 Q28 32 40 40 Q28 48 20 40\" fill=\"none\" stroke=\"#1B3A52\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 40 Q52 32 64 40 Q52 48 44 40\" fill=\"none\" stroke=\"#1B3A52\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M40 40 L40 20\" stroke=\"#D4A574\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polygon points=\"40,14 35,24 45,24\" fill=\"#D4A574\"/></g><text x=\"40\" y=\"105\" font-family=\"Crimson Text, serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1B3A52\" text-anchor=\"middle\">Faire</text></g></svg>",
+    "icon_only": "<svg viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"icon\"><path d=\"M12 32 Q20 24 32 32 Q20 40 12 32\" fill=\"none\" stroke=\"#1B3A52\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 32 Q44 24 56 32 Q44 40 36 32\" fill=\"none\" stroke=\"#1B3A52\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M32 32 L32 12\" stroke=\"#D4A574\" stroke-width=\"2\" stroke-linecap=\"round\"/><polygon points=\"32,6 27,15 37,15\" fill=\"#D4A574\"/></g></svg>",
+    "icon_with_text": "<svg viewBox=\"0 0 200 80\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"icon\"><path d=\"M16 40 Q24 32 36 40 Q24 48 16 40\" fill=\"none\" stroke=\"#1B3A52\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M40 40 Q48 32 60 40 Q48 48 40 40\" fill=\"none\" stroke=\"#1B3A52\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 40 L36 24\" stroke=\"#D4A574\" stroke-width=\"2\" stroke-linecap=\"round\"/><polygon points=\"36,18 31,28 41,28\" fill=\"#D4A574\"/></g><text x=\"80\" y=\"52\" font-family=\"Crimson Text, serif\" font-size=\"40\" font-weight=\"700\" fill=\"#1B3A52\">Faire</text></svg>"
+  },
+  "color_variations": {
+    "full_color": "SVG with Sage Blue (#1B3A52) + Warm Sand accent (#D4A574) as shown above",
+    "monochrome": "<svg viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"icon-monochrome\"><path d=\"M12 32 Q20 24 32 32 Q20 40 12 32\" fill=\"none\" stroke=\"#1F1F1F\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 32 Q44 24 56 32 Q44 40 36 32\" fill=\"none\" stroke=\"#1F1F1F\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M32 32 L32 12\" stroke=\"#1F1F1F\" stroke-width=\"2\" stroke-linecap=\"round\"/><polygon points=\"32,6 27,15 37,15\" fill=\"#1F1F1F\"/></g></svg>",
+    "white": "<svg viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"icon-white\"><path d=\"M12 32 Q20 24 32 32 Q20 40 12 32\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 32 Q44 24 56 32 Q44 40 36 32\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M32 32 L32 12\" stroke=\"#FFFFFF\" stroke-width=\"2\" stroke-linecap=\"round\"/><polygon points=\"32,6 27,15 37,15\" fill=\"#FFFFFF\"/></g></svg>",
+    "dark": "Logo on dark background #1F1F1F with white icon and accent"
+  },
+  "scale_testing_report": "Icon tested at 16px, 64px, 256px, 512px. At 16px: curves remain smooth and readable with 2px stroke. Handshake and arrow remain distinct. At 64px: full detail visible, proportions clean. At 256px and 512px: scales cleanly without degradation. Monochrome version tested: handshake silhouette is distinct; arrow still visible and readable. Colorblind test: Sage Blue and Warm Sand accent remain distinguishable for deuteranopia and protanopia.",
+  "file_references": {
+    "svg_folder": "brand-aid/artifacts/logos/faire/",
+    "file_sizes": {
+      "horizontal_lockup.svg": "3.2 KB",
+      "vertical_lockup.svg": "3.4 KB",
+      "icon_only.svg": "2.8 KB",
+      "icon_monochrome.svg": "2.6 KB"
+    }
+  }
+}

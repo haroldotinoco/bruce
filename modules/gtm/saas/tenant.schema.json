@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GTMTenant",
+  "description": "Tenant context for GTM module — campaign management, channel strategy, analytics, and growth experiments",
+  "type": "object",
+  "required": ["account_id", "venture_id", "plan"],
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "Clerk Organization ID — primary tenant identifier"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Associated venture ID from the add-venture module"
+    },
+    "plan": {
+      "type": "string",
+      "enum": ["free", "pro", "enterprise"],
+      "description": "Current subscription plan determining GTM feature access"
+    },
+    "plan_limits": {
+      "type": "object",
+      "properties": {
+        "max_active_campaigns": {
+          "type": "integer"
+        },
+        "max_channels": {
+          "type": "integer"
+        },
+        "max_monthly_spend_usd": {
+          "type": "integer"
+        },
+        "analytics_retention_days": {
+          "type": "integer"
+        },
+        "reporting_cadence": {
+          "type": "string",
+          "enum": ["monthly", "weekly"]
+        },
+        "growth_experiments_per_month": {
+          "type": "integer"
+        }
+      }
+    },
+    "active_campaigns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of currently active campaign IDs"
+    },
+    "channels_enabled": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["email", "social", "paid_search", "display", "organic_search", "content", "affiliate", "direct", "sms", "push"]
+      },
+      "description": "Channels this venture is actively using"
+    },
+    "monthly_spend_limit": {
+      "type": "number",
+      "description": "Monthly budget cap in USD for paid channel spend"
+    },
+    "current_monthly_spend": {
+      "type": "number",
+      "description": "Current month's cumulative spend across all channels"
+    },
+    "reporting_cadence": {
+      "type": "string",
+      "enum": ["weekly", "monthly"],
+      "description": "Frequency of automated governance reports"
+    },
+    "gtm_strategy_id": {
+      "type": "string",
+      "nullable": true,
+      "description": "Reference to the current GTM strategy document"
+    },
+    "temporal_namespace": {
+      "type": "string",
+      "description": "Temporal.io namespace for this venture's GTM workflow orchestration"
+    },
+    "external_integrations": {
+      "type": "object",
+      "properties": {
+        "google_ads": {
+          "type": "object",
+          "properties": {
+            "customer_id": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "facebook_ads": {
+          "type": "object",
+          "properties": {
+            "ad_account_id": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "linkedin_ads": {
+          "type": "object",
+          "properties": {
+            "ad_account_id": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "google_analytics": {
+          "type": "object",
+          "properties": {
+            "property_id": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "hubspot": {
+          "type": "object",
+          "properties": {
+            "portal_id": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "description": "Credentials and connection status for external ad platforms and analytics services"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

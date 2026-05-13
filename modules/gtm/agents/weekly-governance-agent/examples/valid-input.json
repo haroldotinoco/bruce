@@ -1,0 +1,89 @@
+{
+  "week_context": {
+    "week_ending_date": "2024-04-20",
+    "reporting_period": "weekly",
+    "audience": "executive-team"
+  },
+  "performance_data": {
+    "campaigns": [
+      {
+        "campaign_id": "CAMP-2024-Q2-CISO-ABM-001",
+        "channel": "paid-linkedin",
+        "weekly_spend": 2450,
+        "weekly_leads": 7,
+        "cac": 350,
+        "status": "active"
+      },
+      {
+        "campaign_id": "CAMP-2024-Q2-ANALYST-001",
+        "channel": "analyst-relations",
+        "weekly_spend": 500,
+        "weekly_leads": 0,
+        "cac": null,
+        "status": "active"
+      }
+    ],
+    "channel_performance": {
+      "paid-linkedin": {
+        "weekly_spend": 2450,
+        "weekly_leads": 7,
+        "conversion_rate": 0.025,
+        "cac": 350,
+        "trend": "stable"
+      },
+      "partnerships": {
+        "weekly_spend": 750,
+        "weekly_leads": 2,
+        "conversion_rate": 0.015,
+        "cac": 375,
+        "trend": "declining"
+      },
+      "content-marketing": {
+        "weekly_spend": 1000,
+        "weekly_leads": 1,
+        "conversion_rate": 0.005,
+        "cac": 1000,
+        "trend": "stable"
+      }
+    },
+    "anomalies": [
+      {
+        "issue": "Partnerships channel showing declining lead volume",
+        "severity": "warning",
+        "impact": "Week 1-2: 2.5 leads/week avg. Week 3-4: 1.5 leads/week. May indicate partner engagement drop or seasonal effect."
+      },
+      {
+        "issue": "Content marketing CAC (1000) exceeds target (400) by 2.5x",
+        "severity": "warning",
+        "impact": "Content pieces take 4-6 weeks to mature. Early performance not indicative of long-term value."
+      }
+    ]
+  },
+  "gtm_targets": {
+    "monthly_revenue_target_usd": 54000,
+    "monthly_lead_target": 38,
+    "target_cac_usd": 400,
+    "target_conversion_rate_percent": 2.0,
+    "monthly_budget": 17000
+  },
+  "budget_status": {
+    "monthly_budget": 17000,
+    "week_1_actual_spend": 3800,
+    "week_2_actual_spend": 4200,
+    "week_3_actual_spend": 4100,
+    "week_4_actual_spend": 4200,
+    "ytd_actual_spend": 16300
+  },
+  "pending_decisions": [
+    {
+      "decision_type": "campaign-scale",
+      "campaign_or_channel": "paid-linkedin",
+      "context": "Campaign outperforming target CAC ($350 vs. $400). CPM trending down. Should we increase budget allocation?"
+    },
+    {
+      "decision_type": "campaign-pause",
+      "campaign_or_channel": "partnerships",
+      "context": "Partnership channel declining in leads (2.5 → 1.5 leads/week). Should we pause, investigate, or shift focus?"
+    }
+  ]
+}

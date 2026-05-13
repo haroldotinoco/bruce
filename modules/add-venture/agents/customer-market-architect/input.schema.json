@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Customer-Market-Architect Input",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "opportunity_id": {"type": "string"},
+    "briefing": {"type": "object", "description": "Standardized briefing from briefing-interpreter"},
+    "vol_1_opportunity": {
+      "type": "object",
+      "description": "Volume 1: Opportunity Diagnosis from opportunity-analyst-vol1",
+      "properties": {
+        "problem_anatomy": {"type": "string"},
+        "market_readiness": {"type": "string"},
+        "addressable_market": {"type": "string"},
+        "macro_context": {"type": "string"},
+        "opportunity_thesis": {"type": "string"}
+      }
+    }
+  },
+  "required": ["venture_id", "opportunity_id", "briefing", "vol_1_opportunity"]
+}

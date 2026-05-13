@@ -1,0 +1,23 @@
+{
+  "name": "naming-agent",
+  "purpose": "Generate and score brand name candidates against strategic and practical criteria",
+  "input_types": [
+    "creative_direction",
+    "positioning",
+    "target_customer"
+  ],
+  "output_types": [
+    "naming_candidates"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.8,
+    "max_tokens": 4096,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

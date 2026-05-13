@@ -1,0 +1,390 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand-Aid Billing Events Schema",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/BrandBriefCreatedEvent"
+    },
+    {
+      "$ref": "#/definitions/BrandGeneratedEvent"
+    },
+    {
+      "$ref": "#/definitions/NameSelectedEvent"
+    },
+    {
+      "$ref": "#/definitions/GuidelinesExportedEvent"
+    },
+    {
+      "$ref": "#/definitions/RevisionRequestedEvent"
+    }
+  ],
+  "definitions": {
+    "BrandBriefCreatedEvent": {
+      "type": "object",
+      "title": "brand-aid.brief.created",
+      "description": "Published when a brand brief is created from a venture",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "brief_id",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "brand-aid.brief.created"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Account identifier for billing purposes"
+        },
+        "venture_id": {
+          "type": "string",
+          "description": "Associated venture identifier"
+        },
+        "brief_id": {
+          "type": "string",
+          "description": "Unique identifier for the brand brief"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"],
+          "description": "Account plan tier at time of event"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp of event"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "session_id": {
+              "type": "string"
+            },
+            "venture_name": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "BrandGeneratedEvent": {
+      "type": "object",
+      "title": "brand-aid.brand.generated",
+      "description": "Published when a complete brand identity is generated and guidelines are finalized",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "brand_id",
+        "brand_name",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "brand-aid.brand.generated"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string",
+          "description": "Unique identifier for the generated brand"
+        },
+        "brand_name": {
+          "type": "string",
+          "description": "Final selected brand name"
+        },
+        "brief_id": {
+          "type": "string"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"]
+        },
+        "deliverables": {
+          "type": "object",
+          "description": "Generated deliverables summary",
+          "properties": {
+            "guidelines_formats": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["pdf", "markdown", "figma", "html", "json"]
+              }
+            },
+            "total_assets_kb": {
+              "type": "number",
+              "description": "Total size of brand assets in KB"
+            },
+            "color_palettes_generated": {
+              "type": "integer"
+            },
+            "names_generated": {
+              "type": "integer"
+            },
+            "names_evaluated": {
+              "type": "integer"
+            }
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "workflow_duration_seconds": {
+              "type": "number"
+            },
+            "generation_steps_completed": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "brief_creation",
+                  "naming_workshop",
+                  "visual_identity",
+                  "messaging_framework",
+                  "guidelines_export"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "NameSelectedEvent": {
+      "type": "object",
+      "title": "brand-aid.name.selected",
+      "description": "Published when a brand name is selected from generated options",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "brand_id",
+        "selected_name",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "brand-aid.name.selected"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string"
+        },
+        "brief_id": {
+          "type": "string"
+        },
+        "selected_name": {
+          "type": "string",
+          "description": "The final selected brand name"
+        },
+        "name_id": {
+          "type": "string",
+          "description": "Reference to the name option that was selected"
+        },
+        "domain_status": {
+          "type": "string",
+          "enum": ["available", "unavailable", "not_checked"],
+          "description": "Domain availability status for the selected name"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "selection_rationale": {
+              "type": "string"
+            },
+            "evaluation_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        }
+      }
+    },
+    "GuidelinesExportedEvent": {
+      "type": "object",
+      "title": "brand-aid.guidelines.exported",
+      "description": "Published when brand guidelines are exported in one or more formats",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "brand_id",
+        "export_formats",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "brand-aid.guidelines.exported"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string"
+        },
+        "brief_id": {
+          "type": "string"
+        },
+        "export_formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["pdf", "markdown", "figma", "html", "json"]
+          },
+          "description": "Formats in which guidelines were exported"
+        },
+        "total_file_size_kb": {
+          "type": "number",
+          "description": "Combined file size of all exported guidelines"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "export_duration_seconds": {
+              "type": "number"
+            },
+            "storage_location": {
+              "type": "string",
+              "description": "S3 prefix or storage location (account-isolated)"
+            }
+          }
+        }
+      }
+    },
+    "RevisionRequestedEvent": {
+      "type": "object",
+      "title": "brand-aid.revision.requested",
+      "description": "Published when a user requests revisions to an approved brand",
+      "required": [
+        "event_type",
+        "account_id",
+        "venture_id",
+        "brand_id",
+        "revision_scope",
+        "timestamp"
+      ],
+      "properties": {
+        "event_type": {
+          "const": "brand-aid.revision.requested"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string"
+        },
+        "brief_id": {
+          "type": "string"
+        },
+        "revision_scope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "brand_name",
+              "color_palette",
+              "typography",
+              "imagery_style",
+              "tone_of_voice",
+              "messaging_framework",
+              "overall_direction"
+            ]
+          },
+          "description": "Which aspects of the brand are being revised"
+        },
+        "revision_count": {
+          "type": "integer",
+          "description": "Total number of revisions requested for this brand"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["free", "pro", "enterprise"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "revision_notes": {
+              "type": "string",
+              "description": "User feedback on what to revise"
+            },
+            "revision_context": {
+              "type": "object",
+              "properties": {
+                "days_since_approval": {
+                  "type": "integer"
+                },
+                "revision_reason": {
+                  "type": "string",
+                  "enum": [
+                    "strategic_pivot",
+                    "market_feedback",
+                    "internal_feedback",
+                    "competitive_concern",
+                    "other"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/builder-to-gtm.schema.json",
+  "title": "Builder to GTM Handoff",
+  "description": "Handoff from builder module to gtm module. Encapsulates product readiness status, launch metrics, and positioning for go-to-market execution.",
+  "type": "object",
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Venture identifier (UUID v4)"
+    },
+    "product_name": {
+      "type": "string",
+      "description": "Product name"
+    },
+    "product_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Live product URL or deployment URL"
+    },
+    "product_deployment_status": {
+      "type": "string",
+      "enum": ["staging", "alpha", "beta", "live"],
+      "description": "Current deployment status"
+    },
+    "product_description": {
+      "type": "string",
+      "description": "Clear description of what product does"
+    },
+    "core_value_delivered": {
+      "type": "string",
+      "description": "The primary value delivered (1-2 sentences)"
+    },
+    "mvp_features_shipped": {
+      "type": "array",
+      "description": "Features actually shipped (vs. planned)",
+      "items": {
+        "type": "string"
+      }
+    },
+    "features_deferred": {
+      "type": "array",
+      "description": "Features still planned but deferred",
+      "items": {
+        "type": "string"
+      }
+    },
+    "target_user_profile": {
+      "type": "object",
+      "description": "Who should buy this product?",
+      "properties": {
+        "user_segment": {
+          "type": "string",
+          "description": "e.g., 'Mid-market SaaS founders'"
+        },
+        "primary_pain_point": {
+          "type": "string"
+        },
+        "secondary_pain_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "buying_criteria": {
+          "type": "array",
+          "description": "What matters to buyer?",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "key_differentiators": {
+      "type": "array",
+      "description": "What makes this product unique?",
+      "items": {
+        "type": "object",
+        "properties": {
+          "differentiator": {
+            "type": "string"
+          },
+          "competitive_advantage": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "launch_readiness_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Builder's assessment of launch readiness (0-100). Score < 70 may trigger escalation."
+    },
+    "readiness_scorecard": {
+      "type": "object",
+      "description": "Detailed readiness assessment",
+      "properties": {
+        "core_functionality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Are core features working?"
+        },
+        "reliability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Is product stable?"
+        },
+        "performance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Does it perform well?"
+        },
+        "user_experience": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Is UX polished?"
+        },
+        "documentation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Is it documented?"
+        },
+        "security": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Are security practices in place?"
+        }
+      }
+    },
+    "known_limitations": {
+      "type": "array",
+      "description": "Known issues or limitations to disclose",
+      "items": {
+        "type": "object",
+        "properties": {
+          "limitation": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          },
+          "workaround": {
+            "type": "string"
+          },
+          "timeline_to_fix": {
+            "type": "string",
+            "description": "e.g., 'v1.1', '2 weeks'"
+          }
+        }
+      }
+    },
+    "beta_user_feedback": {
+      "type": "array",
+      "description": "Feedback from beta testing (if available)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "feedback": {
+            "type": "string"
+          },
+          "sentiment": {
+            "type": "string",
+            "enum": ["positive", "neutral", "negative"]
+          },
+          "user_segment": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "onboarding_experience": {
+      "type": "object",
+      "description": "How easy is it for users to get started?",
+      "properties": {
+        "time_to_value_minutes": {
+          "type": "integer",
+          "description": "Minutes until first value is realized"
+        },
+        "onboarding_steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "help_resources": {
+          "type": "array",
+          "description": "Available help (docs, video, etc)",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "technical_implementation": {
+      "type": "object",
+      "description": "Technical implementation details for GTM planning",
+      "properties": {
+        "tech_stack": {
+          "type": "string",
+          "description": "Summary of tech stack used"
+        },
+        "deployment_infrastructure": {
+          "type": "string",
+          "description": "Where is it hosted?"
+        },
+        "api_documentation": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link to API docs (if applicable)"
+        },
+        "third_party_dependencies": {
+          "type": "array",
+          "description": "External services product depends on",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "analytics_instrumentation": {
+      "type": "object",
+      "description": "What analytics are built into the product?",
+      "properties": {
+        "events_tracked": {
+          "type": "array",
+          "description": "Key events being tracked",
+          "items": {
+            "type": "string"
+          }
+        },
+        "analytics_provider": {
+          "type": "string",
+          "description": "e.g., 'Mixpanel', 'Amplitude', 'custom'"
+        },
+        "dashboard_available": {
+          "type": "boolean"
+        }
+      }
+    },
+    "marketing_assets": {
+      "type": "object",
+      "description": "Assets available for marketing",
+      "properties": {
+        "product_screenshots": {
+          "type": "boolean"
+        },
+        "demo_video": {
+          "type": "boolean"
+        },
+        "product_demo_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "case_study_templates": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pricing_model": {
+      "type": "object",
+      "description": "Pricing strategy (if applicable)",
+      "properties": {
+        "pricing_model_type": {
+          "type": "string",
+          "enum": ["free", "freemium", "subscription", "pay_per_use", "hybrid"],
+          "description": "Type of pricing"
+        },
+        "price_points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tier_name": {
+                "type": "string"
+              },
+              "price_usd": {
+                "type": "number"
+              },
+              "billing_period": {
+                "type": "string",
+                "description": "e.g., 'monthly', 'annual'"
+              },
+              "included_features": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "launch_prerequisites": {
+      "type": "array",
+      "description": "What must be done before launch can proceed?",
+      "items": {
+        "type": "object",
+        "properties": {
+          "prerequisite": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["complete", "in_progress", "not_started"]
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "venture_id",
+    "product_name",
+    "product_url",
+    "product_description",
+    "core_value_delivered",
+    "mvp_features_shipped",
+    "target_user_profile",
+    "key_differentiators",
+    "launch_readiness_score"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Market Scanner Input",
+  "description": "Input parameters for market-scanner agent discovery cycle",
+  "type": "object",
+  "properties": {
+    "scan_id": {
+      "type": "string",
+      "description": "Unique identifier for this scan cycle"
+    },
+    "discovery_focus": {
+      "type": "object",
+      "properties": {
+        "industry_verticals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Industries to prioritize (e.g., 'healthcare', 'fintech', 'manufacturing')",
+          "example": ["healthcare", "fintech", "climate-tech"]
+        },
+        "geographic_scope": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Regions to focus on",
+          "example": ["North America", "Europe", "Asia-Pacific"]
+        },
+        "minimum_tam": {
+          "type": "number",
+          "description": "Minimum estimated TAM in USD"
+        },
+        "focus_areas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Specific themes or problem types to emphasize",
+          "example": ["AI/ML adoption", "regulatory changes", "supply chain disruption"]
+        }
+      }
+    },
+    "search_strategy": {
+      "type": "object",
+      "properties": {
+        "primary_keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Core search terms"
+        },
+        "secondary_keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Secondary/long-tail search terms"
+        },
+        "exclude_keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Terms to exclude from results"
+        }
+      }
+    },
+    "quality_filters": {
+      "type": "object",
+      "properties": {
+        "minimum_discovery_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.6,
+          "description": "Minimum confidence threshold (0-1)"
+        },
+        "minimum_sources_required": {
+          "type": "integer",
+          "default": 2,
+          "description": "Minimum independent sources per opportunity"
+        },
+        "auto_exclude_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Auto-exclusion criteria (e.g., 'illegal', 'requires_fda_approval')"
+        }
+      }
+    },
+    "output_targets": {
+      "type": "object",
+      "properties": {
+        "minimum_opportunities": {
+          "type": "integer",
+          "default": 8,
+          "description": "Minimum opportunities to return"
+        },
+        "maximum_opportunities": {
+          "type": "integer",
+          "default": 25,
+          "description": "Maximum opportunities to return"
+        }
+      }
+    }
+  },
+  "required": ["scan_id"]
+}

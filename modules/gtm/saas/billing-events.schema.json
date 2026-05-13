@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Billing Events — GTM Module",
+  "type": "object",
+  "properties": {
+    "gtm_campaign": {
+      "description": "One GTM campaign created and launched",
+      "unit": "campaign",
+      "price_per_unit_cents": 1000
+    }
+  }
+}

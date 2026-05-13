@@ -1,0 +1,188 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "volume_number": 5,
+  "volume_title": "Go-to-Market Strategy",
+  "icp_definition": {
+    "company_profile": "Chief Compliance Officer at Top 100 US banks (assets > $50B), responsible for AI governance. $1B+ annual compliance budget. Evaluates solutions Q3-Q4 annually for next fiscal budget cycle.",
+    "buying_committee_size": 3,
+    "budget_authority": "CCO with approval from CRO and Technology Governance Committee",
+    "pain_intensity_score": 9,
+    "where_to_find": [
+      "American Bankers Association member directory",
+      "Federal Reserve bank supervisory lists",
+      "Financial services compliance conferences (ABA, AFCC)",
+      "LinkedIn (search: CCO at banks with 'regulatory' mentions)"
+    ],
+    "estimated_total_icp_companies": 150
+  },
+  "channel_priorities": [
+    {
+      "channel": "Direct Sales (Founder-led)",
+      "priority_rank": 1,
+      "why_this_channel": "Highest trust for compliance, longest sales cycles, needs CEO/founder credibility",
+      "estimated_cac": 120000,
+      "year_1_revenue_target": 1000000,
+      "year_3_revenue_target": 7500000,
+      "launch_month": 1
+    },
+    {
+      "channel": "Compliance Consulting Partnerships",
+      "priority_rank": 2,
+      "why_this_channel": "Consultants already embedded with CCOs; trusted advisors; high conversion rate",
+      "estimated_cac": 80000,
+      "year_1_revenue_target": 500000,
+      "year_3_revenue_target": 3000000,
+      "launch_month": 3
+    },
+    {
+      "channel": "Industry Events & Speaking",
+      "priority_rank": 3,
+      "why_this_channel": "CCOs gather at ABA/AFCC conferences; speaking = credibility builder",
+      "estimated_cac": 60000,
+      "year_1_revenue_target": 300000,
+      "year_3_revenue_target": 2000000,
+      "launch_month": 6
+    }
+  ],
+  "launch_sequence": [
+    {
+      "phase": "Phase 1: Founder Sales Validation",
+      "duration_weeks": 4,
+      "key_objectives": [
+        "Identify and reach 20 CCOs at Target 50 banks",
+        "Validate value proposition in customer conversations",
+        "Secure 2 customer discovery pilots"
+      ],
+      "team_composition": "CEO + VP of Sales (contractor)",
+      "customer_targets": "Top 50 banks CCOs, high pain, 4-6 month budgets",
+      "success_criteria": "2 pilot customers signed, validated willingness-to-pay, identified champion pattern"
+    },
+    {
+      "phase": "Phase 2: First Reference Customer",
+      "duration_weeks": 4,
+      "key_objectives": [
+        "Close 1st paying customer (pilot → production contract)",
+        "Establish implementation success (90-day successful deployment)",
+        "Document customer ROI case study"
+      ],
+      "team_composition": "CEO + VP of Sales + 1 Implementation Engineer",
+      "customer_targets": "Most engaged pilot customer",
+      "success_criteria": "1st contract signed, customer in production, 90-day success metrics documented"
+    },
+    {
+      "phase": "Phase 3: Multi-Channel Launch",
+      "duration_weeks": 8,
+      "key_objectives": [
+        "Close 2nd and 3rd customer via direct sales",
+        "Launch compliance consulting partnership program",
+        "Begin ABA conference speaking pipeline"
+      ],
+      "team_composition": "CEO + VP of Sales (full-time hire) + Sales Dev Rep",
+      "customer_targets": "Next 10 Target 50 banks; consulting firms (2-3 partnerships)",
+      "success_criteria": "3 total customers by week 12, 2 partnerships in discussion, 2 conference speaking slots confirmed"
+    },
+    {
+      "phase": "Phase 4: Scale & Measurement",
+      "duration_weeks": 12,
+      "key_objectives": [
+        "Scale direct sales funnel (6+ customers in pipeline)",
+        "Launch partner enablement program",
+        "Measure CAC and conversion rates per channel"
+      ],
+      "team_composition": "VP of Sales (leading team), 2 Account Executives, 1 Sales Dev Rep, 1 Customer Success",
+      "customer_targets": "Mix of direct and partner-sourced opportunities",
+      "success_criteria": "6 total customers signed (Year 1 target 12), $250K MRR, repeat partnership revenue $50K/month"
+    }
+  ],
+  "ninety_day_playbook": {
+    "week_1_4": {
+      "milestones": [
+        "Week 1: List 20 target CCOs, initiate 5 outreach conversations",
+        "Week 2: 10 CCO discovery calls booked, define pilot scope",
+        "Week 3: 2 pilot contracts signed",
+        "Week 4: 2 pilots in progress, customer feedback collected"
+      ],
+      "activities": [
+        "CEO sends personalized outreach to 20 CCOs (LinkedIn + email)",
+        "VP of Sales manages meeting cadence and follow-up",
+        "Product team supports pilot scope and success criteria",
+        "Legal finalizes pilot agreement template"
+      ]
+    },
+    "week_5_8": {
+      "milestones": [
+        "Week 5: 1 pilot completing successfully, ROI documented",
+        "Week 6: 1st production contract signed",
+        "Week 7: Partnership discussions with 3 consulting firms initiated",
+        "Week 8: 2nd and 3rd customers in pipeline (60%+ qualified)"
+      ],
+      "activities": [
+        "Implementation team onboards 1st paying customer",
+        "CEO gives 2 webinars (ABA/AFCC preview)",
+        "VP of Sales builds direct sales pipeline (8+ target prospects)",
+        "Partnership Manager initiates consulting firm conversations"
+      ]
+    },
+    "week_9_12": {
+      "milestones": [
+        "Week 9: 1st customer live in production, case study drafted",
+        "Week 10: 2nd and 3rd customers signed, partnership agreements with 2 firms",
+        "Week 11: Speaking slot confirmed at ABA Q2 conference",
+        "Week 12: 6+ customers in funnel, $250K MRR baseline established"
+      ],
+      "activities": [
+        "Customer success team deploys success program (onboarding, training, QBRs)",
+        "Marketing creates case study and ROI calculator",
+        "VP of Sales hires 1st Account Executive",
+        "Finance tracks CAC by channel and conversion metrics"
+      ]
+    }
+  },
+  "budget_allocation": {
+    "total_year_1_gtm_budget": 1200000,
+    "sales_headcount_required": 2,
+    "marketing_budget": 150000,
+    "budget_by_channel": {
+      "Direct_Sales": 800000,
+      "Consulting_Partnerships": 200000,
+      "Events_Speaking": 200000
+    },
+    "cac_targets_by_channel": {
+      "Direct_Sales": 120000,
+      "Consulting_Partnerships": 80000,
+      "Events_Speaking": 60000
+    },
+    "payback_period_target_months": 8
+  },
+  "acquisition_funnel": {
+    "awareness_to_first_call": "Founder outreach + warm introductions + conference visibility",
+    "first_call_to_demo": "Discovery call (30 min) identifies pain fit; demo (45 min) shows product match",
+    "demo_to_proposal": "2-week evaluation period, customer tests on test environment, propose pilot or production",
+    "proposal_to_close": "Legal review (2 weeks), exec approval (1 week), contract signature (1 week) = ~4 weeks",
+    "sales_cycle_total_months": 4,
+    "estimated_conversion_rate": 0.25
+  },
+  "assumptions": [
+    "Sales cycle remains 4 months even at scale (may compress with partner channels)",
+    "CAC of $120K sustainable via founder sales (improves with brand after 1st 3 customers)",
+    "Partnership channel will deliver 30% of Year 1 revenue (consulting firm embedded relationships)",
+    "LTV:CAC ratio of 12:1 supports payback period of 8 months (from Vol 4 unit economics)"
+  ],
+  "data_gaps": [
+    "Actual consulting firm interest in partnership model (need to validate)",
+    "Conference attendance by target CCOs (ABA history unknown)",
+    "Competitive GTM approach (how are RegulatoryAI and ModelWatch selling?)",
+    "Win/loss analysis from pilots (need to document)"
+  ],
+  "confidence_score": 74,
+  "confidence_rationale": "ICP definition is clear and narrow (Top 100 banks CCOs). Channel priorities grounded in Vol 2 buying process and Vol 4 CAC. 90-day playbook is realistic with founder-led sales focus. However, confidence is not higher because partnership channel viability needs validation, consulting firm interest is assumed, and sales productivity (closing 12 customers Year 1) requires strong execution. Conference speaking effectiveness unknown.",
+  "key_sections": [
+    "ICP Definition",
+    "Channel Prioritization",
+    "Launch Sequence",
+    "90-Day Playbook",
+    "Budget Allocation"
+  ],
+  "execution_timestamp": "2026-04-06T10:35:00Z",
+  "agent_id": "gtm-planner"
+}

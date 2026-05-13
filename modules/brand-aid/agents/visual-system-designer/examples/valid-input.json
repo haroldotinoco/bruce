@@ -1,0 +1,26 @@
+{
+  "creative_direction": {
+    "mood_board_description": "Cool tones (deep blue-gray, white) with warm accents (earth tones). Typography-forward. Quality over volume. The Economist meets Basecamp aesthetic.",
+    "visual_language_criteria": [
+      "Clean and minimal, not sparse",
+      "Refined and sophisticated, not cold",
+      "Grounded and trustworthy, not cutting-edge",
+      "Professional, but human and approachable"
+    ],
+    "design_token_guidance": {
+      "color_temperature": "Predominantly cool (deep blue-gray), warmed by earth-tone accents",
+      "typography_attitude": "Refined and readable; classic serif for headlines, modern sans-serif for body",
+      "spacing_philosophy": "Generous, breathing; white space is design"
+    }
+  },
+  "brand_archetype": "Sage",
+  "implementation_context": {
+    "primary_medium": "web",
+    "color_model_preference": "HEX",
+    "design_tool": "Figma"
+  },
+  "accessibility_requirements": {
+    "wcag_level": "AA",
+    "color_blindness_safe": true
+  }
+}

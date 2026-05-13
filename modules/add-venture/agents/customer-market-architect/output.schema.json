@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Customer-Market-Architect Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "volume_number": {"type": "integer", "const": 2},
+    "volume_title": {"type": "string"},
+    "customer_segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segment_name": {"type": "string"},
+          "priority_rank": {"type": "integer"},
+          "segment_size_customers": {"type": "integer"},
+          "segment_tam_usd": {"type": "number"},
+          "customer_archetypes": {"type": "array", "items": {"type": "string"}},
+          "primary_pain_points": {"type": "array", "items": {"type": "string"}},
+          "willingness_to_pay_range": {
+            "type": "object",
+            "properties": {
+              "min_annual_usd": {"type": "number"},
+              "max_annual_usd": {"type": "number"},
+              "median_annual_usd": {"type": "number"}
+            }
+          }
+        }
+      }
+    },
+    "jtbd_map": {
+      "type": "object",
+      "properties": {
+        "functional_jobs": {"type": "array", "items": {"type": "string"}},
+        "emotional_jobs": {"type": "array", "items": {"type": "string"}},
+        "social_jobs": {"type": "array", "items": {"type": "string"}},
+        "job_hierarchy": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "job": {"type": "string"},
+              "priority": {"type": "string", "enum": ["primary", "secondary", "tertiary"]},
+              "alternative_solutions": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        }
+      }
+    },
+    "decision_maker_map": {
+      "type": "object",
+      "properties": {
+        "primary_buyer_title": {"type": "string"},
+        "primary_buyer_motivation": {"type": "string"},
+        "end_user_title": {"type": "string"},
+        "end_user_motivation": {"type": "string"},
+        "stakeholders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": {"type": "string"},
+              "influence_level": {"type": "string", "enum": ["decision_maker", "strong_influencer", "approver", "user"]},
+              "success_criteria": {"type": "string"}
+            }
+          }
+        },
+        "buying_approval_workflow": {"type": "string"},
+        "typical_sales_cycle_months": {"type": "number"}
+      }
+    },
+    "market_architecture": {
+      "type": "object",
+      "properties": {
+        "total_addressable_segment": {"type": "number"},
+        "revenue_concentration": {"type": "string"},
+        "geographic_distribution": {"type": "string"},
+        "competitive_positioning": {"type": "string"},
+        "barriers_to_entry": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "confidence_rationale": {"type": "string"},
+    "key_sections": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "volume_number", "volume_title", "customer_segments", "jtbd_map", "decision_maker_map", "market_architecture", "confidence_score"]
+}

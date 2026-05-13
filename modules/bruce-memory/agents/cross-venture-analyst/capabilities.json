@@ -1,0 +1,28 @@
+{
+  "name": "cross-venture-analyst",
+  "purpose": "Analyzes relationships and patterns across multiple ventures to extract co-occurring success factors, failure patterns, market timing signals, and segment comparisons",
+  "input_types": [
+    "venture_summaries",
+    "learning_records",
+    "metric_snapshots"
+  ],
+  "output_types": [
+    "pattern_findings",
+    "correlations",
+    "counter_intuitive_findings"
+  ],
+  "external_dependencies": [
+    "vector-db"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null,
+    "fallback_note": "Use o1 for complex multi-dimensional correlation analysis when Claude reaches context limits"
+  }
+}

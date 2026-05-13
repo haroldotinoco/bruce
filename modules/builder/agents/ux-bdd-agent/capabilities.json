@@ -1,0 +1,27 @@
+{
+  "name": "ux-bdd-agent",
+  "purpose": "Creates UX specifications and BDD scenarios for the MVP, optionally generating wireframes via Figma MCP",
+  "input_types": [
+    "venture_spec",
+    "brand_context",
+    "functional_spec"
+  ],
+  "output_types": [
+    "bdd_spec",
+    "wireframe_artifacts",
+    "acceptance_criteria"
+  ],
+  "external_dependencies": [
+    "figma-mcp"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": "google/gemma-4-26b-a4b-it:free",
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 8000,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

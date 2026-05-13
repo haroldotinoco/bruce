@@ -1,0 +1,41 @@
+{
+  "venture_id": "complify-ai-saas",
+  "created_at": "2026-04-06T14:40:00Z",
+  "recommendations": [
+    {
+      "recommendation_id": "rec-20260406-001",
+      "area": "revenue",
+      "title": "Capitalize on positive MRR momentum with targeted expansion",
+      "description": "MRR is growing 13.3% above baseline and showing positive momentum. This is the right time to validate what's driving growth and consider scaling the successful channels.",
+      "urgency": "this_week",
+      "expected_impact": "Could accelerate MRR to 20%+ monthly growth if successful channels are identified and scaled",
+      "specific_actions": [
+        "Analyze new customer cohorts from past 2 weeks - identify acquisition sources (channels, campaigns, customer profile)",
+        "Interview 5-10 new customers to understand what attracted them and drove conversion",
+        "If specific channel/profile identified, increase GTM spend on that channel by 2-3x over next 4 weeks",
+        "Track CAC and LTV for new cohort vs historical average to validate unit economics"
+      ],
+      "metrics_to_watch": ["mrr", "new_mrr", "mrr_growth_rate", "cac", "ltv_cac_ratio"],
+      "created_from_anomaly_id": "anom-20260406-001"
+    },
+    {
+      "recommendation_id": "rec-20260406-002",
+      "area": "retention",
+      "title": "Stabilize D30 retention rate with proactive engagement",
+      "description": "D30 retention at 38.7% is stable but below ideal (40%+). Even small improvements in retention compound significantly over time and reduce CAC payback period.",
+      "urgency": "this_week",
+      "expected_impact": "Each 5-point retention improvement compounds to 10-15% incremental ARR over 12 months",
+      "specific_actions": [
+        "Run retention cohort analysis - identify which user segments have lowest D30 retention",
+        "Conduct exit interviews with churned users (target 10 interviews) to identify primary churn reasons",
+        "Design 2-3 lightweight intervention experiments (e.g., in-product onboarding, email campaign, feature highlight) targeting lowest-retention segment",
+        "Run experiments for 2 weeks, measure impact on D30 retention"
+      ],
+      "metrics_to_watch": ["d30_retention", "d7_retention", "churn_rate", "activation_rate"],
+      "created_from_anomaly_id": null
+    }
+  ],
+  "risk_summary": "Overall health is solid (68/100) with balanced performance across dimensions. Positive momentum in MRR growth presents opportunity to validate and scale successful channels. D30 retention is stable but has room for improvement - even small gains will compound significantly. Financial position is healthy (8.2 months runway) providing runway to invest in growth. No critical risks at this time; recommend capitalizing on positive signals while maintaining focus on retention fundamentals.",
+  "overall_action_required": true,
+  "health_report_id": "health-report-complify-20260406-1430"
+}

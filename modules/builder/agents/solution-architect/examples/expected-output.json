@@ -1,0 +1,234 @@
+{
+  "architecture_diagram_ref": "artifact-arch-diagram-001",
+  "services": [
+    {
+      "name": "Auth Service",
+      "responsibility": "User authentication, JWT token management, session handling",
+      "tech": "NestJS, JWT, bcrypt",
+      "api_endpoints": [
+        "POST /api/v1/auth/register",
+        "POST /api/v1/auth/login",
+        "POST /api/v1/auth/logout",
+        "POST /api/v1/auth/refresh-token"
+      ],
+      "dependencies": ["PostgreSQL"]
+    },
+    {
+      "name": "Document Service",
+      "responsibility": "Document template management, generation orchestration, storage",
+      "tech": "NestJS, OpenAI API, S3",
+      "api_endpoints": [
+        "GET /api/v1/documents",
+        "POST /api/v1/documents/generate",
+        "GET /api/v1/documents/{id}",
+        "PUT /api/v1/documents/{id}",
+        "DELETE /api/v1/documents/{id}"
+      ],
+      "dependencies": ["PostgreSQL", "OpenAI API", "S3"]
+    },
+    {
+      "name": "Policy Service",
+      "responsibility": "Policy CRUD, versioning, approval workflows",
+      "tech": "NestJS, PostgreSQL",
+      "api_endpoints": [
+        "GET /api/v1/policies",
+        "POST /api/v1/policies",
+        "GET /api/v1/policies/{id}",
+        "PUT /api/v1/policies/{id}",
+        "DELETE /api/v1/policies/{id}"
+      ],
+      "dependencies": ["PostgreSQL"]
+    },
+    {
+      "name": "Audit Service",
+      "responsibility": "Immutable audit logging, compliance reporting",
+      "tech": "NestJS, PostgreSQL, EventBridge",
+      "api_endpoints": [
+        "GET /api/v1/audit-logs",
+        "GET /api/v1/audit-logs/{resource_id}"
+      ],
+      "dependencies": ["PostgreSQL"]
+    },
+    {
+      "name": "API Gateway",
+      "responsibility": "Request routing, authentication enforcement, rate limiting",
+      "tech": "API Gateway (AWS) or Kong",
+      "api_endpoints": [],
+      "dependencies": ["Auth Service"]
+    }
+  ],
+  "data_models": [
+    {
+      "entity": "User",
+      "fields": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "required": true,
+          "description": "Primary key"
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR(255)",
+          "required": true,
+          "description": "User email, unique"
+        },
+        {
+          "name": "password_hash",
+          "type": "VARCHAR(255)",
+          "required": true,
+          "description": "Bcrypt hashed password"
+        },
+        {
+          "name": "first_name",
+          "type": "VARCHAR(100)",
+          "required": false,
+          "description": "User first name"
+        },
+        {
+          "name": "last_name",
+          "type": "VARCHAR(100)",
+          "required": false,
+          "description": "User last name"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP",
+          "required": true,
+          "description": "Account creation timestamp"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP",
+          "required": true,
+          "description": "Last update timestamp"
+        }
+      ],
+      "relationships": [
+        {
+          "target_entity": "Document",
+          "relationship_type": "one-to-many"
+        },
+        {
+          "target_entity": "Policy",
+          "relationship_type": "one-to-many"
+        }
+      ]
+    },
+    {
+      "entity": "Document",
+      "fields": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "required": true,
+          "description": "Primary key"
+        },
+        {
+          "name": "user_id",
+          "type": "UUID",
+          "required": true,
+          "description": "Foreign key to User"
+        },
+        {
+          "name": "template_id",
+          "type": "UUID",
+          "required": true,
+          "description": "Foreign key to DocumentTemplate"
+        },
+        {
+          "name": "content",
+          "type": "TEXT",
+          "required": true,
+          "description": "Generated document content"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)",
+          "required": true,
+          "description": "draft|approved|archived"
+        },
+        {
+          "name": "s3_url",
+          "type": "VARCHAR(500)",
+          "required": false,
+          "description": "S3 storage URL"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP",
+          "required": true,
+          "description": "Creation timestamp"
+        }
+      ],
+      "relationships": [
+        {
+          "target_entity": "User",
+          "relationship_type": "many-to-one"
+        }
+      ]
+    }
+  ],
+  "api_contract_refs": [
+    "artifact-openapi-auth-001",
+    "artifact-openapi-documents-001",
+    "artifact-openapi-policies-001"
+  ],
+  "infrastructure_spec": {
+    "cloud_provider": "AWS",
+    "services": [
+      {
+        "name": "ECS Fargate",
+        "type": "Compute",
+        "configuration": {
+          "cpu": "256",
+          "memory": "512",
+          "min_capacity": 2,
+          "max_capacity": 10
+        }
+      },
+      {
+        "name": "RDS PostgreSQL",
+        "type": "Database",
+        "configuration": {
+          "instance_class": "db.t3.micro",
+          "allocated_storage": "20GB",
+          "backup_retention": "30",
+          "multi_az": true
+        }
+      },
+      {
+        "name": "S3",
+        "type": "Storage",
+        "configuration": {
+          "versioning": true,
+          "encryption": "AES-256"
+        }
+      },
+      {
+        "name": "CloudFront",
+        "type": "CDN",
+        "configuration": {
+          "cache_ttl": "3600"
+        }
+      },
+      {
+        "name": "ElastiCache Redis",
+        "type": "Cache",
+        "configuration": {
+          "engine": "redis",
+          "node_type": "cache.t3.micro"
+        }
+      }
+    ],
+    "networking": {
+      "vpc_config": {
+        "cidr": "10.0.0.0/16",
+        "subnets": 3
+      },
+      "load_balancing": "ALB with health checks"
+    },
+    "estimated_monthly_cost": "$1500-$2000"
+  },
+  "scalability_notes": "Architecture supports horizontal scaling via ECS auto-scaling. Database scaling via Read Replicas for read-heavy operations. Redis caching reduces database load. S3 storage is inherently scalable. For 100K users within 18 months: upgrade RDS to db.t3.small, increase ECS min capacity to 5, add ElastiCache cluster replication. Audit Service should use event-driven pattern to avoid impacting operational latency. Consider implementing API rate limiting at Gateway level and circuit breakers for OpenAI API integration."
+}

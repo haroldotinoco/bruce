@@ -1,0 +1,260 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "volume_number": 7,
+  "volume_title": "Risk & Validation",
+  "critical_assumptions": [
+    {
+      "assumption": "Regulatory pressure on AI will remain high for 3+ years (not ease)",
+      "risk_level": "high",
+      "validation_method": "Monitor Fed/SEC/OCC guidance quarterly; customer interviews on regulatory roadmap expectations",
+      "timeline_days": 90,
+      "success_criteria": "90+ of interviewed CCOs believe regulatory pressure will increase",
+      "priority_rank": 1
+    },
+    {
+      "assumption": "Willingness-to-pay: Large banks will pay $150-500K annually (median $250K)",
+      "risk_level": "high",
+      "validation_method": "Pricing research interviews with 10 CCOs; quantify willingness-to-pay ranges",
+      "timeline_days": 60,
+      "success_criteria": "70%+ of interviewed CCOs willing to pay >$150K; median >$200K",
+      "priority_rank": 2
+    },
+    {
+      "assumption": "Sales cycle will be 4 months (based on Vol 2 buying process)",
+      "risk_level": "medium",
+      "validation_method": "First 3 customer sales cycles; track from first call to close",
+      "timeline_days": 180,
+      "success_criteria": "Average sales cycle 3-5 months (within forecast range)",
+      "priority_rank": 3
+    },
+    {
+      "assumption": "Monthly churn will be 2% or lower (industry SaaS benchmark)",
+      "risk_level": "high",
+      "validation_method": "Monitor first 3 customers' retention; measure monthly churn",
+      "timeline_days": 180,
+      "success_criteria": "Churn 3% or lower in first 6 months (including seasonal factors)",
+      "priority_rank": 4
+    },
+    {
+      "assumption": "Our explainability engine will satisfy regulatory requirements (Fed bar)",
+      "risk_level": "high",
+      "validation_method": "Test with regulatory consultants; assess against Federal Reserve AI guidance checklist",
+      "timeline_days": 120,
+      "success_criteria": "Expert review confirms compliance with Fed guidance; identified gaps if any",
+      "priority_rank": 5
+    },
+    {
+      "assumption": "Integrated platform preferred over point solutions by 70%+ of customers",
+      "risk_level": "medium",
+      "validation_method": "Customer interviews about architecture preferences; compare willingness-to-pay for integrated vs. point",
+      "timeline_days": 60,
+      "success_criteria": "70%+ prefer integrated; willing to pay 30%+ premium for integration",
+      "priority_rank": 6
+    },
+    {
+      "assumption": "Gross margin 75% is achievable (cloud 15%, support 10%, other 0%)",
+      "risk_level": "medium",
+      "validation_method": "Build cost model from first customer implementation; track actual costs vs. budget",
+      "timeline_days": 180,
+      "success_criteria": "Gross margin achieves 70%+ (allowing for optimization post-launch)",
+      "priority_rank": 7
+    },
+    {
+      "assumption": "Top 50 banks represent addressable market (not too concentrated)",
+      "risk_level": "medium",
+      "validation_method": "Post-first-3-customers, assess secondary segment (Top 100 banks) willingness-to-pay and buying process",
+      "timeline_days": 180,
+      "success_criteria": "Secondary segment shows 60%+ of willingness-to-pay of primary; adoption timeline reasonable",
+      "priority_rank": 8
+    },
+    {
+      "assumption": "CAC of $120K is achievable through founder sales (founder leverage)",
+      "risk_level": "high",
+      "validation_method": "Track actual sales costs per customer (team time, marketing spend, partner costs)",
+      "timeline_days": 180,
+      "success_criteria": "CAC for first 3 customers averages $100-150K",
+      "priority_rank": 9
+    },
+    {
+      "assumption": "Competitors (ModelWatch, Regulatory AI) will not add compliance reporting in <12 months",
+      "risk_level": "medium",
+      "validation_method": "Monitor competitors monthly; assess product roadmap signals",
+      "timeline_days": 180,
+      "success_criteria": "Competitors have not launched integrated reporting in 6-month window",
+      "priority_rank": 10
+    }
+  ],
+  "risk_matrix": {
+    "high_impact_high_likelihood": [
+      "Regulatory pressure eases (reduces TAM urgency)",
+      "Willingness-to-pay less than $150K (breaks unit economics)",
+      "Explainability engine insufficient for regulatory bar (core product risk)",
+      "Churn exceeds 5% (breaks LTV model)"
+    ],
+    "high_impact_medium_likelihood": [
+      "Sales cycle extends beyond 6 months (cash burn increases)",
+      "CAC exceeds $200K (payback period > 12 months)",
+      "Integrated platform not preferred (market segmentation)",
+      "Competitors add compliance reporting (differentiation erodes)"
+    ],
+    "high_impact_low_likelihood": [
+      "Technology not feasible for model-agnostic explainability (6-month setback)",
+      "Major regulatory change makes our approach obsolete (market risk)"
+    ],
+    "medium_impact_high_likelihood": [
+      "Secondary segment adoption slower than primary (Year 2+ focus)",
+      "Implementation costs higher than budgeted (margin compression)"
+    ],
+    "other_risks": [
+      "Hiring delays slow go-to-market (execution risk)",
+      "Partnership channels slower to develop than expected (channel risk)",
+      "Fundraising difficult if first customers not successful (capital risk)"
+    ]
+  },
+  "kill_criteria": [
+    {
+      "criterion": "Explainability engine insufficient: Regulatory consultants assess it doesn't meet Federal Reserve guidance in critical areas (e.g., decision explainability)",
+      "measurement_method": "Expert review by 2+ compliance consultants against Fed AI guidance checklist; identify material gaps",
+      "kill_threshold": "Critical gaps identified that require 3+ months development to fix",
+      "timeline_days": 120
+    },
+    {
+      "criterion": "Willingness-to-pay too low: Pricing research shows <50% of CCOs would pay >$150K annually",
+      "measurement_method": "Survey/interviews with 15+ target CCOs; calculate % willing to pay at different price points",
+      "kill_threshold": "<50% willing to pay >$150K; median WTP <$120K",
+      "timeline_days": 60
+    },
+    {
+      "criterion": "Customer acquisition impossible: First 3 customer acquisition takes >8 months each (extends cash runway >18 months)",
+      "measurement_method": "Track sales cycle of first 3 customers (from first call to close)",
+      "kill_threshold": "Average sales cycle >8 months; total time to 3 customers >24 months",
+      "timeline_days": 270
+    },
+    {
+      "criterion": "Monthly churn too high: First 3 customers show >5% monthly churn in months 4-6 (breaks LTV model)",
+      "measurement_method": "Track subscription status of first 3 customers monthly; calculate churn rate",
+      "kill_threshold": "Any customer churns before month 6; churn >5% monthly for any cohort",
+      "timeline_days": 180
+    }
+  ],
+  "validation_roadmap": [
+    {
+      "experiment_name": "Willingness-to-Pay Research",
+      "assumption_testing": ["Willingness-to-pay $150-500K", "Banks value integrated platform"],
+      "method": "Pricing research interviews with 15 target CCOs; present scenarios and measure willingness",
+      "duration_days": 30,
+      "success_metric": "70%+ willing to pay >$150K; median identified",
+      "expected_learning": "Clarify pricing band; identify price sensitivity",
+      "go_no_go_decision": "If <50% willing to pay >$150K → kill. If 50-70% → pivot pricing. If 70%+ → proceed"
+    },
+    {
+      "experiment_name": "Regulatory Adequacy Assessment",
+      "assumption_testing": ["Explainability engine meets regulatory bar"],
+      "method": "Test product against Federal Reserve AI governance guidance; external consultant review",
+      "duration_days": 60,
+      "success_metric": "Consultant assessment: compliant with guidance; gaps identified and manageable",
+      "expected_learning": "Identify any regulatory gaps; assess buildability",
+      "go_no_go_decision": "If critical gaps → rework product. If minor gaps → plan fixes. If compliant → proceed"
+    },
+    {
+      "experiment_name": "ICP Validation: First Customer Acquisition",
+      "assumption_testing": ["Regulatory pressure remains high", "Sales cycle 4 months", "CAC $120K"],
+      "method": "Target Top 50 banks; execute founder sales process; track metrics",
+      "duration_days": 120,
+      "success_metric": "Close 1 customer; document sales cycle, costs, success factors",
+      "expected_learning": "Validate ICP, sales process, first customer profile",
+      "go_no_go_decision": "If customer acquired in 4-6 months at <$150K cost → proceed. If >6 months or >$200K cost → re-evaluate GTM"
+    },
+    {
+      "experiment_name": "Product-Market Fit: First 3 Customers",
+      "assumption_testing": ["Churn 2%", "Gross margin 75%", "Customer success model works"],
+      "method": "Deploy with 3 customers; measure success metrics, churn, margin",
+      "duration_days": 180,
+      "success_metric": "3 customers in production; churn 3% or lower; margin 70% or higher",
+      "expected_learning": "Validate business model economics; identify customer success requirements",
+      "go_no_go_decision": "If churn >5% → pivot business model. If margin <60% → reduce scope. If metrics hit → scale"
+    },
+    {
+      "experiment_name": "Secondary Segment Interest",
+      "assumption_testing": ["Secondary segment willingness-to-pay reasonable", "Adoption timeline feasible"],
+      "method": "Post-3-customers, interview 10 banks in Top 100 (not Top 50); assess interest",
+      "duration_days": 60,
+      "success_metric": "70%+ of secondary segment show interest; WTP 60%+ of primary segment",
+      "expected_learning": "Secondary segment viability; timeline to expansion",
+      "go_no_go_decision": "If secondary weak → focus on primary. If strong → plan secondary expansion Month 6+"
+    }
+  ],
+  "minimum_viable_validation": {
+    "first_30_days": [
+      "Pricing research: 15 CCO interviews on willingness-to-pay (target: 70%+ >$150K)",
+      "Competitor monitoring: Document competitive positioning and any announced features",
+      "Regulatory research: Confirm Federal Reserve guidance hasn't changed"
+    ],
+    "target_learning": [
+      "Pricing is viable (70%+ willing to pay >$150K)",
+      "No major regulatory changes that invalidate thesis",
+      "ICP is reachable (initial outreach response rate >10%)"
+    ],
+    "resource_requirement": "1 FTE (CEO) + researcher (contractor, 2 weeks) = ~$10K"
+  },
+  "risk_mitigation_strategy": {
+    "top_5_risks": [
+      "Regulatory pressure eases (market risk)",
+      "Willingness-to-pay too low (business model risk)",
+      "Explainability engine insufficient (product risk)",
+      "Monthly churn >5% (business model risk)",
+      "CAC >$200K (execution risk)"
+    ],
+    "mitigation_actions": [
+      {
+        "risk": "Regulatory pressure eases",
+        "action": "Monitor Fed/SEC/OCC guidance; customer interviews on enforcement trajectory; if pressure easing detected, pivot to operational efficiency angle (cost savings, not compliance)",
+        "timeline_weeks": 4
+      },
+      {
+        "risk": "Willingness-to-pay too low",
+        "action": "Run pricing research in Month 1; if <50% willing to pay >$150K, pivot to mid-market (lower price, higher volume)",
+        "timeline_weeks": 4
+      },
+      {
+        "risk": "Explainability engine insufficient",
+        "action": "Get regulatory consultant review Month 1-2; assess against Fed guidance; if gaps, allocate engineering time",
+        "timeline_weeks": 8
+      },
+      {
+        "risk": "Monthly churn >5%",
+        "action": "Invest in customer success infrastructure (onboarding, training, support) before scaling; monitor churn monthly",
+        "timeline_weeks": 12
+      },
+      {
+        "risk": "CAC >$200K",
+        "action": "If first customer acquisition >$150K in cost, shift to partnerships (lower CAC) instead of direct sales",
+        "timeline_weeks": 16
+      }
+    ],
+    "unmitigatable_risks": [
+      "Major regulatory change makes compliance approach obsolete (low probability, uncontrollable)",
+      "Severe recession reducing bank compliance budgets (low probability, structural)"
+    ],
+    "total_de_risking_timeline_months": 6
+  },
+  "assumptions": [
+    "All assumptions grounded in Vols 1-6; this volume surfaces risks inherent in those volumes"
+  ],
+  "data_gaps": [
+    "Actual willingness-to-pay from real CCO conversations (using Vol 2 estimates as proxy)",
+    "Regulatory enforcement data (using Fed guidance as proxy for future enforcement)",
+    "Competitor product roadmaps (unknown)"
+  ],
+  "confidence_score": 72,
+  "confidence_rationale": "Risk map is comprehensive across market, product, business model, and execution risks. Kill criteria are specific and measurable. Validation roadmap is realistic and sequenced logically. However, confidence is not higher because assumptions from Vols 1-6 are not yet validated in market (pricing, regulatory sufficiency, churn). Risk assessment relies on those upstream assumptions.",
+  "key_sections": [
+    "Critical Assumptions",
+    "Risk Matrix",
+    "Kill Criteria",
+    "Validation Roadmap",
+    "Risk Mitigation Strategy"
+  ],
+  "execution_timestamp": "2026-04-06T10:50:00Z",
+  "agent_id": "risk-validation-analyst"
+}

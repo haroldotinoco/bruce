@@ -1,0 +1,41 @@
+{
+  "creative_direction": {
+    "naming_criteria": [
+      "Evokes partnership, fairness, or professional growth",
+      "Memorable and easy to spell",
+      "Domain available (.com preferred)",
+      "Neutral gender and cultural associations",
+      "Not trendy or cutesy",
+      "Single word preferred"
+    ],
+    "key_visual_metaphors": [
+      "Networks and connections",
+      "Growth and upward trajectory",
+      "Handshake and partnership",
+      "Craftsmanship and quality"
+    ],
+    "brand_voice_examples": [
+      "Work with people who get it",
+      "You've built a reputation for excellence"
+    ]
+  },
+  "positioning": "The professional network where respected independents build meaningful careers with quality-focused brands",
+  "target_customer": "Experienced freelancers earning 60k-150k annually who value professional respect",
+  "competitive_names": [
+    "Upwork",
+    "Toptal",
+    "Freelancer.com",
+    "Gun.io",
+    "Arc.dev"
+  ],
+  "naming_preferences": {
+    "preferred_length_syllables": 2,
+    "preferred_style": [
+      "Professional",
+      "Trustworthy",
+      "Serious"
+    ],
+    "cultural_context": "Global, B2B professional services",
+    "international_availability": true
+  }
+}

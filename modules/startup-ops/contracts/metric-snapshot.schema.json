@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MetricSnapshot",
+  "description": "Normalized metric snapshot from multiple data sources with completeness tracking and deviation flagging",
+  "type": "object",
+  "required": ["snapshot_id", "venture_id", "collected_at", "metrics", "sources_status", "completeness_percent"],
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "description": "Unique identifier for this metric snapshot"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture this snapshot is for"
+    },
+    "collected_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when metrics were collected"
+    },
+    "time_range": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" }
+      }
+    },
+    "completeness_percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Percentage of required metrics successfully collected"
+    },
+    "sources_status": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "enum": ["success", "partial", "failed"] },
+          "metric_count": { "type": "integer", "minimum": 0 },
+          "error": { "type": ["string", "null"] },
+          "last_updated": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "product": { "type": "object" },
+        "revenue": { "type": "object" },
+        "acquisition": { "type": "object" },
+        "financial": { "type": "object" }
+      }
+    }
+  }
+}

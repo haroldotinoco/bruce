@@ -1,0 +1,212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Integration Agent Output",
+  "type": "object",
+  "required": ["integrations", "summary"],
+  "properties": {
+    "integrations": {
+      "type": "array",
+      "description": "Comprehensive specifications for each required integration",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "auth_method", "priority"],
+        "properties": {
+          "integration_id": {
+            "type": "string",
+            "description": "Unique identifier for the integration"
+          },
+          "name": {
+            "type": "string",
+            "description": "Integration name (e.g., Stripe, Mixpanel)"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["payment", "analytics", "communication", "storage", "auth", "monitoring", "data-sync", "sdk", "api", "webhook"],
+            "description": "Category of integration"
+          },
+          "description": {
+            "type": "string",
+            "description": "Purpose and function of this integration"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"],
+            "description": "Implementation priority"
+          },
+          "auth_method": {
+            "type": "string",
+            "enum": ["api_key", "oauth2", "sdk", "jwt", "webhook_signature", "basic_auth", "bearer_token", "custom"],
+            "description": "Authentication mechanism"
+          },
+          "endpoints": {
+            "type": "array",
+            "description": "API endpoints or webhooks used",
+            "items": {
+              "type": "object",
+              "properties": {
+                "endpoint_name": { "type": "string" },
+                "method": { "type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"] },
+                "url_pattern": { "type": "string" },
+                "description": { "type": "string" },
+                "request_schema": { "type": "object" },
+                "response_schema": { "type": "object" }
+              }
+            }
+          },
+          "error_handling": {
+            "type": "object",
+            "description": "Error handling and retry strategy",
+            "properties": {
+              "retry_strategy": {
+                "type": "string",
+                "enum": ["exponential_backoff", "linear_backoff", "fixed_delay", "none"],
+                "description": "Retry policy for failed requests"
+              },
+              "max_retries": {
+                "type": "integer",
+                "description": "Maximum number of retry attempts",
+                "default": 3
+              },
+              "timeout_seconds": {
+                "type": "integer",
+                "description": "Request timeout in seconds"
+              },
+              "fallback_mechanism": {
+                "type": "string",
+                "description": "Fallback strategy if integration fails (e.g., queue, cache, manual)"
+              },
+              "error_codes_handled": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "HTTP error codes and their handling strategies"
+              }
+            }
+          },
+          "rate_limits": {
+            "type": "object",
+            "description": "API rate limiting specifications",
+            "properties": {
+              "requests_per_minute": { "type": "integer" },
+              "requests_per_hour": { "type": "integer" },
+              "requests_per_day": { "type": "integer" },
+              "burst_limit": { "type": "integer" },
+              "backoff_strategy": { "type": "string" },
+              "notes": { "type": "string" }
+            }
+          },
+          "estimated_setup_hours": {
+            "type": "number",
+            "description": "Estimated implementation time in hours"
+          },
+          "cost_estimate": {
+            "type": "object",
+            "description": "Cost analysis for this integration",
+            "properties": {
+              "monthly_cost": { "type": "number" },
+              "setup_cost": { "type": "number" },
+              "free_tier_available": { "type": "boolean" },
+              "free_tier_limits": { "type": "string" },
+              "paid_tier_start": { "type": "string" },
+              "cost_scaling_notes": { "type": "string" }
+            }
+          },
+          "auth_token_rotation": {
+            "type": "object",
+            "description": "Token rotation and secret management strategy",
+            "properties": {
+              "rotation_required": { "type": "boolean" },
+              "rotation_frequency_days": { "type": "integer" },
+              "rotation_mechanism": { "type": "string" },
+              "secret_storage": { "type": "string", "enum": ["environment_variables", "secrets_manager", "vault", "kms"] },
+              "credential_expiration": { "type": "string" }
+            }
+          },
+          "data_handling": {
+            "type": "object",
+            "description": "Data privacy and security considerations",
+            "properties": {
+              "stores_pii": { "type": "boolean" },
+              "pii_types": { "type": "array", "items": { "type": "string" } },
+              "encryption_required": { "type": "boolean" },
+              "encryption_type": { "type": "string" },
+              "compliance_frameworks": { "type": "array", "items": { "type": "string" } },
+              "data_retention_policy": { "type": "string" }
+            }
+          },
+          "implementation_notes": {
+            "type": "string",
+            "description": "Additional implementation considerations and best practices"
+          },
+          "risks": {
+            "type": "array",
+            "description": "Identified risks and mitigation strategies",
+            "items": {
+              "type": "object",
+              "properties": {
+                "risk": { "type": "string" },
+                "severity": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+                "mitigation": { "type": "string" }
+              }
+            }
+          },
+          "alternatives": {
+            "type": "array",
+            "description": "Alternative integrations and why this was recommended",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "reason_not_chosen": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "High-level summary of integration specifications",
+      "properties": {
+        "total_integrations": { "type": "integer" },
+        "total_setup_hours": { "type": "number" },
+        "total_monthly_cost": { "type": "number" },
+        "free_tier_integrations": { "type": "integer" },
+        "paid_integrations": { "type": "integer" },
+        "critical_integrations": { "type": "integer" },
+        "high_risk_integrations": { "type": "integer" },
+        "implementation_phases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phase": { "type": "integer" },
+              "integrations": { "type": "array", "items": { "type": "string" } },
+              "estimated_weeks": { "type": "number" },
+              "dependencies": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "cost_optimization_recommendations": { "type": "array", "items": { "type": "string" } },
+        "compliance_notes": { "type": "string" }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Integration dependencies and ordering requirements",
+      "properties": {
+        "integration_order": { "type": "array", "items": { "type": "string" } },
+        "blocking_dependencies": { "type": "array", "items": { "type": "string" } },
+        "parallel_implementable": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "implementation_timeline": {
+      "type": "string",
+      "description": "Overall estimated implementation timeline"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of specification generation"
+    }
+  }
+}

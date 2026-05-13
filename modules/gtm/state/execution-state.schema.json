@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GTM Module Execution State",
+  "description": "Runtime state tracking in-flight workflows and activities",
+  "type": "object",
+  "properties": {
+    "workflow_id": {
+      "type": "string",
+      "description": "Current active workflow ID"
+    },
+    "current_step": {
+      "type": "string",
+      "description": "Current step in active workflow"
+    },
+    "campaigns_in_flight": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "campaign_id": {
+            "type": "string"
+          },
+          "campaign_name": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["launching", "active", "paused", "completed"]
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "expected_end_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "spend_to_date": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "pending_content_pieces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "content_id": {
+            "type": "string"
+          },
+          "content_type": {
+            "type": "string",
+            "enum": ["blog_post", "whitepaper", "case_study", "video", "infographic", "email", "ad_creative", "landing_page"]
+          },
+          "channel": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "in_review", "approved", "scheduled", "published"]
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "last_analytics_pull": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When analytics were last fetched"
+    },
+    "ab_tests_active": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "test_id": {
+            "type": "string"
+          },
+          "campaign_id": {
+            "type": "string"
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "expected_end_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "statistical_significance_required": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

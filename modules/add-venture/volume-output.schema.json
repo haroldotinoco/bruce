@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Volume Output",
+  "description": "Standard output format for each volume of the venture dossier",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "volume_number": {"type": "integer", "minimum": 1, "maximum": 8},
+    "volume_title": {"type": "string"},
+    "content": {
+      "type": "object",
+      "description": "Volume content (structure varies by volume)"
+    },
+    "key_sections": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Main sections included in this volume"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Key assumptions driving this volume"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Agent's confidence in this volume (0-100)"
+    },
+    "confidence_rationale": {"type": "string"},
+    "data_gaps": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Known gaps needing validation"
+    },
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "volume_number", "volume_title", "content", "confidence_score"]
+}

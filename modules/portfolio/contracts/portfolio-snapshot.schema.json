@@ -1,0 +1,194 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Portfolio Snapshot",
+  "description": "Snapshot of entire portfolio state at a point in time",
+  "type": "object",
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "description": "Unique identifier for this snapshot",
+      "pattern": "^snapshot_[a-z0-9]{12}$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when snapshot was created"
+    },
+    "review_cycle_id": {
+      "type": "string",
+      "description": "Associated review cycle if part of scheduled cycle"
+    },
+    "ventures": {
+      "type": "array",
+      "description": "Array of ventures in portfolio",
+      "items": {
+        "type": "object",
+        "properties": {
+          "venture_id": {
+            "type": "string",
+            "description": "Unique venture identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Venture name"
+          },
+          "stage": {
+            "type": "string",
+            "enum": ["ideation", "pre-launch", "launch", "growth", "scale", "mature"],
+            "description": "Current stage of venture"
+          },
+          "health_report_ref": {
+            "type": "string",
+            "description": "Reference to latest health report from startup-ops"
+          },
+          "health_scores": {
+            "type": "object",
+            "properties": {
+              "product_market_fit": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "traction": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "unit_economics": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "team": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "runway": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            },
+            "required": ["product_market_fit", "traction", "unit_economics", "team", "runway"]
+          },
+          "launch_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date when venture launched"
+          },
+          "weeks_live": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of weeks since launch"
+          },
+          "burn_rate": {
+            "type": "number",
+            "description": "Monthly burn rate in USD"
+          },
+          "runway_months": {
+            "type": "number",
+            "description": "Months of runway at current burn rate"
+          },
+          "key_metrics": {
+            "type": "object",
+            "properties": {
+              "mrr": {
+                "type": "number",
+                "description": "Monthly recurring revenue in USD"
+              },
+              "dau": {
+                "type": "integer",
+                "description": "Daily active users"
+              },
+              "users": {
+                "type": "integer",
+                "description": "Total registered users"
+              },
+              "mrr_growth_pct": {
+                "type": "number",
+                "description": "Month-over-month MRR growth percentage"
+              },
+              "retention_d30": {
+                "type": "number",
+                "description": "Day 30 retention rate (0-1)"
+              }
+            }
+          }
+        },
+        "required": ["venture_id", "name", "stage", "health_report_ref", "health_scores", "weeks_live", "burn_rate", "runway_months", "key_metrics"]
+      }
+    },
+    "portfolio_summary": {
+      "type": "object",
+      "description": "Aggregate portfolio metrics",
+      "properties": {
+        "total_ventures": {
+          "type": "integer",
+          "description": "Total number of active ventures"
+        },
+        "by_stage": {
+          "type": "object",
+          "properties": {
+            "ideation": { "type": "integer" },
+            "pre_launch": { "type": "integer" },
+            "launch": { "type": "integer" },
+            "growth": { "type": "integer" },
+            "scale": { "type": "integer" },
+            "mature": { "type": "integer" }
+          }
+        },
+        "total_burn": {
+          "type": "number",
+          "description": "Total monthly burn rate across all ventures"
+        },
+        "total_runway_avg": {
+          "type": "number",
+          "description": "Average runway across active ventures in months"
+        },
+        "total_mrr": {
+          "type": "number",
+          "description": "Total monthly recurring revenue"
+        },
+        "health_distribution": {
+          "type": "object",
+          "description": "Distribution of health scores across portfolio",
+          "properties": {
+            "excellent": {
+              "type": "integer",
+              "description": "Count of ventures with health score > 80"
+            },
+            "good": {
+              "type": "integer",
+              "description": "Count of ventures with health score 60-80"
+            },
+            "fair": {
+              "type": "integer",
+              "description": "Count of ventures with health score 40-60"
+            },
+            "at_risk": {
+              "type": "integer",
+              "description": "Count of ventures with health score < 40"
+            }
+          }
+        },
+        "concentration": {
+          "type": "object",
+          "description": "Portfolio concentration metrics",
+          "properties": {
+            "max_venture_burn_pct": {
+              "type": "number",
+              "description": "Percentage of total burn in highest-burn venture"
+            },
+            "top_3_ventures_pct": {
+              "type": "number",
+              "description": "Percentage of total burn in top 3 ventures"
+            }
+          }
+        }
+      },
+      "required": ["total_ventures", "by_stage", "total_burn", "total_runway_avg", "health_distribution"]
+    }
+  },
+  "required": ["snapshot_id", "created_at", "ventures", "portfolio_summary"]
+}

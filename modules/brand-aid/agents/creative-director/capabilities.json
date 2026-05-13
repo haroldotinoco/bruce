@@ -1,0 +1,22 @@
+{
+  "name": "creative-director",
+  "purpose": "Synthesize brand strategy and market research into actionable creative direction brief",
+  "input_types": [
+    "brand_strategy",
+    "market_analysis"
+  ],
+  "output_types": [
+    "creative_direction"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": "google/gemma-4-26b-a4b-it:free",
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.7,
+    "max_tokens": 6144,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

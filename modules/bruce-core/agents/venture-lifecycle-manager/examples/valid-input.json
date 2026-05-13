@@ -1,0 +1,34 @@
+{
+  "example": "Venture advancing from QUALIFIED to STRUCTURED after gate passes",
+  "venture_id": "v-abc12345",
+  "trigger_type": "gate_passed",
+  "gate_decision": {
+    "gate_name": "post-screening",
+    "status": "PASSED",
+    "score": 78,
+    "rationale": "Venture demonstrates strong founder capability, large addressable market, and clear problem fit. All screening criteria satisfied.",
+    "criteria_details": {
+      "founder_capability": { "score": 85, "feedback": "CEO has 10yr enterprise software experience" },
+      "problem_fit": { "score": 76, "feedback": "Target customer confirmed pain point in interviews" },
+      "tam_analysis": { "score": 72, "feedback": "$500M+ TAM in enterprise software vertical" },
+      "feasibility": { "score": 80, "feedback": "MVP plan technically feasible with 6-person team" }
+    },
+    "gate_evaluation_id": "gate-eval-78392",
+    "evaluated_at": "2026-04-05T14:20:00Z"
+  },
+  "current_venture_state": {
+    "stage": "QUALIFIED",
+    "stage_entry_timestamp": "2026-04-02T09:00:00Z",
+    "gate_history": [
+      {
+        "gate": "post-screening",
+        "status": "PASSED",
+        "score": 78,
+        "evaluated_at": "2026-04-05T14:20:00Z"
+      }
+    ],
+    "blockers": [],
+    "pending_escalations": []
+  },
+  "correlation_id": "corr-req-005"
+}

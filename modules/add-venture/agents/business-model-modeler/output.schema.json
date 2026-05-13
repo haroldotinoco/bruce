@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Business-Model-Modeler Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "volume_number": {"type": "integer", "const": 4},
+    "volume_title": {"type": "string"},
+    "revenue_model": {
+      "type": "object",
+      "properties": {
+        "model_type": {"type": "string"},
+        "revenue_streams": {"type": "array", "items": {"type": "string"}},
+        "pricing_strategy": {"type": "string"},
+        "customer_segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "segment": {"type": "string"},
+              "annual_arpu": {"type": "number"}
+            }
+          }
+        }
+      }
+    },
+    "unit_economics": {
+      "type": "object",
+      "properties": {
+        "cac_by_segment": {
+          "type": "object",
+          "additionalProperties": {"type": "number"}
+        },
+        "ltv_by_segment": {
+          "type": "object",
+          "additionalProperties": {"type": "number"}
+        },
+        "cac_payback_months_by_segment": {
+          "type": "object",
+          "additionalProperties": {"type": "number"}
+        },
+        "gross_margin_percent": {"type": "number"},
+        "ltv_cac_ratio": {"type": "number"},
+        "industry_benchmark_ltv_cac": {"type": "number"}
+      }
+    },
+    "business_model_scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario_name": {"type": "string", "enum": ["conservative", "base", "aggressive"]},
+          "year_1_target_mrr": {"type": "number"},
+          "year_1_customer_count": {"type": "integer"},
+          "year_1_revenue": {"type": "number"},
+          "avg_cac": {"type": "number"},
+          "avg_ltv": {"type": "number"},
+          "avg_payback_months": {"type": "number"},
+          "gross_margin_percent": {"type": "number"},
+          "monthly_burn": {"type": "number"},
+          "break_even_month": {"type": "integer"},
+          "year_3_mrr_target": {"type": "number"},
+          "year_3_customer_count": {"type": "integer"},
+          "required_runway_months": {"type": "number"}
+        }
+      }
+    },
+    "break_even_analysis": {
+      "type": "object",
+      "properties": {
+        "fixed_costs_monthly": {"type": "number"},
+        "variable_cost_per_customer": {"type": "number"},
+        "conservative_breakeven_month": {"type": "integer"},
+        "base_breakeven_month": {"type": "integer"},
+        "aggressive_breakeven_month": {"type": "integer"}
+      }
+    },
+    "recommended_scenario": {
+      "type": "object",
+      "properties": {
+        "scenario": {"type": "string"},
+        "rationale": {"type": "string"},
+        "critical_success_factors": {"type": "array", "items": {"type": "string"}},
+        "key_metrics_to_monitor": {"type": "array", "items": {"type": "string"}},
+        "total_capital_required_12_months": {"type": "number"}
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "confidence_rationale": {"type": "string"},
+    "key_sections": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "volume_number", "volume_title", "revenue_model", "unit_economics", "business_model_scenarios", "break_even_analysis", "recommended_scenario", "confidence_score"]
+}

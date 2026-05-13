@@ -1,0 +1,125 @@
+{
+  "workflow_id": "stage-gate-evaluation",
+  "name": "Stage Gate Evaluation",
+  "description": "Generic gate evaluation workflow for any build stage",
+  "version": "1.0.0",
+  "purpose": "Evaluate stage output against gate criteria and determine pass/fail/escalate",
+  "stages": [
+    {
+      "stage_number": 1,
+      "stage_id": "evaluate-gate",
+      "agent": "system",
+      "name": "Gate Evaluation",
+      "description": "Evaluate stage report against gate criteria",
+      "input_from": ["stage_report", "gate_criteria"],
+      "output_to": ["gate_decision"],
+      "timeout_seconds": 300,
+      "logic": {
+        "evaluate_conditions": "Execute gate_criteria conditions against stage_report outputs",
+        "decision_tree": {
+          "all_conditions_pass": "gate_decision = PASS",
+          "any_condition_fails": "gate_decision = FAIL",
+          "critical_failures": "gate_decision = ESCALATE"
+        }
+      },
+      "events_emitted": [
+        {
+          "event": "gate.evaluated",
+          "payload": { "stage": "{{stage_id}}", "decision": "{{gate_decision}}" }
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "stage_id": "route-decision",
+      "agent": "system",
+      "name": "Route Based on Decision",
+      "description": "Route to appropriate next action based on gate decision",
+      "input_from": ["gate_decision"],
+      "output_to": ["routing_decision"],
+      "timeout_seconds": 60,
+      "routing": {
+        "if_pass": "proceed_to_next_stage",
+        "if_fail": "execute_failure_policy",
+        "if_escalate": "send_to_human_review"
+      },
+      "events_emitted": [
+        {
+          "event": "gate.decision-routed",
+          "payload": { "decision": "{{gate_decision}}", "routing": "{{routing_decision}}" }
+        }
+      ]
+    }
+  ],
+  "gate_types": [
+    {
+      "gate_id": "validation-gate",
+      "stage": "functional-validation",
+      "criteria": {
+        "validation_approved": true,
+        "required_fields_present": true
+      }
+    },
+    {
+      "gate_id": "bdd-gate",
+      "stage": "ux-bdd-specification",
+      "criteria": {
+        "scenario_count_min": 20,
+        "scenario_count_max": 50,
+        "wireframes_provided": true
+      }
+    },
+    {
+      "gate_id": "architecture-gate",
+      "stage": "solution-architecture",
+      "criteria": {
+        "services_min": 3,
+        "services_max": 12,
+        "data_models_defined": true,
+        "api_contracts_defined": true
+      }
+    },
+    {
+      "gate_id": "build-gate",
+      "stage": "backend-development",
+      "criteria": {
+        "build_status": "success",
+        "test_coverage_min": 80,
+        "code_quality_min": 80
+      }
+    },
+    {
+      "gate_id": "frontend-gate",
+      "stage": "frontend-development",
+      "criteria": {
+        "build_status": "success",
+        "lighthouse_score_min": 90,
+        "bundle_size_max": 153600
+      }
+    },
+    {
+      "gate_id": "qa-gate",
+      "stage": "qa-testing",
+      "criteria": {
+        "pass_rate_min": 90,
+        "critical_failures_max": 0
+      }
+    },
+    {
+      "gate_id": "security-gate",
+      "stage": "security-audit",
+      "criteria": {
+        "critical_vulnerabilities_max": 0,
+        "security_score_min": 70
+      }
+    },
+    {
+      "gate_id": "launch-gate",
+      "stage": "governance-review",
+      "criteria": {
+        "launch_approved": true,
+        "blocking_issues_max": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bruce-memory/state/execution-state",
+  "title": "BruceMemoryExecutionState",
+  "description": "Runtime execution state for in-progress or recently completed operations",
+  "type": "object",
+  "properties": {
+    "current_extraction_job_id": {
+      "type": ["string", "null"],
+      "description": "ID of currently running extraction job, if any"
+    },
+    "extraction_status": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "running",
+        "failed"
+      ],
+      "description": "Current status of extraction pipeline"
+    },
+    "learnings_processed_this_cycle": {
+      "type": "integer",
+      "description": "Number of learnings processed in current extraction cycle"
+    },
+    "patterns_added_this_cycle": {
+      "type": "integer",
+      "description": "Number of new patterns created in current extraction cycle"
+    },
+    "patterns_updated_this_cycle": {
+      "type": "integer",
+      "description": "Number of existing patterns updated in current extraction cycle"
+    },
+    "current_query_queue_length": {
+      "type": "integer",
+      "description": "Number of on-demand queries currently in queue"
+    },
+    "active_queries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of active query IDs being processed"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "market-scanner",
+  "purpose": "Discover emerging market opportunities through web research and market signal analysis",
+  "input_types": [
+    "scan_id",
+    "discovery_focus",
+    "search_strategy",
+    "quality_filters"
+  ],
+  "output_types": [
+    "market_research",
+    "opportunity_candidates"
+  ],
+  "external_dependencies": [
+    "web_search_api",
+    "internet_connectivity"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 32768
+  },
+  "tools": {
+    "enabled": true,
+    "definitions": [
+      {
+        "name": "web_search",
+        "description": "Execute web searches to find market opportunities and validate signals",
+        "required": true
+      },
+      {
+        "name": "web_scrape",
+        "description": "Extract detailed content from web pages for analysis",
+        "required": false
+      }
+    ]
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 300,
+    "opportunities_per_cycle": 15,
+    "precision_threshold": 0.85,
+    "source_recency_days": 60
+  },
+  "cost_estimation": {
+    "avg_cost_per_scan_usd": 0.15,
+    "max_cost_per_scan_usd": 0.35
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HealthScoringInput",
+  "type": "object",
+  "required": ["metric_snapshot", "stage"],
+  "properties": {
+    "metric_snapshot": {
+      "type": "object",
+      "required": ["snapshot_id", "venture_id", "metrics"],
+      "properties": {
+        "snapshot_id": { "type": "string" },
+        "venture_id": { "type": "string" },
+        "collected_at": { "type": "string", "format": "date-time" },
+        "metrics": { "type": "object" }
+      }
+    },
+    "stage": {
+      "type": "string",
+      "enum": ["seed", "early", "growth"],
+      "description": "Venture stage for stage-appropriate rubrics and weights"
+    },
+    "nps_data": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "sample_size": { "type": "integer", "minimum": 1 },
+        "collected_at": { "type": "string", "format": "date-time" }
+      },
+      "description": "NPS data if available for product quality and market fit scoring"
+    },
+    "previous_health_report_ref": {
+      "type": "string",
+      "nullable": true,
+      "description": "Reference to previous health report for trend calculation"
+    }
+  }
+}

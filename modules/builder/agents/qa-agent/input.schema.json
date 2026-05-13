@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QA Agent Input",
+  "type": "object",
+  "required": ["bdd_scenarios", "staging_url"],
+  "properties": {
+    "bdd_scenarios": {
+      "type": "array",
+      "description": "BDD scenarios to test"
+    },
+    "staging_url": {
+      "type": "string",
+      "description": "URL of deployed staging environment"
+    },
+    "test_credentials": {
+      "type": "object",
+      "description": "Test account credentials",
+      "properties": {
+        "email": { "type": "string" },
+        "password": { "type": "string" }
+      }
+    },
+    "test_environment_setup": {
+      "type": "object",
+      "description": "Environment variables or pre-test data setup"
+    }
+  }
+}

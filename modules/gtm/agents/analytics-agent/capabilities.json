@@ -1,0 +1,33 @@
+{
+  "name": "analytics-agent",
+  "purpose": "Analyze campaign performance data, identify winning and losing patterns by segment, and provide interpretation with actionable recommendations",
+  "agent_type": "data-analyst",
+  "input_types": [
+    "performance_metrics",
+    "campaign_data",
+    "historical_benchmarks"
+  ],
+  "output_types": [
+    "performance_analysis",
+    "segment_breakdown",
+    "recommendations"
+  ],
+  "external_dependencies": [
+    "analytics_platforms",
+    "historical_campaign_data"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "latency_seconds": 25,
+    "accuracy_percent": 90
+  }
+}

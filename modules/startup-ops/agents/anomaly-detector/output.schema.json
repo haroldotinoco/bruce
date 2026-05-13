@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AnomalyDetectionOutput",
+  "type": "object",
+  "required": ["venture_id", "detected_at", "anomalies_detected", "anomaly_count_by_severity"],
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Venture this anomaly detection run is for"
+    },
+    "detected_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when anomaly detection completed"
+    },
+    "anomalies_detected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["anomaly_id", "metric_name", "type", "severity", "current_value", "baseline_value"],
+        "properties": {
+          "anomaly_id": {
+            "type": "string",
+            "description": "Unique identifier for this anomaly"
+          },
+          "metric_name": {
+            "type": "string",
+            "description": "Name of metric with anomaly"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["sudden_drop", "concerning_trend", "positive_breakout", "sustained_decline"],
+            "description": "Classification of anomaly type"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "warning", "critical"],
+            "description": "Severity level requiring different response levels"
+          },
+          "current_value": {
+            "type": "number",
+            "nullable": true,
+            "description": "Current metric value"
+          },
+          "baseline_value": {
+            "type": "number",
+            "nullable": true,
+            "description": "Baseline (4-week average or previous value)"
+          },
+          "delta_percent": {
+            "type": "number",
+            "description": "Percentage change from baseline"
+          },
+          "z_score": {
+            "type": "number",
+            "nullable": true,
+            "description": "Standard deviations from mean (if calculable)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the anomaly"
+          },
+          "recommendation": {
+            "type": "string",
+            "description": "Suggested investigation or remediation action"
+          },
+          "requires_escalation": {
+            "type": "boolean",
+            "description": "Whether this anomaly requires immediate escalation"
+          }
+        }
+      },
+      "description": "Array of detected anomalies"
+    },
+    "anomaly_count_by_severity": {
+      "type": "object",
+      "required": ["critical", "warning", "info"],
+      "properties": {
+        "critical": { "type": "integer", "minimum": 0 },
+        "warning": { "type": "integer", "minimum": 0 },
+        "info": { "type": "integer", "minimum": 0 }
+      },
+      "description": "Count of anomalies by severity level"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "description": "Reference to current metric snapshot analyzed"
+    },
+    "escalation_required": {
+      "type": "boolean",
+      "description": "Whether any detected anomaly requires escalation"
+    }
+  }
+}

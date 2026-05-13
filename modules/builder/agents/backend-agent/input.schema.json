@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Backend Agent Input",
+  "type": "object",
+  "required": ["architecture_spec", "bdd_scenarios", "data_models"],
+  "properties": {
+    "architecture_spec": {
+      "type": "object",
+      "description": "Architecture specification with services and API contracts"
+    },
+    "bdd_scenarios": {
+      "type": "array",
+      "description": "BDD scenarios for acceptance testing"
+    },
+    "data_models": {
+      "type": "array",
+      "description": "Entity definitions and database schema"
+    },
+    "api_contracts": {
+      "type": "array",
+      "description": "OpenAPI specifications"
+    },
+    "environment_config": {
+      "type": "object",
+      "description": "Database, cache, and external service configurations"
+    }
+  }
+}

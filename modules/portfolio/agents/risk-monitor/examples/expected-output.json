@@ -1,0 +1,219 @@
+{
+  "portfolio_risk_assessment": {
+    "analysis_date": "2026-04-05T14:30:00Z",
+    "overall_risk_score": 68,
+    "risk_rating": "high",
+    "risk_dimensions": {
+      "concentration_risk_score": 42,
+      "burn_rate_risk_score": 55,
+      "runway_distribution_risk_score": 62,
+      "codependency_risk_score": 48,
+      "market_correlation_risk_score": 58
+    },
+    "concentration_analysis": {
+      "top_3_ventures_percent": 69,
+      "top_3_ventures": [
+        {
+          "venture_id": "v-001",
+          "name": "DataFlow Analytics",
+          "percentage": 43
+        },
+        {
+          "venture_id": "v-004",
+          "name": "Supply Forecast AI",
+          "percentage": 18
+        },
+        {
+          "venture_id": "v-002",
+          "name": "MediLink Connect",
+          "percentage": 8
+        }
+      ],
+      "concentration_risk": "high",
+      "concentration_threshold": 60,
+      "single_venture_failure_impact": "If DataFlow fails, portfolio monthly burn increases from 345K to 300K (net positive), but portfolio loses 43% of revenue. Remaining ventures total 67K MRR insufficient to offset 300K burn. Impact: runway reduced from 15 months to 9.2 months."
+    },
+    "burn_dynamics": {
+      "total_monthly_burn": 345000,
+      "total_monthly_revenue": 67000,
+      "net_burn": 278000,
+      "burn_trend": "stable",
+      "burn_trend_percent": 2,
+      "ventures_exceeding_burn_budget": [
+        {
+          "venture_id": "v-001",
+          "name": "DataFlow Analytics",
+          "burn_percent": 34.8
+        },
+        {
+          "venture_id": "v-002",
+          "name": "MediLink Connect",
+          "burn_percent": 24.6
+        }
+      ],
+      "burn_risk_status": "high"
+    },
+    "runway_distribution": {
+      "median_runway_months": 12.5,
+      "min_runway_months": 8,
+      "max_runway_months": 18,
+      "ventures_under_6_months": [],
+      "ventures_under_12_months": [
+        {
+          "venture_id": "v-003",
+          "name": "TruckRoute Pro",
+          "runway_months": 8,
+          "critical_date": "2026-08-05"
+        },
+        {
+          "venture_id": "v-004",
+          "name": "Supply Forecast AI",
+          "runway_months": 11,
+          "critical_date": "2026-11-05"
+        }
+      ],
+      "runway_cliff_alert": true,
+      "runway_cliff_details": "TruckRoute Pro and Supply Forecast AI both deplete runway in Q3/Q4 2026 (August and November). No immediate cliff but both ventures approach critical runway simultaneously, limiting optionality on whether to rescue, pivot, or wind down."
+    },
+    "codependency_analysis": {
+      "dependency_graph": [
+        {
+          "venture_a": "v-003",
+          "venture_b": "v-004",
+          "dependency_type": "infrastructure",
+          "risk_level": "medium",
+          "failure_impact": "If TruckRoute Pro infrastructure (payment processing, API) fails, Supply Forecast AI loses 40% of uptime capability. Both ventures share cloud infrastructure costs."
+        },
+        {
+          "venture_a": "v-002",
+          "venture_b": "v-003",
+          "dependency_type": "team",
+          "risk_level": "high",
+          "failure_impact": "eng-lead-001 is critical to both MediLink (backend architecture) and TruckRoute Pro (core product). Loss of this person creates 3-4 week delay in both ventures."
+        },
+        {
+          "venture_a": "v-001",
+          "venture_b": "v-002",
+          "dependency_type": "customers",
+          "risk_level": "medium",
+          "failure_impact": "Both ventures serve 2 shared customers in healthcare vertical. Customer loss affects both ventures simultaneously."
+        }
+      ],
+      "single_points_of_failure": [
+        {
+          "entity": "eng-lead-001",
+          "affects_ventures": ["v-002", "v-003"],
+          "risk_level": "high"
+        },
+        {
+          "entity": "Supply Forecast AI cloud infrastructure (AWS)",
+          "affects_ventures": ["v-003", "v-004"],
+          "risk_level": "medium"
+        }
+      ]
+    },
+    "market_correlation_analysis": {
+      "sector_concentration": [
+        {
+          "sector": "B2B SaaS / Data Analytics",
+          "venture_count": 1,
+          "revenue_percent": 67,
+          "shared_risk": "Tech spending cycles, SaaS competition, customer acquisition cost inflation"
+        },
+        {
+          "sector": "Healthcare Tech",
+          "venture_count": 1,
+          "revenue_percent": 12,
+          "shared_risk": "Regulatory changes, healthcare compliance requirements, slower sales cycles"
+        },
+        {
+          "sector": "Supply Chain / Logistics",
+          "venture_count": 2,
+          "revenue_percent": 21,
+          "shared_risk": "Economic sensitivity, freight costs, supply chain instability"
+        }
+      ],
+      "geographic_concentration": {
+        "primary_geographies": [
+          {
+            "geography": "US",
+            "venture_count": 4,
+            "revenue_percent": 100
+          },
+          {
+            "geography": "EU",
+            "venture_count": 1,
+            "revenue_percent": 67
+          },
+          {
+            "geography": "APAC",
+            "venture_count": 1,
+            "revenue_percent": 18
+          }
+        ]
+      },
+      "correlated_shock_scenarios": [
+        {
+          "scenario_name": "US Economic Recession",
+          "affected_ventures": ["v-003", "v-004"],
+          "impact_description": "Supply chain ventures highly sensitive to economic downturn. Customer demand drops 40-50%, additional pressure on already weak traction (TruckRoute) and moderate growth (Supply Forecast).",
+          "revenue_impact_percent": 45
+        },
+        {
+          "scenario_name": "Healthcare Regulation Tightening",
+          "affected_ventures": ["v-002"],
+          "impact_description": "MediLink exposed to regulatory risk. New HIPAA requirements or data privacy rules could require 6-month engineering effort to comply, delaying growth initiatives.",
+          "revenue_impact_percent": 15
+        },
+        {
+          "scenario_name": "Tech Spending Freeze",
+          "affected_ventures": ["v-001"],
+          "impact_description": "DataFlow's primary market (B2B SaaS data analytics) highly discretionary. Freezes in customer spend reduce MRR by 30-40%, impact felt immediately.",
+          "revenue_impact_percent": 35
+        }
+      ]
+    },
+    "mitigation_recommendations": [
+      {
+        "rank": 1,
+        "risk_addressed": "concentration_risk",
+        "recommendation": "Reduce DataFlow Analytics allocation to maintain 43% portfolio revenue exposure but slow its burn rate growth. Redirect freed capital ($20-30K/month) to accelerate growth-stage ventures with lower traction score but higher growth potential (MediLink, Supply Forecast).",
+        "impact": "Reduces concentration risk score by 12 points (to 30). Maintains DataFlow runway while diversifying growth across 2-3 ventures instead of 1.",
+        "urgency": "within_quarter",
+        "owner": "allocation-agent"
+      },
+      {
+        "rank": 2,
+        "risk_addressed": "runway_distribution_risk",
+        "recommendation": "Immediate intervention on TruckRoute Pro: assess kill vs pivot decision within 4 weeks (runway = 8 months, decision needed by June). Supply Forecast AI needs pivot or growth acceleration plan by July (runway = 11 months).",
+        "impact": "Reduces runway cliff risk by removing uncertainty. If both ventures are killed, portfolio runway improves to 18+ months. If both continue, decision clarity prevents panic fire-sales or disorderly exits.",
+        "urgency": "immediate",
+        "owner": "governance-decision-agent"
+      },
+      {
+        "rank": 3,
+        "risk_addressed": "codependency_risk",
+        "recommendation": "Recruit backup engineering lead or distribute eng-lead-001's responsibilities across MediLink and TruckRoute Pro teams immediately. Aim for 50% redundancy on critical path by June 30.",
+        "impact": "Reduces codependency risk score by 15 points. Removes single point of failure on critical path for 2 ventures representing 32% of portfolio burn.",
+        "urgency": "within_month",
+        "owner": "allocation-agent"
+      },
+      {
+        "rank": 4,
+        "risk_addressed": "market_correlation_risk",
+        "recommendation": "Increase geographic diversification of DataFlow Analytics: target EU and APAC markets (50% of new ACV by Q3). Reduces sensitivity to US economic downturn.",
+        "impact": "Reduces market correlation risk score by 10 points. Hedges 67% of portfolio revenue against US recession scenario.",
+        "urgency": "within_quarter",
+        "owner": "allocation-agent"
+      },
+      {
+        "rank": 5,
+        "risk_addressed": "burn_rate_risk",
+        "recommendation": "Implement efficiency targets: DataFlow and MediLink combined represent 59% of portfolio burn. Target 10% burn reduction in each by Q3 (e.g., headcount freeze, vendor consolidation, marketing efficiency) without impacting traction targets.",
+        "impact": "Reduces net portfolio burn by ~30K/month (8.7%). Extends portfolio runway by 1.5 months. Reduces burn risk score by 8 points.",
+        "urgency": "within_quarter",
+        "owner": "allocation-agent"
+      }
+    ]
+  }
+}

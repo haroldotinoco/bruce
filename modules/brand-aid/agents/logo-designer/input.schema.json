@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Logo Designer Input",
+  "type": "object",
+  "required": ["creative_direction", "brand_name", "visual_system"],
+  "properties": {
+    "creative_direction": {
+      "type": "object",
+      "properties": {
+        "brand_promise": { "type": "string" },
+        "key_visual_metaphors": { "type": "array", "items": { "type": "string" } },
+        "visual_language_criteria": { "type": "array", "items": { "type": "string" } },
+        "mood_board_description": { "type": "string" }
+      }
+    },
+    "brand_name": {
+      "type": "string",
+      "description": "The chosen brand name for wordmark integration"
+    },
+    "brand_archetype": {
+      "type": "string",
+      "description": "Primary brand archetype"
+    },
+    "visual_system": {
+      "type": "object",
+      "properties": {
+        "primary_colors": { "type": "array" },
+        "typography_system": { "type": "object" }
+      }
+    },
+    "logo_requirements": {
+      "type": "object",
+      "properties": {
+        "include_wordmark": { "type": "boolean", "default": true },
+        "icon_only_needed": { "type": "boolean", "default": true },
+        "primary_use_case": { "type": "string", "enum": ["web", "print", "merchandise", "multi-channel"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "build_request": {
+    "venture_spec": {
+      "venture_id": "venture-complify-001",
+      "product_name": "Complify",
+      "tagline": "AI-powered compliance automation for SaaS startups",
+      "stage": "MVP",
+      "description": "Help startups automate compliance document generation and audit preparation"
+    },
+    "target_users": [
+      {
+        "role": "Compliance Officer",
+        "description": "Responsible for regulatory compliance and audit management",
+        "annual_salary_band": "$80K-120K"
+      },
+      {
+        "role": "Operations Manager",
+        "description": "Manages policies, procedures, and operational compliance",
+        "annual_salary_band": "$60K-100K"
+      }
+    ],
+    "proposed_features": [
+      "Dashboard with compliance status overview",
+      "AI-powered document generation",
+      "Policy library with search",
+      "Audit trail and versioning",
+      "Team collaboration",
+      "Audit scheduling"
+    ],
+    "market_positioning": {
+      "target_market_size": "$5B+ (compliance software market)",
+      "initial_icp": "SaaS startups with 50-500 employees",
+      "go_to_market": "Inbound (content marketing) + direct sales"
+    }
+  },
+  "venture_hypothesis": {
+    "problem": "SaaS founders spend 2-4 weeks per audit preparation due to scattered documentation",
+    "solution": "AI generates compliance docs automatically from policies",
+    "success_metric": "50% reduction in audit prep time"
+  },
+  "brand_context": {
+    "brand_name": "Complify",
+    "brand_promise": "Compliance made simple",
+    "tone_of_voice": "Professional, trustworthy, clear",
+    "primary_color": "#0066CC",
+    "accent_color": "#00A86B",
+    "target_brand_archetype": "The Guardian"
+  },
+  "tech_stack_preferences": {
+    "backend": "Node.js/NestJS",
+    "frontend": "React/Next.js",
+    "database": "PostgreSQL",
+    "cloud": "AWS",
+    "ai_provider": "OpenAI GPT-4"
+  },
+  "scalability_targets": {
+    "initial_users": 100,
+    "month_12_users": 5000,
+    "target_concurrent_users": 500,
+    "target_documents_per_month": 10000
+  },
+  "compliance_requirements": [
+    "GDPR (EU customer data)",
+    "SOC 2 Type II (required for enterprise sales)",
+    "CCPA (US customer data)"
+  ],
+  "project_constraints": {
+    "timeline_months": 3,
+    "budget_usd": 250000,
+    "team_size": 8,
+    "senior_engineers": 2
+  }
+}

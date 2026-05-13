@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Market Analysis Output",
+  "type": "object",
+  "required": [
+    "competitor_positioning_map",
+    "white_space_opportunities",
+    "tone_and_voice_analysis",
+    "strategic_gaps"
+  ],
+  "properties": {
+    "competitor_positioning_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "competitor_name": { "type": "string" },
+          "stated_positioning": { "type": "string" },
+          "implied_positioning": { "type": "string" },
+          "target_segment": { "type": "string" },
+          "key_messages": { "type": "array", "items": { "type": "string" } },
+          "visual_identity_tone": { "type": "string" }
+        },
+        "required": ["competitor_name", "stated_positioning"]
+      },
+      "description": "Positioning of each competitor analyzed"
+    },
+    "white_space_opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity": { "type": "string" },
+          "rationale": { "type": "string" },
+          "customer_need": { "type": "string" },
+          "competitive_gap": { "type": "string" }
+        }
+      },
+      "description": "Unoccupied positioning spaces and underserved segments"
+    },
+    "customer_sentiment_summary": {
+      "type": "object",
+      "properties": {
+        "positive_themes": { "type": "array", "items": { "type": "string" } },
+        "negative_themes": { "type": "array", "items": { "type": "string" } },
+        "unmet_needs": { "type": "array", "items": { "type": "string" } },
+        "data_sources": { "type": "array", "items": { "type": "string" } }
+      },
+      "description": "Aggregated customer feedback and sentiment"
+    },
+    "tone_and_voice_analysis": {
+      "type": "object",
+      "properties": {
+        "formality_spectrum": { "type": "string" },
+        "emotional_register": { "type": "string" },
+        "common_linguistic_patterns": { "type": "array", "items": { "type": "string" } },
+        "differentiation_opportunity": { "type": "string" }
+      },
+      "description": "How competitors communicate and where voice differentiation is possible"
+    },
+    "emerging_trends": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trend": { "type": "string" },
+          "evidence": { "type": "string" },
+          "implications": { "type": "string" }
+        }
+      },
+      "description": "Category-level trends and shifts"
+    },
+    "strategic_gaps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Specific positioning gaps the venture could own (non-overlapping with competitors)"
+    },
+    "research_limitations": {
+      "type": "string",
+      "description": "What could not be researched and why"
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "tools": [
+    {
+      "name": "mixpanel",
+      "type": "http_api",
+      "description": "Mixpanel product analytics API for collecting user engagement metrics",
+      "endpoint_ref": "env:MIXPANEL_API_URL",
+      "auth_ref": "env:MIXPANEL_SECRET",
+      "auth_type": "bearer",
+      "required": false,
+      "fallback": "mark_partial",
+      "endpoints": [
+        {
+          "path": "/engage",
+          "method": "GET",
+          "description": "Get user profile data and counts",
+          "params": ["where", "retention_type"]
+        },
+        {
+          "path": "/funnels",
+          "method": "GET",
+          "description": "Get funnel analysis including activation rates",
+          "params": ["funnel_id", "interval", "unit"]
+        },
+        {
+          "path": "/retention",
+          "method": "GET",
+          "description": "Get retention cohort analysis",
+          "params": ["event", "retention_type", "born_event", "interval"]
+        },
+        {
+          "path": "/events",
+          "method": "GET",
+          "description": "Get event data and counts",
+          "params": ["event", "interval", "unit"]
+        }
+      ],
+      "rate_limit": {
+        "requests_per_second": 10,
+        "retry_strategy": "exponential_backoff"
+      }
+    },
+    {
+      "name": "stripe",
+      "type": "http_api",
+      "description": "Stripe API for collecting revenue and customer metrics",
+      "endpoint_ref": "env:STRIPE_API_URL",
+      "auth_ref": "env:STRIPE_SECRET_KEY",
+      "auth_type": "basic",
+      "required": false,
+      "fallback": "mark_partial",
+      "endpoints": [
+        {
+          "path": "/v1/customers",
+          "method": "GET",
+          "description": "Get customer list with creation/updated dates",
+          "params": ["created[gte]", "created[lte]", "limit"]
+        },
+        {
+          "path": "/v1/subscriptions",
+          "method": "GET",
+          "description": "Get subscription data for MRR, churn, expansion calculations",
+          "params": ["status", "created[gte]", "created[lte]", "limit"]
+        },
+        {
+          "path": "/v1/charges",
+          "method": "GET",
+          "description": "Get charge data for revenue calculations",
+          "params": ["created[gte]", "created[lte]", "limit"]
+        },
+        {
+          "path": "/v1/invoices",
+          "method": "GET",
+          "description": "Get invoice data for billing metrics",
+          "params": ["created[gte]", "created[lte]", "status", "limit"]
+        }
+      ],
+      "rate_limit": {
+        "requests_per_second": 25,
+        "retry_strategy": "exponential_backoff"
+      }
+    },
+    {
+      "name": "amplitude",
+      "type": "http_api",
+      "description": "Amplitude product analytics API as fallback for user engagement metrics",
+      "endpoint_ref": "env:AMPLITUDE_API_URL",
+      "auth_ref": "env:AMPLITUDE_API_KEY",
+      "auth_type": "bearer",
+      "required": false,
+      "fallback": "mark_partial",
+      "endpoints": [
+        {
+          "path": "/v2/usersearch",
+          "method": "POST",
+          "description": "Search for users matching criteria",
+          "params": ["user_properties", "event_properties"]
+        },
+        {
+          "path": "/v2/cohorts/active",
+          "method": "GET",
+          "description": "Get active cohort data",
+          "params": ["cohort_id"]
+        },
+        {
+          "path": "/v2/retention",
+          "method": "POST",
+          "description": "Get retention cohort metrics",
+          "params": ["event", "returning_event", "interval"]
+        },
+        {
+          "path": "/v2/events/segmentation",
+          "method": "POST",
+          "description": "Get event segmentation and counts",
+          "params": ["event_type", "interval"]
+        }
+      ],
+      "rate_limit": {
+        "requests_per_second": 10,
+        "retry_strategy": "exponential_backoff"
+      }
+    }
+  ]
+}

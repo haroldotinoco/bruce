@@ -1,0 +1,269 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/opportunity-to-venture.schema.json",
+  "title": "Opportunity to Venture Handoff",
+  "description": "Handoff contract from opportunity module to add-venture module. Encapsulates validation results and market context from opportunity screening. Triggers venture initialization in add-venture if validation passes.",
+  "type": "object",
+  "properties": {
+    "opportunity_id": {
+      "type": "string",
+      "description": "Reference to originating opportunity record"
+    },
+    "problem_statement": {
+      "type": "string",
+      "description": "Clear articulation of the problem being solved (1-2 sentences)"
+    },
+    "problem_context": {
+      "type": "string",
+      "description": "Deeper context on why this problem exists and who experiences it"
+    },
+    "market_segment": {
+      "type": "string",
+      "description": "Target market segment (e.g., 'SMB SaaS', 'Creator Economy', 'Enterprise DevOps')"
+    },
+    "market_size_estimate": {
+      "type": "object",
+      "description": "Estimated total addressable market",
+      "properties": {
+        "tam": {
+          "type": "number",
+          "description": "TAM in USD"
+        },
+        "tam_reasoning": {
+          "type": "string",
+          "description": "How TAM was calculated"
+        },
+        "addressable_market": {
+          "type": "number",
+          "description": "SAM (Serviceable Addressable Market) in USD"
+        },
+        "capturable_market": {
+          "type": "number",
+          "description": "SOM (Serviceable Obtainable Market) in USD - realistic 5-year capture"
+        }
+      },
+      "required": ["tam"]
+    },
+    "validation_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall opportunity validation score (0-100). Score > 70 typically qualifies for venture creation."
+    },
+    "validation_criteria": {
+      "type": "object",
+      "description": "Breakdown of validation scoring",
+      "properties": {
+        "problem_severity_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "How acute is the problem?"
+        },
+        "market_size_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Is the addressable market large enough?"
+        },
+        "competitive_intensity_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "How crowded is the market? (lower = less competition)"
+        },
+        "founder_market_fit_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Does the team have relevant expertise?"
+        },
+        "uniqueness_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Is there a defensible angle?"
+        }
+      }
+    },
+    "key_insights": {
+      "type": "array",
+      "description": "Key findings from market research",
+      "items": {
+        "type": "object",
+        "properties": {
+          "insight": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string",
+            "description": "Data or examples supporting insight"
+          },
+          "confidence_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        }
+      }
+    },
+    "competitive_landscape": {
+      "type": "array",
+      "description": "Known competitors and their positioning",
+      "items": {
+        "type": "object",
+        "properties": {
+          "competitor_name": {
+            "type": "string"
+          },
+          "positioning": {
+            "type": "string",
+            "description": "How are they positioned?"
+          },
+          "market_share_estimate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Estimated market share (%)"
+          },
+          "strengths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "weaknesses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "funding_status": {
+            "type": "string",
+            "description": "e.g., 'Bootstrapped', 'Series A', 'Public'"
+          }
+        }
+      }
+    },
+    "target_customer_profile": {
+      "type": "object",
+      "description": "Who is the ideal customer?",
+      "properties": {
+        "customer_segment": {
+          "type": "string",
+          "description": "e.g., 'Mid-market B2B SaaS companies'"
+        },
+        "pain_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "buying_authority": {
+          "type": "string",
+          "description": "Who makes the decision? (e.g., 'VP Engineering')"
+        },
+        "willingness_to_pay": {
+          "type": "object",
+          "description": "Price sensitivity analysis",
+          "properties": {
+            "currency": {
+              "type": "string",
+              "default": "USD"
+            },
+            "estimated_monthly_budget": {
+              "type": "number",
+              "description": "What would customer budget for this?"
+            },
+            "price_sensitivity": {
+              "type": "string",
+              "enum": ["very_price_sensitive", "moderately_sensitive", "low_sensitivity"]
+            }
+          }
+        }
+      }
+    },
+    "recommended_approach": {
+      "type": "string",
+      "description": "Suggested go-to-market approach based on market research"
+    },
+    "rejection_risk_flags": {
+      "type": "array",
+      "description": "Risks that could cause this opportunity to be rejected at add-venture stage",
+      "items": {
+        "type": "object",
+        "properties": {
+          "risk_type": {
+            "type": "string",
+            "enum": [
+              "market_size_too_small",
+              "too_competitive",
+              "unproven_problem",
+              "founder_skill_gaps",
+              "regulatory_constraints",
+              "technical_feasibility_unclear",
+              "capital_requirements_too_high"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "mitigation": {
+            "type": "string",
+            "description": "How could this be addressed?"
+          }
+        }
+      }
+    },
+    "next_validation_steps": {
+      "type": "array",
+      "description": "What should add-venture validate further?",
+      "items": {
+        "type": "string"
+      }
+    },
+    "screened_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When opportunity module screened this"
+    },
+    "screened_by_agent": {
+      "type": "string",
+      "description": "Which opportunity agent instance screened this"
+    },
+    "references": {
+      "type": "array",
+      "description": "Sources and references for market data",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "retrieved_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "opportunity_id",
+    "problem_statement",
+    "market_segment",
+    "market_size_estimate",
+    "validation_score",
+    "key_insights",
+    "screened_at"
+  ],
+  "additionalProperties": false
+}

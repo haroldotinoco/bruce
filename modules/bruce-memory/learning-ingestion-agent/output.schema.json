@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Learning Ingestion Output",
+  "description": "Result of learning record ingestion and storage",
+  "required": ["ingestion_result"],
+  "properties": {
+    "ingestion_result": {
+      "type": "object",
+      "required": ["success", "learning_id"],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Was record successfully ingested?"
+        },
+        "learning_id": {
+          "type": "string",
+          "description": "Unique ID assigned to this learning record"
+        },
+        "normalized_record": {
+          "type": "object",
+          "description": "The record as stored (after normalization)",
+          "properties": {
+            "learning_id": {
+              "type": "string"
+            },
+            "venture_id": {
+              "type": "string"
+            },
+            "venture_name": {
+              "type": "string"
+            },
+            "source_module": {
+              "type": "string"
+            },
+            "learning_type": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string"
+            },
+            "narrative": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "number"
+            },
+            "quality_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "sector": {
+              "type": "string"
+            },
+            "stage": {
+              "type": "string"
+            },
+            "stored_timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "observed_timestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "quality_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Quality assessment of the learning record"
+        },
+        "normalization_notes": {
+          "type": "string",
+          "description": "Any transformations or corrections applied during normalization"
+        },
+        "duplicates_detected": {
+          "type": "array",
+          "description": "Similar learnings found in existing corpus",
+          "items": {
+            "type": "object",
+            "properties": {
+              "existing_learning_id": {
+                "type": "string"
+              },
+              "similarity_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "difference": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "requires_manual_review": {
+          "type": "boolean",
+          "description": "Does this record require manual review?"
+        },
+        "review_reason": {
+          "type": "string",
+          "description": "Why manual review is needed (if required)"
+        },
+        "vector_embedding_status": {
+          "type": "string",
+          "enum": ["queued", "processing", "completed", "failed"],
+          "description": "Status of vector embedding for similarity search"
+        }
+      }
+    }
+  }
+}

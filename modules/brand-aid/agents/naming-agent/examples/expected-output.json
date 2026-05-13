@@ -1,0 +1,176 @@
+{
+  "top_candidates": [
+    {
+      "rank": 1,
+      "name": "Craft",
+      "approach": "Semantic - evokes quality and mastery",
+      "rationale": "Single word, professional, evokes the care and expertise of craftsmanship. Directly opposes commoditization. Easy to spell, memorable, strong metaphor for quality work.",
+      "overall_score": 92,
+      "scores_by_criteria": {
+        "partnership_fairness": 85,
+        "memorable_spelling": 95,
+        "domain_available": 60,
+        "neutral_cultural": 95,
+        "not_trendy": 95,
+        "single_word": 100
+      },
+      "domain_status": "craft.com available but premium ($15k+); craft.io, craft.dev available",
+      "trademark_risk": "Craft is used in many industries; recommend full trademark search",
+      "pronunciation": "Kraft (single syllable)"
+    },
+    {
+      "rank": 2,
+      "name": "Faire",
+      "approach": "Semantic - French for 'make' or 'do', evokes fairness",
+      "rationale": "Sophisticated and international. Double meaning: 'faire' (French) and resembles 'fair'. Professional tone. Two syllables. Suggests craftsmanship and equity.",
+      "overall_score": 89,
+      "scores_by_criteria": {
+        "partnership_fairness": 95,
+        "memorable_spelling": 85,
+        "domain_available": 75,
+        "neutral_cultural": 85,
+        "not_trendy": 90,
+        "single_word": 100
+      },
+      "domain_status": "faire.com available; faire.io available",
+      "trademark_risk": "Low; French origin may aid distinctiveness",
+      "pronunciation": "Fair (rhymes with 'care')"
+    },
+    {
+      "rank": 3,
+      "name": "Nexus",
+      "approach": "Semantic - evokes connection and hub",
+      "rationale": "Professional, networking connotation. Strong metaphor for partnerships and connections. Memorable, authoritative. Two syllables.",
+      "overall_score": 85,
+      "scores_by_criteria": {
+        "partnership_fairness": 80,
+        "memorable_spelling": 90,
+        "domain_available": 50,
+        "neutral_cultural": 95,
+        "not_trendy": 85,
+        "single_word": 100
+      },
+      "domain_status": "nexus.com not available; nexus.io, nexus.co available",
+      "trademark_risk": "Moderate; used in tech and other industries",
+      "pronunciation": "NECK-sus (two syllables)"
+    },
+    {
+      "rank": 4,
+      "name": "Merit",
+      "approach": "Semantic - evokes deserved value and quality",
+      "rationale": "Single word, strongly evokes fair compensation and recognition of excellence. Professional, authoritative. Clear opposition to race-to-the-bottom pricing.",
+      "overall_score": 83,
+      "scores_by_criteria": {
+        "partnership_fairness": 90,
+        "memorable_spelling": 95,
+        "domain_available": 45,
+        "neutral_cultural": 95,
+        "not_trendy": 90,
+        "single_word": 100
+      },
+      "domain_status": "merit.com available; merit.io, merit.co available",
+      "trademark_risk": "Low; generic term used infrequently as brand",
+      "pronunciation": "MARE-it (two syllables)"
+    },
+    {
+      "rank": 5,
+      "name": "Provenance",
+      "approach": "Semantic - evokes authenticity, expertise, and origin",
+      "rationale": "Sophisticated, evokes quality and proven expertise. Slightly longer (3 syllables) but highly distinctive. Professional and trustworthy tone.",
+      "overall_score": 80,
+      "scores_by_criteria": {
+        "partnership_fairness": 75,
+        "memorable_spelling": 70,
+        "domain_available": 80,
+        "neutral_cultural": 90,
+        "not_trendy": 95,
+        "single_word": 100
+      },
+      "domain_status": "provenance.com available",
+      "trademark_risk": "Low; generic term with historical association",
+      "pronunciation": "prov-uh-NANCE (three syllables)"
+    }
+  ],
+  "all_candidates": [
+    {
+      "name": "Craft",
+      "approach": "Semantic",
+      "rationale": "Craftsmanship, quality, expertise",
+      "domain_status": "craft.io available"
+    },
+    {
+      "name": "Faire",
+      "approach": "Semantic/Multilingual",
+      "rationale": "Fair, make, do",
+      "domain_status": "faire.com available"
+    },
+    {
+      "name": "Nexus",
+      "approach": "Semantic",
+      "rationale": "Hub, connection, partnership",
+      "domain_status": "nexus.io available"
+    },
+    {
+      "name": "Merit",
+      "approach": "Semantic",
+      "rationale": "Deserved value, excellence",
+      "domain_status": "merit.io available"
+    },
+    {
+      "name": "Guild",
+      "approach": "Semantic",
+      "rationale": "Professional collective, mastery",
+      "domain_status": "guild.io available"
+    },
+    {
+      "name": "Caliber",
+      "approach": "Semantic",
+      "rationale": "Quality, excellence, standard",
+      "domain_status": "caliber.io available"
+    },
+    {
+      "name": "Summit",
+      "approach": "Metaphorical",
+      "rationale": "Peak, aspiration, growth",
+      "domain_status": "summit.io available"
+    },
+    {
+      "name": "Candor",
+      "approach": "Semantic",
+      "rationale": "Honesty, transparency, directness",
+      "domain_status": "candor.io available"
+    },
+    {
+      "name": "Chorus",
+      "approach": "Metaphorical",
+      "rationale": "Harmony, partnership, voices",
+      "domain_status": "chorus.io available"
+    },
+    {
+      "name": "Pathfinder",
+      "approach": "Metaphorical",
+      "rationale": "Guidance, direction, professional growth",
+      "domain_status": "pathfinder.io available"
+    },
+    {
+      "name": "Veil",
+      "approach": "Semantic",
+      "rationale": "Remove barriers, transparency",
+      "domain_status": "veil.io available"
+    },
+    {
+      "name": "Ascent",
+      "approach": "Metaphorical",
+      "rationale": "Growth, upward trajectory, career progression",
+      "domain_status": "ascent.io available"
+    }
+  ],
+  "scoring_methodology": "Candidates scored 0-100 against each naming criteria: partnership/fairness (emotional fit), memorable/spelling (accessibility), domain availability (practical), neutral/cultural (global readiness), not trendy (timelessness), single word (simplicity). Overall score is weighted average (40% emotional fit, 20% accessibility, 20% availability, 20% timelessness).",
+  "domain_availability_summary": "craft.com premium ($15k+); faire.com available for $15/year; nexus.com taken; merit.com available; provenance.com available. Strong .io and .co alternatives available for all top 5. Recommendation: pursue faire.com or merit.com on .com; otherwise .io is professional and acceptable.",
+  "trademark_flags": [
+    "Craft - used in multiple industries, requires full USPTO search",
+    "Nexus - used in tech and industries, requires search",
+    "Guild - used in some games/communities, search recommended"
+  ],
+  "recommendation": "Top choice: Faire (strong positioning on fairness, available domain, international appeal, low trademark risk). Second choice: Merit (strong domain availability, clear value proposition). Both strongly reinforce the Sage archetype and white space positioning. Recommend proceeding with full trademark searches and domain registration for top 2, then conducting stakeholder feedback before final selection."
+}

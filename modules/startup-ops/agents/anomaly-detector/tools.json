@@ -1,0 +1,32 @@
+{
+  "tools": [
+    {
+      "name": "statistical_analysis",
+      "type": "internal",
+      "description": "Calculate z-scores, rolling means, and standard deviations",
+      "inputs": {
+        "metric_values": "array of numbers",
+        "window_size": "integer (default: 4)"
+      },
+      "outputs": {
+        "z_score": "number",
+        "rolling_mean": "number",
+        "rolling_std_dev": "number"
+      }
+    },
+    {
+      "name": "trend_calculator",
+      "type": "internal",
+      "description": "Detect trending patterns across time series",
+      "inputs": {
+        "metric_values": "array of numbers",
+        "lookback_periods": "integer"
+      },
+      "outputs": {
+        "trend_direction": "improving|stable|declining",
+        "consecutive_weeks": "integer",
+        "trend_strength": "number (0-1)"
+      }
+    }
+  ]
+}

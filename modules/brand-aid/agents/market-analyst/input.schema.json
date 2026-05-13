@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Market Analyst Input",
+  "type": "object",
+  "required": ["venture_hypothesis", "competitors", "customer_segment"],
+  "properties": {
+    "venture_hypothesis": {
+      "type": "string",
+      "description": "The venture hypothesis for context"
+    },
+    "competitors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "website": { "type": "string" },
+          "category": { "type": "string", "enum": ["direct", "adjacent", "category_leader"] }
+        },
+        "required": ["name"]
+      },
+      "description": "List of competitors to research (5-10 max)"
+    },
+    "customer_segment": {
+      "type": "string",
+      "description": "Target customer segment for research focus"
+    },
+    "research_focus": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Specific areas to research (e.g., 'brand messaging', 'customer reviews', 'positioning claims')"
+    },
+    "geographic_scope": {
+      "type": "string",
+      "enum": ["global", "regional", "national"],
+      "default": "global",
+      "description": "Geographic scope for research"
+    },
+    "timeframe": {
+      "type": "string",
+      "default": "last_12_months",
+      "description": "How current should research be (e.g., 'last_12_months', 'last_6_months')"
+    }
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Kill Record",
+  "description": "Record of a venture that was killed, for learning extraction and historical reference",
+  "type": "object",
+  "properties": {
+    "kill_id": {
+      "type": "string",
+      "description": "Unique identifier for this kill record",
+      "pattern": "^kill_[a-z0-9]{12}$"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture that was killed"
+    },
+    "venture_name": {
+      "type": "string",
+      "description": "Name of the venture"
+    },
+    "killed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when venture was officially killed"
+    },
+    "weeks_lived": {
+      "type": "integer",
+      "description": "Number of weeks from launch to kill"
+    },
+    "decision_id": {
+      "type": "string",
+      "description": "Reference to the governance decision that led to kill"
+    },
+    "peak_metrics": {
+      "type": "object",
+      "description": "Best metrics venture achieved during its lifetime",
+      "properties": {
+        "mrr": {
+          "type": "number",
+          "description": "Peak monthly recurring revenue"
+        },
+        "mrr_achieved_week": {
+          "type": "integer",
+          "description": "Week at which peak MRR was achieved"
+        },
+        "dau": {
+          "type": "integer",
+          "description": "Peak daily active users"
+        },
+        "dau_achieved_week": {
+          "type": "integer",
+          "description": "Week at which peak DAU was achieved"
+        },
+        "users": {
+          "type": "integer",
+          "description": "Peak total registered users"
+        }
+      }
+    },
+    "kill_reason": {
+      "type": "string",
+      "enum": [
+        "no_traction",
+        "unit_economics_broken",
+        "hypothesis_disproven",
+        "market_blocked",
+        "burn_unsustainable",
+        "founder_attrition",
+        "other"
+      ],
+      "description": "Primary reason for kill decision"
+    },
+    "kill_reason_details": {
+      "type": "object",
+      "description": "Detailed explanations of kill reasons",
+      "properties": {
+        "no_traction": {
+          "description": "Insufficient user adoption or revenue growth after sufficient time"
+        },
+        "unit_economics_broken": {
+          "description": "CAC/LTV ratio unsustainable or declining"
+        },
+        "hypothesis_disproven": {
+          "description": "Core product hypothesis found to be false"
+        },
+        "market_blocked": {
+          "description": "Regulatory, technical, or competitive barrier prevents success"
+        },
+        "burn_unsustainable": {
+          "description": "Burn rate incompatible with runway and no funding path"
+        },
+        "founder_attrition": {
+          "description": "Key founder(s) leaving the venture"
+        }
+      }
+    },
+    "detailed_rationale": {
+      "type": "string",
+      "description": "Comprehensive narrative explaining why venture was killed"
+    },
+    "final_metrics": {
+      "type": "object",
+      "description": "Final state of venture at time of kill",
+      "properties": {
+        "mrr": { "type": "number" },
+        "dau": { "type": "integer" },
+        "users": { "type": "integer" },
+        "monthly_burn": { "type": "number" },
+        "runway_months": { "type": "number" },
+        "team_size": { "type": "integer" }
+      }
+    },
+    "learnings_extracted": {
+      "type": "array",
+      "description": "Key learnings from the venture failure",
+      "items": {
+        "type": "string"
+      }
+    },
+    "learning_record_refs": {
+      "type": "array",
+      "description": "References to learning records created from this kill",
+      "items": {
+        "type": "string"
+      }
+    },
+    "customer_impact": {
+      "type": "object",
+      "description": "Impact on customers/users",
+      "properties": {
+        "active_customers": {
+          "type": "integer",
+          "description": "Number of active paying customers"
+        },
+        "action_taken": {
+          "type": "string",
+          "enum": ["refunded", "migrated", "open_sourced", "other"],
+          "description": "Action taken for customers"
+        },
+        "details": {
+          "type": "string",
+          "description": "Details of customer impact and action"
+        }
+      }
+    },
+    "post_mortem_document": {
+      "type": "string",
+      "description": "Reference to detailed post-mortem document if exists"
+    },
+    "killed_by": {
+      "type": "string",
+      "description": "Person/system that confirmed kill decision"
+    }
+  },
+  "required": [
+    "kill_id",
+    "venture_id",
+    "venture_name",
+    "killed_at",
+    "weeks_lived",
+    "kill_reason",
+    "detailed_rationale",
+    "learnings_extracted"
+  ]
+}

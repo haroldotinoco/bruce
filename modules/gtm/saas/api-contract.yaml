@@ -1,0 +1,810 @@
+openapi: "3.0.3"
+info:
+  title: GTM API
+  version: "1.0.0"
+  description: Go-to-market execution — campaign management, channel strategy, analytics, and growth experiments
+  contact:
+    name: BruceAI Support
+    url: https://bruceai.com/support
+
+servers:
+  - url: https://api.gtm.bruceai.com/v1
+    description: Standalone GTM service
+  - url: https://api.bruceai.com/gtm/v1
+    description: GTM module via main API gateway
+
+security:
+  - BearerAuth: []
+  - ApiKeyAuth: []
+
+paths:
+  /ventures/{venture_id}/strategy:
+    post:
+      summary: Create GTM strategy for a venture
+      operationId: createGTMStrategy
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - brand_id
+                - target_channels
+              properties:
+                brand_id:
+                  type: string
+                  description: Reference to brand identity from brand-aid module
+                target_channels:
+                  type: array
+                  items:
+                    type: string
+                    enum: ["email", "social", "paid_search", "display", "organic_search", "content", "affiliate", "direct", "sms", "push"]
+                  minItems: 1
+                  maxItems: 5
+                quarterly_revenue_target:
+                  type: number
+                  description: Revenue target in USD for the quarter
+                audience_segments:
+                  type: array
+                  items:
+                    type: string
+                  example: ["early_adopters", "enterprise", "mid_market"]
+      responses:
+        "201":
+          description: GTM strategy created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GTMStrategy"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "402":
+          description: Plan limit reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+    get:
+      summary: Get current GTM strategy
+      operationId: getGTMStrategy
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Current strategy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GTMStrategy"
+        "404":
+          description: Strategy not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+  /ventures/{venture_id}/campaigns:
+    post:
+      summary: Create a new campaign
+      operationId: createCampaign
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - campaign_name
+                - channels
+              properties:
+                campaign_name:
+                  type: string
+                  minLength: 3
+                  maxLength: 100
+                description:
+                  type: string
+                  maxLength: 500
+                channels:
+                  type: array
+                  items:
+                    type: string
+                    enum: ["email", "social", "paid_search", "display", "organic_search", "content", "affiliate", "direct", "sms", "push"]
+                  minItems: 1
+                start_date:
+                  type: string
+                  format: date-time
+                end_date:
+                  type: string
+                  format: date-time
+                estimated_monthly_spend:
+                  type: number
+                  description: Estimated monthly budget in USD
+                  minimum: 0
+                audience_segment:
+                  type: string
+                  example: "early_adopters"
+      responses:
+        "201":
+          description: Campaign created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Campaign"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "402":
+          description: Plan limit reached (max campaigns)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+    get:
+      summary: List all campaigns for venture
+      operationId: listCampaigns
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ["draft", "scheduled", "active", "paused", "completed", "archived"]
+          description: Filter by campaign status
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: List of campaigns
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaigns:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Campaign"
+                  total:
+                    type: integer
+                  offset:
+                    type: integer
+        "401":
+          description: Unauthorized
+
+  /ventures/{venture_id}/campaigns/{campaign_id}:
+    patch:
+      summary: Update campaign (pause, resume, adjust budget, etc.)
+      operationId: updateCampaign
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                campaign_name:
+                  type: string
+                description:
+                  type: string
+                estimated_monthly_spend:
+                  type: number
+                  description: Adjust budget
+                audience_segment:
+                  type: string
+                status:
+                  type: string
+                  enum: ["draft", "scheduled", "paused", "archived"]
+                  description: Cannot set to 'active' via PATCH; use /launch endpoint
+      responses:
+        "200":
+          description: Campaign updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Campaign"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+  /ventures/{venture_id}/campaigns/{campaign_id}/launch:
+    post:
+      summary: Launch campaign across all channels
+      operationId: launchCampaign
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scheduled_start:
+                  type: string
+                  format: date-time
+                  description: Launch at a future time instead of immediately
+      responses:
+        "202":
+          description: Campaign launch initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaign_id:
+                    type: string
+                  status:
+                    type: string
+                    enum: ["launching"]
+                  message:
+                    type: string
+        "400":
+          description: Campaign not ready to launch
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "402":
+          description: Plan limit reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+  /ventures/{venture_id}/analytics:
+    get:
+      summary: Get real-time performance metrics for all campaigns
+      operationId: getAnalytics
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: campaign_id
+          in: query
+          schema:
+            type: string
+          description: Filter to single campaign (optional)
+        - name: channel
+          in: query
+          schema:
+            type: string
+            enum: ["email", "social", "paid_search", "display", "organic_search", "content", "affiliate", "direct"]
+          description: Filter by channel (optional)
+        - name: date_from
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Start date (YYYY-MM-DD)
+        - name: date_to
+          in: query
+          schema:
+            type: string
+            format: date
+          description: End date (YYYY-MM-DD)
+      responses:
+        "200":
+          description: Performance metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Analytics"
+        "401":
+          description: Unauthorized
+
+  /ventures/{venture_id}/reports/weekly:
+    get:
+      summary: Get latest weekly governance report
+      operationId: getWeeklyReport
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: week:
+          in: query
+          schema:
+            type: string
+            description: ISO week (YYYY-W##), defaults to current week
+      responses:
+        "200":
+          description: Weekly governance report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WeeklyReport"
+        "404":
+          description: Report not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+  /ventures/{venture_id}/experiments:
+    post:
+      summary: Create a growth experiment (A/B test)
+      operationId: createExperiment
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - experiment_name
+                - campaign_id
+                - hypothesis
+              properties:
+                experiment_name:
+                  type: string
+                  minLength: 3
+                  maxLength: 100
+                campaign_id:
+                  type: string
+                hypothesis:
+                  type: string
+                  description: What you expect to find
+                  example: "Email subject lines with personalization increase open rate by 15%"
+                control_variant:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "Original Subject"
+                    config:
+                      type: object
+                      description: Variant-specific config (subject, audience segment, etc.)
+                test_variant:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "Personalized Subject"
+                    config:
+                      type: object
+                sample_size:
+                  type: integer
+                  description: Number of users per variant
+                  minimum: 100
+                duration_days:
+                  type: integer
+                  description: How long to run the experiment
+                  minimum: 3
+                  maximum: 90
+      responses:
+        "201":
+          description: Experiment created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Experiment"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "402":
+          description: Plan limit reached (experiments per month)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+    get:
+      summary: List experiments for venture
+      operationId: listExperiments
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ["draft", "running", "completed", "archived"]
+      responses:
+        "200":
+          description: List of experiments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  experiments:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Experiment"
+                  total:
+                    type: integer
+        "401":
+          description: Unauthorized
+
+components:
+  schemas:
+    GTMStrategy:
+      type: object
+      properties:
+        strategy_id:
+          type: string
+        venture_id:
+          type: string
+        brand_id:
+          type: string
+        status:
+          type: string
+          enum: ["draft", "active", "archived"]
+        target_channels:
+          type: array
+          items:
+            type: string
+        quarterly_revenue_target:
+          type: number
+        audience_segments:
+          type: array
+          items:
+            type: string
+        key_messages:
+          type: array
+          items:
+            type: string
+        channel_allocation:
+          type: object
+          description: Budget split across channels (%)
+        success_metrics:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Campaign:
+      type: object
+      properties:
+        campaign_id:
+          type: string
+        venture_id:
+          type: string
+        campaign_name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: ["draft", "scheduled", "active", "paused", "completed", "archived"]
+        channels:
+          type: array
+          items:
+            type: string
+        start_date:
+          type: string
+          format: date-time
+        end_date:
+          type: string
+          format: date-time
+        estimated_monthly_spend:
+          type: number
+        audience_segment:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        launched_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    Analytics:
+      type: object
+      properties:
+        period:
+          type: object
+          properties:
+            from:
+              type: string
+              format: date
+            to:
+              type: string
+              format: date
+        campaigns:
+          type: array
+          items:
+            type: object
+            properties:
+              campaign_id:
+                type: string
+              campaign_name:
+                type: string
+              channels:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    impressions:
+                      type: integer
+                    clicks:
+                      type: integer
+                    conversions:
+                      type: integer
+                    spend:
+                      type: number
+                    ctr:
+                      type: number
+                      description: Click-through rate
+                    conversion_rate:
+                      type: number
+                    cpc:
+                      type: number
+                      description: Cost per click
+                    cpa:
+                      type: number
+                      description: Cost per acquisition
+              totals:
+                type: object
+                properties:
+                  impressions:
+                    type: integer
+                  clicks:
+                    type: integer
+                  conversions:
+                    type: integer
+                  spend:
+                    type: number
+                  overall_ctr:
+                    type: number
+                  overall_conversion_rate:
+                    type: number
+        venture_totals:
+          type: object
+          properties:
+            total_impressions:
+              type: integer
+            total_clicks:
+              type: integer
+            total_conversions:
+              type: integer
+            total_spend:
+              type: number
+            roi:
+              type: number
+              description: Return on investment (%)
+
+    WeeklyReport:
+      type: object
+      properties:
+        report_id:
+          type: string
+        venture_id:
+          type: string
+        week:
+          type: string
+          description: ISO week (YYYY-W##)
+        generated_at:
+          type: string
+          format: date-time
+        executive_summary:
+          type: string
+        key_metrics:
+          type: object
+          properties:
+            week_over_week_growth:
+              type: number
+              description: Growth percentage vs. previous week
+            campaigns_active:
+              type: integer
+            channels_active:
+              type: integer
+            total_spend:
+              type: number
+            roi:
+              type: number
+        top_performers:
+          type: array
+          items:
+            type: object
+            properties:
+              campaign_id:
+                type: string
+              campaign_name:
+                type: string
+              roi:
+                type: number
+              conversions:
+                type: integer
+        recommendations:
+          type: array
+          items:
+            type: string
+          description: AI-generated action items
+
+    Experiment:
+      type: object
+      properties:
+        experiment_id:
+          type: string
+        venture_id:
+          type: string
+        campaign_id:
+          type: string
+        experiment_name:
+          type: string
+        hypothesis:
+          type: string
+        status:
+          type: string
+          enum: ["draft", "running", "completed", "archived"]
+        control_variant:
+          type: object
+          properties:
+            name:
+              type: string
+            users_allocated:
+              type: integer
+            conversions:
+              type: integer
+            conversion_rate:
+              type: number
+        test_variant:
+          type: object
+          properties:
+            name:
+              type: string
+            users_allocated:
+              type: integer
+            conversions:
+              type: integer
+            conversion_rate:
+              type: number
+        statistical_significance:
+          type: number
+          description: P-value (0.0 to 1.0)
+        winner:
+          type: string
+          nullable: true
+          enum: ["control", "test", null]
+        duration_days:
+          type: integer
+        start_date:
+          type: string
+          format: date-time
+        end_date:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          nullable: true
+          description: Additional error context
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Clerk JWT token
+
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for service-to-service authentication

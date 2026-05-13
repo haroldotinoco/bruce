@@ -1,0 +1,360 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Risk Monitor Output",
+  "description": "Portfolio-level risk assessment with dimensioned analysis and mitigation strategies",
+  "required": ["portfolio_risk_assessment"],
+  "properties": {
+    "portfolio_risk_assessment": {
+      "type": "object",
+      "required": ["analysis_date", "overall_risk_score", "risk_rating", "risk_dimensions"],
+      "properties": {
+        "analysis_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "overall_risk_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Composite portfolio risk (higher = more risk)"
+        },
+        "risk_rating": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "description": "Overall risk rating"
+        },
+        "risk_dimensions": {
+          "type": "object",
+          "description": "Risk scores by dimension",
+          "properties": {
+            "concentration_risk_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "burn_rate_risk_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "runway_distribution_risk_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "codependency_risk_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "market_correlation_risk_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "concentration_analysis": {
+          "type": "object",
+          "description": "Concentration of revenue and traction",
+          "properties": {
+            "top_3_ventures_percent": {
+              "type": "number",
+              "description": "% of portfolio revenue/traction in top 3"
+            },
+            "top_3_ventures": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "venture_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "percentage": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "concentration_risk": {
+              "type": "string",
+              "enum": ["low", "medium", "high"],
+              "description": "Is concentration acceptable?"
+            },
+            "concentration_threshold": {
+              "type": "number",
+              "description": "Max allowed per policy"
+            },
+            "single_venture_failure_impact": {
+              "type": "string",
+              "description": "Impact if top venture fails (e.g., portfolio burn increases 15% or portfolio runway reduced by 1 month)"
+            }
+          }
+        },
+        "burn_dynamics": {
+          "type": "object",
+          "description": "Portfolio burn rate analysis",
+          "properties": {
+            "total_monthly_burn": {
+              "type": "number",
+              "description": "Total portfolio monthly burn in USD"
+            },
+            "total_monthly_revenue": {
+              "type": "number",
+              "description": "Total portfolio monthly revenue in USD"
+            },
+            "net_burn": {
+              "type": "number",
+              "description": "Monthly burn minus revenue in USD"
+            },
+            "burn_trend": {
+              "type": "string",
+              "enum": ["increasing", "stable", "decreasing"],
+              "description": "Direction of burn rate over last 3 months"
+            },
+            "burn_trend_percent": {
+              "type": "number",
+              "description": "% change in burn over last 3 months"
+            },
+            "ventures_exceeding_burn_budget": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "venture_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "burn_percent": {
+                    "type": "number"
+                  }
+                }
+              },
+              "description": "Ventures burning >25% of portfolio total"
+            },
+            "burn_risk_status": {
+              "type": "string",
+              "enum": ["healthy", "monitor", "high"],
+              "description": "Is burn sustainable?"
+            }
+          }
+        },
+        "runway_distribution": {
+          "type": "object",
+          "description": "Portfolio runway statistics",
+          "properties": {
+            "median_runway_months": {
+              "type": "number"
+            },
+            "min_runway_months": {
+              "type": "number",
+              "description": "Venture with least runway"
+            },
+            "max_runway_months": {
+              "type": "number"
+            },
+            "ventures_under_6_months": {
+              "type": "array",
+              "description": "Ventures with runway <6 months requiring action",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "venture_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "runway_months": {
+                    "type": "number"
+                  },
+                  "critical_date": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              }
+            },
+            "runway_cliff_alert": {
+              "type": "boolean",
+              "description": "Are 2+ ventures depleting in same month?"
+            },
+            "runway_cliff_details": {
+              "type": "string",
+              "description": "Timing and ventures involved in runway cliff"
+            }
+          }
+        },
+        "codependency_analysis": {
+          "type": "object",
+          "description": "Inter-venture dependencies and single points of failure",
+          "properties": {
+            "dependency_graph": {
+              "type": "array",
+              "description": "Risk edges in dependency graph",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "venture_a": {
+                    "type": "string"
+                  },
+                  "venture_b": {
+                    "type": "string"
+                  },
+                  "dependency_type": {
+                    "type": "string",
+                    "enum": ["infrastructure", "customers", "team"],
+                    "description": "Type of dependency"
+                  },
+                  "risk_level": {
+                    "type": "string",
+                    "enum": ["low", "medium", "high"]
+                  },
+                  "failure_impact": {
+                    "type": "string",
+                    "description": "What happens to venture B if A fails"
+                  }
+                }
+              }
+            },
+            "single_points_of_failure": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "entity": {
+                    "type": "string",
+                    "description": "Infrastructure, team member, or shared component"
+                  },
+                  "affects_ventures": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "risk_level": {
+                    "type": "string",
+                    "enum": ["medium", "high"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "market_correlation_analysis": {
+          "type": "object",
+          "description": "Market-level risk factors",
+          "properties": {
+            "sector_concentration": {
+              "type": "array",
+              "description": "Ventures by sector and vulnerability",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "sector": {
+                    "type": "string"
+                  },
+                  "venture_count": {
+                    "type": "integer"
+                  },
+                  "revenue_percent": {
+                    "type": "number"
+                  },
+                  "shared_risk": {
+                    "type": "string",
+                    "description": "Common external risk factors"
+                  }
+                }
+              }
+            },
+            "geographic_concentration": {
+              "type": "object",
+              "description": "Portfolio exposure to geographies",
+              "properties": {
+                "primary_geographies": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "geography": {
+                        "type": "string"
+                      },
+                      "venture_count": {
+                        "type": "integer"
+                      },
+                      "revenue_percent": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "correlated_shock_scenarios": {
+              "type": "array",
+              "maxItems": 3,
+              "description": "Scenarios where multiple ventures are affected",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "scenario_name": {
+                    "type": "string"
+                  },
+                  "affected_ventures": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "impact_description": {
+                    "type": "string"
+                  },
+                  "revenue_impact_percent": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mitigation_recommendations": {
+          "type": "array",
+          "description": "Prioritized list of risk mitigation actions",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rank": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "risk_addressed": {
+                "type": "string"
+              },
+              "recommendation": {
+                "type": "string"
+              },
+              "impact": {
+                "type": "string",
+                "description": "How much risk this reduces"
+              },
+              "urgency": {
+                "type": "string",
+                "enum": ["immediate", "within_month", "within_quarter"]
+              },
+              "owner": {
+                "type": "string",
+                "description": "Who should drive this (e.g., allocation-agent, governance-decision-agent)"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

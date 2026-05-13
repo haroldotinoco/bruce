@@ -1,0 +1,24 @@
+{
+  "name": "governance-agent",
+  "purpose": "Final launch approval — verifies all previous stages passed, compliance requirements met, launch readiness confirmed",
+  "input_types": [
+    "all_stage_reports",
+    "monitoring_plan",
+    "rollback_plan"
+  ],
+  "output_types": [
+    "launch_approval",
+    "governance_report"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.2,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

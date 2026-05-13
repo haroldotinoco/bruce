@@ -1,0 +1,186 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Venture Lifecycle Manager Input",
+  "description": "Input to the Venture Lifecycle Manager agent for lifecycle state transitions",
+  "type": "object",
+  "required": ["venture_id", "trigger_type"],
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Unique identifier for the venture",
+      "pattern": "^v-[a-z0-9]{8}$"
+    },
+    "trigger_type": {
+      "type": "string",
+      "enum": ["gate_passed", "gate_failed", "gate_borderline", "module_completed", "escalation_resolved", "sla_check", "portfolio_decision", "manual_hold_release"],
+      "description": "Type of event triggering lifecycle decision"
+    },
+    "gate_decision": {
+      "type": "object",
+      "description": "Gate evaluation result (if trigger_type is gate_*)",
+      "properties": {
+        "gate_name": {
+          "type": "string",
+          "enum": ["post-screening", "post-structuring", "post-build", "post-launch", "post-traction"],
+          "description": "Name of the gate evaluated"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PASSED", "FAILED", "BORDERLINE"],
+          "description": "Gate decision"
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Gate evaluation score"
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Reasoning for gate decision"
+        },
+        "criteria_details": {
+          "type": "object",
+          "description": "Breakdown of scoring by criterion",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "score": { "type": "number" },
+              "feedback": { "type": "string" }
+            }
+          }
+        },
+        "escalation_required": {
+          "type": "boolean",
+          "description": "Whether gate decision requires human approval"
+        },
+        "gate_evaluation_id": {
+          "type": "string",
+          "description": "Reference to gate evaluation record"
+        },
+        "evaluated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of gate evaluation"
+        }
+      },
+      "required": ["gate_name", "status", "score"]
+    },
+    "module_completion": {
+      "type": "object",
+      "description": "Module dispatch completion (if trigger_type is module_completed)",
+      "properties": {
+        "module_names": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of completed modules (e.g., ['brand', 'builder'])"
+        },
+        "dispatch_batch_id": {
+          "type": "string",
+          "description": "Reference to the dispatch batch"
+        },
+        "module_outputs": {
+          "type": "object",
+          "description": "Outputs from completed modules",
+          "additionalProperties": true
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of completion"
+        }
+      }
+    },
+    "current_venture_state": {
+      "type": "object",
+      "description": "Current state of the venture",
+      "properties": {
+        "stage": {
+          "type": "string",
+          "enum": ["GENERATED", "QUALIFIED", "STRUCTURED", "BUILT", "LAUNCHED", "OPERATING", "ITERATING", "SCALING", "PAUSED", "KILLED"],
+          "description": "Current lifecycle stage"
+        },
+        "stage_entry_timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When venture entered current stage"
+        },
+        "gate_history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "gate": { "type": "string" },
+              "status": { "type": "string" },
+              "score": { "type": "number" },
+              "evaluated_at": { "type": "string", "format": "date-time" }
+            }
+          },
+          "description": "History of gate evaluations"
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "description": { "type": "string" },
+              "severity": { "type": "string", "enum": ["critical", "high", "medium"] },
+              "identified_at": { "type": "string", "format": "date-time" },
+              "assigned_to": { "type": "string" }
+            }
+          },
+          "description": "Unresolved blockers preventing advancement"
+        },
+        "pending_escalations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "escalation_id": { "type": "string" },
+              "type": { "type": "string" },
+              "created_at": { "type": "string", "format": "date-time" },
+              "due_at": { "type": "string", "format": "date-time" }
+            }
+          },
+          "description": "Human escalations awaiting response"
+        }
+      },
+      "required": ["stage", "stage_entry_timestamp"]
+    },
+    "escalation_resolution": {
+      "type": "object",
+      "description": "Resolution of a previous escalation (if trigger_type is escalation_resolved)",
+      "properties": {
+        "escalation_id": { "type": "string" },
+        "decision": {
+          "type": "string",
+          "enum": ["APPROVED", "REJECTED", "HOLD"],
+          "description": "Human decision on escalation"
+        },
+        "reasoning": { "type": "string" },
+        "resolved_by": { "type": "string" },
+        "resolved_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "portfolio_decision": {
+      "type": "object",
+      "description": "Portfolio-level governance decision affecting this venture",
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": ["SCALE", "ITERATE", "PAUSE", "KILL"],
+          "description": "Portfolio governance decision"
+        },
+        "reasoning": { "type": "string" },
+        "source": { "type": "string", "description": "Governance Agent or human decision" },
+        "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "decision_id": { "type": "string" }
+      }
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Correlation ID for tracing this decision across systems"
+    }
+  }
+}

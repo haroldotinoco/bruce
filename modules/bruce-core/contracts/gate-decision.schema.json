@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Gate Decision Contract",
+  "description": "Contract for gate evaluation decisions between Gate Enforcer and Lifecycle Manager",
+  "type": "object",
+  "required": ["gate_decision_id", "gate_name", "venture_id", "status", "score"],
+  "properties": {
+    "gate_decision_id": {
+      "type": "string",
+      "pattern": "^gd-[a-z0-9]{8}$",
+      "description": "Unique identifier for this gate decision"
+    },
+    "gate_name": {
+      "type": "string",
+      "enum": ["post-screening", "post-structuring", "post-build", "post-launch", "post-traction"],
+      "description": "Which gate was evaluated"
+    },
+    "venture_id": {
+      "type": "string",
+      "pattern": "^v-[a-z0-9]{8}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASSED", "FAILED", "BORDERLINE"],
+      "description": "Gate decision result"
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Evaluation score on 0-100 scale"
+    },
+    "threshold": {
+      "type": "number",
+      "description": "Minimum score for PASS"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Justification for the decision"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1"
+    },
+    "escalation_required": {
+      "type": "boolean",
+      "description": "Whether human review needed (always true for BORDERLINE)"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

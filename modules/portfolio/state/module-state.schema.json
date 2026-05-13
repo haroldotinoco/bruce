@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Portfolio Module State",
+  "description": "Persistent state for the portfolio module",
+  "type": "object",
+  "properties": {
+    "portfolio_composition": {
+      "type": "object",
+      "description": "Current portfolio composition",
+      "properties": {
+        "by_stage": {
+          "type": "object",
+          "properties": {
+            "ideation": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Venture IDs in ideation stage"
+            },
+            "pre_launch": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "launch": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "growth": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "scale": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "mature": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "total_active_ventures": {
+          "type": "integer"
+        }
+      }
+    },
+    "current_allocations": {
+      "type": "object",
+      "description": "Current resource allocations keyed by venture_id",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "budget": { "type": "number" },
+          "headcount": { "type": "integer" },
+          "tools_budget": { "type": "number" },
+          "effective_from": { "type": "string", "format": "date" },
+          "allocation_id": { "type": "string" }
+        }
+      }
+    },
+    "last_review_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of last completed review cycle"
+    },
+    "next_review_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled timestamp for next review cycle"
+    },
+    "review_cycle_weeks": {
+      "type": "integer",
+      "description": "Standard review cycle interval in weeks"
+    },
+    "total_portfolio_burn_monthly": {
+      "type": "number",
+      "description": "Sum of all monthly burns"
+    },
+    "total_mrr": {
+      "type": "number",
+      "description": "Total monthly recurring revenue"
+    },
+    "ventures_killed_count": {
+      "type": "integer",
+      "description": "Total count of ventures killed"
+    },
+    "ventures_scaled_count": {
+      "type": "integer",
+      "description": "Total count of ventures scaled"
+    },
+    "ventures_iterated_count": {
+      "type": "integer",
+      "description": "Total count of ventures iterated"
+    },
+    "current_review_cycle_id": {
+      "type": "string",
+      "description": "ID of ongoing review cycle if any"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    }
+  },
+  "required": [
+    "portfolio_composition",
+    "current_allocations",
+    "review_cycle_weeks",
+    "total_portfolio_burn_monthly",
+    "ventures_killed_count",
+    "ventures_scaled_count"
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "workflow_id": "opportunity-screening",
+  "module": "opportunity",
+  "description": "Single opportunity screening pipeline: scan result → analysis → scoring",
+  "version": "1.0",
+  "trigger": {
+    "type": "manual"
+  },
+  "context": {
+    "opportunity_source": "external_submission",
+    "priority": "normal"
+  },
+  "steps": [
+    {
+      "step_id": "validate-and-prepare",
+      "agent": null,
+      "description": "Validate opportunity submission and prepare for analysis",
+      "input": {
+        "from": "workflow.trigger",
+        "fields": ["opportunity_data"]
+      },
+      "output_to": "prepared-opportunity",
+      "timeout_seconds": 30,
+      "retry_policy": {
+        "max_attempts": 1,
+        "backoff": "none"
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "success": "deep-analysis"
+      },
+      "events_emitted": ["opportunity.submission.received"]
+    },
+    {
+      "step_id": "deep-analysis",
+      "agent": "opportunity-analyst",
+      "description": "Conduct comprehensive analysis of submitted opportunity",
+      "input": {
+        "from": "prepared-opportunity",
+        "fields": ["opportunity_data", "metadata"]
+      },
+      "output_to": "analysis-result",
+      "timeout_seconds": 900,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "exponential",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "mark_failed_and_continue",
+      "next_step": {
+        "success": "scoring-phase"
+      },
+      "events_emitted": ["opportunity.analysis.started", "opportunity.analysis.completed"]
+    },
+    {
+      "step_id": "scoring-phase",
+      "agent": "scoring-agent",
+      "description": "Score the analyzed opportunity",
+      "input": {
+        "from": "analysis-result",
+        "fields": ["analyzed_opportunity"]
+      },
+      "output_to": "screening-result",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["opportunity.scored"]
+    }
+  ],
+  "error_handlers": {
+    "on_step_failure": "notify_and_log",
+    "on_workflow_timeout": "fail_fast",
+    "escalation_threshold": 1
+  },
+  "metrics": {
+    "target_duration_minutes": 20,
+    "success_criteria": {
+      "analysis_complete": true,
+      "score_assigned": true
+    }
+  }
+}

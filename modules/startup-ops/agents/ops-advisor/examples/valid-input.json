@@ -1,0 +1,36 @@
+{
+  "health_report": {
+    "health_report_id": "health-report-complify-20260406-1430",
+    "composite_score": 68,
+    "dimension_scores": {
+      "activation": { "score": 72 },
+      "retention": { "score": 65 },
+      "revenue": { "score": 58 },
+      "product_quality": { "score": 71 },
+      "financial_sustainability": { "score": 80 },
+      "market_fit": { "score": 62 }
+    },
+    "at_risk_dimensions": [],
+    "critical_dimensions": []
+  },
+  "anomalies": {
+    "anomalies_detected": [
+      {
+        "anomaly_id": "anom-20260406-001",
+        "metric_name": "mrr",
+        "type": "positive_breakout",
+        "severity": "info",
+        "delta_percent": 13.3,
+        "requires_escalation": false
+      }
+    ],
+    "anomaly_count_by_severity": { "critical": 0, "warning": 0, "info": 1 },
+    "escalation_required": false
+  },
+  "venture_context": {
+    "venture_id": "complify-ai-saas",
+    "stage": "early",
+    "hypothesis": "B2B AI compliance automation targeting mid-market SaaS companies",
+    "kill_criteria": ["MRR < $5000", "D7 retention < 20%", "Runway < 2 months"]
+  }
+}

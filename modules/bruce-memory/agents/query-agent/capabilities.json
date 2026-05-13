@@ -1,0 +1,22 @@
+{
+  "name": "query-agent",
+  "purpose": "Answers real-time pattern queries from other BruceAI modules with low latency",
+  "input_types": [
+    "natural_language_query"
+  ],
+  "output_types": [
+    "pattern_results",
+    "synthesis"
+  ],
+  "external_dependencies": [
+    "vector-db"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 4096
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Analytics Agent Input",
+  "description": "Campaign performance data for analysis and interpretation",
+  "required": ["campaign_id", "success_metric", "performance_data"],
+  "properties": {
+    "campaign_id": {
+      "type": "string",
+      "description": "Campaign identifier"
+    },
+    "campaign_context": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string"},
+        "channel": {"type": "string"},
+        "target_value": {"type": "number"},
+        "budget": {"type": "number"},
+        "launch_date": {"type": "string", "format": "date"},
+        "data_collection_date": {"type": "string", "format": "date"}
+      }
+    },
+    "success_metric": {
+      "type": "object",
+      "required": ["name", "target"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Metric name (e.g., 'cost_per_lead')"
+        },
+        "target": {
+          "type": "number",
+          "description": "Target value for success"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Unit of measurement (e.g., '$', '%', 'count')"
+        }
+      }
+    },
+    "performance_data": {
+      "type": "object",
+      "required": ["overall"],
+      "properties": {
+        "overall": {
+          "type": "object",
+          "properties": {
+            "impressions": {"type": "integer"},
+            "clicks": {"type": "integer"},
+            "conversions": {"type": "integer"},
+            "spend_usd": {"type": "number"},
+            "ctr_percent": {"type": "number"},
+            "conversion_rate_percent": {"type": "number"},
+            "cost_per_conversion": {"type": "number"},
+            "roas": {"type": "number"}
+          }
+        },
+        "by_variant": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "impressions": {"type": "integer"},
+              "clicks": {"type": "integer"},
+              "conversions": {"type": "integer"},
+              "spend_usd": {"type": "number"}
+            }
+          },
+          "description": "Performance breakdown by test variant (control, variant_1, etc.)"
+        },
+        "by_audience_segment": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "impressions": {"type": "integer"},
+              "clicks": {"type": "integer"},
+              "conversions": {"type": "integer"}
+            }
+          },
+          "description": "Performance by audience segment"
+        },
+        "time_series": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {"type": "string", "format": "date"},
+              "impressions": {"type": "integer"},
+              "clicks": {"type": "integer"},
+              "conversions": {"type": "integer"},
+              "spend_usd": {"type": "number"}
+            }
+          },
+          "description": "Daily performance data for trend analysis"
+        }
+      }
+    },
+    "historical_benchmarks": {
+      "type": "object",
+      "properties": {
+        "previous_campaign_ctr": {"type": "number"},
+        "previous_campaign_conversion_rate": {"type": "number"},
+        "previous_campaign_cpc": {"type": "number"},
+        "platform_average_ctr": {"type": "number"},
+        "industry_average_cpc": {"type": "number"}
+      },
+      "description": "Historical data for comparison"
+    },
+    "external_context": {
+      "type": "object",
+      "properties": {
+        "platform_updates": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Platform algorithm or policy changes during campaign"
+        },
+        "market_events": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "External events that may affect campaign (e.g., 'competitor price drop', 'media coverage')"
+        },
+        "technical_issues": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Any tracking or platform issues"
+        }
+      }
+    }
+  }
+}

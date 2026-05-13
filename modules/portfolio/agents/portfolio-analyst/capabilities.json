@@ -1,0 +1,21 @@
+{
+  "name": "portfolio-analyst",
+  "purpose": "Aggregate and analyze health data from all active ventures to produce comparative portfolio insights, rankings, pattern identification, and outlier flagging",
+  "input_types": [
+    "ventures_health_reports"
+  ],
+  "output_types": [
+    "portfolio_snapshot"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opportunity Analyst Output",
+  "description": "Deep-dive analysis output consumed by the scoring-agent. TAM/SAM/SOM MUST be emitted as plain numbers in the document's declared `currency` (default USD). Never emit formatted strings like \"$100 billion\" — the downstream scoring-agent reads these as raw numbers and will assign 0 if it receives strings.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["opportunity_id", "title", "market_size_estimate"],
+  "properties": {
+    "opportunity_id": { "type": "string" },
+    "title": { "type": "string" },
+    "problem_statement": { "type": "string" },
+    "market_size_estimate": {
+      "type": "object",
+      "description": "Market sizing at the document root with numeric TAM/SAM/SOM in the declared `currency`. Methodology strings go in `tam_methodology`/`sam_methodology`/`som_methodology`, NOT mixed into the numeric fields.",
+      "additionalProperties": true,
+      "required": ["tam", "sam", "som", "currency"],
+      "properties": {
+        "tam": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total Addressable Market as a plain number in `currency`. Example: 100000000000 for $100B. Do NOT emit \"$100 billion\" or \"100B\"."
+        },
+        "sam": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Serviceable Available Market as a plain number in `currency`."
+        },
+        "som": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Serviceable Obtainable Market as a plain number in `currency`."
+        },
+        "currency": {
+          "type": "string",
+          "description": "ISO 4217 currency code for tam/sam/som. Default USD. Always emit this field so downstream code is not source-dependent.",
+          "default": "USD",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence in the market sizing estimate, 0..1."
+        },
+        "tam_methodology": { "type": "string" },
+        "sam_methodology": { "type": "string" },
+        "som_methodology": { "type": "string" }
+      }
+    },
+    "deep_analysis": { "type": "object", "additionalProperties": true }
+  }
+}

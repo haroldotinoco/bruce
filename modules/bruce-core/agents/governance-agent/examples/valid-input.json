@@ -1,0 +1,69 @@
+{
+  "example": "Governance decision request - SCALE evaluation",
+  "venture_id": "v-abc12345",
+  "decision_request_type": "periodic_review",
+  "portfolio_health_report": {
+    "venture_id": "v-abc12345",
+    "current_stage": "OPERATING",
+    "health_score": 0.84,
+    "growth_metrics": {
+      "wow_growth_pct": 18,
+      "mom_growth_pct": 65,
+      "growth_trend": "strong_acceleration"
+    },
+    "unit_economics": {
+      "cac": 2800,
+      "ltv": 11500,
+      "cac_ltv_ratio": 4.1,
+      "gross_margin_pct": 68,
+      "cac_payback_months": 4.2
+    },
+    "product_market_fit": {
+      "month_1_retention": 0.68,
+      "month_2_retention": 0.52,
+      "nps": 42,
+      "customer_satisfaction": "High"
+    },
+    "operational_health": {
+      "burn_rate_monthly": 85000,
+      "runway_months": 22,
+      "team_size": 8,
+      "key_open_roles": []
+    },
+    "identified_risks": [
+      {
+        "risk": "Competitive entrant emerging in market",
+        "severity": "medium",
+        "identified_at": "2026-04-01T00:00:00Z"
+      }
+    ]
+  },
+  "venture_context": {
+    "venture_id": "v-abc12345",
+    "name": "CloudSync",
+    "founder_info": { "name": "Alice Johnson", "experience": "10yr enterprise software" },
+    "stage": "OPERATING",
+    "launched_date": "2026-01-15T00:00:00Z"
+  },
+  "portfolio_context": {
+    "total_active_ventures": 12,
+    "ventures_by_stage": {
+      "QUALIFIED": 2,
+      "STRUCTURED": 3,
+      "BUILT": 2,
+      "LAUNCHED": 3,
+      "OPERATING": 2
+    },
+    "total_monthly_burn": 1200000,
+    "total_runway_months": 18,
+    "resource_constraints": []
+  },
+  "prior_decisions": [
+    {
+      "decision": "ITERATE",
+      "decided_at": "2026-02-15T00:00:00Z",
+      "confidence_score": 0.73
+    }
+  ],
+  "correlation_id": "corr-gov-001"
+}

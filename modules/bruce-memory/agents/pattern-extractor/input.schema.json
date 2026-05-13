@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Pattern Extractor Input",
+  "description": "Learning corpus for weekly pattern extraction",
+  "required": ["extraction_parameters"],
+  "properties": {
+    "extraction_parameters": {
+      "type": "object",
+      "properties": {
+        "analysis_period": {
+          "type": "string",
+          "enum": ["weekly", "monthly"],
+          "default": "weekly"
+        },
+        "lookback_weeks": {
+          "type": "integer",
+          "default": 4,
+          "description": "How many weeks of learnings to analyze"
+        },
+        "min_pattern_evidence": {
+          "type": "integer",
+          "default": 3,
+          "description": "Minimum ventures required for pattern"
+        },
+        "min_confidence": {
+          "type": "number",
+          "default": 0.6,
+          "description": "Minimum confidence threshold"
+        },
+        "focus_sectors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional sector focus (if empty, analyze all)"
+        },
+        "focus_learning_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional learning types to focus on"
+        }
+      }
+    }
+  }
+}

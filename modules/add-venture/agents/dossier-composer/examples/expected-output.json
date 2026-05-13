@@ -1,0 +1,47 @@
+{
+  "venture_id": "v-002-ai-compliance-saas",
+  "opportunity_id": "opp-ai-compliance-v1",
+  "venture_name": "ComplianceAI",
+  "created_date": "2026-04-06T11:05:00Z",
+  "created_by": "add-venture-module",
+  "volumes": {
+    "vol_1": {},
+    "vol_2": {},
+    "vol_3": {},
+    "vol_4": {},
+    "vol_5": {},
+    "vol_6": {},
+    "vol_7": {},
+    "vol_8": {}
+  },
+  "critique_result": {"overall_score": 76},
+  "executive_summary": {
+    "narrative_summary": "ComplianceAI addresses the regulatory compliance infrastructure gap for AI in financial services. Banks are deploying AI models faster than they can prove compliance to regulators.",
+    "opportunity_snapshot": "Regulatory pressure on AI increasing (Federal Reserve, SEC, OCC guidance 2023-2024). $2.5B TAM. Market window urgent.",
+    "customer_snapshot": "Primary segment: Chief Compliance Officers at Top 100 US banks. 150 addressable customers. Willingness-to-pay: $150-500K annually.",
+    "business_model_snapshot": "SaaS subscription model. Year 1 target: 12 customers, $3M revenue. Break-even month 14. Base scenario recommended."
+  },
+  "key_metrics": {
+    "market_tam_usd": 2500000000,
+    "primary_segment_size": 150,
+    "primary_segment_willingness_to_pay_median": 250000,
+    "year_1_revenue_target": 3000000,
+    "year_1_customer_target": 12,
+    "year_1_mrr_target": 250000,
+    "cac": 120000,
+    "ltv": 1350000,
+    "payback_period_months": 8,
+    "breakeven_month": 14,
+    "year_1_headcount": 5,
+    "funding_required_12_months": 2100000,
+    "critique_overall_score": 76
+  },
+  "status": "approved",
+  "artifact_refs": {
+    "pdf_url": "s3://ventures/v-002-ai-compliance-saas/dossier.pdf",
+    "json_url": "s3://ventures/v-002-ai-compliance-saas/dossier.json",
+    "archival_path": "/portfolio/ventures/v-002-ai-compliance-saas/final-dossier"
+  },
+  "execution_timestamp": "2026-04-06T11:05:00Z",
+  "agent_id": "dossier-composer"
+}

@@ -1,0 +1,46 @@
+{
+  "code_repo_ref": "artifact-frontend-repo-001",
+  "components_generated": [
+    {
+      "name": "Button",
+      "path": "src/components/Button.tsx",
+      "props": [
+        { "name": "label", "type": "string", "required": true },
+        { "name": "onClick", "type": "function", "required": false },
+        { "name": "variant", "type": "string", "required": false }
+      ]
+    },
+    {
+      "name": "FormInput",
+      "path": "src/components/FormInput.tsx",
+      "props": [
+        { "name": "label", "type": "string", "required": true },
+        { "name": "type", "type": "string", "required": true },
+        { "name": "error", "type": "string", "required": false }
+      ]
+    },
+    {
+      "name": "LoginForm",
+      "path": "src/features/auth/LoginForm.tsx",
+      "props": [
+        { "name": "onSubmit", "type": "function", "required": true }
+      ]
+    }
+  ],
+  "pages_generated": [
+    {
+      "name": "LoginPage",
+      "path": "src/pages/LoginPage.tsx",
+      "route": "/login"
+    },
+    {
+      "name": "DashboardPage",
+      "path": "src/pages/DashboardPage.tsx",
+      "route": "/dashboard"
+    }
+  ],
+  "build_status": "success",
+  "lighthouse_score_estimate": 94,
+  "build_errors": [],
+  "integration_notes": "Frontend built successfully with responsive design and full accessibility compliance (WCAG AA). All components use Tailwind CSS with design tokens. API integration via typed service layer with proper error handling. To run locally: npm install && npm run dev. Authentication flow integrated with JWT tokens stored securely. All BDD scenarios covered by component implementations."
+}

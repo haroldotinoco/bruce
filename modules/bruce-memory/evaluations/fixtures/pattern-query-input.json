@@ -1,0 +1,29 @@
+{
+  "query_id": "q-20260405-gtm-001",
+  "question": "What patterns do we know about effective GTM strategies for B2B developer tools and SaaS platforms? What channels and approaches drive efficient customer acquisition?",
+  "context": {
+    "venture_id": "v-011",
+    "current_stage": "launched",
+    "market_segment": "B2B SaaS - Developer Tools"
+  },
+  "filters": {
+    "min_confidence": 0.5,
+    "market_segments": [
+      "B2B SaaS",
+      "Developer Tools",
+      "Infrastructure"
+    ],
+    "stages": [
+      "launched",
+      "operating",
+      "iterating",
+      "scaling"
+    ],
+    "source_modules": [
+      "pattern-extractor",
+      "cross-venture-analyst"
+    ]
+  },
+  "requested_by_module": "opportunity",
+  "requested_at": "2026-04-05T14:15:00Z"
+}

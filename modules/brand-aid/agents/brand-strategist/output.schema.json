@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand Strategy Output",
+  "type": "object",
+  "required": [
+    "positioning",
+    "primary_archetype",
+    "brand_promise",
+    "personality_traits",
+    "values",
+    "target_customer_summary",
+    "competitive_context"
+  ],
+  "properties": {
+    "positioning": {
+      "type": "string",
+      "description": "The strategic positioning: what does this brand own in the customer's mind?"
+    },
+    "primary_archetype": {
+      "type": "string",
+      "enum": [
+        "Hero",
+        "Sage",
+        "Creator",
+        "Innocent",
+        "Explorer",
+        "Lover",
+        "Jester",
+        "Everyman",
+        "Caregiver",
+        "Ruler",
+        "Magician",
+        "Mentor"
+      ],
+      "description": "Primary brand archetype"
+    },
+    "secondary_archetype": {
+      "type": "string",
+      "enum": [
+        "Hero",
+        "Sage",
+        "Creator",
+        "Innocent",
+        "Explorer",
+        "Lover",
+        "Jester",
+        "Everyman",
+        "Caregiver",
+        "Ruler",
+        "Magician",
+        "Mentor",
+        null
+      ],
+      "description": "Secondary archetype (optional)"
+    },
+    "brand_promise": {
+      "type": "string",
+      "description": "The core emotional and functional promise the brand makes to customers"
+    },
+    "personality_traits": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 5,
+      "maxItems": 7,
+      "description": "Brand personality traits (5-7)"
+    },
+    "values": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 3,
+      "maxItems": 4,
+      "description": "Core brand values (3-4)"
+    },
+    "target_customer_summary": {
+      "type": "object",
+      "properties": {
+        "segment": { "type": "string" },
+        "primary_need": { "type": "string" },
+        "psychographic": { "type": "string" }
+      },
+      "required": ["segment", "primary_need"],
+      "description": "Summary of target customer"
+    },
+    "competitive_context": {
+      "type": "string",
+      "description": "How this brand differs from and owns white space vs. competitors"
+    },
+    "strategic_rationale": {
+      "type": "string",
+      "description": "Explanation of why these strategic choices fit the venture"
+    }
+  }
+}

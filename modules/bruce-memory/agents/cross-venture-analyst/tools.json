@@ -1,0 +1,14 @@
+{
+  "tools": [
+    {
+      "name": "vector-db",
+      "type": "mcp",
+      "mcp_server": "pinecone-mcp",
+      "capabilities": ["semantic_search", "similarity_query", "metadata_filter"],
+      "required": false,
+      "auth_ref": "env:PINECONE_API_KEY",
+      "fallback": "proceed_without_semantic_search",
+      "description": "Used to find semantically similar learning records across ventures for pattern clustering"
+    }
+  ]
+}

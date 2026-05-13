@@ -1,0 +1,33 @@
+{
+  "opportunity": {
+    "opportunity_id": "opp-20260405-001",
+    "title": "AI-Powered Clinical Documentation for Rural Healthcare",
+    "market_size_estimate": {
+      "tam": 8500000000,
+      "sam": 1700000000,
+      "som": 85000000,
+      "confidence": 0.72
+    },
+    "problem_analysis": {
+      "pain_severity": "high",
+      "market_readiness": "established"
+    },
+    "competition_landscape": {
+      "direct_competitors": [
+        {"name": "Nuance"},
+        {"name": "Ambient"},
+        {"name": "Epic built-in"}
+      ],
+      "competitive_intensity": "medium"
+    },
+    "analysis_quality": {
+      "confidence_level": 0.72,
+      "data_gaps": ["Precise willingness-to-pay", "Feature requirements from rural clinicians"]
+    }
+  },
+  "scoring_context": {
+    "portfolio_focus_areas": ["healthcare", "automation", "regulatory compliance"],
+    "strategic_priorities": ["AI-powered solutions", "underserved segments"],
+    "apply_market_signals": true
+  }
+}

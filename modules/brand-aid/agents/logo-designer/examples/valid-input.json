@@ -1,0 +1,35 @@
+{
+  "creative_direction": {
+    "brand_promise": "Fair partnership: Your expertise deserves full price value",
+    "key_visual_metaphors": [
+      "Handshake and partnership",
+      "Growth and upward trajectory",
+      "Craftsmanship and quality",
+      "Networks and connections"
+    ],
+    "visual_language_criteria": [
+      "Clean and minimal",
+      "Refined and sophisticated",
+      "Grounded and trustworthy",
+      "Professional yet approachable"
+    ],
+    "mood_board_description": "The Economist meets Basecamp. Intelligent, serious, quality-focused. Cool tones with warm accents."
+  },
+  "brand_name": "Faire",
+  "brand_archetype": "Sage",
+  "visual_system": {
+    "primary_colors": [
+      { "name": "Sage Blue", "hex": "#1B3A52" },
+      { "name": "Warm Sand", "hex": "#D4A574" }
+    ],
+    "typography_system": {
+      "headline_font": "Crimson Text (serif)",
+      "body_font": "Inter (sans-serif)"
+    }
+  },
+  "logo_requirements": {
+    "include_wordmark": true,
+    "icon_only_needed": true,
+    "primary_use_case": "web"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand-Aid Tenant Schema",
+  "type": "object",
+  "required": [
+    "account_id",
+    "venture_id",
+    "plan",
+    "created_at"
+  ],
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "Account identifier for tenant isolation",
+      "minLength": 1
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Associated venture identifier",
+      "minLength": 1
+    },
+    "plan": {
+      "type": "string",
+      "enum": ["free", "pro", "enterprise"],
+      "description": "Subscription plan tier"
+    },
+    "brand_assets_storage_gb": {
+      "type": "number",
+      "description": "Total storage quota for brand assets in GB",
+      "minimum": 0
+    },
+    "guidelines_format": {
+      "type": "string",
+      "enum": ["markdown", "pdf", "figma", "html", "json"],
+      "description": "Preferred format for brand guidelines document"
+    },
+    "template_library": {
+      "type": "string",
+      "enum": ["standard", "full"],
+      "description": "Access level to brand templates"
+    },
+    "output_formats": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["pdf", "markdown", "figma", "html", "json"]
+      },
+      "description": "Supported output formats for brand deliverables"
+    },
+    "brand_identities_limit": {
+      "type": ["integer", "null"],
+      "description": "Maximum brand identities per venture (null for unlimited)",
+      "minimum": 1
+    },
+    "custom_fonts_enabled": {
+      "type": "boolean",
+      "description": "Whether custom font recommendations are available"
+    },
+    "multi_brand_support": {
+      "type": "boolean",
+      "description": "Whether multiple brands per account are supported"
+    },
+    "max_revisions": {
+      "type": ["integer", "null"],
+      "description": "Maximum brand revisions allowed (null for unlimited)"
+    },
+    "white_label_enabled": {
+      "type": "boolean",
+      "description": "Whether white-label branding is enabled"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the tenant was provisioned"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    },
+    "storage_used_gb": {
+      "type": "number",
+      "description": "Current storage usage in GB",
+      "minimum": 0
+    },
+    "is_active": {
+      "type": "boolean",
+      "description": "Whether the tenant is currently active"
+    }
+  }
+}

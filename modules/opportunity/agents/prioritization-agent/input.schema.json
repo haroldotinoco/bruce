@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Prioritization Agent Input",
+  "type": "object",
+  "properties": {
+    "scored_opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_id": {"type": "string"},
+          "title": {"type": "string"},
+          "total_score": {"type": "integer"},
+          "recommendation": {"type": "string"},
+          "discovery_date": {"type": "string"},
+          "tags": {"type": "array"}
+        }
+      },
+      "minItems": 1
+    },
+    "prioritization_context": {
+      "type": "object",
+      "properties": {
+        "portfolio_focus_areas": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "max_ventures_per_cycle": {
+          "type": "integer",
+          "default": 3
+        },
+        "diversity_constraint": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enforce max 2 per vertical in advancement list"
+        },
+        "minimum_advancement_score": {
+          "type": "integer",
+          "default": 75
+        }
+      }
+    }
+  },
+  "required": ["scored_opportunities"]
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand Critic Input",
+  "type": "object",
+  "required": ["brand_strategy", "visual_system", "logo_concepts", "naming_candidates"],
+  "properties": {
+    "brand_strategy": {
+      "type": "object",
+      "description": "Complete brand strategy output"
+    },
+    "visual_system": {
+      "type": "object",
+      "description": "Complete visual system output"
+    },
+    "logo_concepts": {
+      "type": "object",
+      "description": "Logo concepts and recommended logo output"
+    },
+    "naming_candidates": {
+      "type": "object",
+      "description": "Top naming candidates with scores"
+    },
+    "market_analysis": {
+      "type": "object",
+      "description": "Market analysis for competitive positioning reference"
+    },
+    "evaluation_criteria": {
+      "type": "object",
+      "properties": {
+        "strategic_alignment_weight": { "type": "number" },
+        "distinctiveness_weight": { "type": "number" },
+        "visual_coherence_weight": { "type": "number" },
+        "naming_quality_weight": { "type": "number" }
+      },
+      "default": {
+        "strategic_alignment_weight": 0.3,
+        "distinctiveness_weight": 0.25,
+        "visual_coherence_weight": 0.25,
+        "naming_quality_weight": 0.2
+      }
+    }
+  }
+}

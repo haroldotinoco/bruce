@@ -1,0 +1,147 @@
+{
+  "workflow_id": "venture-decision",
+  "name": "Single Venture Decision Pipeline",
+  "description": "Single venture decision pipeline for ad-hoc venture evaluations",
+  "trigger": "on-demand",
+  "version": "1.0",
+  "steps": [
+    {
+      "step_id": "data-collection",
+      "name": "Data Collection",
+      "description": "Pull venture's latest health report and history",
+      "type": "data-collection",
+      "input_from": "startup-ops",
+      "output_to": "data-store",
+      "timeout_seconds": 180,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "analysis",
+      "events_emitted": [
+        {
+          "event_type": "venture.data.collected",
+          "payload": {
+            "venture_id": "string",
+            "collection_id": "string",
+            "collected_at": "timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "analysis",
+      "name": "Analysis",
+      "description": "Focused analysis of single venture by portfolio-analyst",
+      "type": "agent-execution",
+      "agent": "portfolio-analyst",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 120
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "decision",
+      "events_emitted": [
+        {
+          "event_type": "venture.analysis.completed",
+          "payload": {
+            "venture_id": "string",
+            "analysis_id": "string"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "decision",
+      "name": "Decision",
+      "description": "Make governance decision by governance-decision-agent",
+      "type": "agent-execution",
+      "agent": "governance-decision-agent",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 120
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "human-gate",
+      "events_emitted": [
+        {
+          "event_type": "venture.decision.made",
+          "payload": {
+            "venture_id": "string",
+            "decision_id": "string",
+            "decision": "enum[scale|iterate|pause|kill|continue]"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "human-gate",
+      "name": "Human Gate",
+      "description": "Require human confirmation for kill decisions",
+      "type": "human-gate",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 172800,
+      "rules": {
+        "auto_approve": ["scale", "iterate", "pause", "continue"],
+        "require_confirmation": ["kill"]
+      },
+      "next_step": {
+        "if_approved": "emit-decision",
+        "if_rejected": "decision"
+      },
+      "events_emitted": [
+        {
+          "event_type": "human.confirmation.requested",
+          "payload": {
+            "venture_id": "string",
+            "decision_id": "string"
+          }
+        },
+        {
+          "event_type": "human.confirmation.received",
+          "payload": {
+            "decision_id": "string",
+            "approved": "bool"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "emit-decision",
+      "name": "Emit Decision",
+      "description": "Emit decision to bruce-core",
+      "type": "event-emission",
+      "input_from": "data-store",
+      "output_to": "bruce-core",
+      "timeout_seconds": 120,
+      "retry_policy": {
+        "max_retries": 3,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "retry_until_success",
+      "events_emitted": [
+        {
+          "event_type": "venture.decision.emitted",
+          "payload": {
+            "venture_id": "string",
+            "decision_id": "string",
+            "emitted_at": "timestamp"
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "created_at": "2026-04-06",
+    "updated_at": "2026-04-06",
+    "owner": "portfolio-module"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "venture_id": "complify-ai-saas",
+  "detected_at": "2026-04-06T14:35:00Z",
+  "snapshot_id": "snapshot-complify-20260406-1430",
+  "anomalies_detected": [
+    {
+      "anomaly_id": "anom-20260406-001",
+      "metric_name": "mrr",
+      "type": "positive_breakout",
+      "severity": "info",
+      "current_value": 28500,
+      "baseline_value": 25150,
+      "delta_percent": 13.3,
+      "z_score": 1.2,
+      "description": "MRR growth accelerating. Current MRR of $28,500 is 13.3% above 4-week average, showing consistent upward trend over past month.",
+      "recommendation": "Positive momentum - investigate what's driving growth. Review recent product updates, marketing campaigns, or expanded customer base. Ensure growth is sustainable.",
+      "requires_escalation": false
+    }
+  ],
+  "anomaly_count_by_severity": {
+    "critical": 0,
+    "warning": 0,
+    "info": 1
+  },
+  "escalation_required": false
+}

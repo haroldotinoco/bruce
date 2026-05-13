@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Execution-Roadmap-Planner Output",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "volume_number": {"type": "integer", "const": 8},
+    "volume_title": {"type": "string"},
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "phase_name": {"type": "string"},
+          "duration_weeks": {"type": "integer"},
+          "objectives": {"type": "array", "items": {"type": "string"}},
+          "milestones": {"type": "array", "items": {"type": "string"}},
+          "resources_needed": {"type": "string"},
+          "budget": {"type": "number"},
+          "success_criteria": {"type": "array", "items": {"type": "string"}},
+          "dependencies": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "critical_path": {
+      "type": "object",
+      "properties": {
+        "longest_dependency_chain": {"type": "array", "items": {"type": "string"}},
+        "sequencing_requirements": {"type": "array", "items": {"type": "string"}},
+        "risk_delay_points": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "resource_requirements": {
+      "type": "object",
+      "properties": {
+        "headcount": {
+          "type": "object",
+          "additionalProperties": {"type": "object"}
+        },
+        "hiring_timeline": {"type": "array", "items": {"type": "string"}},
+        "tools_and_infrastructure_monthly": {"type": "number"},
+        "budget_allocation": {
+          "type": "object",
+          "additionalProperties": {"type": "number"}
+        },
+        "total_runway_12_months": {"type": "number"}
+      }
+    },
+    "success_metrics_and_gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "phase": {"type": "string"},
+          "phase_gate_criteria": {"type": "array", "items": {"type": "string"}},
+          "key_metrics": {"type": "object", "additionalProperties": {"type": "string"}},
+          "go_no_go_decision": {"type": "string"},
+          "adjustment_triggers": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "first_30_days": {
+      "type": "object",
+      "properties": {
+        "focus_areas": {"type": "array", "items": {"type": "string"}},
+        "week_1": {"type": "array", "items": {"type": "string"}},
+        "week_2": {"type": "array", "items": {"type": "string"}},
+        "week_3": {"type": "array", "items": {"type": "string"}},
+        "week_4": {"type": "array", "items": {"type": "string"}},
+        "team_composition": {"type": "string"}
+      }
+    },
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "data_gaps": {"type": "array", "items": {"type": "string"}},
+    "confidence_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "confidence_rationale": {"type": "string"},
+    "key_sections": {"type": "array", "items": {"type": "string"}},
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "volume_number", "volume_title", "phases", "critical_path", "resource_requirements", "success_metrics_and_gates", "first_30_days", "confidence_score"]
+}

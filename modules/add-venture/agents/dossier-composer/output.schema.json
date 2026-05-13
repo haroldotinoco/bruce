@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Final Venture Dossier",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "opportunity_id": {"type": "string"},
+    "venture_name": {"type": "string"},
+    "created_date": {"type": "string", "format": "date-time"},
+    "created_by": {"type": "string"},
+    "volumes": {
+      "type": "object",
+      "properties": {
+        "vol_1": {"type": "object"},
+        "vol_2": {"type": "object"},
+        "vol_3": {"type": "object"},
+        "vol_4": {"type": "object"},
+        "vol_5": {"type": "object"},
+        "vol_6": {"type": "object"},
+        "vol_7": {"type": "object"},
+        "vol_8": {"type": "object"}
+      }
+    },
+    "critique_result": {"type": "object"},
+    "executive_summary": {
+      "type": "object",
+      "properties": {
+        "narrative_summary": {"type": "string"},
+        "opportunity_snapshot": {"type": "string"},
+        "customer_snapshot": {"type": "string"},
+        "business_model_snapshot": {"type": "string"}
+      }
+    },
+    "key_metrics": {
+      "type": "object",
+      "properties": {
+        "market_tam_usd": {"type": "number"},
+        "primary_segment_size": {"type": "integer"},
+        "primary_segment_willingness_to_pay_median": {"type": "number"},
+        "year_1_revenue_target": {"type": "number"},
+        "year_1_customer_target": {"type": "integer"},
+        "year_1_mrr_target": {"type": "number"},
+        "cac": {"type": "number"},
+        "ltv": {"type": "number"},
+        "payback_period_months": {"type": "number"},
+        "breakeven_month": {"type": "integer"},
+        "year_1_headcount": {"type": "integer"},
+        "funding_required_12_months": {"type": "number"},
+        "critique_overall_score": {"type": "number"}
+      }
+    },
+    "status": {"type": "string", "enum": ["approved", "needs_iteration", "rejected"]},
+    "artifact_refs": {
+      "type": "object",
+      "properties": {
+        "pdf_url": {"type": "string"},
+        "json_url": {"type": "string"},
+        "archival_path": {"type": "string"}
+      }
+    },
+    "execution_timestamp": {"type": "string", "format": "date-time"},
+    "agent_id": {"type": "string"}
+  },
+  "required": ["venture_id", "opportunity_id", "venture_name", "created_date", "volumes", "critique_result", "executive_summary", "key_metrics", "status"]
+}

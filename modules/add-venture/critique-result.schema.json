@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Critique Result",
+  "description": "Output from venture-critic agent reviewing complete dossier",
+  "type": "object",
+  "properties": {
+    "venture_id": {"type": "string"},
+    "critique_timestamp": {"type": "string", "format": "date-time"},
+    "iteration_number": {"type": "integer"},
+    "overall_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Composite dossier score"
+    },
+    "volume_scores": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "description": "Score for each volume (vol_1 through vol_8)"
+    },
+    "weak_volumes": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Volumes scoring below 70 (flagged for iteration)"
+    },
+    "improvement_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "volume": {"type": "string"},
+          "issue": {"type": "string"},
+          "suggested_fix": {"type": "string"},
+          "priority": {"type": "string", "enum": ["critical", "high", "medium"]}
+        }
+      }
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": ["pass", "iterate", "reject"],
+      "description": "Pass if score >= 70, iterate if 60-69, reject if < 60"
+    },
+    "iteration_limit_reached": {"type": "boolean"},
+    "critique_notes": {"type": "string"}
+  },
+  "required": ["venture_id", "critique_timestamp", "overall_score", "recommendation"]
+}

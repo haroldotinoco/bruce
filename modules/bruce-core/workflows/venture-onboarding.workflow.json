@@ -1,0 +1,146 @@
+{
+  "workflow_id": "venture-onboarding",
+  "module": "bruce-core",
+  "description": "Onboards a new venture from a qualified opportunity through initial screening to AddVenture dispatch",
+  "trigger": {"type": "event", "event": "opportunity.advanced"},
+  "steps": [
+    {
+      "step_id": "validate-opportunity",
+      "agent": "venture-lifecycle-manager",
+      "description": "Validate the incoming opportunity meets minimum requirements for venture creation",
+      "input": {"from": "trigger.payload", "fields": ["opportunity_id", "opportunity_context", "validation_score"]},
+      "output_to": "validation-result",
+      "timeout_seconds": 120,
+      "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 2000},
+      "failure_policy": "fail_and_notify",
+      "next_step": {
+        "on_valid": "create-venture-record",
+        "on_invalid": "reject-opportunity"
+      },
+      "events_emitted": ["bruce-core.opportunity.validation-started", "bruce-core.opportunity.validated"]
+    },
+    {
+      "step_id": "create-venture-record",
+      "agent": "venture-lifecycle-manager",
+      "description": "Create the venture entity in state with status=generated",
+      "input": {"from": "validate-opportunity.output"},
+      "output_to": "venture-record",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 5, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": {"default": "dispatch-to-opportunity-screening"},
+      "events_emitted": ["bruce-core.venture.created"]
+    },
+    {
+      "step_id": "dispatch-to-opportunity-screening",
+      "agent": "module-dispatcher",
+      "description": "Dispatch venture to opportunity module for deep screening",
+      "input": {"from": "create-venture-record.output"},
+      "output_to": "screening-dispatch-result",
+      "timeout_seconds": 60,
+      "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 5000},
+      "failure_policy": "escalate_human",
+      "next_step": {"default": "await-screening-completion"},
+      "events_emitted": ["bruce-core.module.dispatched"]
+    },
+    {
+      "step_id": "await-screening-completion",
+      "agent": null,
+      "description": "Wait for opportunity module to complete screening and emit result",
+      "input": {"from": "trigger.event", "event": "opportunity.scored"},
+      "output_to": "screening-result",
+      "timeout_seconds": 1800,
+      "retry_policy": null,
+      "failure_policy": "escalate_human",
+      "next_step": {"default": "gate-post-screening"},
+      "events_emitted": []
+    },
+    {
+      "step_id": "gate-post-screening",
+      "agent": "gate-enforcer",
+      "description": "Evaluate post-screening gate: score threshold, portfolio fit",
+      "input": {"from": "await-screening-completion.output"},
+      "output_to": "gate-result",
+      "timeout_seconds": 120,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "gate_criteria": {
+        "min_score": 65,
+        "portfolio_fit_required": true,
+        "auto_pass_threshold": 85,
+        "auto_fail_threshold": 40,
+        "human_review_range": [40, 65]
+      },
+      "next_step": {
+        "on_pass": "update-venture-status-qualified",
+        "on_fail": "archive-venture",
+        "on_human_review": "operator-approval-gate"
+      },
+      "events_emitted": ["bruce-core.gate.evaluated", "bruce-core.gate.passed", "bruce-core.gate.failed"]
+    },
+    {
+      "step_id": "operator-approval-gate",
+      "agent": null,
+      "description": "Human operator reviews borderline ventures",
+      "type": "human_task",
+      "input": {"from": "gate-post-screening.output"},
+      "output_to": "operator-decision",
+      "timeout_seconds": 86400,
+      "escalation_after_seconds": 43200,
+      "failure_policy": "default_to_reject",
+      "next_step": {
+        "on_approved": "update-venture-status-qualified",
+        "on_rejected": "archive-venture"
+      },
+      "events_emitted": ["bruce-core.human-review.requested", "bruce-core.human-review.completed"]
+    },
+    {
+      "step_id": "update-venture-status-qualified",
+      "agent": "venture-lifecycle-manager",
+      "description": "Update venture status to 'qualified' and trigger AddVenture dispatch",
+      "input": {"from": "gate-post-screening.output"},
+      "output_to": "status-update-result",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 5, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": {"default": "dispatch-to-add-venture"},
+      "events_emitted": ["bruce-core.venture.status-updated", "bruce-core.venture.qualified"]
+    },
+    {
+      "step_id": "dispatch-to-add-venture",
+      "agent": "module-dispatcher",
+      "description": "Dispatch qualified venture to AddVenture module for structuring",
+      "input": {"from": "update-venture-status-qualified.output"},
+      "output_to": "dispatch-result",
+      "timeout_seconds": 60,
+      "retry_policy": {"max_attempts": 3, "backoff": "exponential", "initial_delay_ms": 5000},
+      "failure_policy": "escalate_human",
+      "next_step": null,
+      "events_emitted": ["bruce-core.module.dispatched", "bruce-core.venture-onboarding.completed"]
+    },
+    {
+      "step_id": "archive-venture",
+      "agent": "venture-lifecycle-manager",
+      "description": "Archive rejected venture with rationale",
+      "input": {"from": "gate-post-screening.output"},
+      "output_to": "archive-result",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 3, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": null,
+      "events_emitted": ["bruce-core.venture.archived", "bruce-core.venture.rejected"]
+    },
+    {
+      "step_id": "reject-opportunity",
+      "agent": "venture-lifecycle-manager",
+      "description": "Reject opportunity before venture record creation",
+      "input": {"from": "validate-opportunity.output"},
+      "output_to": "rejection-result",
+      "timeout_seconds": 30,
+      "retry_policy": {"max_attempts": 2, "backoff": "linear", "initial_delay_ms": 1000},
+      "failure_policy": "fail_and_notify",
+      "next_step": null,
+      "events_emitted": ["bruce-core.opportunity.rejected"]
+    }
+  ]
+}

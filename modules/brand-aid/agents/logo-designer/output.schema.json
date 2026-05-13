@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Logo Concepts Output",
+  "type": "object",
+  "required": ["concepts", "recommended_concept", "svg_output"],
+  "properties": {
+    "concepts": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "properties": {
+          "concept_name": { "type": "string" },
+          "visual_metaphor": { "type": "string" },
+          "rationale": { "type": "string" },
+          "design_approach": { "type": "string" },
+          "strengths": { "type": "array", "items": { "type": "string" } },
+          "considerations": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "recommended_concept": {
+      "type": "object",
+      "properties": {
+        "concept_name": { "type": "string" },
+        "rationale": { "type": "string" },
+        "design_decisions": { "type": "string" },
+        "strategic_fit": { "type": "string" }
+      }
+    },
+    "svg_output": {
+      "type": "object",
+      "properties": {
+        "horizontal_lockup": { "type": "string", "description": "SVG code for horizontal logo + wordmark" },
+        "vertical_lockup": { "type": "string", "description": "SVG code for vertical/stacked layout" },
+        "icon_only": { "type": "string", "description": "SVG code for icon without wordmark" },
+        "icon_with_text": { "type": "string", "description": "SVG code for icon with text" }
+      }
+    },
+    "color_variations": {
+      "type": "object",
+      "properties": {
+        "full_color": { "type": "string", "description": "Primary colorway SVG" },
+        "monochrome": { "type": "string", "description": "Single-color version SVG" },
+        "white": { "type": "string", "description": "White-on-transparent SVG" },
+        "dark": { "type": "string", "description": "Dark background version SVG" }
+      }
+    },
+    "scale_testing_report": {
+      "type": "string",
+      "description": "Verification that logo works at 16px, 64px, 256px, 512px scales"
+    },
+    "file_references": {
+      "type": "object",
+      "properties": {
+        "svg_folder": { "type": "string" },
+        "file_sizes": { "type": "object" }
+      }
+    }
+  }
+}

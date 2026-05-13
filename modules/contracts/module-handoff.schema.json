@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/module-handoff.schema.json",
+  "title": "Module-to-Module Handoff Envelope",
+  "description": "Standard envelope for inter-module communication. Wraps module-specific payloads with metadata for tracing and orchestration. All handoffs use this envelope regardless of specific payload content.",
+  "type": "object",
+  "properties": {
+    "handoff_id": {
+      "type": "string",
+      "description": "Unique identifier for this handoff (UUID v4)"
+    },
+    "from_module": {
+      "type": "string",
+      "enum": [
+        "opportunity",
+        "add-venture",
+        "brand-aid",
+        "builder",
+        "gtm",
+        "startup-ops",
+        "portfolio",
+        "bruce-core",
+        "bruce-memory"
+      ],
+      "description": "Source module name"
+    },
+    "to_module": {
+      "type": "string",
+      "enum": [
+        "opportunity",
+        "add-venture",
+        "brand-aid",
+        "builder",
+        "gtm",
+        "startup-ops",
+        "portfolio",
+        "bruce-core",
+        "bruce-memory"
+      ],
+      "description": "Destination module name"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture identifier (UUID v4 format)"
+    },
+    "payload": {
+      "type": "object",
+      "description": "Module-specific payload content. Structure determined by handoff-specific schema (e.g., venture-to-brand.schema.json). Receivers should validate against their respective schema.",
+      "additionalProperties": true
+    },
+    "context_refs": {
+      "type": "array",
+      "description": "References to state snapshots and artifacts that context the handoff",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ref_type": {
+            "type": "string",
+            "enum": [
+              "venture_state_snapshot",
+              "artifact",
+              "metric_snapshot",
+              "decision_record"
+            ],
+            "description": "Type of reference"
+          },
+          "ref_id": {
+            "type": "string",
+            "description": "Identifier of referenced resource"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of what this reference contains"
+          }
+        },
+        "required": ["ref_type", "ref_id"]
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Distributed tracing and orchestration metadata",
+      "properties": {
+        "correlation_id": {
+          "type": "string",
+          "description": "Unique ID tying all handoffs in a workflow together (UUID v4). Enables end-to-end tracing."
+        },
+        "trace_id": {
+          "type": "string",
+          "description": "Full trace path (e.g., 'opportunity:123:add-venture:456:bruce-core:789') for sequence reconstruction"
+        },
+        "triggered_by": {
+          "type": "string",
+          "enum": [
+            "workflow_step",
+            "event_subscription",
+            "manual_trigger",
+            "scheduled_task"
+          ],
+          "description": "What triggered this handoff"
+        },
+        "workflow_execution_id": {
+          "type": "string",
+          "description": "Temporal.io workflow execution ID for orchestration context"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When handoff was generated"
+        }
+      },
+      "required": ["correlation_id", "timestamp"]
+    },
+    "validation": {
+      "type": "object",
+      "description": "Validation results for this handoff against target schema",
+      "properties": {
+        "target_schema": {
+          "type": "string",
+          "description": "Name of the schema used to validate payload (e.g., 'venture-to-brand.schema.json')"
+        },
+        "is_valid": {
+          "type": "boolean",
+          "description": "Whether payload passed schema validation"
+        },
+        "validation_errors": {
+          "type": "array",
+          "description": "JSON Schema validation errors (if any)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "JSON path to invalid field"
+              },
+              "error": {
+                "type": "string",
+                "description": "Validation error message"
+              }
+            }
+          }
+        },
+        "validated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "required": [
+    "handoff_id",
+    "from_module",
+    "to_module",
+    "venture_id",
+    "payload",
+    "metadata"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Visual System",
+  "type": "object",
+  "required": ["color_palette", "typography_system", "design_tokens"],
+  "properties": {
+    "color_palette": {
+      "type": "object",
+      "properties": {
+        "primary_colors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "hex": { "type": "string" },
+              "rgb": { "type": "string" },
+              "usage": { "type": "string" }
+            }
+          }
+        },
+        "secondary_colors": { "type": "array" },
+        "neutral_palette": { "type": "array" }
+      }
+    },
+    "typography_system": {
+      "type": "object",
+      "properties": {
+        "headline_font": {
+          "type": "object",
+          "properties": {
+            "family": { "type": "string" },
+            "weight_range": { "type": "string" }
+          }
+        },
+        "body_font": {
+          "type": "object",
+          "properties": {
+            "family": { "type": "string" },
+            "weight_range": { "type": "string" },
+            "line_height": { "type": "number" }
+          }
+        },
+        "type_scale": { "type": "array" }
+      }
+    },
+    "design_tokens": {
+      "type": "object",
+      "properties": {
+        "color_tokens": { "type": "object" },
+        "spacing_tokens": { "type": "object" },
+        "typography_tokens": { "type": "object" },
+        "shadow_tokens": { "type": "object" },
+        "border_radius_tokens": { "type": "object" }
+      }
+    },
+    "accessibility_report": {
+      "type": "object",
+      "properties": {
+        "wcag_level": { "type": "string" },
+        "contrast_ratios_verified": { "type": "boolean" },
+        "color_blindness_safe": { "type": "boolean" }
+      }
+    }
+  }
+}

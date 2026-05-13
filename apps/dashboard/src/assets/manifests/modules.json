@@ -1,0 +1,38 @@
+[
+  {
+    "id": "bruce-core",
+    "agents_count": 4
+  },
+  {
+    "id": "opportunity",
+    "agents_count": 4
+  },
+  {
+    "id": "add-venture",
+    "agents_count": 11
+  },
+  {
+    "id": "brand-aid",
+    "agents_count": 8
+  },
+  {
+    "id": "builder",
+    "agents_count": 9
+  },
+  {
+    "id": "gtm",
+    "agents_count": 6
+  },
+  {
+    "id": "startup-ops",
+    "agents_count": 5
+  },
+  {
+    "id": "portfolio",
+    "agents_count": 5
+  },
+  {
+    "id": "bruce-memory",
+    "agents_count": 5
+  }
+]

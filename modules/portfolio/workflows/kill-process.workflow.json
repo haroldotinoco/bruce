@@ -1,0 +1,175 @@
+{
+  "workflow_id": "kill-process",
+  "name": "Kill Process Workflow",
+  "description": "Complete kill process: decision confirmation -> human confirmation -> emit kill event -> learning extraction -> archive state -> update portfolio",
+  "trigger": "on-demand",
+  "version": "1.0",
+  "steps": [
+    {
+      "step_id": "confirm-kill-decision",
+      "name": "Confirm Kill Decision",
+      "description": "Verify kill decision by governance-decision-agent",
+      "type": "agent-execution",
+      "agent": "governance-decision-agent",
+      "input_from": "request",
+      "output_to": "data-store",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "halt_workflow",
+      "next_step": "human-confirmation",
+      "events_emitted": [
+        {
+          "event_type": "kill.decision.confirmed",
+          "payload": {
+            "venture_id": "string",
+            "decision_id": "string",
+            "confirmed_at": "timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "human-confirmation",
+      "name": "Human Confirmation",
+      "description": "Mandatory human confirmation for kill decision",
+      "type": "human-gate",
+      "input_from": "data-store",
+      "output_to": "data-store",
+      "timeout_seconds": 259200,
+      "rules": {
+        "require_confirmation": true,
+        "escalation_required": true
+      },
+      "next_step": {
+        "if_approved": "emit-kill-event",
+        "if_rejected": "halt"
+      },
+      "events_emitted": [
+        {
+          "event_type": "kill.confirmation.requested",
+          "payload": {
+            "venture_id": "string",
+            "kill_rationale": "string"
+          }
+        },
+        {
+          "event_type": "kill.confirmation.received",
+          "payload": {
+            "venture_id": "string",
+            "confirmed_by": "string",
+            "confirmed_at": "timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "emit-kill-event",
+      "name": "Emit Kill Event",
+      "description": "Emit kill event to all modules to stop active work on venture",
+      "type": "event-emission",
+      "input_from": "data-store",
+      "output_to": "broadcast",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 3,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "retry_until_success",
+      "next_step": "learning-extraction",
+      "events_emitted": [
+        {
+          "event_type": "venture.killed",
+          "payload": {
+            "venture_id": "string",
+            "kill_id": "string",
+            "killed_at": "timestamp",
+            "modules_notified": "array"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "learning-extraction",
+      "name": "Learning Extraction",
+      "description": "Send kill record to bruce-memory for learning extraction",
+      "type": "event-emission",
+      "input_from": "data-store",
+      "output_to": "bruce-memory",
+      "timeout_seconds": 180,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "retry_until_success",
+      "next_step": "archive-state",
+      "events_emitted": [
+        {
+          "event_type": "learning.ingestion",
+          "payload": {
+            "venture_id": "string",
+            "kill_id": "string",
+            "sent_to_memory": "timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "archive-state",
+      "name": "Archive State",
+      "description": "Archive venture state in long-term storage",
+      "type": "data-operation",
+      "input_from": "data-store",
+      "output_to": "archive-storage",
+      "timeout_seconds": 300,
+      "retry_policy": {
+        "max_retries": 3,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "retry_until_success",
+      "next_step": "update-portfolio",
+      "events_emitted": [
+        {
+          "event_type": "venture.archived",
+          "payload": {
+            "venture_id": "string",
+            "archive_location": "string",
+            "archived_at": "timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "step_id": "update-portfolio",
+      "name": "Update Portfolio",
+      "description": "Update portfolio composition to remove killed venture",
+      "type": "data-operation",
+      "input_from": "data-store",
+      "output_to": "bruce-core",
+      "timeout_seconds": 180,
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_seconds": 60
+      },
+      "failure_policy": "retry_until_success",
+      "events_emitted": [
+        {
+          "event_type": "portfolio.updated",
+          "payload": {
+            "venture_id": "string",
+            "action": "remove",
+            "updated_at": "timestamp"
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "created_at": "2026-04-06",
+    "updated_at": "2026-04-06",
+    "owner": "portfolio-module",
+    "severity": "critical"
+  }
+}

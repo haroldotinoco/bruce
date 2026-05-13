@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bruce-memory/agents/intelligence-synthesizer/input",
+  "title": "IntelligenceSynthesizerInput",
+  "type": "object",
+  "required": ["period_start", "period_end"],
+  "properties": {
+    "period_start": {
+      "type": "string",
+      "format": "date",
+      "description": "Start of synthesis period"
+    },
+    "period_end": {
+      "type": "string",
+      "format": "date",
+      "description": "End of synthesis period"
+    },
+    "patterns_since": {
+      "type": "string",
+      "format": "date",
+      "description": "Only consider patterns created after this date"
+    },
+    "min_confidence": {
+      "type": "number",
+      "default": 0.7,
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Minimum confidence threshold for inclusion in key_patterns"
+    },
+    "max_patterns": {
+      "type": "integer",
+      "default": 10,
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Maximum key patterns to include (ranked by confidence × recency)"
+    },
+    "portfolio_summary": {
+      "type": "object",
+      "description": "Portfolio context for strategic implications",
+      "properties": {
+        "total_ventures": {
+          "type": "integer"
+        },
+        "ventures_by_stage": {
+          "type": "object"
+        },
+        "ventures_by_segment": {
+          "type": "object"
+        },
+        "active_ventures": {
+          "type": "integer"
+        },
+        "killed_ventures": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

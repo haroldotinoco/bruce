@@ -1,0 +1,530 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/venture-lifecycle.schema.json",
+  "title": "Venture Lifecycle Entity",
+  "description": "Central entity that crosses all modules. Represents the complete state of a venture from discovery through operating/scaling/exit. All modules read and write to this single record; all changes recorded in governance_history for audit.",
+  "type": "object",
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Unique identifier for the venture (UUID v4 format)",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generated",
+        "qualified",
+        "structured",
+        "built",
+        "launched",
+        "operating",
+        "iterating",
+        "scaling",
+        "paused",
+        "killed"
+      ],
+      "description": "Current lifecycle stage. generated=opportunity identified, qualified=passed risk filters, structured=hypothesis + brand defined, built=MVP complete, launched=live, operating=post-launch, iterating=testing new hypotheses, scaling=growing revenue/users, paused=temporarily halted, killed=terminated."
+    },
+    "opportunity_context": {
+      "type": "object",
+      "description": "Market context from opportunity module",
+      "properties": {
+        "problem_statement": {
+          "type": "string",
+          "description": "Problem being solved (1-2 sentences)"
+        },
+        "market_segment": {
+          "type": "string",
+          "description": "Target market segment (e.g., 'SMB SaaS', 'Creator Economy')"
+        },
+        "tam": {
+          "type": "object",
+          "description": "Total addressable market estimate",
+          "properties": {
+            "value": {
+              "type": "number",
+              "description": "TAM in USD"
+            },
+            "currency": {
+              "type": "string",
+              "default": "USD"
+            },
+            "reasoning": {
+              "type": "string"
+            }
+          },
+          "required": ["value"]
+        },
+        "validation_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Opportunity validation score (0-100) from opportunity module screening"
+        },
+        "key_insights": {
+          "type": "array",
+          "description": "Key market insights from opportunity research",
+          "items": {
+            "type": "string"
+          }
+        },
+        "competitive_landscape": {
+          "type": "array",
+          "description": "Known competitors and their positioning",
+          "items": {
+            "type": "object",
+            "properties": {
+              "competitor_name": {
+                "type": "string"
+              },
+              "positioning": {
+                "type": "string"
+              },
+              "market_share_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          }
+        },
+        "opportunity_id": {
+          "type": "string",
+          "description": "Reference to originating opportunity record"
+        },
+        "screened_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When opportunity was screened by opportunity module"
+        }
+      }
+    },
+    "hypothesis": {
+      "type": "object",
+      "description": "Initial business hypothesis from add-venture module",
+      "properties": {
+        "value_proposition": {
+          "type": "string",
+          "description": "Core value proposition (what unique value is delivered)"
+        },
+        "target_audience": {
+          "type": "object",
+          "description": "Who the product serves",
+          "properties": {
+            "demographics": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "psychographics": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pain_points": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "business_model_type": {
+          "type": "string",
+          "enum": [
+            "saas",
+            "subscription",
+            "marketplace",
+            "creator",
+            "e-commerce",
+            "b2b_services",
+            "freemium",
+            "hardware",
+            "hybrid"
+          ],
+          "description": "Business model category"
+        },
+        "success_metrics": {
+          "type": "array",
+          "description": "Key metrics to validate hypothesis success",
+          "items": {
+            "type": "object",
+            "properties": {
+              "metric_name": {
+                "type": "string",
+                "description": "e.g., 'DAU', 'MRR', 'Retention Rate'"
+              },
+              "target_value": {
+                "type": "number",
+                "description": "Target value to achieve"
+              },
+              "unit": {
+                "type": "string",
+                "description": "Unit of measurement (e.g., 'users', 'USD', '%')"
+              },
+              "timeframe_weeks": {
+                "type": "integer",
+                "description": "Weeks to achieve target"
+              }
+            },
+            "required": ["metric_name", "target_value", "unit"]
+          }
+        }
+      }
+    },
+    "brand_context": {
+      "type": "object",
+      "description": "Brand identity from brand-aid module",
+      "properties": {
+        "brand_name": {
+          "type": "string",
+          "description": "Official venture name"
+        },
+        "positioning_statement": {
+          "type": "string",
+          "description": "How the brand is positioned in market"
+        },
+        "tone_of_voice": {
+          "type": "array",
+          "description": "Brand voice descriptors (e.g., 'playful', 'professional', 'irreverent')",
+          "items": {
+            "type": "string"
+          }
+        },
+        "visual_mood": {
+          "type": "array",
+          "description": "Visual identity mood (e.g., 'modern', 'minimal', 'vibrant')",
+          "items": {
+            "type": "string"
+          }
+        },
+        "logo_svg": {
+          "type": "string",
+          "description": "Logo as SVG string (inline)"
+        },
+        "color_palette": {
+          "type": "object",
+          "description": "Color scheme",
+          "properties": {
+            "primary": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "secondary": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "accent": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "neutral": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "description": "Typography scheme",
+          "properties": {
+            "heading_font": {
+              "type": "string",
+              "description": "e.g., 'Inter Bold'"
+            },
+            "body_font": {
+              "type": "string",
+              "description": "e.g., 'Inter Regular'"
+            },
+            "scale": {
+              "type": "string",
+              "description": "e.g., 'major-third' (1.25x), 'golden-ratio' (1.618x)"
+            }
+          }
+        },
+        "brand_guidelines_artifact_id": {
+          "type": "string",
+          "description": "Reference to artifact_store record for full brand guidelines"
+        }
+      }
+    },
+    "product_context": {
+      "type": "object",
+      "description": "Product specification from builder module",
+      "properties": {
+        "mvp_scope": {
+          "type": "object",
+          "description": "Minimal viable product definition",
+          "properties": {
+            "core_features": {
+              "type": "array",
+              "description": "Must-have features for launch",
+              "items": {
+                "type": "string"
+              }
+            },
+            "out_of_scope": {
+              "type": "array",
+              "description": "Explicitly deferred features",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "tech_stack": {
+          "type": "object",
+          "description": "Technology choices",
+          "properties": {
+            "frontend": {
+              "type": "string",
+              "description": "e.g., 'React 18 + TypeScript'"
+            },
+            "backend": {
+              "type": "string",
+              "description": "e.g., 'Node.js + Express'"
+            },
+            "database": {
+              "type": "string",
+              "description": "e.g., 'PostgreSQL + Redis'"
+            },
+            "infrastructure": {
+              "type": "string",
+              "description": "e.g., 'AWS ECS + CloudFront'"
+            }
+          }
+        },
+        "integrations": {
+          "type": "array",
+          "description": "Third-party integrations",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "repo_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "GitHub/GitLab repository URL"
+        },
+        "deployed_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Live product URL (if launched)"
+        },
+        "deployment_status": {
+          "type": "string",
+          "enum": ["not_deployed", "staging", "alpha", "beta", "live"],
+          "description": "Current deployment stage"
+        },
+        "product_spec_artifact_id": {
+          "type": "string",
+          "description": "Reference to detailed product specification document"
+        }
+      }
+    },
+    "launch_context": {
+      "type": "object",
+      "description": "Go-to-market execution from gtm module",
+      "properties": {
+        "gtm_channels": {
+          "type": "array",
+          "description": "Marketing channels being used",
+          "items": {
+            "type": "string",
+            "enum": [
+              "organic",
+              "paid_search",
+              "paid_social",
+              "content",
+              "partnerships",
+              "pr",
+              "community",
+              "direct_sales",
+              "influencer",
+              "affiliate"
+            ]
+          }
+        },
+        "campaign_ids": {
+          "type": "array",
+          "description": "Active campaign identifiers for tracking",
+          "items": {
+            "type": "string"
+          }
+        },
+        "launch_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Planned or actual launch date"
+        },
+        "launch_readiness_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Score from gtm module assessing readiness (0-100)"
+        },
+        "gtm_plan_artifact_id": {
+          "type": "string",
+          "description": "Reference to full GTM plan document"
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "description": "Operational metrics tracked by startup-ops module",
+      "properties": {
+        "dau": {
+          "type": "number",
+          "description": "Daily active users (most recent)"
+        },
+        "wau": {
+          "type": "number",
+          "description": "Weekly active users (most recent)"
+        },
+        "mau": {
+          "type": "number",
+          "description": "Monthly active users (most recent)"
+        },
+        "mrr": {
+          "type": "number",
+          "description": "Monthly recurring revenue (most recent, USD)"
+        },
+        "arr": {
+          "type": "number",
+          "description": "Annual recurring revenue (most recent, USD)"
+        },
+        "cac": {
+          "type": "number",
+          "description": "Customer acquisition cost (USD)"
+        },
+        "ltv": {
+          "type": "number",
+          "description": "Customer lifetime value (USD)"
+        },
+        "retention_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Monthly retention rate (%)"
+        },
+        "churn_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Monthly churn rate (%)"
+        },
+        "burn_rate": {
+          "type": "number",
+          "description": "Monthly cash burn (USD, negative is positive cash flow)"
+        },
+        "runway_months": {
+          "type": "number",
+          "description": "Estimated months of cash runway"
+        },
+        "last_updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When metrics were last updated"
+        }
+      }
+    },
+    "governance_history": {
+      "type": "array",
+      "description": "Append-only log of all governance decisions made by bruce-core or portfolio modules",
+      "items": {
+        "type": "object",
+        "properties": {
+          "decision_id": {
+            "type": "string",
+            "description": "UUID for this decision record"
+          },
+          "decision_type": {
+            "type": "string",
+            "enum": [
+              "initialize",
+              "qualify",
+              "reject",
+              "scale",
+              "iterate",
+              "pause",
+              "unpause",
+              "kill",
+              "resurrect",
+              "reallocate_resources"
+            ],
+            "description": "Type of governance action taken"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Explanation for the decision"
+          },
+          "confidence_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Confidence in this decision (0-100)"
+          },
+          "decided_by_agent": {
+            "type": "string",
+            "description": "Which agent/module made the decision (e.g., 'bruce-core', 'portfolio')"
+          },
+          "supporting_data_refs": {
+            "type": "array",
+            "description": "References to metrics, reports, or artifacts supporting decision",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "correlation_id": {
+            "type": "string",
+            "description": "Trace ID for workflow execution"
+          }
+        },
+        "required": [
+          "decision_id",
+          "decision_type",
+          "rationale",
+          "confidence_score",
+          "decided_by_agent",
+          "timestamp"
+        ]
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When venture record was first created"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When venture record was last updated"
+    },
+    "version": {
+      "type": "integer",
+      "description": "Schema version of this venture record (for migrations)"
+    }
+  },
+  "required": [
+    "venture_id",
+    "status",
+    "created_at",
+    "updated_at"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Risk Monitor Input",
+  "description": "Portfolio composition and venture metrics for risk analysis",
+  "required": ["portfolio_composition", "timeframe"],
+  "properties": {
+    "portfolio_composition": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "description": "All active ventures with financial and dependency data",
+      "items": {
+        "type": "object",
+        "required": ["venture_id", "name", "sector", "monthly_revenue", "monthly_burn_rate", "runway_months"],
+        "properties": {
+          "venture_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sector": {
+            "type": "string",
+            "description": "Industry vertical"
+          },
+          "monthly_revenue": {
+            "type": "number",
+            "description": "MRR or ARR/12 in USD"
+          },
+          "monthly_burn_rate": {
+            "type": "number",
+            "description": "Monthly burn in USD"
+          },
+          "runway_months": {
+            "type": "number",
+            "description": "Months of cash remaining"
+          },
+          "traction_score": {
+            "type": "number",
+            "description": "0-100 health score from analyst"
+          },
+          "shared_infrastructure": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "IDs of other ventures sharing infrastructure"
+          },
+          "shared_customers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "IDs of other ventures with overlapping customer base"
+          },
+          "shared_team_members": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "IDs of other ventures sharing key team"
+          },
+          "customer_concentration": {
+            "type": "object",
+            "description": "Top customer dependency metrics",
+            "properties": {
+              "top_customer_percent": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "% of revenue from single largest customer"
+              },
+              "top_3_customer_percent": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "% of revenue from top 3 customers"
+              }
+            }
+          },
+          "market_factors": {
+            "type": "object",
+            "description": "External factors affecting venture",
+            "properties": {
+              "geographic_concentration": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Primary geographies (e.g., US, EU, APAC)"
+              },
+              "regulatory_risk": {
+                "type": "boolean",
+                "description": "Subject to regulatory headwinds"
+              },
+              "economic_sensitivity": {
+                "type": "string",
+                "enum": ["low", "medium", "high"],
+                "description": "Sensitivity to economic downturns"
+              }
+            }
+          }
+        }
+      }
+    },
+    "timeframe": {
+      "type": "object",
+      "description": "Analysis timeframe",
+      "properties": {
+        "analysis_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "projection_months": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 24,
+          "default": 12,
+          "description": "How far forward to project risks"
+        }
+      }
+    },
+    "portfolio_constraints": {
+      "type": "object",
+      "description": "Portfolio policy constraints",
+      "properties": {
+        "max_concentration_percent": {
+          "type": "number",
+          "default": 60,
+          "description": "Max % revenue allowed in top 3 ventures"
+        },
+        "min_portfolio_runway_months": {
+          "type": "number",
+          "default": 12,
+          "description": "Minimum acceptable collective runway"
+        },
+        "max_burn_rate_monthly": {
+          "type": "number",
+          "description": "Portfolio monthly burn limit in USD"
+        }
+      }
+    },
+    "analysis_focus": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific risk dimensions to emphasize (e.g., ['concentration', 'codependency'])"
+    }
+  }
+}

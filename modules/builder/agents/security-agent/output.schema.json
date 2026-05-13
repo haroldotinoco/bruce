@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Security Agent Output",
+  "type": "object",
+  "required": ["overall_security_score", "launch_blocked"],
+  "properties": {
+    "vulnerabilities": {
+      "type": "array",
+      "description": "List of identified vulnerabilities",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "severity", "description"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "description": { "type": "string" },
+          "affected_component": { "type": "string" },
+          "recommendation": { "type": "string" },
+          "cwe_id": { "type": "string" }
+        }
+      }
+    },
+    "overall_security_score": {
+      "type": "number",
+      "description": "Security score 0-100"
+    },
+    "critical_count": { "type": "integer" },
+    "high_count": { "type": "integer" },
+    "medium_count": { "type": "integer" },
+    "low_count": { "type": "integer" },
+    "launch_blocked": {
+      "type": "boolean",
+      "description": "True if critical vulnerabilities found"
+    },
+    "security_report_ref": {
+      "type": "string",
+      "description": "Artifact ID for detailed security report"
+    },
+    "owasp_compliance": {
+      "type": "object",
+      "description": "OWASP Top 10 assessment",
+      "properties": {
+        "a01_broken_access_control": { "type": "string" },
+        "a02_cryptographic_failures": { "type": "string" },
+        "a03_injection": { "type": "string" },
+        "a04_insecure_design": { "type": "string" },
+        "a05_security_misconfiguration": { "type": "string" },
+        "a06_vulnerable_outdated_components": { "type": "string" },
+        "a07_authentication_failures": { "type": "string" },
+        "a08_software_data_integrity_failures": { "type": "string" },
+        "a09_logging_monitoring_failures": { "type": "string" },
+        "a10_ssrf": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/provider-registry.schema.json",
+  "title": "LLM Provider Registry",
+  "description": "Global registry of available LLM providers and models. Enables runtime provider routing without hardcoding. Agents declare preferred provider in capabilities.json; platform uses this registry to verify availability and select model.",
+  "type": "object",
+  "properties": {
+    "routing_mode": {
+      "type": "string",
+      "enum": ["direct", "openrouter"],
+      "default": "direct",
+      "description": "When 'openrouter', all LLM calls route through OpenRouter (https://openrouter.ai) regardless of individual provider settings. When 'direct', each provider is called directly. OpenRouter provides a unified API for all major LLM providers. When routing_mode=openrouter, set api_key_env_ref to OPENROUTER_API_KEY and use model IDs with provider prefix (e.g., anthropic/claude-opus-4-6)."
+    },
+    "providers": {
+      "type": "array",
+      "description": "Array of available LLM provider configurations",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": ["openai", "anthropic", "google", "openrouter"],
+            "description": "Provider identifier"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Human-readable name (e.g., 'OpenAI')"
+          },
+          "api_endpoint": {
+            "type": "string",
+            "format": "uri",
+            "description": "Base API endpoint URL"
+          },
+          "api_key_env_ref": {
+            "type": "string",
+            "description": "Environment variable name for API key (e.g., 'OPENAI_API_KEY')"
+          },
+          "models": {
+            "type": "array",
+            "description": "Available models from this provider",
+            "items": {
+              "type": "object",
+              "properties": {
+                "model_id": {
+                  "type": "string",
+                  "description": "Model identifier (e.g., 'gpt-4-turbo', 'claude-opus-4')"
+                },
+                "display_name": {
+                  "type": "string",
+                  "description": "Human-readable model name"
+                },
+                "version": {
+                  "type": "string",
+                  "description": "Model version/release date (e.g., '2024-04-09')"
+                },
+                "context_window_tokens": {
+                  "type": "integer",
+                  "description": "Max input tokens"
+                },
+                "supports_vision": {
+                  "type": "boolean",
+                  "description": "Can process images"
+                },
+                "supports_tools": {
+                  "type": "boolean",
+                  "description": "Can use function calling / tools"
+                },
+                "supports_structured_output": {
+                  "type": "boolean",
+                  "description": "Can guarantee JSON schema compliance"
+                },
+                "input_cost_per_1m_tokens": {
+                  "type": "number",
+                  "description": "Cost in USD"
+                },
+                "output_cost_per_1m_tokens": {
+                  "type": "number",
+                  "description": "Cost in USD"
+                },
+                "supported_regions": {
+                  "type": "array",
+                  "description": "Geographic regions where model is available",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "maturity": {
+                  "type": "string",
+                  "enum": ["experimental", "beta", "stable", "deprecated"],
+                  "description": "Model maturity/stability"
+                }
+              },
+              "required": [
+                "model_id",
+                "display_name",
+                "context_window_tokens",
+                "supports_tools"
+              ]
+            }
+          },
+          "default_model": {
+            "type": "string",
+            "description": "Default model ID if not specified in capabilities.json"
+          },
+          "rate_limits": {
+            "type": "object",
+            "description": "API rate limiting",
+            "properties": {
+              "requests_per_minute": {
+                "type": "integer"
+              },
+              "tokens_per_minute": {
+                "type": "integer"
+              },
+              "concurrent_requests": {
+                "type": "integer"
+              }
+            }
+          },
+          "authentication": {
+            "type": "object",
+            "description": "Authentication configuration",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["api_key", "oauth", "bearer_token"]
+              },
+              "header_name": {
+                "type": "string",
+                "description": "HTTP header for auth (e.g., 'Authorization')"
+              },
+              "header_prefix": {
+                "type": "string",
+                "description": "Prefix for header value (e.g., 'Bearer')"
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "degraded", "maintenance", "offline"],
+            "description": "Current provider status"
+          },
+          "status_page_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL for status monitoring"
+          },
+          "supported_capabilities": {
+            "type": "object",
+            "description": "Feature matrix for this provider",
+            "properties": {
+              "function_calling": {
+                "type": "boolean"
+              },
+              "vision": {
+                "type": "boolean"
+              },
+              "structured_outputs": {
+                "type": "boolean"
+              },
+              "streaming": {
+                "type": "boolean"
+              },
+              "batch_processing": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "api_endpoint",
+          "api_key_env_ref",
+          "models",
+          "default_model",
+          "rate_limits"
+        ]
+      },
+      "minItems": 1
+    },
+    "fallback_order": {
+      "type": "array",
+      "description": "Default provider fallback order if primary provider is unavailable",
+      "items": {
+        "type": "string",
+        "enum": ["openai", "anthropic", "google", "openrouter"]
+      }
+    },
+    "global_timeout_seconds": {
+      "type": "integer",
+      "description": "Default timeout for any LLM API call"
+    },
+    "retry_policy": {
+      "type": "object",
+      "description": "Retry behavior for failed API calls",
+      "properties": {
+        "max_retries": {
+          "type": "integer"
+        },
+        "initial_delay_ms": {
+          "type": "integer"
+        },
+        "max_delay_ms": {
+          "type": "integer"
+        },
+        "backoff_multiplier": {
+          "type": "number"
+        }
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this registry was last updated"
+    }
+  },
+  "required": ["providers", "fallback_order"],
+  "additionalProperties": false
+}

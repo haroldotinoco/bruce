@@ -1,0 +1,133 @@
+{
+  "event_type": "gate.evaluation-requested",
+  "trigger_timestamp": "2026-04-08T14:30:00Z",
+  "gate_id": "post-screening",
+  "venture_id": "v-saas-a1b2c3d4-20260406",
+  "correlation_id": "550e8400-e29b-41d4-a716-446655440000",
+  "venture_context": {
+    "venture_name": "SecureFlow",
+    "venture_type": "B2B SaaS",
+    "founder_name": "Elena Rodriguez",
+    "current_stage": "GENERATED",
+    "opportunity_id": "opp-compliance-8f3e2a1c",
+    "created_at": "2026-04-06T09:15:00Z",
+    "time_in_stage_hours": 53,
+    "problem_statement": "Enterprise compliance teams manually manage regulatory requirements across 15+ frameworks with spreadsheets and disparate tools, leading to audit failures and massive overhead"
+  },
+  "screening_results": {
+    "screening_module": "opportunity",
+    "screening_completed_at": "2026-04-08T14:00:00Z",
+    "screening_duration_minutes": 195,
+    "overall_screening_score": 78,
+    "screening_components": {
+      "founder_assessment": {
+        "score": 88,
+        "max_score": 100,
+        "assessment": "Exceptional. 12 years compliance domain expertise including 4 years VP Compliance at Stripe. Strong leadership track record.",
+        "confidence": 0.95,
+        "factors": {
+          "domain_expertise": 95,
+          "leadership_experience": 82,
+          "execution_capability": 87,
+          "network_strength": 90
+        }
+      },
+      "problem_validation": {
+        "score": 92,
+        "max_score": 100,
+        "assessment": "Strong. 22 customer interviews (95% of targeted interviews), 22/22 confirmed pain point. Estimated $200K/year per customer impact.",
+        "confidence": 0.94,
+        "factors": {
+          "interview_count": 22,
+          "interview_conversion": 0.95,
+          "problem_frequency": "Critical (200+ hours/year wasted)",
+          "willingness_to_pay": "Very high (willing to pay $50K-100K annually)"
+        }
+      },
+      "market_analysis": {
+        "score": 85,
+        "max_score": 100,
+        "assessment": "Large and growing. $2.1B TAM in enterprise compliance automation. Strong tailwind: AI regulations, investor interest in compliance space.",
+        "confidence": 0.89,
+        "factors": {
+          "tam_size": "2100000000 (Very large)",
+          "sam_size": "420000000 (Reasonable)",
+          "som_initial": "15000000 (Addressable Year 1-2)",
+          "market_growth_rate": "35% CAGR",
+          "market_tailwind": "AI regulations creating new compliance requirements"
+        }
+      },
+      "solution_feasibility": {
+        "score": 84,
+        "max_score": 100,
+        "assessment": "Feasible MVP within 7 months and $850K. Clear architecture. Key risks: AI accuracy, regulatory tracking.",
+        "confidence": 0.87,
+        "factors": {
+          "mvp_timeline_months": 7,
+          "mvp_cost_estimate": 850000,
+          "key_technologies": ["LLMs", "graph-databases", "regulatory-APIs"],
+          "technical_risk_level": "Medium",
+          "regulatory_risk": "Medium"
+        }
+      },
+      "competitive_positioning": {
+        "score": 72,
+        "max_score": 100,
+        "assessment": "Clear differentiation (AI-powered) but competing against Vanta and Drata. Differentiation defensible via founder credibility and AI capabilities.",
+        "confidence": 0.81,
+        "factors": {
+          "competitive_advantage": "AI-powered gap analysis + founder credibility",
+          "competitor_strength": "Vanta (well-funded, large customer base), Drata (good UX)",
+          "market_share_defensibility": "Medium (AI advantage may be temporary)",
+          "positioning_clarity": "Clear (vs Vanta/Drata: cheaper + smarter)"
+        }
+      }
+    }
+  },
+  "gate_criteria": {
+    "gate_type": "post-screening",
+    "min_threshold": 65,
+    "auto_pass_threshold": 85,
+    "auto_fail_threshold": 40,
+    "human_review_range": [40, 65],
+    "human_review_enabled": true,
+    "portfolio_fit_required": true,
+    "portfolio_fit_assessment": {
+      "score": 79,
+      "assessment": "Strong fit. B2B SaaS, large TAM, strong founder. Aligns with portfolio's enterprise software focus."
+    }
+  },
+  "gate_scoring": {
+    "methodology": "Weighted average of screening components",
+    "weights": {
+      "founder_assessment": 0.25,
+      "problem_validation": 0.25,
+      "market_analysis": 0.25,
+      "solution_feasibility": 0.15,
+      "competitive_positioning": 0.10
+    },
+    "calculated_score": 78,
+    "confidence": 0.91,
+    "confidence_reasoning": "High confidence due to strong founder validation, extensive customer interviews, clear market opportunity, and experienced gate-enforcer assessment"
+  },
+  "comparable_ventures_for_context": {
+    "description": "Previous ventures that scored similarly in post-screening gate",
+    "comparable_ventures": [
+      {
+        "venture_name": "CloudSync (2026-Q1)",
+        "gate_score": 78,
+        "gate_decision": "PASSED",
+        "current_status": "QUALIFIED",
+        "similar_factors": "Strong founder, validated problem, large market"
+      },
+      {
+        "venture_name": "DataFlow (2026-Q1)",
+        "gate_score": 79,
+        "gate_decision": "PASSED",
+        "current_status": "STRUCTURED",
+        "similar_factors": "Exceptional founder, critical pain point, B2B SaaS"
+      }
+    ]
+  },
+  "boundary_case_note": "This is a PASSING case. Score of 78 is above min_threshold (65) and below auto_pass_threshold (85), but is clearly in the PASS region. This is NOT a borderline case that should route to human review."
+}

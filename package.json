@@ -1,0 +1,47 @@
+{
+  "name": "bruce-ai",
+  "version": "0.0.1",
+  "description": "BruceAI — Modular AI Agent Platform for Venture Building",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev --concurrency=15",
+    "dev:clean": "bash scripts/restart-dev-stack.sh && turbo run dev --concurrency=15",
+    "build": "turbo run build",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "test:integration": "vitest run --config apps/opportunity/vitest.integration.config.ts",
+    "test:integration:e2e": "BRUCE_E2E_INTEGRATION=1 vitest run --config apps/opportunity/vitest.integration.config.ts",
+    "test:coverage": "vitest run --coverage",
+    "evals": "pnpm --filter @bruce/evals exec tsx src/cli.ts",
+    "test:turbo": "turbo run test",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "db:migrate": "turbo run db:migrate",
+    "db:seed": "turbo run db:seed",
+    "temporal:start": "docker compose up temporal",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "restart:dev-stack": "bash scripts/restart-dev-stack.sh",
+    "test:venture-flow": "tsx scripts/test-venture-flow.ts",
+    "workers": "pnpm --parallel --filter @bruce/app-bruce-core --filter @bruce/app-opportunity --filter @bruce/app-add-venture --filter @bruce/app-brand-aid --filter @bruce/app-builder --filter @bruce/app-gtm --filter @bruce/app-startup-ops --filter @bruce/app-portfolio --filter @bruce/app-bruce-memory run worker",
+    "events:retry-dlq": "pnpm --filter @bruce/events run retry-dlq",
+    "clean": "turbo run clean && rm -rf node_modules && pnpm store prune"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.0",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "prettier": "^3.1.0",
+    "tsx": "^4.7.0",
+    "turbo": "^1.10.0",
+    "typescript": "^5.3.0",
+    "vitest": "^2.1.0"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "backend-agent",
+  "purpose": "Generates production-ready backend code (NestJS/Node.js): API routes, controllers, services, data models, business logic, tests",
+  "input_types": [
+    "architecture_spec",
+    "bdd_scenarios",
+    "data_models"
+  ],
+  "output_types": [
+    "code_repository",
+    "api_implementation",
+    "test_suite"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.1,
+    "max_tokens": 8000,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

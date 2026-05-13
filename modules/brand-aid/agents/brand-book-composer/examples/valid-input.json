@@ -1,0 +1,57 @@
+{
+  "brand_identity": {
+    "strategy": {
+      "positioning": "The professional network where respected independents build meaningful careers with quality-focused brands",
+      "primary_archetype": "Sage",
+      "brand_promise": "Fair partnership: Your expertise deserves full price value",
+      "personality_traits": [
+        "Thoughtful",
+        "Professional",
+        "Trustworthy",
+        "Integrity-driven",
+        "Empowering"
+      ],
+      "values": [
+        "Quality over quantity",
+        "Fair value exchange",
+        "Mutual respect",
+        "Professional growth"
+      ]
+    },
+    "visual_system": {
+      "primary_colors": [
+        { "name": "Sage Blue", "hex": "#1B3A52" },
+        { "name": "Warm Sand", "hex": "#D4A574" }
+      ],
+      "typography_system": {
+        "headline_font": "Crimson Text",
+        "body_font": "Inter"
+      }
+    },
+    "logo_concepts": {
+      "recommended_concept": {
+        "concept_name": "The Handshake + Growth Arrow",
+        "design_decisions": "Two curves forming handshake, with upward arrow in negative space"
+      }
+    },
+    "naming_candidates": {
+      "top_candidates": [
+        {
+          "name": "Faire",
+          "overall_score": 89
+        }
+      ]
+    }
+  },
+  "brand_critique": {
+    "overall": 85,
+    "pass_fail": true
+  },
+  "export_formats": ["pdf", "json", "css"],
+  "brand_name": "Faire",
+  "composition_options": {
+    "include_extended_guidelines": false,
+    "include_marketing_brief": false,
+    "audience": "all"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "architecture_spec": {
+    "services": [
+      {
+        "name": "Auth Service",
+        "tech": "NestJS",
+        "api_endpoints": [
+          "POST /api/v1/auth/register",
+          "POST /api/v1/auth/login"
+        ]
+      }
+    ]
+  },
+  "bdd_scenarios": [
+    {
+      "scenario_id": "BDD-LOGIN-001",
+      "feature": "User Authentication",
+      "given": ["User is on the login page"],
+      "when": ["User enters valid credentials"],
+      "then": ["User receives JWT token"]
+    }
+  ],
+  "data_models": [
+    {
+      "entity": "User",
+      "fields": [
+        { "name": "id", "type": "UUID", "required": true },
+        { "name": "email", "type": "VARCHAR", "required": true },
+        { "name": "password_hash", "type": "VARCHAR", "required": true }
+      ]
+    }
+  ],
+  "environment_config": {
+    "database": "PostgreSQL",
+    "port": 3000
+  }
+}

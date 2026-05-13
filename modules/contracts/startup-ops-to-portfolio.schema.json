@@ -1,0 +1,429 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bruceai.dev/schemas/startup-ops-to-portfolio.schema.json",
+  "title": "StartupOps to Portfolio Handoff",
+  "description": "Weekly health report from startup-ops module to portfolio module. Encapsulates operational metrics, hypothesis validation status, and anomalies for multi-venture portfolio analysis and strategic decisions.",
+  "type": "object",
+  "properties": {
+    "venture_id": {
+      "type": "string",
+      "description": "Venture identifier (UUID v4)"
+    },
+    "report_period": {
+      "type": "object",
+      "description": "Reporting period",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "report_frequency": {
+          "type": "string",
+          "enum": ["weekly", "biweekly", "monthly"],
+          "description": "How often reports are generated"
+        }
+      },
+      "required": ["start_date", "end_date"]
+    },
+    "health_scores": {
+      "type": "object",
+      "description": "Multi-dimensional health assessment (0-100)",
+      "properties": {
+        "activation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Are new users being activated? (based on activation rate vs target)"
+        },
+        "retention": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Are users staying? (based on retention rate vs target)"
+        },
+        "revenue": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Is revenue growing? (based on MRR vs target)"
+        },
+        "product_quality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Is product quality good? (based on bugs, crashes, support tickets)"
+        },
+        "financial": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Is burn rate sustainable? (based on runway, unit economics)"
+        },
+        "market_fit": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Is product-market fit evident? (based on NPS, retention, word-of-mouth)"
+        }
+      },
+      "required": ["activation", "retention", "revenue", "product_quality", "financial", "market_fit"]
+    },
+    "overall_health_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Weighted average of health scores"
+    },
+    "metric_snapshots": {
+      "type": "object",
+      "description": "Current operational metrics",
+      "properties": {
+        "dau": {
+          "type": "number",
+          "description": "Daily active users (most recent)"
+        },
+        "wau": {
+          "type": "number",
+          "description": "Weekly active users"
+        },
+        "mau": {
+          "type": "number",
+          "description": "Monthly active users"
+        },
+        "dau_trend": {
+          "type": "object",
+          "description": "DAU trend analysis",
+          "properties": {
+            "current": {
+              "type": "number"
+            },
+            "previous_week": {
+              "type": "number"
+            },
+            "change_pct": {
+              "type": "number"
+            },
+            "trend_direction": {
+              "type": "string",
+              "enum": ["up", "flat", "down"]
+            }
+          }
+        },
+        "signups": {
+          "type": "number",
+          "description": "New signups this period"
+        },
+        "signup_trend": {
+          "type": "object",
+          "properties": {
+            "current": {
+              "type": "number"
+            },
+            "previous_week": {
+              "type": "number"
+            },
+            "change_pct": {
+              "type": "number"
+            }
+          }
+        },
+        "activation_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "% of signups becoming active"
+        },
+        "mrr": {
+          "type": "number",
+          "description": "Monthly recurring revenue (USD)"
+        },
+        "mrr_trend": {
+          "type": "object",
+          "properties": {
+            "current": {
+              "type": "number"
+            },
+            "previous_month": {
+              "type": "number"
+            },
+            "change_pct": {
+              "type": "number"
+            }
+          }
+        },
+        "arr": {
+          "type": "number",
+          "description": "Annual recurring revenue (USD)"
+        },
+        "cac": {
+          "type": "number",
+          "description": "Customer acquisition cost (USD)"
+        },
+        "ltv": {
+          "type": "number",
+          "description": "Customer lifetime value (USD)"
+        },
+        "ltv_cac_ratio": {
+          "type": "number",
+          "description": "LTV:CAC ratio"
+        },
+        "retention_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Monthly retention % (how many month N users were also active month N-1)"
+        },
+        "churn_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Monthly churn %"
+        },
+        "burn_rate": {
+          "type": "number",
+          "description": "Monthly cash burn (USD, negative is positive cash flow)"
+        },
+        "runway_months": {
+          "type": "number",
+          "description": "Estimated months of runway at current burn"
+        },
+        "nps": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100,
+          "description": "Net Promoter Score (if surveyed)"
+        },
+        "support_tickets_open": {
+          "type": "integer",
+          "description": "Current open support tickets"
+        },
+        "avg_response_time_hours": {
+          "type": "number",
+          "description": "Average support response time"
+        },
+        "critical_bugs": {
+          "type": "integer",
+          "description": "Number of critical/blocking issues"
+        }
+      }
+    },
+    "metric_targets": {
+      "type": "object",
+      "description": "Targets for key metrics (from hypothesis)",
+      "properties": {
+        "dau_target": {
+          "type": "number"
+        },
+        "activation_rate_target": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "retention_rate_target": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "mrr_target": {
+          "type": "number"
+        },
+        "churn_rate_target": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "hypothesis_validation_status": {
+      "type": "string",
+      "enum": ["validating", "validated", "invalidated", "inconclusive"],
+      "description": "Status of core hypothesis being tested"
+    },
+    "hypothesis_validation_detail": {
+      "type": "object",
+      "description": "Detailed hypothesis validation results",
+      "properties": {
+        "hypothesis": {
+          "type": "string",
+          "description": "The hypothesis being tested"
+        },
+        "validation_criteria": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "target_value": {
+                "type": "number"
+              },
+              "current_value": {
+                "type": "number"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["met", "not_met", "in_progress"]
+              }
+            }
+          }
+        },
+        "validation_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "How confident are we in this conclusion?"
+        },
+        "next_steps": {
+          "type": "string",
+          "description": "If inconclusive, what's needed to resolve?"
+        }
+      }
+    },
+    "anomalies_detected": {
+      "type": "array",
+      "description": "Unusual patterns or concerning trends",
+      "items": {
+        "type": "object",
+        "properties": {
+          "anomaly": {
+            "type": "string",
+            "description": "What is unusual?"
+          },
+          "metric": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "detected_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "probable_cause": {
+            "type": "string"
+          },
+          "investigation_status": {
+            "type": "string",
+            "enum": ["open", "investigating", "root_cause_found", "resolved"]
+          },
+          "suggested_action": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "successes_this_period": {
+      "type": "array",
+      "description": "Wins and positive developments",
+      "items": {
+        "type": "string"
+      }
+    },
+    "challenges_this_period": {
+      "type": "array",
+      "description": "Challenges faced",
+      "items": {
+        "type": "object",
+        "properties": {
+          "challenge": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "mitigation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "description": "Recommendations for next period",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recommendation": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "effort_estimate": {
+            "type": "string",
+            "description": "e.g., 'small', 'medium', 'large'"
+          }
+        }
+      }
+    },
+    "resource_needs": {
+      "type": "object",
+      "description": "Resources needed to improve metrics",
+      "properties": {
+        "headcount_increase": {
+          "type": "integer",
+          "description": "Additional team members needed"
+        },
+        "budget_increase": {
+          "type": "number",
+          "description": "Additional monthly budget (USD)"
+        },
+        "other_resources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "decision_required": {
+      "type": "boolean",
+      "description": "Does this require a portfolio/bruce-core decision?"
+    },
+    "suggested_decision": {
+      "type": "string",
+      "enum": ["continue", "iterate", "scale", "pause", "kill", "escalate_to_human"],
+      "description": "What decision does startup-ops recommend?"
+    },
+    "suggested_decision_rationale": {
+      "type": "string",
+      "description": "Why this decision?"
+    },
+    "decision_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confidence in recommendation"
+    },
+    "reported_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this report was generated"
+    },
+    "report_generated_by_agent": {
+      "type": "string",
+      "description": "Which startup-ops agent instance generated this"
+    }
+  },
+  "required": [
+    "venture_id",
+    "report_period",
+    "health_scores",
+    "overall_health_score",
+    "metric_snapshots",
+    "hypothesis_validation_status",
+    "reported_at"
+  ],
+  "additionalProperties": false
+}

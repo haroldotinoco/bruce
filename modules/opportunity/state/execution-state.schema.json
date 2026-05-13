@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opportunity Module Execution State",
+  "description": "Runtime state tracking active processing in the opportunity module",
+  "type": "object",
+  "properties": {
+    "current_scan": {
+      "type": "object",
+      "properties": {
+        "scan_id": {
+          "type": "string"
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["scanning", "analyzing", "scoring", "prioritizing", "complete"]
+        },
+        "opportunities_in_progress": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Opportunity IDs currently being processed"
+        }
+      }
+    },
+    "scored_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_id": {
+            "type": "string"
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "scored_timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "advancement_eligible": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "Opportunities that have been scored, waiting for prioritization"
+    },
+    "processing_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_id": {
+            "type": "string"
+          },
+          "error_message": {
+            "type": "string"
+          },
+          "agent_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

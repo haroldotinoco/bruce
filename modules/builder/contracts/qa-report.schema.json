@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QA Report",
+  "type": "object",
+  "required": ["report_id", "build_id", "overall_status"],
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "description": "Unique report identifier"
+    },
+    "build_id": {
+      "type": "string",
+      "description": "Parent build ID"
+    },
+    "test_run_id": {
+      "type": "string",
+      "description": "Unique test run identifier"
+    },
+    "executed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "test_environment": {
+      "type": "object",
+      "properties": {
+        "browser": { "type": "string" },
+        "staging_url": { "type": "string" }
+      }
+    },
+    "scenarios_total": {
+      "type": "integer"
+    },
+    "scenarios_passed": {
+      "type": "integer"
+    },
+    "scenarios_failed": {
+      "type": "integer"
+    },
+    "pass_rate_percent": {
+      "type": "number"
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": ["pass", "fail"]
+    },
+    "test_results": {
+      "type": "array",
+      "description": "Individual test result entries",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario_id": { "type": "string" },
+          "scenario_name": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "fail"]
+          },
+          "duration_ms": { "type": "integer" },
+          "error_message": { "type": "string" },
+          "failed_step": { "type": "string" },
+          "screenshot_ref": { "type": "string" }
+        }
+      }
+    },
+    "failures": {
+      "type": "array",
+      "description": "Summary of failed scenarios",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario_id": { "type": "string" },
+          "failure_type": { "type": "string" },
+          "root_cause": { "type": "string" },
+          "affected_component": { "type": "string" }
+        }
+      }
+    },
+    "critical_failures": {
+      "type": "array",
+      "description": "Critical blocking failures",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario_id": { "type": "string" },
+          "issue": { "type": "string" },
+          "impact": { "type": "string" }
+        }
+      }
+    },
+    "screenshots_refs": {
+      "type": "array",
+      "description": "Artifact references for failure screenshots",
+      "items": { "type": "string" }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "avg_duration_ms": { "type": "number" },
+        "min_duration_ms": { "type": "number" },
+        "max_duration_ms": { "type": "number" }
+      }
+    }
+  }
+}

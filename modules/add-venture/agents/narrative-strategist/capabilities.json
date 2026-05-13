@@ -1,0 +1,34 @@
+{
+  "name": "narrative-strategist",
+  "purpose": "Craft venture narrative, positioning, and messaging framework for brand, fundraising, and GTM communications",
+  "input_types": [
+    "briefing",
+    "volume_1_opportunity",
+    "volume_2_customer_market",
+    "volume_3_value_proposition",
+    "volume_5_gtm"
+  ],
+  "output_types": [
+    "volume_6_narrative"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.7,
+    "max_tokens": 4096,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 120,
+    "content_depth_target": 1500,
+    "confidence_calibration_threshold": 0.85
+  },
+  "cost_estimation": {
+    "avg_cost_per_volume_usd": 0.1,
+    "max_cost_per_volume_usd": 0.2
+  }
+}

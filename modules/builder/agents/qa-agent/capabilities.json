@@ -1,0 +1,27 @@
+{
+  "name": "qa-agent",
+  "purpose": "Executes real end-to-end tests using Playwright MCP against the deployed staging environment. Validates every BDD scenario.",
+  "input_types": [
+    "bdd_scenarios",
+    "staging_url",
+    "test_credentials"
+  ],
+  "output_types": [
+    "test_report",
+    "test_results",
+    "screenshot_artifacts"
+  ],
+  "external_dependencies": [
+    "playwright-mcp"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.1,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Portfolio Tenant Context Schema",
+  "description": "JSON Schema for Portfolio module tenant configuration and governance context",
+  "type": "object",
+  "required": [
+    "account_id",
+    "review_cycle_weeks",
+    "max_ventures_in_review",
+    "allocation_model",
+    "risk_appetite",
+    "kill_threshold_health_score"
+  ],
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "Unique account identifier from auth system",
+      "minLength": 1
+    },
+    "plan_tier": {
+      "type": "string",
+      "enum": ["pro", "enterprise"],
+      "description": "Billing plan tier for portfolio access"
+    },
+    "review_cycle_weeks": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Governance review cycle frequency in weeks (2-4 for pro, 1+ for enterprise)",
+      "examples": [1, 2, 4]
+    },
+    "max_ventures_in_review": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "Maximum ventures in active review; null for unlimited (enterprise)"
+    },
+    "allocation_model": {
+      "type": "string",
+      "enum": ["linear", "risk-weighted", "market-fit-weighted", "custom"],
+      "description": "Resource allocation strategy: linear (equal splits), risk-weighted (inverse risk), market-fit-weighted (proportional to market traction), or custom rules",
+      "default": "linear"
+    },
+    "custom_allocation_rules": {
+      "type": ["object", "null"],
+      "description": "Custom allocation rules (enterprise only); null if using standard models",
+      "properties": {
+        "rule_name": {
+          "type": "string"
+        },
+        "weight_field": {
+          "type": "string"
+        },
+        "min_allocation_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "max_allocation_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "risk_appetite": {
+      "type": "string",
+      "enum": ["conservative", "moderate", "aggressive"],
+      "description": "Risk tolerance level for portfolio governance decisions"
+    },
+    "kill_threshold_health_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Health score threshold below which venture becomes kill candidate"
+    },
+    "scale_threshold_health_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Health score threshold above which venture becomes scale candidate"
+    },
+    "pause_threshold_health_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Health score threshold for pause/iterate recommendations"
+    },
+    "governance_report_recipients": {
+      "type": "array",
+      "description": "Email addresses for governance report distribution",
+      "items": {
+        "type": "string",
+        "format": "email"
+      },
+      "minItems": 1
+    },
+    "governance_report_frequency": {
+      "type": "string",
+      "enum": ["weekly", "bi-weekly", "monthly"],
+      "description": "Frequency of governance report generation"
+    },
+    "audit_trail_enabled": {
+      "type": "boolean",
+      "description": "Enable immutable audit trail for compliance (always true for enterprise)",
+      "default": true
+    },
+    "risk_monitoring_enabled": {
+      "type": "boolean",
+      "description": "Enable continuous risk monitoring between review cycles",
+      "default": false
+    },
+    "webhook_enabled": {
+      "type": "boolean",
+      "description": "Enable webhook delivery for governance events (enterprise only)",
+      "default": false
+    },
+    "webhook_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Webhook URL for governance decision events"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when portfolio governance was activated"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp for tenant configuration"
+    },
+    "next_review_scheduled": {
+      "type": ["string", "null],
+      "format": "date-time",
+      "description": "Timestamp of next scheduled portfolio review"
+    },
+    "last_review_completed": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Timestamp of most recent completed review"
+    }
+  },
+  "additionalProperties": false
+}

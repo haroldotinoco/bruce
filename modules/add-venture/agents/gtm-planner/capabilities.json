@@ -1,0 +1,34 @@
+{
+  "name": "gtm-planner",
+  "purpose": "Define go-to-market strategy: launch sequencing, channel prioritization, first 90 days playbook, ICP definition, acquisition funnel design",
+  "input_types": [
+    "briefing",
+    "volume_1_opportunity",
+    "volume_2_customer_market",
+    "volume_3_value_proposition",
+    "volume_4_business_model"
+  ],
+  "output_types": [
+    "volume_5_gtm_strategy"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.5,
+    "max_tokens": 8192,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 120,
+    "content_depth_target": 1750,
+    "confidence_calibration_threshold": 0.85
+  },
+  "cost_estimation": {
+    "avg_cost_per_volume_usd": 0.11,
+    "max_cost_per_volume_usd": 0.22
+  }
+}

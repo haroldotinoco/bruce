@@ -1,0 +1,41 @@
+{
+  "example": "Dispatch Brand + Builder (parallel) for QUALIFIED→STRUCTURED transition",
+  "venture_id": "v-abc12345",
+  "stage": "STRUCTURED",
+  "trigger_type": "stage_advancement",
+  "modules": ["brand", "builder", "market", "operator"],
+  "venture_context": {
+    "venture_id": "v-abc12345",
+    "name": "CloudSync",
+    "founder_info": {
+      "name": "Alice Johnson",
+      "experience": "VP Engineering at Salesforce, 8 years"
+    },
+    "problem_statement": "Enterprise data sync between SaaS applications is manual and error-prone",
+    "target_market": {
+      "segment": "Mid-market finance teams",
+      "tam": "850M"
+    },
+    "stage_entry_timestamp": "2026-04-05T14:32:00Z"
+  },
+  "module_inputs": {
+    "brand": {
+      "venture_context": "...",
+      "market_analysis": "TAM 850M, growing at 15% CAGR"
+    },
+    "builder": {
+      "venture_context": "...",
+      "feasibility_study": "MVP in 8 months with 4-person team"
+    },
+    "market": {
+      "brand_output": "...",
+      "builder_output": "..."
+    },
+    "operator": {
+      "brand_output": "...",
+      "builder_output": "..."
+    }
+  },
+  "parallelization_allowed": true,
+  "correlation_id": "corr-disp-001"
+}

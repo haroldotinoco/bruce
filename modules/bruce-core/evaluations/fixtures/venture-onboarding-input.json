@@ -1,0 +1,139 @@
+{
+  "event_type": "opportunity.advanced",
+  "trigger_timestamp": "2026-04-06T09:00:00Z",
+  "opportunity_id": "opp-compliance-8f3e2a1c",
+  "opportunity_context": {
+    "opportunity_name": "SecureFlow - AI Compliance Automation",
+    "problem_statement": "Enterprise compliance teams manually manage regulatory requirements across 15+ different frameworks (SOC 2, HIPAA, GDPR, ISO 27001, etc.) with spreadsheets and disparate tools, leading to audit failures and massive human overhead",
+    "opportunity_type": "B2B SaaS",
+    "target_market_segment": "SMB (50-500 employees)",
+    "target_customer_profile": {
+      "job_title": "Chief Compliance Officer, Compliance Manager",
+      "company_size_min": 50,
+      "company_size_max": 500,
+      "industry_focus": ["FinTech", "HealthTech", "Enterprise SaaS", "InsurTech"]
+    },
+    "market_size": {
+      "tam": 2100000000,
+      "tam_currency": "USD",
+      "tam_note": "Enterprise compliance and risk management market",
+      "sam": 420000000,
+      "sam_description": "Mid-market B2B SaaS companies requiring compliance automation",
+      "som": 15000000,
+      "som_description": "Addressable market for Year 1-2 focused on US FinTech/HealthTech"
+    },
+    "founder_profile": {
+      "founder_name": "Elena Rodriguez",
+      "founder_email": "elena@secureflow.com",
+      "years_relevant_experience": 12,
+      "previous_roles": [
+        "VP Compliance at Stripe (4 years)",
+        "Senior Compliance Engineer at Notion (3 years)",
+        "Compliance Manager at Twilio (2 years)",
+        "GRC Consultant at Deloitte (3 years)"
+      ],
+      "education": "MS Information Security, Carnegie Mellon University",
+      "previous_exit": "Led compliance program at Stripe during IPO preparation (2019-2021)",
+      "founder_quality_score": 88,
+      "founder_quality_factors": {
+        "domain_expertise": 95,
+        "leadership_experience": 82,
+        "entrepreneurship": 75,
+        "network_quality": 90,
+        "execution_track_record": 87
+      }
+    },
+    "customer_discovery": {
+      "customer_interviews_completed": 22,
+      "customer_interview_conversion_rate": 0.95,
+      "problem_validation_score": 92,
+      "customer_quotes": [
+        {
+          "customer_name": "DataVault Finance",
+          "role": "VP Compliance",
+          "quote": "We spend 200 hours per quarter on compliance documentation. An AI system to automate this would save us $50K+ annually per person",
+          "paraphrased": true
+        },
+        {
+          "customer_name": "MediFlow Health",
+          "role": "Compliance Director",
+          "quote": "HIPAA compliance is a nightmare. If this worked, we'd sign up immediately",
+          "paraphrased": true
+        }
+      ]
+    },
+    "solution_concept": {
+      "mvp_description": "AI-powered platform that automatically maps company controls to regulatory frameworks, identifies gaps, generates evidence, and produces audit-ready documentation",
+      "key_features": [
+        "Multi-framework compliance mapping (SOC 2, HIPAA, GDPR, ISO 27001, PCI-DSS)",
+        "AI-powered gap analysis and remediation suggestions",
+        "Automated evidence collection from connected systems",
+        "Audit-ready documentation generation",
+        "Real-time compliance dashboard",
+        "Integrations with popular SaaS (Okta, Slack, GitHub, AWS, GCP)"
+      ],
+      "estimated_mvp_timeline_months": 7,
+      "estimated_mvp_cost": 850000,
+      "mvp_feasibility_score": 84
+    },
+    "competitive_landscape": {
+      "direct_competitors": [
+        {
+          "competitor_name": "Vanta",
+          "positioning": "General compliance platform",
+          "strength": "Large customer base, strong brand",
+          "weakness": "Expensive, requires manual work, limited AI capabilities"
+        },
+        {
+          "competitor_name": "Drata",
+          "positioning": "Automated compliance documentation",
+          "strength": "Good UX, trusted by startups",
+          "weakness": "Limited to specific frameworks, no AI recommendations"
+        }
+      ],
+      "competitive_advantage": "First-to-market with AI-powered gap analysis and remediation. Founders' deep Stripe compliance experience gives credibility. Can position as 'for smaller companies' (more efficient, cheaper than Vanta)"
+    },
+    "market_timing": {
+      "reason_now": "Post-SOC 2 boom, companies realizing compliance is ongoing. AI regulations (EU AI Act, SEC guidance) creating new compliance burden. Investor interest in compliance startups at all-time high.",
+      "urgency_score": 91
+    },
+    "preliminary_validation_score": 78,
+    "validation_breakdown": {
+      "problem_fit": 88,
+      "founder_quality": 88,
+      "market_size": 85,
+      "competitive_positioning": 72,
+      "solution_feasibility": 84,
+      "customer_demand": 90,
+      "market_timing": 91
+    }
+  },
+  "validation_score": 78,
+  "validation_details": {
+    "overall_assessment": "Strong opportunity with exceptional founder, validated problem, large market, and reasonable solution. Risk is competitive intensity and execution difficulty.",
+    "strengths": [
+      "Founder has 12 years compliance experience including 4 years at Stripe in exact domain",
+      "Customer discovery shows strong pain (200 hours per quarter = $200K/year per customer)",
+      "AI capabilities align with market trend (AI regulations creating new compliance work)",
+      "Market size is large ($2.1B) with clear customer segment",
+      "Differentiation clear vs existing players (AI-powered recommendations)"
+    ],
+    "risks": [
+      "Vanta and Drata are well-funded competitors with existing customer bases",
+      "Compliance software often sticky but also has high switching costs - hard to displace",
+      "Regulatory risk: new AI regulations could change market dynamics",
+      "Customer acquisition may be expensive (enterprise sales required)"
+    ],
+    "gates_passed": [
+      "founder_quality",
+      "problem_validation",
+      "market_size",
+      "customer_demand",
+      "solution_feasibility"
+    ],
+    "recommendation": "ADVANCE to venture creation. Strong founder + validated problem + large market + clear differentiation. Risk is competitive and execution, but both are manageable."
+  },
+  "correlation_id": "f4a3b2c1-d5e6-47f8-a9b0-c1d2e3f4a5b6",
+  "trigger_source": "opportunity_screening_module",
+  "ready_for_venture_creation": true
+}

@@ -1,0 +1,62 @@
+{
+  "opportunity_id": "opp-20260405-001",
+  "scoring_timestamp": "2026-04-05T15:45:22Z",
+  "dimensions": {
+    "market_size": {
+      "score": 18,
+      "rationale": "TAM of $8.5B falls in $3-10B range, supporting score of 15-20. SAM of $1.7B is substantial and realistic. SOM of $85M is achievable for new entrant in rural-focused niche. Confidence level of 0.72 is moderate-to-good. Applied -2 point penalty for confidence gap vs. ideal.",
+      "factors": [
+        "TAM $8.5B (confirmed via multiple methodologies)",
+        "SAM $1.7B targets realistic segment (rural hospitals 50-250 beds)",
+        "SOM $85M is conservative penetration assumption",
+        "Confidence 0.72 indicates moderate uncertainty",
+        "Market sizing methodology sound (top-down + bottom-up)"
+      ]
+    },
+    "urgency": {
+      "score": 17,
+      "rationale": "Market shows established problem with medium urgency signals. High clinical burnout (pain_severity='high') and rural hospital focus on cost management support moderate-to-high urgency. CMS funding increases and rural hospital hiring trends are positive signals. However, market is not in acute crisis state. Score 15-20 justified, applying +2 for documented hiring trends and federal funding signals.",
+      "factors": [
+        "High pain severity (documentation burden documented at 25-30% of time)",
+        "Established market readiness (not nascent, not fully mature)",
+        "Federal funding signals (CMS Rural Health grants up 40% YoY)",
+        "Hiring trends confirming demand (rural health IT hiring up 65%)",
+        "Regulatory pressure present but not crisis-level urgency"
+      ]
+    },
+    "competition": {
+      "score": 16,
+      "rationale": "Three direct competitors identified (Nuance, Ambient, Epic), fitting 3-5 competitor range (score 10-15). However, competitive intensity is 'medium' and significant differentiation opportunities exist for rural-focused player (lower price, faster implementation, legacy system support). Barriers to entry are substantial (EHR integration, HIPAA compliance, FDA consideration). Score elevated to 16 due to differentiation opportunity and market focus underserved by incumbents.",
+      "factors": [
+        "3 direct competitors (within 3-5 competitor range)",
+        "Nuance and Ambient enterprise-focused, leaving rural gap",
+        "High barriers to entry (EHR integration, compliance, sales force)",
+        "Clear differentiation opportunity (rural workflow focus, pricing)",
+        "Market concentration 'concentrated', but with clear underserved niche"
+      ]
+    },
+    "strategic_fit": {
+      "score": 19,
+      "rationale": "Strong strategic fit with portfolio focus areas (healthcare + automation + regulatory compliance). AI-powered solution aligns with strategic priority. Underserved customer segment (rural) matches portfolio preference for market niches. Unit economics appear favorable (SaaS model, high switching costs). Applied +2 bonus for perfect alignment with multiple portfolio priorities.",
+      "factors": [
+        "Perfect alignment with healthcare sector focus",
+        "AI automation is explicit strategic priority",
+        "Regulatory compliance angle matches portfolio",
+        "Underserved segment (rural) = portfolio preference",
+        "SaaS unit economics fit with model optimization focus"
+      ]
+    }
+  },
+  "total_score": 70,
+  "recommendation": "reconsider",
+  "bonus_penalty_applied": {
+    "adjustments": [
+      "Market size: -2 (confidence gap)",
+      "Urgency: +2 (documented demand signals)",
+      "Strategic fit: +2 (portfolio alignment bonus)"
+    ],
+    "net_adjustment": 2
+  },
+  "confidence_in_score": 0.78,
+  "scoring_notes": "Opportunity scores at 70, placing in 'RECONSIDER' category. Strong fundamentals (TAM, strategic fit, differentiation) tempered by moderate competitive intensity and data gaps in willingness-to-pay analysis. Recommend opportunity-analyst conduct additional research on rural hospital pricing sensitivity before advancing to venture structuring. Alternative path: Advance with pricing/go-to-market as key validation area in structuring phase. Recommendation: RECONSIDER, pending pricing validation."
+}

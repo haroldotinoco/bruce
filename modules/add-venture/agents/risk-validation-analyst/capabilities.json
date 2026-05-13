@@ -1,0 +1,35 @@
+{
+  "name": "risk-validation-analyst",
+  "purpose": "Map all venture risks, design validation roadmap, define kill criteria. Force clarity on critical assumptions.",
+  "input_types": [
+    "volume_1_opportunity",
+    "volume_2_customer_market",
+    "volume_3_value_proposition",
+    "volume_4_business_model",
+    "volume_5_gtm",
+    "volume_6_narrative"
+  ],
+  "output_types": [
+    "volume_7_risk_validation"
+  ],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 1,
+    "max_tokens": 8000,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "average_execution_time_seconds": 180,
+    "content_depth_target": 2250,
+    "confidence_calibration_threshold": 0.8
+  },
+  "cost_estimation": {
+    "avg_cost_per_volume_usd": 0.35,
+    "max_cost_per_volume_usd": 0.75
+  }
+}

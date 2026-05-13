@@ -1,0 +1,158 @@
+{
+  "workflow_id": "weekly-health-check",
+  "module": "startup-ops",
+  "description": "Comprehensive weekly health assessment: metrics → health scoring → anomaly detection → recommendations → reporting",
+  "version": "1.0",
+  "trigger": {
+    "type": "schedule",
+    "cron": "0 8 * * MON"
+  },
+  "context": {
+    "data_sources": ["mixpanel", "amplitude", "stripe", "gtm"],
+    "health_dimensions": ["activation", "retention", "revenue", "product_quality", "financial_sustainability", "market_fit"],
+    "report_recipients": ["leadership", "portfolio-managers"]
+  },
+  "steps": [
+    {
+      "step_id": "collect-weekly-metrics",
+      "agent": "metrics-ingestion-agent",
+      "description": "Collect and normalize comprehensive metrics for the past week",
+      "input": {
+        "from": "workflow.context",
+        "fields": ["data_sources", "report_week"]
+      },
+      "output_to": "weekly-metrics",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "block_and_alert",
+      "next_step": {
+        "default": "compute-health-scores"
+      },
+      "events_emitted": ["weekly.metrics.collection.started", "weekly.metrics.collection.completed"]
+    },
+    {
+      "step_id": "compute-health-scores",
+      "agent": "health-scoring-agent",
+      "description": "Compute health scores across 6 dimensions: activation, retention, revenue, product quality, financial sustainability, market fit",
+      "input": {
+        "from": "weekly-metrics",
+        "fields": ["metrics", "historical_baselines"]
+      },
+      "output_to": "health-scores",
+      "timeout_seconds": 900,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "mark_failed_and_continue",
+      "next_step": {
+        "default": "detect-weekly-anomalies"
+      },
+      "events_emitted": ["health.scoring.started", "health.scoring.completed"]
+    },
+    {
+      "step_id": "detect-weekly-anomalies",
+      "agent": "anomaly-detector",
+      "description": "Detect anomalies using 2-sigma threshold against 4-week rolling average",
+      "input": {
+        "from": "weekly-metrics",
+        "fields": ["metrics", "historical_data"]
+      },
+      "output_to": "anomaly-report",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "skip_and_notify",
+      "next_step": {
+        "default": "generate-recommendations"
+      },
+      "events_emitted": ["weekly.anomaly.detection.complete"]
+    },
+    {
+      "step_id": "generate-recommendations",
+      "agent": "ops-advisor",
+      "description": "Translate health scores and anomalies into 3-5 prioritized recommendations",
+      "input": {
+        "from": ["health-scores", "anomaly-report"],
+        "fields": ["health_dimensions_scores", "anomalies", "metric_trends"]
+      },
+      "output_to": "priority-recommendations",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "mark_failed_and_continue",
+      "next_step": {
+        "default": "compose-weekly-report"
+      },
+      "events_emitted": ["recommendations.generated"]
+    },
+    {
+      "step_id": "compose-weekly-report",
+      "agent": "weekly-ops-reporter",
+      "description": "Compose comprehensive weekly governance report with health scores, anomalies, and recommendations",
+      "input": {
+        "from": ["health-scores", "anomaly-report", "priority-recommendations"],
+        "fields": ["health_summary", "anomalies", "recommendations", "metric_trends"]
+      },
+      "output_to": "weekly-report",
+      "timeout_seconds": 600,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 5000
+      },
+      "failure_policy": "mark_failed_and_continue",
+      "next_step": {
+        "default": "distribute-report"
+      },
+      "events_emitted": ["weekly.report.generated"]
+    },
+    {
+      "step_id": "distribute-report",
+      "agent": null,
+      "description": "Distribute weekly report to leadership and portfolio managers",
+      "input": {
+        "from": "weekly-report",
+        "fields": ["report_content", "recipients"]
+      },
+      "output_to": "governance.distribution",
+      "timeout_seconds": 120,
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff": "exponential",
+        "initial_delay_ms": 2000
+      },
+      "failure_policy": "notify_and_continue",
+      "next_step": {
+        "default": "workflow-complete"
+      },
+      "events_emitted": ["weekly.report.distributed"]
+    }
+  ],
+  "error_handlers": {
+    "on_step_failure": "notify_and_log",
+    "on_workflow_timeout": "partial_completion_allowed",
+    "escalation_threshold": 2
+  },
+  "metrics": {
+    "target_duration_minutes": 60,
+    "success_criteria": {
+      "metrics_collected": true,
+      "health_scores_computed": true,
+      "anomalies_detected": true,
+      "recommendations_generated": true,
+      "report_completed": true
+    }
+  }
+}

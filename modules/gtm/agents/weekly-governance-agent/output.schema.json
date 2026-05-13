@@ -1,0 +1,197 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Weekly Governance Report Output",
+  "description": "Executive summary of GTM performance, decisions, and next-week priorities",
+  "required": ["week_ending_date", "executive_summary", "performance_vs_targets"],
+  "properties": {
+    "week_ending_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "report_title": {
+      "type": "string",
+      "description": "Title for report (e.g., 'GTM Weekly Report - Week of April 22')"
+    },
+    "executive_summary": {
+      "type": "string",
+      "description": "2-3 paragraph narrative summary of week (what happened, is it good/bad, why)"
+    },
+    "gtm_health_score": {
+      "type": "object",
+      "required": ["overall_score", "trend"],
+      "properties": {
+        "overall_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Overall GTM health (0-100)"
+        },
+        "trend": {
+          "type": "string",
+          "enum": ["improving", "stable", "declining"],
+          "description": "Week-over-week trend"
+        },
+        "vs_target": {
+          "type": "string",
+          "enum": ["on-track", "at-risk", "off-track"],
+          "description": "On track to meet quarterly targets?"
+        }
+      }
+    },
+    "performance_vs_targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["metric", "weekly_value", "target", "status"],
+        "properties": {
+          "metric": {
+            "type": "string",
+            "description": "Metric name (e.g., 'Monthly Revenue Pace', 'CAC')"
+          },
+          "weekly_value": {
+            "type": "number"
+          },
+          "target": {
+            "type": "number"
+          },
+          "actual_month_to_date": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["on-track", "at-risk", "off-track"]
+          },
+          "trend": {
+            "type": "string",
+            "enum": ["improving", "stable", "declining"]
+          },
+          "commentary": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "channel_performance_summary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["channel", "status"],
+        "properties": {
+          "channel": {"type": "string"},
+          "weekly_leads": {"type": "integer"},
+          "cac": {"type": "number"},
+          "trend": {
+            "type": "string",
+            "enum": ["improving", "stable", "declining"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["healthy", "at-risk", "needs-action"]
+          },
+          "commentary": {"type": "string"}
+        }
+      }
+    },
+    "key_decisions_needed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["decision", "recommendation", "timeframe"],
+        "properties": {
+          "decision": {
+            "type": "string",
+            "description": "What decision needs to be made?"
+          },
+          "options": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Available options"
+          },
+          "recommendation": {
+            "type": "string",
+            "description": "What we recommend and why"
+          },
+          "impact_if_approved": {
+            "type": "string",
+            "description": "Expected impact of recommended decision"
+          },
+          "timeframe": {
+            "type": "string",
+            "enum": ["immediately", "by-eow", "by-end-of-week", "can-wait"],
+            "description": "How urgently is decision needed?"
+          }
+        }
+      },
+      "maxItems": 3
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["risk", "severity", "action"],
+        "properties": {
+          "risk": {
+            "type": "string",
+            "description": "What is the risk?"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"],
+            "description": "How severe?"
+          },
+          "action": {
+            "type": "string",
+            "description": "What action should be taken?"
+          }
+        }
+      }
+    },
+    "budget_status": {
+      "type": "object",
+      "required": ["monthly_budget", "mtd_spend", "remaining_budget"],
+      "properties": {
+        "monthly_budget": {"type": "number"},
+        "mtd_spend": {"type": "number"},
+        "mtd_spend_percent": {"type": "number"},
+        "weekly_burn_rate": {"type": "number"},
+        "remaining_budget": {"type": "number"},
+        "on_track": {"type": "boolean"},
+        "commentary": {"type": "string"}
+      }
+    },
+    "next_week_priorities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["priority", "owner"],
+        "properties": {
+          "priority": {
+            "type": "string",
+            "description": "What needs to happen next week"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Who is responsible"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "maxItems": 5
+    },
+    "metrics_snapshot": {
+      "type": "object",
+      "properties": {
+        "monthly_revenue_pace": {"type": "number"},
+        "monthly_lead_pace": {"type": "number"},
+        "blended_cac": {"type": "number"},
+        "marketing_roas": {"type": "number"},
+        "pipeline_coverage_ratio": {"type": "number"}
+      },
+      "description": "Key metrics at a glance"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "workflow_id": "campaign-launch",
+  "module": "gtm",
+  "description": "Campaign launch pipeline: brief creation → A/B setup → budget allocation → activation → monitoring",
+  "version": "1.0",
+  "trigger": {"type": "manual"},
+  "steps": [
+    {"step_id": "campaign-brief-creation", "agent": "campaign-manager", "description": "Create campaign brief with objectives and creative", "input": {"from": "workflow.trigger", "fields": ["channel", "objective", "budget"]}, "output_to": "campaign-brief", "timeout_seconds": 1200, "retry_policy": {"max_attempts": 2, "backoff": "exponential", "initial_delay_ms": 5000}, "failure_policy": "mark_failed_and_continue", "next_step": {"default": "ab-test-setup"}, "events_emitted": ["gtm.campaign.brief.created"]},
+    {"step_id": "ab-test-setup", "agent": "campaign-manager", "description": "Design A/B test variants and traffic allocation", "input": {"from": "campaign-brief", "fields": ["creative_brief", "budget"]}, "output_to": "ab-test-plan", "timeout_seconds": 600, "retry_policy": {"max_attempts": 1, "backoff": "none"}, "failure_policy": "skip_and_notify", "next_step": {"default": "budget-allocation"}, "events_emitted": ["gtm.campaign.ab-test.planned"]},
+    {"step_id": "budget-allocation", "agent": "campaign-manager", "description": "Allocate budget across variants and timeline", "input": {"from": "ab-test-plan", "fields": ["variants", "total_budget"]}, "output_to": "budget-plan", "timeout_seconds": 300, "retry_policy": {"max_attempts": 1, "backoff": "none"}, "failure_policy": "skip_and_notify", "next_step": {"default": "campaign-activation"}, "events_emitted": ["gtm.campaign.budget.allocated"]},
+    {"step_id": "campaign-activation", "agent": null, "description": "Launch campaign on platform", "input": {"from": "budget-plan", "fields": ["creative", "budget", "targeting"]}, "output_to": "campaign-active", "timeout_seconds": 300, "retry_policy": {"max_attempts": 2, "backoff": "exponential", "initial_delay_ms": 3000}, "failure_policy": "block_and_alert", "next_step": {"default": "monitoring-setup"}, "events_emitted": ["gtm.campaign.launched"]},
+    {"step_id": "monitoring-setup", "agent": "analytics-agent", "description": "Configure analytics tracking and alerts", "input": {"from": "campaign-active", "fields": ["campaign_id", "kpis"]}, "output_to": "monitoring-configured", "timeout_seconds": 300, "retry_policy": {"max_attempts": 1, "backoff": "none"}, "failure_policy": "mark_failed_and_continue", "next_step": {"default": "workflow-complete"}, "events_emitted": ["gtm.campaign.monitoring.active"]}
+  ],
+  "error_handlers": {"on_step_failure": "notify_and_log", "on_workflow_timeout": "partial_completion_allowed"},
+  "metrics": {"target_duration_minutes": 45}
+}

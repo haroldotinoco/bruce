@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Channel Strategist Output",
+  "description": "Ranked channel recommendations with rationale and resource planning",
+  "required": ["recommended_channels", "resource_requirements", "next_steps"],
+  "properties": {
+    "recommended_channels": {
+      "type": "array",
+      "title": "Ranked Channel Recommendations",
+      "items": {
+        "type": "object",
+        "required": ["rank", "channel", "rationale", "audience_fit_score", "implementation_ease"],
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Priority ranking (1 = highest priority)"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel name (e.g., 'paid-linkedin', 'organic-seo', 'product-hunt', 'partnerships', 'content-marketing', 'paid-google-ads', 'plg-virality')"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Why this channel is effective for this audience and product"
+          },
+          "audience_fit_score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "How well does this channel reach target audience?"
+          },
+          "implementation_ease": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "How easy to execute (100 = very easy, 0 = complex)"
+          },
+          "time_to_traction_days": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 180,
+            "description": "Days until meaningful results (signups, engagement)"
+          },
+          "estimated_budget_range_usd": {
+            "type": "object",
+            "required": ["min", "max"],
+            "properties": {
+              "min": {"type": "number"},
+              "max": {"type": "number"}
+            },
+            "description": "Monthly budget range for this channel"
+          },
+          "required_team_size": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10,
+            "description": "FTE dedicated to this channel (0.25 = quarter-time)"
+          },
+          "risk_factors": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Execution risks or external dependencies"
+          },
+          "success_metrics": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Key metrics to track (e.g., 'CPL', 'Conversion Rate', 'Content velocity')"
+          }
+        }
+      }
+    },
+    "channels_to_avoid": {
+      "type": "array",
+      "title": "Channels Not Recommended",
+      "items": {
+        "type": "object",
+        "required": ["channel", "reason"],
+        "properties": {
+          "channel": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "competitive_analysis": {
+      "type": "object",
+      "title": "Market Competitive Context",
+      "required": ["competitor_channels"],
+      "properties": {
+        "competitor_channels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "description": "Mapping of each competitor to their active channels"
+        },
+        "market_gaps": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Underexploited channels where we can differentiate"
+        },
+        "trends_analysis": {
+          "type": "string",
+          "description": "How market trends affect channel effectiveness"
+        }
+      }
+    },
+    "resource_requirements": {
+      "type": "object",
+      "title": "Resource Planning",
+      "required": ["total_monthly_budget_usd", "team_headcount", "timeline_to_first_result_days"],
+      "properties": {
+        "total_monthly_budget_usd": {
+          "type": "number",
+          "description": "Total recommended monthly budget across all channels"
+        },
+        "budget_allocation": {
+          "type": "object",
+          "additionalProperties": {"type": "number"},
+          "description": "Channel-by-channel budget breakdown"
+        },
+        "team_headcount": {
+          "type": "number",
+          "description": "Total dedicated marketing FTE"
+        },
+        "team_composition": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Roles needed (e.g., 'Paid Social Manager', 'Content Writer', 'Partnership Manager')"
+        },
+        "required_tools": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Software/services to acquire (e.g., 'LinkedIn Campaign Manager', 'Google Ads', 'Airtable')"
+        },
+        "timeline_to_first_result_days": {
+          "type": "integer",
+          "description": "Days until first traction signal across strategy"
+        }
+      }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Ordered list of immediate actions to execute strategy"
+    },
+    "confidence_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confidence in this strategy given available data"
+    }
+  }
+}

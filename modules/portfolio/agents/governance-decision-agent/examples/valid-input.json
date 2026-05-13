@@ -1,0 +1,142 @@
+{
+  "ventures": [
+    {
+      "venture_id": "v-001",
+      "name": "DataFlow Analytics",
+      "weeks_since_launch": 24,
+      "health_score": 84,
+      "health_trend": "improving",
+      "traction_score": 87,
+      "monthly_growth_rate": 0.18,
+      "monthly_revenue": 45000,
+      "monthly_burn_rate": 120000,
+      "runway_months": 18,
+      "cac": 450,
+      "ltv": 2700,
+      "cac_ltv_ratio": 0.167,
+      "conversion_rate": 0.08,
+      "nps": 62,
+      "team_health": "strong",
+      "key_risk_factors": [],
+      "previous_decision": "scale",
+      "previous_decision_date": "2026-02-15",
+      "decision_context": {
+        "is_outlier": false,
+        "portfolio_importance": "high"
+      }
+    },
+    {
+      "venture_id": "v-002",
+      "name": "MediLink Connect",
+      "weeks_since_launch": 16,
+      "health_score": 72,
+      "health_trend": "improving",
+      "traction_score": 78,
+      "monthly_growth_rate": 0.35,
+      "monthly_revenue": 8000,
+      "monthly_burn_rate": 85000,
+      "runway_months": 14,
+      "cac": 650,
+      "ltv": 4800,
+      "cac_ltv_ratio": 0.135,
+      "conversion_rate": 0.12,
+      "nps": 58,
+      "team_health": "adequate",
+      "key_risk_factors": ["regulatory_risk", "key_hire_gap"],
+      "previous_decision": "iterate",
+      "previous_decision_date": "2026-02-15",
+      "decision_context": {
+        "is_outlier": false,
+        "portfolio_importance": "high"
+      }
+    },
+    {
+      "venture_id": "v-003",
+      "name": "TruckRoute Pro",
+      "weeks_since_launch": 32,
+      "health_score": 45,
+      "health_trend": "declining",
+      "traction_score": 38,
+      "monthly_growth_rate": 0.05,
+      "monthly_revenue": 2000,
+      "monthly_burn_rate": 75000,
+      "runway_months": 8,
+      "cac": 2800,
+      "ltv": 3600,
+      "cac_ltv_ratio": 0.778,
+      "conversion_rate": 0.03,
+      "nps": 42,
+      "team_health": "declining",
+      "key_risk_factors": ["high_cac", "low_traction", "high_burn", "market_competition"],
+      "previous_decision": "iterate",
+      "previous_decision_date": "2026-02-15",
+      "decision_context": {
+        "is_outlier": true,
+        "outlier_reason": "Negative surprise: 32 weeks post-launch with stagnant traction and declining health",
+        "portfolio_importance": "low"
+      }
+    }
+  ],
+  "decision_policy": {
+    "scale_criteria": {
+      "min_health_score": 75,
+      "min_traction_score": 75,
+      "min_monthly_growth_rate": 0.15,
+      "max_cac_ltv_ratio": 0.3,
+      "min_runway_months": 12
+    },
+    "kill_criteria": [
+      {
+        "criterion": "No meaningful traction after 8+ weeks post-launch",
+        "threshold": "< 1% of launch targets"
+      },
+      {
+        "criterion": "CAC > 2x LTV with no improving trajectory after 6 weeks",
+        "threshold": "CAC/LTV ratio > 2.0"
+      },
+      {
+        "criterion": "Core hypothesis disproven by data",
+        "threshold": "< 1% conversion despite sufficient traffic"
+      },
+      {
+        "criterion": "Market access blocked",
+        "threshold": "Documented regulatory, technical, or competitive barrier"
+      },
+      {
+        "criterion": "Resource burn rate unsustainable",
+        "threshold": "Monthly burn > 4x sustainable level given runway"
+      }
+    ],
+    "human_review_required_for": ["kill", "scale"]
+  },
+  "analyst_insights": {
+    "patterns": [
+      "Strong product-market fit correlates with CAC/LTV <0.2",
+      "Ventures in growth stage with accelerating velocity improve health"
+    ],
+    "outliers": [
+      "TruckRoute Pro: negative surprise at week 32 with stagnant growth"
+    ]
+  },
+  "risk_assessment": {
+    "portfolio_risk_score": 68,
+    "venture_specific_risks": {
+      "v-002": "Regulatory compliance requirements",
+      "v-003": "Unsustainable burn rate, 8-month runway critical"
+    }
+  },
+  "allocation_recommendations": [
+    {
+      "venture_id": "v-001",
+      "recommended_budget_delta": 20000
+    },
+    {
+      "venture_id": "v-002",
+      "recommended_budget_delta": 10000
+    },
+    {
+      "venture_id": "v-003",
+      "recommended_budget_delta": -55000
+    }
+  ]
+}

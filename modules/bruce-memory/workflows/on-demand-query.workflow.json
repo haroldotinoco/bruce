@@ -1,0 +1,57 @@
+{
+  "workflow_id": "on-demand-query",
+  "module": "bruce-memory",
+  "description": "Serves real-time pattern queries from other BruceAI modules",
+  "trigger": {
+    "type": "api_call",
+    "endpoint": "/bruce-memory/query"
+  },
+  "max_duration_seconds": 30,
+  "steps": [
+    {
+      "step_id": "receive-and-validate-query",
+      "agent": "query-agent",
+      "description": "Validate query format and check rate limits",
+      "timeout_seconds": 5,
+      "retry_policy": null,
+      "failure_policy": "return_error",
+      "next_step": {
+        "on_valid": "vector-search",
+        "on_invalid": "return_error"
+      },
+      "events_emitted": []
+    },
+    {
+      "step_id": "vector-search",
+      "agent": "query-agent",
+      "description": "Search vector store for semantically relevant patterns",
+      "timeout_seconds": 10,
+      "retry_policy": {
+        "max_attempts": 2,
+        "backoff": "linear",
+        "initial_delay_ms": 500
+      },
+      "failure_policy": "return_empty_with_note",
+      "next_step": {
+        "default": "synthesize-response"
+      },
+      "events_emitted": []
+    },
+    {
+      "step_id": "synthesize-response",
+      "agent": "query-agent",
+      "description": "Rank results, synthesize summary, return response",
+      "timeout_seconds": 15,
+      "retry_policy": {
+        "max_attempts": 1,
+        "backoff": "linear",
+        "initial_delay_ms": 0
+      },
+      "failure_policy": "return_raw_results",
+      "next_step": null,
+      "events_emitted": [
+        "bruce-memory.query.served"
+      ]
+    }
+  ]
+}

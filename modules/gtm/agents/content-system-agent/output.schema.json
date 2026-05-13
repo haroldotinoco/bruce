@@ -1,0 +1,203 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Content System Agent Output",
+  "description": "Complete content system including messaging, calendar structure, and templates",
+  "required": ["messaging_system", "content_calendar_structure", "copywriting_templates"],
+  "properties": {
+    "messaging_system": {
+      "type": "object",
+      "required": ["core_narrative", "narrative_supporting_pillars"],
+      "properties": {
+        "core_narrative": {
+          "type": "string",
+          "description": "1-2 sentence core narrative that differentiates product"
+        },
+        "narrative_supporting_pillars": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pillar", "proof_points"],
+            "properties": {
+              "pillar": {
+                "type": "string",
+                "description": "Core message pillar (e.g., 'Salesforce-Native Design')"
+              },
+              "proof_points": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "Evidence supporting the pillar"
+              }
+            }
+          },
+          "maxItems": 5
+        },
+        "competitive_positioning": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Mapping of vs_competitor_name: unique_claim"
+        },
+        "objection_handlers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["objection", "response"],
+            "properties": {
+              "objection": {"type": "string"},
+              "response": {"type": "string"}
+            }
+          },
+          "description": "Common objections and one-liner responses"
+        }
+      }
+    },
+    "content_calendar_structure": {
+      "type": "object",
+      "required": ["monthly_volume", "channel_breakdown"],
+      "properties": {
+        "monthly_volume": {
+          "type": "integer",
+          "description": "Total pieces per month across all channels"
+        },
+        "channel_breakdown": {
+          "type": "object",
+          "additionalProperties": {"type": "integer"},
+          "description": "Posts per month per channel"
+        },
+        "content_mix": {
+          "type": "object",
+          "required": ["awareness", "consideration", "decision"],
+          "properties": {
+            "awareness": {
+              "type": "integer",
+              "description": "% of content targeting unaware/new audiences"
+            },
+            "consideration": {
+              "type": "integer",
+              "description": "% of content addressing problem/solution"
+            },
+            "decision": {
+              "type": "integer",
+              "description": "% of content for evaluating/deciding buyers"
+            }
+          }
+        },
+        "themes_by_month": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "description": "Content themes for each of next 12 months"
+        }
+      }
+    },
+    "copywriting_templates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["template_id", "channel", "type", "template"],
+        "properties": {
+          "template_id": {
+            "type": "string",
+            "description": "Unique identifier (e.g., 'linkedin-case-study-v1')"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel this template is optimized for"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["case-study", "thought-leadership", "objection-handler", "feature-spotlight", "customer-testimonial", "stat-callout", "how-to", "comparison", "announcement"],
+            "description": "Content type"
+          },
+          "template": {
+            "type": "string",
+            "description": "Template with {{variable}} placeholders for easy substitution"
+          },
+          "character_limit": {
+            "type": "integer",
+            "description": "Target character count for this channel"
+          },
+          "usage_examples": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minItems": 1,
+            "maxItems": 2,
+            "description": "1-2 concrete usage examples filled with real content"
+          },
+          "approval_requirements": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Who needs to approve (e.g., ['legal', 'product', 'brand'])"
+          }
+        }
+      },
+      "minItems": 5,
+      "maxItems": 15
+    },
+    "content_library_plan": {
+      "type": "object",
+      "required": ["core_assets", "production_timeline"],
+      "properties": {
+        "core_assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["asset_name", "description", "owner"],
+            "properties": {
+              "asset_name": {"type": "string"},
+              "description": {"type": "string"},
+              "owner": {"type": "string"},
+              "target_publish_date": {"type": "string"}
+            }
+          },
+          "description": "Must-have foundational content pieces"
+        },
+        "supporting_assets": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Nice-to-have secondary content"
+        },
+        "production_timeline": {
+          "type": "string",
+          "description": "4-week rolling content production schedule"
+        }
+      }
+    },
+    "approval_workflow": {
+      "type": "object",
+      "required": ["process"],
+      "properties": {
+        "process": {
+          "type": "string",
+          "description": "Step-by-step content approval workflow"
+        },
+        "turnaround_time_hours": {
+          "type": "integer",
+          "description": "Expected approval turnaround"
+        },
+        "escalation_criteria": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "When to escalate to legal/exec"
+        }
+      }
+    },
+    "distribution_strategy": {
+      "type": "object",
+      "properties": {
+        "repurposing_plan": {
+          "type": "string",
+          "description": "How to adapt content across channels (e.g., blog post → LinkedIn article → email → social snippets)"
+        },
+        "amplification_plan": {
+          "type": "string",
+          "description": "Paid amplification strategy for core assets"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,371 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Portfolio Module Billing Events Schema",
+  "description": "Event schemas for Portfolio governance module billing and usage tracking",
+  "type": "object",
+  "properties": {
+    "portfolio.review.completed": {
+      "type": "object",
+      "description": "Fired when a portfolio review cycle completes",
+      "required": ["event_id", "account_id", "review_id", "timestamp", "ventures_analyzed"],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Unique event identifier"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "portfolio.review.completed"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Account that performed the review"
+        },
+        "plan_tier": {
+          "type": "string",
+          "enum": ["pro", "enterprise"],
+          "description": "Billing plan tier at time of review"
+        },
+        "review_id": {
+          "type": "string",
+          "description": "Review identifier"
+        },
+        "review_cycle_number": {
+          "type": "integer",
+          "description": "Cycle number within account"
+        },
+        "ventures_analyzed": {
+          "type": "integer",
+          "description": "Number of ventures in portfolio reviewed"
+        },
+        "agents_used": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of agents that participated in review"
+        },
+        "duration_seconds": {
+          "type": "number",
+          "description": "Total review execution time in seconds"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "billable": {
+          "type": "boolean",
+          "description": "Whether review counts toward monthly limit"
+        }
+      }
+    },
+    "portfolio.decision.made": {
+      "type": "object",
+      "description": "Fired when a governance decision is recorded (scale, iterate, pause, kill)",
+      "required": ["event_id", "account_id", "decision_id", "decision_type", "timestamp"],
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "portfolio.decision.made"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "decision_id": {
+          "type": "string"
+        },
+        "decision_type": {
+          "type": "string",
+          "enum": ["scale", "iterate", "pause", "kill"],
+          "description": "Type of governance decision"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "venture_name": {
+          "type": "string"
+        },
+        "review_id": {
+          "type": "string"
+        },
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "recorded_by": {
+          "type": "string",
+          "description": "Agent or user that recorded the decision"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "portfolio.venture.killed": {
+      "type": "object",
+      "description": "Fired when a venture receives a kill decision and is removed from active portfolio",
+      "required": ["event_id", "account_id", "venture_id", "timestamp"],
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "portfolio.venture.killed"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "venture_name": {
+          "type": "string"
+        },
+        "decision_id": {
+          "type": "string",
+          "description": "Decision that triggered the kill"
+        },
+        "funding_deployed": {
+          "type": "number",
+          "description": "Total capital invested in venture"
+        },
+        "final_health_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "kill_reason": {
+          "type": "string",
+          "description": "Governance reason for kill decision"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "portfolio.venture.scaled": {
+      "type": "object",
+      "description": "Fired when a venture receives a scale decision and resource allocation increases",
+      "required": ["event_id", "account_id", "venture_id", "timestamp"],
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "portfolio.venture.scaled"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "venture_id": {
+          "type": "string"
+        },
+        "venture_name": {
+          "type": "string"
+        },
+        "decision_id": {
+          "type": "string"
+        },
+        "previous_allocation_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "new_allocation_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "allocation_increase_percent": {
+          "type": "number",
+          "description": "Percentage point increase in allocation"
+        },
+        "health_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "market_traction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "scale_reason": {
+          "type": "string",
+          "description": "Governance reason for scale decision"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "portfolio.report.generated": {
+      "type": "object",
+      "description": "Fired when a governance report is generated and distributed",
+      "required": ["event_id", "account_id", "report_id", "timestamp"],
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "portfolio.report.generated"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "report_id": {
+          "type": "string"
+        },
+        "review_id": {
+          "type": "string",
+          "description": "Associated review identifier"
+        },
+        "format": {
+          "type": "string",
+          "enum": ["json", "pdf", "email"],
+          "description": "Report format generated"
+        },
+        "recipients_count": {
+          "type": "integer",
+          "description": "Number of recipients who received the report"
+        },
+        "page_count": {
+          "type": "integer",
+          "description": "Pages in generated report (if PDF)"
+        },
+        "venturesincluded": {
+          "type": "integer",
+          "description": "Number of ventures covered in report"
+        },
+        "generated_by": {
+          "type": "string",
+          "description": "Agent or user that triggered generation"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "portfolio.allocation.updated": {
+      "type": "object",
+      "description": "Fired when resource allocation plan is computed or manually adjusted",
+      "required": ["event_id", "account_id", "allocation_id", "timestamp"],
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "event_type": {
+          "type": "string",
+          "const": "portfolio.allocation.updated"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "allocation_id": {
+          "type": "string"
+        },
+        "review_id": {
+          "type": "string"
+        },
+        "allocation_model": {
+          "type": "string",
+          "enum": ["linear", "risk-weighted", "market-fit-weighted", "custom"],
+          "description": "Model used to compute allocation"
+        },
+        "update_type": {
+          "type": "string",
+          "enum": ["automated", "manual_override"],
+          "description": "Whether allocation was computed or manually adjusted"
+        },
+        "ventures_affected": {
+          "type": "integer",
+          "description": "Number of ventures with allocation changes"
+        },
+        "total_rebalanced_percent": {
+          "type": "number",
+          "description": "Sum of absolute percentage changes"
+        },
+        "max_single_change_percent": {
+          "type": "number",
+          "description": "Largest single venture allocation change"
+        },
+        "override_reason": {
+          "type": "string",
+          "nullable": true,
+          "description": "Reason for manual override (if applicable)"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "Agent or user that triggered the update"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "billing_notes": {
+    "portfolio.review.completed": {
+      "billing_impact": "Review counts toward pro tier monthly limit (2 reviews/month included; overage charged at $50/review)",
+      "enterprise_impact": "Unlimited reviews included in enterprise plan"
+    },
+    "portfolio.decision.made": {
+      "billing_impact": "No direct charge; logged for audit and compliance",
+      "enterprise_impact": "Included in enterprise features"
+    },
+    "portfolio.venture.killed": {
+      "billing_impact": "No direct charge; indicates successful portfolio management",
+      "enterprise_impact": "Included in governance reporting"
+    },
+    "portfolio.venture.scaled": {
+      "billing_impact": "No direct charge; indicates allocation decisions being executed",
+      "enterprise_impact": "Included in custom allocation features"
+    },
+    "portfolio.report.generated": {
+      "billing_impact": "Reports included in plan (bi-weekly for pro, configurable for enterprise)",
+      "enterprise_impact": "Unlimited custom reports with full governance data"
+    },
+    "portfolio.allocation.updated": {
+      "billing_impact": "Automatic allocations included; manual overrides logged but not charged",
+      "enterprise_impact": "Custom allocation rules included in enterprise tier"
+    }
+  },
+  "event_routing": {
+    "description": "How Portfolio events route through BruceAI billing and analytics systems",
+    "topic": "portfolio-events",
+    "subscribers": [
+      {
+        "service": "billing-service",
+        "events": ["portfolio.review.completed"],
+        "action": "Check monthly review count against plan limit; charge overage if applicable"
+      },
+      {
+        "service": "analytics-service",
+        "events": ["portfolio.decision.made", "portfolio.venture.killed", "portfolio.venture.scaled", "portfolio.allocation.updated"],
+        "action": "Track governance metrics (decisions, kills, scales, allocation changes)"
+      },
+      {
+        "service": "audit-service",
+        "events": ["portfolio.decision.made", "portfolio.venture.killed", "portfolio.venture.scaled"],
+        "action": "Log all governance decisions to immutable audit trail"
+      },
+      {
+        "service": "notification-service",
+        "events": ["portfolio.review.completed", "portfolio.report.generated"],
+        "action": "Notify account owner of review completion and send governance report"
+      }
+    ]
+  }
+}

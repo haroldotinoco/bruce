@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand Book Composer Input",
+  "type": "object",
+  "required": ["brand_identity", "brand_critique", "export_formats"],
+  "properties": {
+    "brand_identity": {
+      "type": "object",
+      "description": "Complete brand identity (strategy + visual + logo + naming)",
+      "properties": {
+        "strategy": { "type": "object" },
+        "visual_system": { "type": "object" },
+        "logo_concepts": { "type": "object" },
+        "naming_candidates": { "type": "object" }
+      }
+    },
+    "brand_critique": {
+      "type": "object",
+      "properties": {
+        "overall": { "type": "integer" },
+        "pass_fail": { "type": "boolean" }
+      },
+      "description": "Brand critique with scoring"
+    },
+    "export_formats": {
+      "type": "array",
+      "items": { "type": "string" },
+      "enum": ["pdf", "json", "css", "figma", "all"],
+      "default": ["pdf", "json", "css"],
+      "description": "Requested export formats"
+    },
+    "brand_name": {
+      "type": "string",
+      "description": "Final chosen brand name"
+    },
+    "composition_options": {
+      "type": "object",
+      "properties": {
+        "include_extended_guidelines": { "type": "boolean", "default": false },
+        "include_marketing_brief": { "type": "boolean", "default": false },
+        "audience": { "type": "string", "enum": ["internal", "partners", "all"], "default": "all" }
+      }
+    }
+  }
+}

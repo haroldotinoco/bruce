@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Weekly Governance Agent Input",
+  "description": "Weekly GTM performance data for governance reporting and decision support",
+  "required": ["week_context", "performance_data", "gtm_targets"],
+  "properties": {
+    "week_context": {
+      "type": "object",
+      "required": ["week_ending_date"],
+      "properties": {
+        "week_ending_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "reporting_period": {
+          "type": "string",
+          "enum": ["weekly", "monthly-week-4", "quarter-end"],
+          "description": "Is this standard weekly or special reporting period?"
+        },
+        "audience": {
+          "type": "string",
+          "enum": ["executive-team", "board", "gtm-team"],
+          "description": "Who will read this report?"
+        }
+      }
+    },
+    "performance_data": {
+      "type": "object",
+      "properties": {
+        "campaigns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "campaign_id": {"type": "string"},
+              "channel": {"type": "string"},
+              "weekly_spend": {"type": "number"},
+              "weekly_leads": {"type": "integer"},
+              "cac": {"type": "number"},
+              "status": {
+                "type": "string",
+                "enum": ["active", "paused", "scaling", "winding-down"]
+              }
+            }
+          }
+        },
+        "channel_performance": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "weekly_spend": {"type": "number"},
+              "weekly_leads": {"type": "integer"},
+              "conversion_rate": {"type": "number"},
+              "cac": {"type": "number"},
+              "trend": {
+                "type": "string",
+                "enum": ["improving", "stable", "declining"]
+              }
+            }
+          }
+        },
+        "anomalies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "issue": {"type": "string"},
+              "severity": {
+                "type": "string",
+                "enum": ["info", "warning", "critical"]
+              },
+              "impact": {"type": "string"}
+            }
+          },
+          "description": "Any anomalies or unexpected events this week"
+        }
+      }
+    },
+    "gtm_targets": {
+      "type": "object",
+      "required": ["monthly_revenue_target", "monthly_lead_target", "target_cac"],
+      "properties": {
+        "monthly_revenue_target_usd": {"type": "number"},
+        "monthly_lead_target": {"type": "integer"},
+        "target_cac_usd": {"type": "number"},
+        "target_conversion_rate_percent": {"type": "number"},
+        "monthly_budget": {"type": "number"}
+      }
+    },
+    "budget_status": {
+      "type": "object",
+      "properties": {
+        "monthly_budget": {"type": "number"},
+        "week_1_actual_spend": {"type": "number"},
+        "week_2_actual_spend": {"type": "number"},
+        "week_3_actual_spend": {"type": "number"},
+        "week_4_actual_spend": {"type": "number"},
+        "ytd_actual_spend": {"type": "number"}
+      }
+    },
+    "pending_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "decision_type": {
+            "type": "string",
+            "enum": ["campaign-scale", "campaign-pause", "budget-reallocation", "channel-kill"]
+          },
+          "campaign_or_channel": {"type": "string"},
+          "context": {"type": "string"}
+        }
+      },
+      "description": "Decisions waiting for executive input"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BruceCoreTenant",
+  "description": "Tenant context propagated through all bruce-core operations",
+  "type": "object",
+  "required": ["account_id", "plan"],
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "Clerk Organization ID — primary tenant identifier"
+    },
+    "plan": {
+      "type": "string",
+      "enum": ["free", "pro", "enterprise"]
+    },
+    "plan_limits": {
+      "type": "object",
+      "properties": {
+        "max_active_ventures": {
+          "type": "integer"
+        },
+        "max_modules_enabled": {
+          "type": "integer"
+        },
+        "human_gate_notifications": {
+          "type": "boolean"
+        }
+      }
+    },
+    "modules_enabled": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["opportunity", "add-venture", "brand-aid", "builder", "gtm", "startup-ops", "portfolio", "bruce-memory"]
+      },
+      "description": "Which modules this account has access to"
+    },
+    "temporal_namespace": {
+      "type": "string",
+      "description": "Temporal.io namespace for this account's workflows"
+    }
+  }
+}

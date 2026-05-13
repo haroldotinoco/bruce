@@ -1,0 +1,666 @@
+openapi: 3.0.3
+info:
+  title: Portfolio Module API
+  description: Investment governance engine for venture portfolio analysis, allocation, and decision-making
+  version: 1.0.0
+  contact:
+    name: BruceAI Platform Team
+    email: platform@bruceai.com
+
+servers:
+  - url: https://api.bruceai.com/v1
+    description: Production API
+
+security:
+  - bearerAuth: []
+
+paths:
+  /portfolio/reviews:
+    post:
+      summary: Trigger Portfolio Review
+      description: Initiate a governance review cycle for the account's portfolio
+      operationId: triggerPortfolioReview
+      tags:
+        - Reviews
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force_review:
+                  type: boolean
+                  description: Trigger review outside normal cycle schedule
+                  default: false
+                include_metrics:
+                  type: array
+                  items:
+                    type: string
+                  description: Optional custom metrics to include in analysis
+      responses:
+        '202':
+          description: Review initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewResponse'
+        '400':
+          description: Invalid request or review already in progress
+        '403':
+          description: Insufficient plan tier (Portfolio requires pro/enterprise)
+        '429':
+          description: Review limit exceeded for plan tier
+
+    get:
+      summary: List Portfolio Reviews
+      description: Retrieve all portfolio reviews for the account
+      operationId: listPortfolioReviews
+      tags:
+        - Reviews
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, in_progress, completed, failed]
+      responses:
+        '200':
+          description: List of reviews
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Review'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+  /portfolio/reviews/{review_id}:
+    get:
+      summary: Get Portfolio Review
+      description: Retrieve detailed results of a specific portfolio review
+      operationId: getPortfolioReview
+      tags:
+        - Reviews
+      parameters:
+        - name: review_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Review details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewDetail'
+        '404':
+          description: Review not found
+
+  /portfolio/reviews/latest:
+    get:
+      summary: Get Latest Portfolio Review
+      description: Retrieve the most recent completed review for the account
+      operationId: getLatestReview
+      tags:
+        - Reviews
+      responses:
+        '200':
+          description: Latest review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewDetail'
+        '404':
+          description: No completed reviews found
+
+  /portfolio/ventures:
+    get:
+      summary: Get All Portfolio Ventures
+      description: List all ventures in portfolio with current health metrics
+      operationId: getPortfolioVentures
+      tags:
+        - Ventures
+      parameters:
+        - name: health_threshold
+          in: query
+          schema:
+            type: number
+            minimum: 0
+            maximum: 100
+          description: Filter to ventures with health score below this threshold
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            enum: [health_score, funding, age]
+            default: health_score
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: List of ventures
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Venture'
+                  summary:
+                    type: object
+                    properties:
+                      total_ventures:
+                        type: integer
+                      average_health_score:
+                        type: number
+                      ventures_at_risk:
+                        type: integer
+
+  /portfolio/ventures/{venture_id}:
+    get:
+      summary: Get Venture Details
+      description: Retrieve detailed information for a specific venture
+      operationId: getVenture
+      tags:
+        - Ventures
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Venture details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VentureDetail'
+        '404':
+          description: Venture not found
+
+  /portfolio/ventures/{venture_id}/history:
+    get:
+      summary: Get Venture Decision History
+      description: Retrieve governance decision history for a specific venture
+      operationId: getVentureDecisionHistory
+      tags:
+        - Ventures
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: decision_type
+          in: query
+          schema:
+            type: string
+            enum: [scale, iterate, pause, kill]
+            description: Filter by decision type
+      responses:
+        '200':
+          description: Decision history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  venture_id:
+                    type: string
+                  decisions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GovernanceDecision'
+
+  /portfolio/ventures/{venture_id}/decision:
+    post:
+      summary: Record Governance Decision
+      description: Record a governance decision (scale, iterate, pause, kill) for a venture
+      operationId: recordGovernanceDecision
+      tags:
+        - Ventures
+      parameters:
+        - name: venture_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - decision_type
+                - confidence_score
+                - rationale
+              properties:
+                decision_type:
+                  type: string
+                  enum: [scale, iterate, pause, kill]
+                  description: Governance decision type
+                confidence_score:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                  description: Confidence level of the decision (0-1)
+                rationale:
+                  type: string
+                  description: Business rationale for the decision
+                override_threshold:
+                  type: boolean
+                  default: false
+                  description: Override automatic thresholds (requires admin approval)
+      responses:
+        '201':
+          description: Decision recorded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernanceDecision'
+        '400':
+          description: Invalid decision parameters
+        '403':
+          description: Kill decision requires confidence >= 70%
+
+  /portfolio/reports/governance:
+    get:
+      summary: Get Governance Report
+      description: Retrieve the latest governance report for the account
+      operationId: getGovernanceReport
+      tags:
+        - Reports
+      parameters:
+        - name: review_id
+          in: query
+          schema:
+            type: string
+          description: Get report for specific review (defaults to latest)
+        - name: format
+          in: query
+          schema:
+            type: string
+            enum: [json, pdf]
+            default: json
+      responses:
+        '200':
+          description: Governance report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernanceReport'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Report not found
+
+  /portfolio/allocation:
+    get:
+      summary: Get Current Resource Allocation
+      description: Retrieve the current resource allocation plan for the portfolio
+      operationId: getAllocation
+      tags:
+        - Allocation
+      parameters:
+        - name: review_id
+          in: query
+          schema:
+            type: string
+          description: Get allocation from specific review (defaults to latest)
+      responses:
+        '200':
+          description: Current allocation plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllocationPlan'
+
+    put:
+      summary: Update Resource Allocation
+      description: Manually adjust resource allocation (enterprise only)
+      operationId: updateAllocation
+      tags:
+        - Allocation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - allocations
+                - reason
+              properties:
+                allocations:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - venture_id
+                      - allocation_percent
+                    properties:
+                      venture_id:
+                        type: string
+                      allocation_percent:
+                        type: number
+                        minimum: 0
+                        maximum: 100
+                reason:
+                  type: string
+                  description: Reason for rebalancing
+      responses:
+        '200':
+          description: Allocation updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllocationPlan'
+        '400':
+          description: Allocations do not sum to 100%
+        '403':
+          description: Manual allocation only available in enterprise tier
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Bearer token issued by BruceAI auth service
+
+  schemas:
+    ReviewResponse:
+      type: object
+      properties:
+        review_id:
+          type: string
+        workflow_id:
+          type: string
+        status:
+          type: string
+          enum: [pending, in_progress, completed, failed]
+        created_at:
+          type: string
+          format: date-time
+        estimated_completion:
+          type: string
+          format: date-time
+
+    Review:
+      type: object
+      properties:
+        review_id:
+          type: string
+        review_cycle_number:
+          type: integer
+        status:
+          type: string
+          enum: [pending, in_progress, completed, failed]
+        ventures_analyzed:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    ReviewDetail:
+      allOf:
+        - $ref: '#/components/schemas/Review'
+        - type: object
+          properties:
+            workflow_id:
+              type: string
+            ventures:
+              type: array
+              items:
+                $ref: '#/components/schemas/Venture'
+            allocation_plan:
+              $ref: '#/components/schemas/AllocationPlan'
+            decisions:
+              type: array
+              items:
+                $ref: '#/components/schemas/GovernanceDecision'
+            risk_summary:
+              type: object
+              properties:
+                total_risk_score:
+                  type: number
+                key_risks:
+                  type: array
+                  items:
+                    type: string
+
+    Venture:
+      type: object
+      properties:
+        venture_id:
+          type: string
+        name:
+          type: string
+        health_score:
+          type: number
+          minimum: 0
+          maximum: 100
+        funding_amount:
+          type: number
+        monthly_burn:
+          type: number
+        runway_months:
+          type: number
+          nullable: true
+        market_traction:
+          type: number
+          minimum: 0
+          maximum: 100
+        team_strength:
+          type: number
+          minimum: 0
+          maximum: 100
+        last_updated:
+          type: string
+          format: date-time
+
+    VentureDetail:
+      allOf:
+        - $ref: '#/components/schemas/Venture'
+        - type: object
+          properties:
+            risk_factors:
+              type: array
+              items:
+                type: string
+            allocation_percent:
+              type: number
+              minimum: 0
+              maximum: 100
+            last_decision:
+              $ref: '#/components/schemas/GovernanceDecision'
+            metrics_trend:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: number
+
+    GovernanceDecision:
+      type: object
+      properties:
+        decision_id:
+          type: string
+        venture_id:
+          type: string
+        decision_type:
+          type: string
+          enum: [scale, iterate, pause, kill]
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        rationale:
+          type: string
+        previous_decision:
+          type: string
+          enum: [scale, iterate, pause, kill]
+          nullable: true
+        agent_id:
+          type: string
+        recorded_at:
+          type: string
+          format: date-time
+        recorded_by:
+          type: string
+          description: User or agent that recorded the decision
+        review_id:
+          type: string
+
+    AllocationPlan:
+      type: object
+      properties:
+        allocation_id:
+          type: string
+        review_id:
+          type: string
+        allocation_model:
+          type: string
+          enum: [linear, risk-weighted, market-fit-weighted, custom]
+        allocations:
+          type: array
+          items:
+            type: object
+            properties:
+              venture_id:
+                type: string
+              venture_name:
+                type: string
+              allocation_percent:
+                type: number
+                minimum: 0
+                maximum: 100
+              previous_allocation_percent:
+                type: number
+              change_percent:
+                type: number
+        total_allocation_percent:
+          type: number
+          description: Sum of all allocations (should be 100%)
+        created_at:
+          type: string
+          format: date-time
+
+    GovernanceReport:
+      type: object
+      properties:
+        report_id:
+          type: string
+        review_id:
+          type: string
+        generated_at:
+          type: string
+          format: date-time
+        report_period:
+          type: object
+          properties:
+            start_date:
+              type: string
+              format: date
+            end_date:
+              type: string
+              format: date
+        executive_summary:
+          type: string
+        portfolio_health:
+          type: object
+          properties:
+            average_health_score:
+              type: number
+            ventures_at_risk:
+              type: integer
+            recommended_actions:
+              type: integer
+        decisions_summary:
+          type: object
+          properties:
+            scale_count:
+              type: integer
+            iterate_count:
+              type: integer
+            pause_count:
+              type: integer
+            kill_count:
+              type: integer
+        allocation_changes:
+          type: object
+          properties:
+            total_rebalanced_percent:
+              type: number
+            max_single_rebalance:
+              type: number
+        key_risks:
+          type: array
+          items:
+            type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+        recipients:
+          type: array
+          items:
+            type: string
+            format: email
+
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+        has_more:
+          type: boolean
+
+tags:
+  - name: Reviews
+    description: Portfolio review operations
+  - name: Ventures
+    description: Venture analysis and decision tracking
+  - name: Reports
+    description: Governance report generation
+  - name: Allocation
+    description: Resource allocation planning

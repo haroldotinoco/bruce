@@ -1,0 +1,111 @@
+{
+  "example": "Expected output when advancing from QUALIFIED to STRUCTURED",
+  "venture_id": "v-abc12345",
+  "decision": "ADVANCE",
+  "previous_stage": "QUALIFIED",
+  "new_stage": "STRUCTURED",
+  "reasoning": "Post-screening gate passed with score 78 (>70 threshold). No blockers present. Time in QUALIFIED stage is 3 days (within 5-day SLA). Transition QUALIFIED→STRUCTURED is valid per state machine. Prerequisites for STRUCTURED stage (Brand, Builder, Market, Operator module context) are ready. Advancing and dispatching specialist modules.",
+  "decision_factors": {
+    "gate_status": "PASSED",
+    "gate_score": 78,
+    "prerequisites_met": true,
+    "missing_prerequisites": [],
+    "blockers_resolved": true,
+    "unresolved_blockers": [],
+    "sla_compliant": true,
+    "days_in_current_stage": 3,
+    "transition_valid": true
+  },
+  "next_actions": [
+    {
+      "action": "dispatch_modules",
+      "details": {
+        "stage": "STRUCTURED",
+        "modules": ["brand", "builder", "market", "operator"]
+      },
+      "timestamp": "2026-04-05T14:32:00Z"
+    },
+    {
+      "action": "emit_event",
+      "details": {
+        "event_type": "venture.stage_transitioned",
+        "venture_id": "v-abc12345",
+        "previous_stage": "QUALIFIED",
+        "new_stage": "STRUCTURED"
+      },
+      "timestamp": "2026-04-05T14:32:00Z"
+    }
+  ],
+  "module_dispatch": {
+    "dispatch_required": true,
+    "modules": [
+      {
+        "module_name": "brand",
+        "priority": "high",
+        "can_parallelize": true,
+        "depends_on": [],
+        "timeout_seconds": 600
+      },
+      {
+        "module_name": "builder",
+        "priority": "high",
+        "can_parallelize": true,
+        "depends_on": [],
+        "timeout_seconds": 600
+      },
+      {
+        "module_name": "market",
+        "priority": "high",
+        "can_parallelize": false,
+        "depends_on": ["brand", "builder"],
+        "timeout_seconds": 600
+      },
+      {
+        "module_name": "operator",
+        "priority": "high",
+        "can_parallelize": false,
+        "depends_on": ["brand", "builder"],
+        "timeout_seconds": 600
+      }
+    ],
+    "dispatch_batch_id": "batch-disp-289"
+  },
+  "state_update": {
+    "stage": "STRUCTURED",
+    "stage_entry_timestamp": "2026-04-05T14:32:00Z",
+    "last_decision_timestamp": "2026-04-05T14:32:00Z",
+    "decision_history_entry": {
+      "trigger": "gate_passed",
+      "decision": "ADVANCE",
+      "timestamp": "2026-04-05T14:32:00Z",
+      "recorded_by": "venture-lifecycle-manager"
+    }
+  },
+  "events_to_emit": [
+    {
+      "event_type": "venture.stage_transitioned",
+      "payload": {
+        "venture_id": "v-abc12345",
+        "previous_stage": "QUALIFIED",
+        "new_stage": "STRUCTURED",
+        "gate_status": "PASSED",
+        "gate_score": 78,
+        "dispatched_modules": ["brand", "builder", "market", "operator"],
+        "dispatch_batch_id": "batch-disp-289",
+        "timestamp": "2026-04-05T14:32:00Z"
+      }
+    },
+    {
+      "event_type": "modules.dispatched",
+      "payload": {
+        "venture_id": "v-abc12345",
+        "stage": "STRUCTURED",
+        "batch_id": "batch-disp-289",
+        "modules": ["brand", "builder", "market", "operator"],
+        "timestamp": "2026-04-05T14:32:00Z"
+      }
+    }
+  ],
+  "correlation_id": "corr-req-005",
+  "execution_timestamp": "2026-04-05T14:32:00Z"
+}

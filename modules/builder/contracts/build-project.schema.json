@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BuildProject",
+  "type": "object",
+  "required": ["build_id", "venture_id", "status", "current_stage"],
+  "properties": {
+    "build_id": {
+      "type": "string",
+      "pattern": "^build-[a-f0-9]{8}$",
+      "description": "Unique build identifier"
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Reference to parent venture"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "functional_validation_complete",
+        "ux_bdd_complete",
+        "architecture_complete",
+        "backend_complete",
+        "frontend_complete",
+        "qa_complete",
+        "security_complete",
+        "governance_approved",
+        "launch_ready",
+        "failed",
+        "blocked"
+      ],
+      "description": "Overall build status"
+    },
+    "current_stage": {
+      "type": "string",
+      "enum": [
+        "functional-validation",
+        "ux-bdd-specification",
+        "solution-architecture",
+        "backend-development",
+        "frontend-development",
+        "qa-testing",
+        "security-audit",
+        "governance-review",
+        "emit-launch-ready"
+      ],
+      "description": "Current pipeline stage"
+    },
+    "stage_reports": {
+      "type": "object",
+      "description": "Output from each stage",
+      "properties": {
+        "functional_validation": { "type": "object" },
+        "ux_bdd_specification": { "type": "object" },
+        "solution_architecture": { "type": "object" },
+        "backend_development": { "type": "object" },
+        "frontend_development": { "type": "object" },
+        "qa_testing": { "type": "object" },
+        "security_audit": { "type": "object" },
+        "governance_review": { "type": "object" }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "description": "Artifact references produced during build",
+      "properties": {
+        "functional_spec_ref": { "type": "string" },
+        "bdd_spec_ref": { "type": "string" },
+        "wireframes_refs": { "type": "array" },
+        "architecture_spec_ref": { "type": "string" },
+        "backend_code_ref": { "type": "string" },
+        "frontend_code_ref": { "type": "string" },
+        "qa_report_ref": { "type": "string" },
+        "security_report_ref": { "type": "string" },
+        "governance_report_ref": { "type": "string" }
+      }
+    },
+    "rework_history": {
+      "type": "array",
+      "description": "Record of rework cycles triggered",
+      "items": {
+        "type": "object",
+        "properties": {
+          "cycle_number": { "type": "integer" },
+          "triggered_at": { "type": "string" },
+          "triggered_by_stage": { "type": "string" },
+          "rework_target": { "type": "string" },
+          "result": { "type": "string" }
+        }
+      }
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Build start timestamp"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Build completion timestamp (if completed)"
+    },
+    "total_duration_seconds": {
+      "type": "integer",
+      "description": "Total build execution time"
+    },
+    "blocking_issues": {
+      "type": "array",
+      "description": "Issues preventing progress",
+      "items": {
+        "type": "object",
+        "properties": {
+          "issue_id": { "type": "string" },
+          "stage": { "type": "string" },
+          "severity": { "type": "string" },
+          "description": { "type": "string" },
+          "remediation_required": { "type": "string" }
+        }
+      }
+    },
+    "quality_metrics": {
+      "type": "object",
+      "description": "Aggregate quality metrics across pipeline",
+      "properties": {
+        "overall_quality_score": { "type": "number" },
+        "test_coverage_percent": { "type": "number" },
+        "security_score": { "type": "number" },
+        "qa_pass_rate": { "type": "number" }
+      }
+    }
+  }
+}

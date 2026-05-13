@@ -1,0 +1,34 @@
+{
+  "name": "growth-experimenter",
+  "purpose": "Design and prioritize growth experiments that unlock 10-50% step-changes in traction, based on current performance and resource constraints",
+  "agent_type": "strategic-planner",
+  "input_types": [
+    "venture_traction",
+    "gtm_performance",
+    "resource_constraints",
+    "business_goals"
+  ],
+  "output_types": [
+    "experiment_roadmap",
+    "prioritized_experiments",
+    "scaling_playbooks"
+  ],
+  "external_dependencies": [
+    "historical_experiment_results",
+    "market_intelligence"
+  ],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.8,
+    "max_tokens": 6144,
+    "fallback_provider": null,
+    "fallback_model": null
+  },
+  "performance_targets": {
+    "latency_seconds": 30,
+    "accuracy_percent": 80
+  }
+}

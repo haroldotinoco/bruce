@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Architecture Specification",
+  "type": "object",
+  "required": ["spec_id", "venture_id", "services"],
+  "properties": {
+    "spec_id": {
+      "type": "string",
+      "description": "Unique architecture spec identifier"
+    },
+    "venture_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "architecture_diagram_ref": {
+      "type": "string",
+      "description": "Artifact reference for diagram"
+    },
+    "services": {
+      "type": "array",
+      "description": "Microservices definitions",
+      "items": {
+        "type": "object",
+        "required": ["service_id", "name", "responsibility"],
+        "properties": {
+          "service_id": { "type": "string" },
+          "name": { "type": "string" },
+          "responsibility": { "type": "string" },
+          "tech_stack": { "type": "string" },
+          "api_endpoints": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "dependencies": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "database": { "type": "string" }
+        }
+      }
+    },
+    "data_models": {
+      "type": "array",
+      "description": "Entity definitions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_id": { "type": "string" },
+          "name": { "type": "string" },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field_name": { "type": "string" },
+                "field_type": { "type": "string" },
+                "required": { "type": "boolean" },
+                "description": { "type": "string" }
+              }
+            }
+          },
+          "relationships": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "target_entity": { "type": "string" },
+                "relationship_type": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api_contracts": {
+      "type": "array",
+      "description": "API specification references",
+      "items": {
+        "type": "object",
+        "properties": {
+          "api_id": { "type": "string" },
+          "service": { "type": "string" },
+          "openapi_ref": { "type": "string" }
+        }
+      }
+    },
+    "infrastructure": {
+      "type": "object",
+      "description": "Infrastructure configuration",
+      "properties": {
+        "cloud_provider": { "type": "string" },
+        "cloud_services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "service_name": { "type": "string" },
+              "service_type": { "type": "string" },
+              "configuration": { "type": "object" }
+            }
+          }
+        },
+        "networking": { "type": "object" },
+        "security": { "type": "object" },
+        "estimated_monthly_cost_usd": { "type": "number" }
+      }
+    },
+    "scalability": {
+      "type": "object",
+      "description": "Scalability considerations",
+      "properties": {
+        "initial_users": { "type": "integer" },
+        "target_users_12month": { "type": "integer" },
+        "horizontal_scaling_services": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "caching_strategy": { "type": "string" },
+        "database_scaling_plan": { "type": "string" }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "External service dependencies",
+      "items": {
+        "type": "object",
+        "properties": {
+          "service_name": { "type": "string" },
+          "service_type": { "type": "string" },
+          "criticality": {
+            "type": "string",
+            "enum": ["critical", "high", "medium"]
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

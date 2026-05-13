@@ -1,0 +1,98 @@
+{
+  "portfolio_composition": [
+    {
+      "venture_id": "v-001",
+      "name": "DataFlow Analytics",
+      "sector": "B2B SaaS / Data Analytics",
+      "monthly_revenue": 45000,
+      "monthly_burn_rate": 120000,
+      "runway_months": 18,
+      "traction_score": 84,
+      "shared_infrastructure": [],
+      "shared_customers": ["v-002"],
+      "shared_team_members": [],
+      "customer_concentration": {
+        "top_customer_percent": 8,
+        "top_3_customer_percent": 18
+      },
+      "market_factors": {
+        "geographic_concentration": ["US", "EU"],
+        "regulatory_risk": false,
+        "economic_sensitivity": "medium"
+      }
+    },
+    {
+      "venture_id": "v-002",
+      "name": "MediLink Connect",
+      "sector": "Healthcare Tech",
+      "monthly_revenue": 8000,
+      "monthly_burn_rate": 85000,
+      "runway_months": 14,
+      "traction_score": 72,
+      "shared_infrastructure": [],
+      "shared_customers": ["v-001"],
+      "shared_team_members": ["eng-lead-001"],
+      "customer_concentration": {
+        "top_customer_percent": 15,
+        "top_3_customer_percent": 35
+      },
+      "market_factors": {
+        "geographic_concentration": ["US"],
+        "regulatory_risk": true,
+        "economic_sensitivity": "low"
+      }
+    },
+    {
+      "venture_id": "v-003",
+      "name": "TruckRoute Pro",
+      "sector": "Supply Chain / Logistics",
+      "monthly_revenue": 2000,
+      "monthly_burn_rate": 75000,
+      "runway_months": 8,
+      "traction_score": 45,
+      "shared_infrastructure": ["v-004"],
+      "shared_customers": [],
+      "shared_team_members": ["eng-lead-001"],
+      "customer_concentration": {
+        "top_customer_percent": 22,
+        "top_3_customer_percent": 52
+      },
+      "market_factors": {
+        "geographic_concentration": ["US"],
+        "regulatory_risk": false,
+        "economic_sensitivity": "high"
+      }
+    },
+    {
+      "venture_id": "v-004",
+      "name": "Supply Forecast AI",
+      "sector": "Supply Chain / Logistics",
+      "monthly_revenue": 12000,
+      "monthly_burn_rate": 65000,
+      "runway_months": 11,
+      "traction_score": 58,
+      "shared_infrastructure": ["v-003"],
+      "shared_customers": [],
+      "shared_team_members": [],
+      "customer_concentration": {
+        "top_customer_percent": 18,
+        "top_3_customer_percent": 42
+      },
+      "market_factors": {
+        "geographic_concentration": ["US", "APAC"],
+        "regulatory_risk": false,
+        "economic_sensitivity": "high"
+      }
+    }
+  ],
+  "timeframe": {
+    "analysis_date": "2026-04-05",
+    "projection_months": 12
+  },
+  "portfolio_constraints": {
+    "max_concentration_percent": 60,
+    "min_portfolio_runway_months": 12,
+    "max_burn_rate_monthly": 400000
+  },
+  "analysis_focus": ["concentration", "burn_dynamics", "runway_distribution"]
+}

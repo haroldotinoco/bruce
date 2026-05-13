@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GTM Module State",
+  "description": "Persistent state for the GTM module tracking all ventures and campaigns",
+  "type": "object",
+  "properties": {
+    "module_id": {
+      "type": "string",
+      "default": "gtm"
+    },
+    "ventures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "venture_id": {
+            "type": "string"
+          },
+          "venture_name": {
+            "type": "string"
+          },
+          "gtm_stage": {
+            "type": "string",
+            "enum": ["strategy_definition", "strategy_approved", "content_system_building", "campaign_launching", "active", "scaling", "optimizing"]
+          },
+          "active_campaigns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of active campaign IDs"
+          },
+          "current_channel_mix": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Channels currently active"
+          },
+          "cumulative_spend": {
+            "type": "number",
+            "description": "Total GTM spend to date"
+          },
+          "budget_remaining": {
+            "type": "number",
+            "description": "Budget not yet allocated"
+          },
+          "total_signups": {
+            "type": "integer"
+          },
+          "total_activations": {
+            "type": "integer"
+          },
+          "total_mau": {
+            "type": "integer",
+            "description": "Monthly active users"
+          },
+          "total_revenue": {
+            "type": "number"
+          },
+          "last_review_date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "last_strategy_update": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_performance_review": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["module_id"]
+}
