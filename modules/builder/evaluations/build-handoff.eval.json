@@ -1,0 +1,47 @@
+{
+  "scenario_id": "builder_eval_001",
+  "module": "builder",
+  "agent_id": "solution-architect",
+  "title": "Builder output is ready for GTM handoff",
+  "description": "Validates that builder produces an MVP spec plus the minimum GTM handoff fields.",
+  "tags": ["handoff", "builder-to-gtm", "smoke"],
+  "input": {
+    "fixture": "fixtures/build-input.json"
+  },
+  "expected_output": {
+    "status": "ready_for_gtm",
+    "mvp_spec": {
+      "venture_id": "v-002-ai-compliance-saas",
+      "product_name": "ComplianceAI"
+    },
+    "gtm_handoff": {
+      "venture_id": "v-002-ai-compliance-saas",
+      "target_schema": "builder-to-gtm.schema.json",
+      "positioning": "AI compliance automation for regulated financial institutions"
+    }
+  },
+  "scoring": {
+    "status": {
+      "type": "exact_match",
+      "expectedPath": "status",
+      "actualPath": "status"
+    },
+    "handoff_structure": {
+      "type": "required_fields",
+      "requiredPaths": [
+        "mvp_spec.venture_id",
+        "mvp_spec.product_name",
+        "gtm_handoff.venture_id",
+        "gtm_handoff.target_schema",
+        "gtm_handoff.positioning",
+        "gtm_handoff.primary_segments"
+      ]
+    },
+    "positioning_quality": {
+      "type": "semantic_similarity",
+      "expectedPath": "gtm_handoff.positioning",
+      "actualPath": "gtm_handoff.positioning",
+      "threshold": 0.4
+    }
+  }
+}

@@ -37,6 +37,9 @@ describe('orchestration registry', () => {
     );
 
     expect(emittedEvents.filter((eventType) => !routedEvents.has(eventType))).toEqual([]);
+    expect(
+      Object.values(EVENT_ROUTING_POLICY).every((policy) => Boolean(policy.classification)),
+    ).toBe(true);
   });
 
   it('matches task queue names from app Temporal config files', () => {
@@ -51,6 +54,8 @@ describe('orchestration registry', () => {
   it('describes the current decentralized saga shape explicitly', () => {
     expect(ORCHESTRATION_REGISTRY.lifecycleModel).toBe('decentralized_event_saga');
     expect(ORCHESTRATION_REGISTRY.lifecycleRoot).toBe('opportunity');
+    expect(ORCHESTRATION_REGISTRY.lifecycleCorrelationRoot).toBe('correlation_id');
+    expect(ORCHESTRATION_REGISTRY.canonicalHandoffEnvelope).toContain('ModuleHandoffEnvelope');
     expect(getLifecycleEdges()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -58,14 +63,32 @@ describe('orchestration registry', () => {
           publisher: 'add-venture',
           subscribers: ['brand-aid', 'builder'],
           kind: 'durable_trigger',
+          classification: 'durable_downstream_trigger',
         }),
         expect.objectContaining({
           eventType: 'brand-aid.pipeline.completed',
           publisher: 'brand-aid',
           subscribers: [],
           kind: 'terminal_signal',
+          classification: 'terminal_lifecycle_signal',
         }),
       ]),
     );
+  });
+
+  it('carries runtime readiness, dashboard truth, and trace IDs for every module', () => {
+    for (const module of ORCHESTRATION_REGISTRY.modules) {
+      expect(module.dashboardReadiness).toMatchObject({
+        visibleInNavigation: true,
+        generatedManifest: true,
+      });
+      expect(module.runtimeReadiness.http).toBeTruthy();
+      expect(module.runtimeReadiness.temporalWorker).toBeTruthy();
+      expect(module.runtimeReadiness.eventWorker).toBeTruthy();
+      expect(module.observabilityIdentifiers).toEqual(
+        expect.arrayContaining(['correlation_id', 'temporal_workflow_id', 'venture_id']),
+      );
+      expect(module.correlationRoot).toBe('correlation_id');
+    }
   });
 });

@@ -5,7 +5,23 @@
     "name": "briefing-interpreter",
     "label": "Briefing Interpreter",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "add-venture/business-model-modeler",
@@ -13,7 +29,23 @@
     "name": "business-model-modeler",
     "label": "Business Model Modeler",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "add-venture/customer-market-architect",
@@ -21,7 +53,23 @@
     "name": "customer-market-architect",
     "label": "Customer Market Architect",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "add-venture/dossier-composer",
@@ -29,7 +77,23 @@
     "name": "dossier-composer",
     "label": "Dossier Composer",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": true,
+      "scenario_count": 1
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "covered"
+    }
   },
   {
     "id": "add-venture/execution-roadmap-planner",
@@ -37,7 +101,23 @@
     "name": "execution-roadmap-planner",
     "label": "Execution Roadmap Planner",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "add-venture/gtm-planner",
@@ -45,7 +125,23 @@
     "name": "gtm-planner",
     "label": "Gtm Planner",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "add-venture/narrative-strategist",
@@ -53,7 +149,23 @@
     "name": "narrative-strategist",
     "label": "Narrative Strategist",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "add-venture/opportunity-analyst-vol1",
@@ -61,7 +173,23 @@
     "name": "opportunity-analyst-vol1",
     "label": "Opportunity Analyst Vol1",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "add-venture/risk-validation-analyst",
@@ -69,7 +197,23 @@
     "name": "risk-validation-analyst",
     "label": "Risk Validation Analyst",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "add-venture/value-proposition-designer",
@@ -77,7 +221,23 @@
     "name": "value-proposition-designer",
     "label": "Value Proposition Designer",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "add-venture/venture-critic",
@@ -85,7 +245,23 @@
     "name": "venture-critic",
     "label": "Venture Critic",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "brand-aid/brand-book-composer",
@@ -93,7 +269,23 @@
     "name": "brand-book-composer",
     "label": "Brand Book Composer",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "brand-aid/brand-critic",
@@ -101,7 +293,23 @@
     "name": "brand-critic",
     "label": "Brand Critic",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "brand-aid/brand-strategist",
@@ -109,7 +317,23 @@
     "name": "brand-strategist",
     "label": "Brand Strategist",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "brand-aid/creative-director",
@@ -117,7 +341,23 @@
     "name": "creative-director",
     "label": "Creative Director",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "brand-aid/logo-designer",
@@ -125,7 +365,23 @@
     "name": "logo-designer",
     "label": "Logo Designer",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "brand-aid/market-analyst",
@@ -133,7 +389,23 @@
     "name": "market-analyst",
     "label": "Market Analyst",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "brand-aid/naming-agent",
@@ -141,7 +413,23 @@
     "name": "naming-agent",
     "label": "Naming Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "brand-aid/visual-system-designer",
@@ -149,7 +437,23 @@
     "name": "visual-system-designer",
     "label": "Visual System Designer",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "bruce-core/gate-enforcer",
@@ -193,7 +497,23 @@
         "name": "Escalation Flagging",
         "description": "Identify when human review required (BORDERLINE cases)"
       }
-    ]
+    ],
+    "evaluation": {
+      "covered": true,
+      "scenario_count": 1
+    },
+    "runtime_readiness": {
+      "state": "partial",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Backend and workers exist, but dashboard content is still mock-backed.",
+      "eval_coverage": "covered"
+    }
   },
   {
     "id": "bruce-core/governance-agent",
@@ -232,7 +552,23 @@
         "name": "Portfolio Optimization",
         "description": "Analyze portfolio composition and recommend allocation changes"
       }
-    ]
+    ],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "partial",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Backend and workers exist, but dashboard content is still mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "bruce-core/module-dispatcher",
@@ -276,7 +612,23 @@
         "name": "Error Handling",
         "description": "Classify failures and determine recovery action"
       }
-    ]
+    ],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "partial",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Backend and workers exist, but dashboard content is still mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "bruce-core/venture-lifecycle-manager",
@@ -341,7 +693,23 @@
         "input_type": "venture_state + decision",
         "output_type": "event list"
       }
-    ]
+    ],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "partial",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Backend and workers exist, but dashboard content is still mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "bruce-memory/cross-venture-analyst",
@@ -349,7 +717,23 @@
     "name": "cross-venture-analyst",
     "label": "Cross Venture Analyst",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "bruce-memory/intelligence-synthesizer",
@@ -357,7 +741,23 @@
     "name": "intelligence-synthesizer",
     "label": "Intelligence Synthesizer",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "bruce-memory/learning-ingestion-agent",
@@ -365,7 +765,23 @@
     "name": "learning-ingestion-agent",
     "label": "Learning Ingestion Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "bruce-memory/pattern-extractor",
@@ -373,7 +789,23 @@
     "name": "pattern-extractor",
     "label": "Pattern Extractor",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "bruce-memory/query-agent",
@@ -381,7 +813,23 @@
     "name": "query-agent",
     "label": "Query Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": true,
+      "scenario_count": 1
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "covered"
+    }
   },
   {
     "id": "builder/backend-agent",
@@ -389,7 +837,23 @@
     "name": "backend-agent",
     "label": "Backend Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "builder/frontend-agent",
@@ -397,7 +861,23 @@
     "name": "frontend-agent",
     "label": "Frontend Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "builder/governance-agent",
@@ -405,7 +885,23 @@
     "name": "governance-agent",
     "label": "Governance Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "builder/Integration Agent",
@@ -423,7 +919,23 @@
       "Identify integration dependencies",
       "Flag PII and compliance concerns",
       "Recommend cost-optimized solutions"
-    ]
+    ],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "builder/product-validator",
@@ -431,7 +943,23 @@
     "name": "product-validator",
     "label": "Product Validator",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "builder/qa-agent",
@@ -439,7 +967,23 @@
     "name": "qa-agent",
     "label": "Qa Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "builder/security-agent",
@@ -447,7 +991,23 @@
     "name": "security-agent",
     "label": "Security Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "builder/solution-architect",
@@ -455,7 +1015,23 @@
     "name": "solution-architect",
     "label": "Solution Architect",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": true,
+      "scenario_count": 1
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "covered"
+    }
   },
   {
     "id": "builder/ux-bdd-agent",
@@ -463,7 +1039,23 @@
     "name": "ux-bdd-agent",
     "label": "Ux Bdd Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "gtm/analytics-agent",
@@ -471,7 +1063,23 @@
     "name": "analytics-agent",
     "label": "Analytics Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "gtm/campaign-manager",
@@ -479,7 +1087,23 @@
     "name": "campaign-manager",
     "label": "Campaign Manager",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": true,
+      "scenario_count": 1
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "covered"
+    }
   },
   {
     "id": "gtm/channel-strategist",
@@ -487,7 +1111,23 @@
     "name": "channel-strategist",
     "label": "Channel Strategist",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "gtm/content-system-agent",
@@ -495,7 +1135,23 @@
     "name": "content-system-agent",
     "label": "Content System Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "gtm/growth-experimenter",
@@ -503,7 +1159,23 @@
     "name": "growth-experimenter",
     "label": "Growth Experimenter",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "gtm/weekly-governance-agent",
@@ -511,7 +1183,23 @@
     "name": "weekly-governance-agent",
     "label": "Weekly Governance Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "opportunity/market-scanner",
@@ -519,7 +1207,23 @@
     "name": "market-scanner",
     "label": "Market Scanner",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "partial",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "opportunity/opportunity-analyst",
@@ -527,7 +1231,23 @@
     "name": "opportunity-analyst",
     "label": "Opportunity Analyst",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "partial",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "opportunity/prioritization-agent",
@@ -535,7 +1255,23 @@
     "name": "prioritization-agent",
     "label": "Prioritization Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "partial",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "opportunity/scoring-agent",
@@ -543,7 +1279,23 @@
     "name": "scoring-agent",
     "label": "Scoring Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "partial",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "portfolio/allocation-agent",
@@ -551,7 +1303,23 @@
     "name": "allocation-agent",
     "label": "Allocation Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "portfolio/governance-decision-agent",
@@ -559,7 +1327,23 @@
     "name": "governance-decision-agent",
     "label": "Governance Decision Agent",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": true,
+      "scenario_count": 1
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "covered"
+    }
   },
   {
     "id": "portfolio/portfolio-analyst",
@@ -567,7 +1351,23 @@
     "name": "portfolio-analyst",
     "label": "Portfolio Analyst",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "portfolio/portfolio-reporter",
@@ -575,7 +1375,23 @@
     "name": "portfolio-reporter",
     "label": "Portfolio Reporter",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "portfolio/risk-monitor",
@@ -583,7 +1399,23 @@
     "name": "risk-monitor",
     "label": "Risk Monitor",
     "description": "",
-    "capabilities": []
+    "capabilities": [],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "startup-ops/Anomaly Detector",
@@ -632,7 +1464,23 @@
         "name": "False Positive Filtering",
         "description": "Reduce false positives from normal metric volatility"
       }
-    ]
+    ],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "startup-ops/Health Scoring Agent",
@@ -691,7 +1539,23 @@
         "name": "Stage-Aware Evaluation",
         "description": "Apply different rubrics and weights based on venture stage (seed, early, growth)"
       }
-    ]
+    ],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "startup-ops/Metrics Ingestion Agent",
@@ -750,7 +1614,23 @@
         "name": "Freshness Validation",
         "description": "Validate that collected metrics meet freshness SLA (< 12 hours for product, < 48 hours for revenue)"
       }
-    ]
+    ],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "startup-ops/Ops Advisor",
@@ -794,7 +1674,23 @@
         "name": "Context Awareness",
         "description": "Consider venture stage, hypothesis, and kill criteria in recommendations"
       }
-    ]
+    ],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   },
   {
     "id": "startup-ops/Weekly Ops Reporter",
@@ -838,6 +1734,22 @@
         "name": "Executive Communication",
         "description": "Communicate operational status in language suitable for board audience"
       }
-    ]
+    ],
+    "evaluation": {
+      "covered": false,
+      "scenario_count": 0
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "none"
+    }
   }
 ]

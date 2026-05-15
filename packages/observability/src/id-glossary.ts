@@ -6,6 +6,28 @@ export interface ObservabilityIdGlossaryEntry {
   lookupHint: string;
 }
 
+export const LIFECYCLE_CORRELATION_POLICY = {
+  root: 'correlation_id',
+  requiredCarriers: [
+    'Temporal workflow args',
+    'Temporal memo',
+    'workflow_runs.correlation_id',
+    'InterModuleEvent.correlation_id',
+    'ModuleHandoffEnvelope.metadata.correlation_id',
+    'structured logs',
+    'DLQ payloads',
+    'dashboard workflow links',
+  ],
+  lookupOrder: [
+    'observability_run_id',
+    'temporal_workflow_id',
+    'correlation_id',
+    'event_id',
+    'venture_id',
+    'domain_record_id',
+  ],
+} as const;
+
 export const OBSERVABILITY_ID_GLOSSARY: ObservabilityIdGlossaryEntry[] = [
   {
     id: 'observability_run_id',

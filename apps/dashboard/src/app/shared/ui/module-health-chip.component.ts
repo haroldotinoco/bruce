@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import type { ModuleHealth } from '../../core/models';
 import type { ModuleMeta } from '../../core/config/module-registry';
+import { getModuleRuntimeReadiness, readinessLabel } from '../../core/config/module-readiness';
 import { RelativeTimePipe } from '../pipes/relative-time.pipe';
 
 @Component({
@@ -12,7 +13,7 @@ import { RelativeTimePipe } from '../pipes/relative-time.pipe';
   imports: [CommonModule, RouterLink, LucideAngularModule, RelativeTimePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <a class="mh" [routerLink]="module.route" [style.--mh-accent]="module.accent">
+    <a class="mh" [routerLink]="module.route" [style.--mh-accent]="module.accent" [title]="readinessTooltip">
       <div class="mh-head">
         <div class="mh-name">
           <lucide-icon [name]="module.icon" [size]="14"></lucide-icon>
@@ -25,8 +26,10 @@ import { RelativeTimePipe } from '../pipes/relative-time.pipe';
         <span *ngIf="health.failures24h" class="err">· {{ health.failures24h }} failed</span>
       </div>
       <div class="mh-sub" *ngIf="health?.lastRunAt">last run {{ health!.lastRunAt | relativeTime }}</div>
-      <div class="mh-badge" *ngIf="!module.realAvailable">mock</div>
-      <div class="mh-badge live" *ngIf="module.realAvailable">live</div>
+      <div class="mh-badge" [attr.data-state]="readiness.state">{{ readinessLabel(readiness.state) }}</div>
+      <div class="mh-readiness muted">
+        dashboard {{ readiness.dashboardDataSource }} · eval {{ readiness.evalCoverage }}
+      </div>
     </a>
   `,
   styles: [
@@ -116,9 +119,20 @@ import { RelativeTimePipe } from '../pipes/relative-time.pipe';
         border-radius: 999px;
         text-transform: uppercase;
       }
-      .mh-badge.live {
+      .mh-badge[data-state='live'] {
         color: var(--ok);
         background: rgba(34, 197, 94, 0.1);
+      }
+      .mh-badge[data-state='partial'] {
+        color: var(--warn);
+        background: rgba(245, 158, 11, 0.1);
+      }
+      .mh-readiness {
+        margin-top: auto;
+        font-size: 10px;
+      }
+      .muted {
+        color: var(--fg-2);
       }
     `,
   ],
@@ -126,4 +140,23 @@ import { RelativeTimePipe } from '../pipes/relative-time.pipe';
 export class ModuleHealthChipComponent {
   @Input() module!: ModuleMeta;
   @Input() health?: ModuleHealth;
+
+  readonly readinessLabel = readinessLabel;
+
+  get readiness() {
+    return getModuleRuntimeReadiness(this.module.id);
+  }
+
+  get readinessTooltip(): string {
+    const r = this.readiness;
+    return [
+      r.summary,
+      `Navigation: ${r.navigation}`,
+      `HTTP health: ${r.httpHealth}`,
+      `Workflow routes: ${r.workflowRoutes}`,
+      `Temporal worker: ${r.temporalWorker}`,
+      `Event worker: ${r.eventWorker}`,
+      `Manifest: ${r.manifestCompleteness}`,
+    ].join('\n');
+  }
 }

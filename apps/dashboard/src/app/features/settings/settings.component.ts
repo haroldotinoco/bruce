@@ -7,6 +7,11 @@ import { LucideAngularModule } from 'lucide-angular';
 import { ENV } from '../../core/config/env.types';
 import type { DataSourceMode, ModuleId } from '../../core/config/env.types';
 import { MODULE_REGISTRY } from '../../core/config/module-registry';
+import {
+  getModuleRuntimeReadiness,
+  readinessLabel,
+  type ModuleRuntimeReadiness,
+} from '../../core/config/module-readiness';
 import { TokenService } from '../../core/auth/token.service';
 import { DataModeService } from '../../core/data-sources/data-mode.service';
 import { ApiService } from '../../core/http/api.service';
@@ -22,6 +27,9 @@ interface ModuleHealthRow {
   label: string;
   baseUrl: string;
   mode: DataSourceMode;
+  desiredMode: DataSourceMode;
+  fallbackReason: string | null;
+  readiness: ModuleRuntimeReadiness;
   state: HealthState;
   latency_ms: number | null;
   detail: string;
@@ -98,6 +106,7 @@ interface ModuleHealthRow {
             <span>Module</span>
             <span>Base URL</span>
             <span>Mode</span>
+            <span>Runtime truth</span>
             <span>Health</span>
             <span>Latency</span>
             <span></span>
@@ -128,6 +137,19 @@ interface ModuleHealthRow {
                 >
                   MOCK
                 </button>
+              </div>
+              <div class="mode-note muted" *ngIf="r.desiredMode !== r.mode">
+                wanted {{ r.desiredMode }}, active {{ r.mode }}
+              </div>
+              <div class="mode-note warn" *ngIf="r.fallbackReason">{{ r.fallbackReason }}</div>
+            </span>
+            <span>
+              <span class="ready" [attr.data-state]="r.readiness.state">
+                {{ readinessLabel(r.readiness.state) }}
+              </span>
+              <div class="mode-note muted">
+                nav {{ r.readiness.navigation }} · worker {{ r.readiness.temporalWorker }} · eval
+                {{ r.readiness.evalCoverage }}
               </div>
             </span>
             <span>
@@ -252,7 +274,7 @@ interface ModuleHealthRow {
       }
       .ds-row {
         display: grid;
-        grid-template-columns: 1.3fr 1.8fr 1.1fr 1.1fr 0.7fr 0.8fr;
+        grid-template-columns: 1.2fr 1.6fr 1.1fr 1.35fr 1fr 0.65fr 0.75fr;
         align-items: center;
         gap: 8px;
         padding: 10px 10px;
@@ -296,6 +318,35 @@ interface ModuleHealthRow {
       .seg:disabled {
         opacity: 0.4;
         cursor: not-allowed;
+      }
+      .mode-note {
+        margin-top: 4px;
+        font-size: 10px;
+        line-height: 1.25;
+      }
+      .warn {
+        color: var(--warn);
+      }
+      .ready {
+        display: inline-flex;
+        align-items: center;
+        width: max-content;
+        padding: 2px 7px;
+        border-radius: 999px;
+        background: var(--bg-2);
+        color: var(--fg-2);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .ready[data-state='live'] {
+        color: var(--ok);
+        background: rgba(34, 197, 94, 0.1);
+      }
+      .ready[data-state='partial'] {
+        color: var(--warn);
+        background: rgba(245, 158, 11, 0.1);
       }
       .theme {
         display: flex;
@@ -345,6 +396,7 @@ export class SettingsComponent {
   readonly tokenDraft = signal<string>(this.tokenSvc.token() ?? '');
   readonly theme = signal<'dark' | 'light'>(this.readTheme());
   readonly ua = computed(() => (typeof navigator !== 'undefined' ? navigator.userAgent : 'n/a'));
+  readonly readinessLabel = readinessLabel;
 
   readonly rows = signal<ModuleHealthRow[]>(
     MODULE_REGISTRY.map((m) => ({
@@ -352,6 +404,9 @@ export class SettingsComponent {
       label: m.label,
       baseUrl: this.env.moduleBaseUrls[m.id],
       mode: this.currentMode(m.id),
+      desiredMode: this.modeSvc.desiredFor(m.id),
+      fallbackReason: this.modeSvc.fallbackReason(m.id),
+      readiness: getModuleRuntimeReadiness(m.id),
       state: 'idle',
       latency_ms: null,
       detail: '',
@@ -390,7 +445,12 @@ export class SettingsComponent {
 
   private refreshRows() {
     this.rows.update((rows) =>
-      rows.map((r) => ({ ...r, mode: this.modeSvc.resolvedFor(r.id) }))
+      rows.map((r) => ({
+        ...r,
+        mode: this.modeSvc.resolvedFor(r.id),
+        desiredMode: this.modeSvc.desiredFor(r.id),
+        fallbackReason: this.modeSvc.fallbackReason(r.id),
+      }))
     );
   }
 
@@ -421,15 +481,29 @@ export class SettingsComponent {
     }
     this.modeSvc.setOverride(id, mode);
     this.rows.update((rows) =>
-      rows.map((r) => (r.id === id ? { ...r, mode: this.modeSvc.resolvedFor(id) } : r))
+      rows.map((r) =>
+        r.id === id
+          ? {
+              ...r,
+              mode: this.modeSvc.resolvedFor(id),
+              desiredMode: this.modeSvc.desiredFor(id),
+              fallbackReason: this.modeSvc.fallbackReason(id),
+            }
+          : r
+      )
     );
-    this.toast.info(`${id} → ${mode}`, 'Live across the app.');
+    this.toast.info(`${id} → ${mode}`, this.modeSvc.fallbackReason(id) ?? 'Applied across the app.');
   }
 
   resetOverrides() {
     this.modeSvc.reset();
     this.rows.update((rows) =>
-      rows.map((r) => ({ ...r, mode: this.modeSvc.resolvedFor(r.id) }))
+      rows.map((r) => ({
+        ...r,
+        mode: this.modeSvc.resolvedFor(r.id),
+        desiredMode: this.modeSvc.desiredFor(r.id),
+        fallbackReason: this.modeSvc.fallbackReason(r.id),
+      }))
     );
     this.toast.success('Overrides cleared');
   }

@@ -4,6 +4,7 @@ export default defineWorkspace([
   './apps/bruce-core/vitest.config.ts',
   './packages/logger/vitest.config.ts',
   './packages/events/vitest.config.ts',
+  './packages/handoff/vitest.config.ts',
   './packages/agent-runtime/vitest.config.ts',
   './packages/stripe-client/vitest.config.ts',
   './packages/llm/vitest.config.ts',

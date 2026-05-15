@@ -28,4 +28,18 @@ describe('scoreOutput', () => {
     );
     expect(scores.tier).toBe(1);
   });
+
+  it('scores required_fields by present path ratio', async () => {
+    const scores = await scoreOutput(
+      { handoff: { venture_id: 'v1' }, status: 'ready' },
+      {},
+      {
+        structure: {
+          type: 'required_fields',
+          requiredPaths: ['handoff.venture_id', 'handoff.target_schema', 'status'],
+        },
+      },
+    );
+    expect(scores.structure).toBe(2 / 3);
+  });
 });

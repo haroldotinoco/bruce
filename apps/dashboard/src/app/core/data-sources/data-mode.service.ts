@@ -28,6 +28,11 @@ export class DataModeService {
     return this.resolved()[id];
   }
 
+  desiredFor(id: ModuleId): DataSourceMode {
+    const overrides = this._overrides();
+    return overrides[id] ?? this.env.moduleDataSources[id] ?? 'mock';
+  }
+
   isLive(id: ModuleId): boolean {
     return this.resolvedFor(id) === 'real';
   }
@@ -38,6 +43,15 @@ export class DataModeService {
     const meta = MODULE_REGISTRY.find((m) => m.id === id);
     if (!meta?.realAvailable) return false;
     return desired === 'real' && !this.token.hasToken();
+  }
+
+  fallbackReason(id: ModuleId): string | null {
+    const desired = this.desiredFor(id);
+    const meta = MODULE_REGISTRY.find((m) => m.id === id);
+    if (desired !== 'real') return null;
+    if (!meta?.realAvailable) return 'Real provider not implemented.';
+    if (!this.token.hasToken()) return 'Token missing; using mock data.';
+    return null;
   }
 
   setOverride(id: ModuleId, mode: DataSourceMode) {

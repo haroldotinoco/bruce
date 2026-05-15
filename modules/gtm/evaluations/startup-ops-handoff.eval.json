@@ -1,0 +1,36 @@
+{
+  "scenario_id": "gtm_eval_001",
+  "module": "gtm",
+  "agent_id": "campaign-manager",
+  "title": "GTM launch plan is ready for Startup-Ops monitoring",
+  "description": "Validates that GTM output includes a launch plan and downstream monitoring handoff fields.",
+  "tags": ["handoff", "gtm-to-startup-ops", "smoke"],
+  "input": {
+    "venture_id": "v-002-ai-compliance-saas",
+    "budget": 25000
+  },
+  "expected_output": {
+    "status": "ready_for_startup_ops",
+    "startup_ops_handoff": {
+      "venture_id": "v-002-ai-compliance-saas",
+      "target_schema": "gtm-to-startup-ops.schema.json"
+    }
+  },
+  "scoring": {
+    "status": {
+      "type": "exact_match",
+      "expectedPath": "status",
+      "actualPath": "status"
+    },
+    "handoff_structure": {
+      "type": "required_fields",
+      "requiredPaths": [
+        "launch_plan.primary_channel",
+        "launch_plan.first_campaign",
+        "startup_ops_handoff.venture_id",
+        "startup_ops_handoff.target_schema",
+        "startup_ops_handoff.metrics_to_monitor"
+      ]
+    }
+  }
+}

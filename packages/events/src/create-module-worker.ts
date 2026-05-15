@@ -5,7 +5,12 @@ import { logger } from '@bruce/logger';
 import { getBullRedisConnection } from './bullmq-connection.js';
 import { bruceQueueNameForSubscriber, getDeadLetterQueue } from './bruce-queues.js';
 import { InterModuleJobDataSchema } from './inter-module-job.js';
-import { eventProcessedTotal, eventProcessingSeconds, eventUnexpectedTotal } from './metrics.js';
+import {
+  dlqEnqueueFailedTotal,
+  eventProcessedTotal,
+  eventProcessingSeconds,
+  eventUnexpectedTotal,
+} from './metrics.js';
 
 export interface DlqJobPayload {
   jobData: unknown;
@@ -128,7 +133,10 @@ export function createModuleEventWorker(
 
     void dlq
       .add('dlq', payload, { removeOnComplete: { age: 86_400 } })
-      .catch((e) => logger.error({ e, jobId: job.id }, 'Failed to enqueue DLQ job'));
+      .catch((e) => {
+        dlqEnqueueFailedTotal.labels(queueName).inc();
+        logger.error({ e, jobId: job.id, queueName }, 'Failed to enqueue DLQ job');
+      });
   });
 
   return worker;

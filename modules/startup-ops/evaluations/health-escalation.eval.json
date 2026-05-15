@@ -1,0 +1,40 @@
+{
+  "scenario_id": "startup_ops_eval_001",
+  "module": "startup-ops",
+  "agent_id": "anomaly-detector",
+  "title": "At-risk health signals trigger portfolio escalation",
+  "description": "Adds runnable coverage for Startup-Ops anomaly escalation behavior.",
+  "tags": ["escalation", "startup-ops-to-portfolio", "smoke"],
+  "input": {
+    "venture_id": "taskflow",
+    "retention_d30": 0.28,
+    "mrr_growth_pct": 0.02
+  },
+  "expected_output": {
+    "venture_id": "taskflow",
+    "health_score": 48,
+    "escalation_required": true
+  },
+  "scoring": {
+    "health_score": {
+      "type": "numeric_range",
+      "expectedPath": "health_score",
+      "actualPath": "health_score",
+      "tolerance_percent": 5
+    },
+    "escalation": {
+      "type": "exact_match",
+      "expectedPath": "escalation_required",
+      "actualPath": "escalation_required"
+    },
+    "handoff_structure": {
+      "type": "required_fields",
+      "requiredPaths": [
+        "venture_id",
+        "anomalies",
+        "portfolio_handoff.target_schema",
+        "portfolio_handoff.decision_context"
+      ]
+    }
+  }
+}

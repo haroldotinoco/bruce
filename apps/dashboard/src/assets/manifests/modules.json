@@ -1,38 +1,263 @@
 [
   {
     "id": "bruce-core",
-    "agents_count": 4
+    "agents_count": 4,
+    "evaluation": {
+      "scenario_count": 1,
+      "covered_agent_count": 1,
+      "coverage_level": "partial",
+      "scenarios": [
+        {
+          "id": "bruce_core_eval_001",
+          "title": "Borderline gate decisions require escalation",
+          "agent_id": "gate-enforcer",
+          "path": "modules/bruce-core/evaluations/gate-borderline.eval.json"
+        }
+      ]
+    },
+    "runtime_readiness": {
+      "state": "partial",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Backend and workers exist, but dashboard content is still mock-backed.",
+      "eval_coverage": "partial"
+    }
   },
   {
     "id": "opportunity",
-    "agents_count": 4
+    "agents_count": 4,
+    "evaluation": {
+      "scenario_count": 1,
+      "covered_agent_count": 0,
+      "coverage_level": "partial",
+      "scenarios": [
+        {
+          "id": "opp_eval_001",
+          "title": "Accurate Market Sizing",
+          "agent_id": null,
+          "path": "modules/opportunity/evaluations/market-sizing.eval.json"
+        }
+      ]
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "partial",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "partial"
+    }
   },
   {
     "id": "add-venture",
-    "agents_count": 11
+    "agents_count": 11,
+    "evaluation": {
+      "scenario_count": 1,
+      "covered_agent_count": 1,
+      "coverage_level": "partial",
+      "scenarios": [
+        {
+          "id": "add_venture_eval_001",
+          "title": "Approved dossier is downstream-ready",
+          "agent_id": "dossier-composer",
+          "path": "modules/add-venture/evaluations/dossier-handoff.eval.json"
+        }
+      ]
+    },
+    "runtime_readiness": {
+      "state": "live",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "ready",
+      "temporal_worker": "ready",
+      "event_worker": "ready",
+      "dashboard_data_source": "real",
+      "manifest_completeness": "partial",
+      "summary": "Primary dashboard flow can use the live service when a token is configured. Token and health still determine active live mode at runtime.",
+      "eval_coverage": "partial"
+    }
   },
   {
     "id": "brand-aid",
-    "agents_count": 8
+    "agents_count": 8,
+    "evaluation": {
+      "scenario_count": 1,
+      "covered_agent_count": 0,
+      "coverage_level": "partial",
+      "scenarios": [
+        {
+          "id": "brand_eval_001",
+          "title": "Brand positioning brief",
+          "agent_id": null,
+          "path": "modules/brand-aid/evaluations/brand-positioning.eval.json"
+        }
+      ]
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "partial"
+    }
   },
   {
     "id": "builder",
-    "agents_count": 9
+    "agents_count": 9,
+    "evaluation": {
+      "scenario_count": 1,
+      "covered_agent_count": 1,
+      "coverage_level": "partial",
+      "scenarios": [
+        {
+          "id": "builder_eval_001",
+          "title": "Builder output is ready for GTM handoff",
+          "agent_id": "solution-architect",
+          "path": "modules/builder/evaluations/build-handoff.eval.json"
+        }
+      ]
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "partial"
+    }
   },
   {
     "id": "gtm",
-    "agents_count": 6
+    "agents_count": 6,
+    "evaluation": {
+      "scenario_count": 1,
+      "covered_agent_count": 1,
+      "coverage_level": "partial",
+      "scenarios": [
+        {
+          "id": "gtm_eval_001",
+          "title": "GTM launch plan is ready for Startup-Ops monitoring",
+          "agent_id": "campaign-manager",
+          "path": "modules/gtm/evaluations/startup-ops-handoff.eval.json"
+        }
+      ]
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "partial"
+    }
   },
   {
     "id": "startup-ops",
-    "agents_count": 5
+    "agents_count": 5,
+    "evaluation": {
+      "scenario_count": 1,
+      "covered_agent_count": 0,
+      "coverage_level": "partial",
+      "scenarios": [
+        {
+          "id": "startup_ops_eval_001",
+          "title": "At-risk health signals trigger portfolio escalation",
+          "agent_id": "anomaly-detector",
+          "path": "modules/startup-ops/evaluations/health-escalation.eval.json"
+        }
+      ]
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "partial"
+    }
   },
   {
     "id": "portfolio",
-    "agents_count": 5
+    "agents_count": 5,
+    "evaluation": {
+      "scenario_count": 1,
+      "covered_agent_count": 1,
+      "coverage_level": "partial",
+      "scenarios": [
+        {
+          "id": "portfolio_eval_001",
+          "title": "Portfolio review produces decision mix and confirmation signal",
+          "agent_id": "governance-decision-agent",
+          "path": "modules/portfolio/evaluations/portfolio-decision.eval.json"
+        }
+      ]
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "partial"
+    }
   },
   {
     "id": "bruce-memory",
-    "agents_count": 5
+    "agents_count": 5,
+    "evaluation": {
+      "scenario_count": 1,
+      "covered_agent_count": 1,
+      "coverage_level": "partial",
+      "scenarios": [
+        {
+          "id": "bruce_memory_eval_001",
+          "title": "Memory query returns explicit no-results state",
+          "agent_id": "query-agent",
+          "path": "modules/bruce-memory/evaluations/query-no-results.eval.json"
+        }
+      ]
+    },
+    "runtime_readiness": {
+      "state": "mock",
+      "navigation": "ready",
+      "http_health": "ready",
+      "workflow_routes": "partial",
+      "temporal_worker": "partial",
+      "event_worker": "partial",
+      "dashboard_data_source": "mock",
+      "manifest_completeness": "partial",
+      "summary": "Visible in navigation, but dashboard content is mock-backed.",
+      "eval_coverage": "partial"
+    }
   }
 ]

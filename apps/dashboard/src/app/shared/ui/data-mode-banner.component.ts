@@ -131,6 +131,6 @@ export class DataModeBannerComponent {
 
   message = computed(() => {
     if (this.live()) return 'Requests are hitting the real api-gateway.';
-    return 'This module has a real backend, but no token is set. Add one to see actual scans / jobs.';
+    return 'The UI remains visible, but backend data is not live until a token is configured.';
   });
 }

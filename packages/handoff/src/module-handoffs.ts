@@ -14,6 +14,16 @@ const BruceModuleNameSchema = z.enum([
 
 export type BruceModuleName = z.infer<typeof BruceModuleNameSchema>;
 
+export const HANDOFF_ENVELOPE_POLICY = {
+  canonicalEnvelope: 'ModuleHandoffEnvelope',
+  transportEnvelope: 'InterModuleEvent',
+  payloadLocations: ['payload.handoff', 'payload.handoffs.<target-module>'],
+  strictValidationEnv: 'BRUCE_HANDOFF_VALIDATE_STRICT',
+  correlationRoot: 'metadata.correlation_id',
+  runtimeRule:
+    'InterModuleEvent is the durable transport envelope; ModuleHandoffEnvelope is the canonical contract envelope inside event payloads.',
+} as const;
+
 const HandoffContextRefSchema = z
   .object({
     ref_type: z.enum(['venture_state_snapshot', 'artifact', 'metric_snapshot', 'decision_record']),
@@ -532,6 +542,10 @@ export function resolveModuleHandoffEnvelope(
   }
 
   return undefined;
+}
+
+export function isModuleHandoffEnvelope(value: unknown): value is ModuleHandoffEnvelope {
+  return ModuleHandoffEnvelopeSchema.safeParse(value).success;
 }
 
 export function buildVentureToBrandHandoff(params: {

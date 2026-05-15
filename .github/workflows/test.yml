@@ -78,5 +78,5 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
       - run: pnpm install
-      - run: pnpm --filter @bruce/evals exec tsx src/cli.ts opportunity --report
+      - run: pnpm --filter @bruce/evals exec tsx src/cli.ts all --report
         continue-on-error: true

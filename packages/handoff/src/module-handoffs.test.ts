@@ -3,6 +3,8 @@ import {
   buildBrandAidAgentInputFromVentureToBrandHandoff,
   buildVentureToBrandHandoff,
   createValidatedModuleHandoffEnvelope,
+  HANDOFF_ENVELOPE_POLICY,
+  isModuleHandoffEnvelope,
   resolveModuleHandoffEnvelope,
   validateVentureToBrandHandoff,
 } from './module-handoffs.js';
@@ -56,10 +58,20 @@ describe('module handoffs', () => {
     });
 
     const resolved = resolveModuleHandoffEnvelope({ handoff: envelope }, 'brand-aid');
+    expect(isModuleHandoffEnvelope(resolved)).toBe(true);
     expect(resolved?.payload).toMatchObject({
       venture_id: 'venture-1',
       value_proposition: 'Automate compliance workflows',
     });
+  });
+
+  it('declares the canonical runtime envelope policy', () => {
+    expect(HANDOFF_ENVELOPE_POLICY).toMatchObject({
+      canonicalEnvelope: 'ModuleHandoffEnvelope',
+      transportEnvelope: 'InterModuleEvent',
+      correlationRoot: 'metadata.correlation_id',
+    });
+    expect(HANDOFF_ENVELOPE_POLICY.payloadLocations).toContain('payload.handoff');
   });
 
   it('maps a validated venture-to-brand handoff into brand-aid input', () => {

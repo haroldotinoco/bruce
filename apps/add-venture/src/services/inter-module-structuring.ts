@@ -13,6 +13,15 @@ import { startVentureStructuringWorkflow } from './structuring.service.js';
 /**
  * Idempotent start from `opportunity.advanced` (BullMQ subscriber).
  */
+type InterModuleDedupeState = {
+  status: 'received' | 'started' | 'failed';
+  event_id: string;
+  received_at: string;
+  updated_at: string;
+  workflow_id?: string;
+  error_message?: string;
+};
+
 export async function handleOpportunityAdvancedEvent(event: InterModuleEvent): Promise<void> {
   const ventureId = event.venture_id?.trim();
   if (!ventureId) {
@@ -39,18 +48,51 @@ export async function handleOpportunityAdvancedEvent(event: InterModuleEvent): P
   }
 
   const redis = getRedisClient();
-  const dedupe = await redis.get<boolean>(
+  const legacyDone = await redis.get<boolean>(
     accountKey,
     'add-venture',
     'intermodule',
     event.event_id,
     'done'
   );
-  if (dedupe) {
-    logger.info({ event_id: event.event_id }, '[add-venture] duplicate event skipped');
+  if (legacyDone) {
+    logger.info({ event_id: event.event_id }, '[add-venture] duplicate event skipped (legacy done)');
     return;
   }
-  await redis.set(accountKey, 'add-venture', 'intermodule', event.event_id, 'done', true, 604800);
+
+  const existingState = await redis.get<InterModuleDedupeState>(
+    accountKey,
+    'add-venture',
+    'intermodule',
+    event.event_id,
+    'state',
+  );
+  if (existingState?.status === 'started') {
+    logger.info(
+      {
+        event_id: event.event_id,
+        workflow_id: existingState.workflow_id,
+      },
+      '[add-venture] duplicate event skipped after confirmed workflow start',
+    );
+    return;
+  }
+
+  const receivedAt = existingState?.received_at ?? new Date().toISOString();
+  await redis.set(
+    accountKey,
+    'add-venture',
+    'intermodule',
+    event.event_id,
+    'state',
+    {
+      status: 'received',
+      event_id: event.event_id,
+      received_at: receivedAt,
+      updated_at: new Date().toISOString(),
+    } satisfies InterModuleDedupeState,
+    604800,
+  );
 
   const opportunityId =
     typeof opportunity.opportunity_id === 'string' && opportunity.opportunity_id.length > 0
@@ -60,14 +102,50 @@ export async function handleOpportunityAdvancedEvent(event: InterModuleEvent): P
   const projectNickname =
     typeof payload.project_nickname === 'string' ? payload.project_nickname : undefined;
 
-  await startVentureStructuringWorkflow({
-    accountId: accountKey,
-    ventureId,
-    opportunityId,
-    opportunity,
-    correlationId: event.correlation_id,
-    projectNickname,
-  });
+  try {
+    const startResult = await startVentureStructuringWorkflow({
+      accountId: accountKey,
+      ventureId,
+      opportunityId,
+      opportunity,
+      correlationId: event.correlation_id,
+      projectNickname,
+    });
+
+    await redis.set(
+      accountKey,
+      'add-venture',
+      'intermodule',
+      event.event_id,
+      'state',
+      {
+        status: 'started',
+        event_id: event.event_id,
+        received_at: receivedAt,
+        updated_at: new Date().toISOString(),
+        workflow_id: startResult.workflow_id,
+      } satisfies InterModuleDedupeState,
+      604800,
+    );
+    await redis.set(accountKey, 'add-venture', 'intermodule', event.event_id, 'done', true, 604800);
+  } catch (error) {
+    await redis.set(
+      accountKey,
+      'add-venture',
+      'intermodule',
+      event.event_id,
+      'state',
+      {
+        status: 'failed',
+        event_id: event.event_id,
+        received_at: receivedAt,
+        updated_at: new Date().toISOString(),
+        error_message: error instanceof Error ? error.message : String(error),
+      } satisfies InterModuleDedupeState,
+      604800,
+    );
+    throw error;
+  }
 
   logger.info(
     { venture_id: ventureId, event_id: event.event_id, workflow: 'ventureAdditionWorkflow' },

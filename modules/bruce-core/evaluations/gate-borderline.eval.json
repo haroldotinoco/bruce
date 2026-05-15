@@ -1,0 +1,34 @@
+{
+  "scenario_id": "bruce_core_eval_001",
+  "module": "bruce-core",
+  "agent_id": "gate-enforcer",
+  "title": "Borderline gate decisions require escalation",
+  "description": "Converts the existing borderline gate narrative into a runnable gate-quality smoke eval.",
+  "tags": ["gate", "escalation", "smoke"],
+  "input": {
+    "fixture": "fixtures/gate-evaluation-borderline-input.json"
+  },
+  "expected_output": {
+    "gate_id": "post-screening",
+    "decision": "BORDERLINE",
+    "gate_score": 68,
+    "escalation_required": true
+  },
+  "scoring": {
+    "decision": {
+      "type": "exact_match",
+      "expectedPath": "decision",
+      "actualPath": "decision"
+    },
+    "score": {
+      "type": "numeric_range",
+      "expectedPath": "gate_score",
+      "actualPath": "gate_score",
+      "tolerance_percent": 3
+    },
+    "escalation_structure": {
+      "type": "required_fields",
+      "requiredPaths": ["gate_id", "decision", "gate_score", "escalation_required", "correlation_id"]
+    }
+  }
+}

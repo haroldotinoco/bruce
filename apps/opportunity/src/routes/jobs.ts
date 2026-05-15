@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { logger } from '@bruce/logger';
+import { standardJobErrorResponse } from '@bruce/observability';
 import { requireAuth } from '../middleware/auth-local.js';
 import { getWorkflowStatus, JobNotFoundError } from '../services/job.service.js';
 
@@ -19,12 +20,11 @@ jobRoutes.get('/:id', async (c) => {
         { accountId, workflow_id: workflowId, correlationId },
         'Job status: workflow not found',
       );
-      return c.json({ error: 'Job not found' }, 404);
+      const mapped = standardJobErrorResponse(error);
+      return c.json(mapped.body, mapped.httpStatus);
     }
     logger.error({ error, accountId, workflow_id: workflowId, correlationId }, 'Job status failed');
-    return c.json(
-      { error: 'Unable to load job status from the workflow service. Try again shortly.' },
-      502,
-    );
+    const mapped = standardJobErrorResponse(error);
+    return c.json(mapped.body, mapped.httpStatus);
   }
 });

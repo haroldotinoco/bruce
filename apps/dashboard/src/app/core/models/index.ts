@@ -1,4 +1,5 @@
 import type { ModuleId } from '../config/env.types';
+import type { EvalCoverageLevel, ReadinessDimension, ReadinessState } from '../config/module-readiness';
 
 export type VentureStage = 'concept' | 'scoping' | 'building' | 'live' | 'archived';
 
@@ -163,6 +164,41 @@ export interface AgentCapability {
   inputs?: string[];
   outputs?: string[];
   model?: string;
+  evaluation?: {
+    covered: boolean;
+    scenario_count: number;
+  };
+  runtime_readiness?: ManifestRuntimeReadiness;
+}
+
+export interface ModuleManifest {
+  id: ModuleId;
+  agents_count: number;
+  evaluation?: {
+    scenario_count: number;
+    covered_agent_count: number;
+    coverage_level: EvalCoverageLevel;
+    scenarios: Array<{
+      id: string;
+      title: string;
+      agent_id: string | null;
+      path: string;
+    }>;
+  };
+  runtime_readiness?: ManifestRuntimeReadiness;
+}
+
+export interface ManifestRuntimeReadiness {
+  state: ReadinessState;
+  navigation: ReadinessDimension;
+  http_health: ReadinessDimension;
+  workflow_routes: ReadinessDimension;
+  temporal_worker: ReadinessDimension;
+  event_worker: ReadinessDimension;
+  dashboard_data_source: 'real' | 'mock';
+  manifest_completeness: ReadinessDimension;
+  eval_coverage?: EvalCoverageLevel;
+  summary: string;
 }
 
 // =============================================================================

@@ -40,9 +40,22 @@ export type {
 export {
   EVENT_ROUTING_POLICY,
   getEventRoutingPolicy,
+  isDurableDownstreamTrigger,
   isTerminalEvent,
 } from './routing-policy.js';
-export type { EventRoutingKind, EventRoutingPolicy } from './routing-policy.js';
+export type {
+  EventRoutingClassification,
+  EventRoutingKind,
+  EventRoutingPolicy,
+} from './routing-policy.js';
+export {
+  getFailurePolicy,
+  ORCHESTRATION_FAILURE_POLICY,
+} from './failure-policy.js';
+export type {
+  FailurePolicyEntry,
+  OrchestrationFailureClass,
+} from './failure-policy.js';
 export { startSingleAgentPipelineWorkflow } from './pipeline-template.js';
 export type {
   PipelineWorkflowStartParams,
@@ -61,5 +74,6 @@ export {
   eventProcessedTotal,
   eventProcessingSeconds,
   eventUnexpectedTotal,
+  dlqEnqueueFailedTotal,
   getMetricsRegistry,
 } from './metrics.js';

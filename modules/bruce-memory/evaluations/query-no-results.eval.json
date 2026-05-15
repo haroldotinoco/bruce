@@ -1,0 +1,33 @@
+{
+  "scenario_id": "bruce_memory_eval_001",
+  "module": "bruce-memory",
+  "agent_id": "query-agent",
+  "title": "Memory query returns explicit no-results state",
+  "description": "Validates that low-confidence memory searches return a structured empty result instead of hallucinated patterns.",
+  "tags": ["memory-query", "quality-gate", "smoke"],
+  "input": {
+    "fixture": "fixtures/pattern-query-input.json"
+  },
+  "expected_output": {
+    "no_results": true,
+    "minimum_confidence": 0.6,
+    "answer": "No matching patterns met the minimum confidence threshold."
+  },
+  "scoring": {
+    "no_results": {
+      "type": "exact_match",
+      "expectedPath": "no_results",
+      "actualPath": "no_results"
+    },
+    "confidence": {
+      "type": "numeric_range",
+      "expectedPath": "minimum_confidence",
+      "actualPath": "minimum_confidence",
+      "tolerance_percent": 1
+    },
+    "structure": {
+      "type": "required_fields",
+      "requiredPaths": ["query_id", "no_results", "patterns", "answer"]
+    }
+  }
+}

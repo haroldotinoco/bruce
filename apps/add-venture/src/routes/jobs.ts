@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { logger } from '@bruce/logger';
+import { standardJobErrorResponse } from '@bruce/observability';
 import { requireAuth } from '../middleware/auth-local.js';
 import { getWorkflowStatus } from '../services/job.service.js';
 
@@ -15,6 +16,7 @@ jobRoutes.get('/:id', async (c) => {
     return c.json(result);
   } catch (error) {
     logger.error({ error, accountId, workflow_id: workflowId, correlationId }, 'Job status failed');
-    return c.json({ error: (error as Error).message }, 404);
+    const mapped = standardJobErrorResponse(error);
+    return c.json(mapped.body, mapped.httpStatus);
   }
 });

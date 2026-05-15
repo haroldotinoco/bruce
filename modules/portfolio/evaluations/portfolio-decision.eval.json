@@ -1,0 +1,42 @@
+{
+  "scenario_id": "portfolio_eval_001",
+  "module": "portfolio",
+  "agent_id": "governance-decision-agent",
+  "title": "Portfolio review produces decision mix and confirmation signal",
+  "description": "Uses the portfolio snapshot fixture to validate scale/iterate/continue decisions and human confirmation requirements.",
+  "tags": ["decision-quality", "handoff", "smoke"],
+  "input": {
+    "fixture": "fixtures/portfolio-snapshot-input.json"
+  },
+  "expected_output": {
+    "review_cycle_id": "cycle_20260406_00",
+    "portfolio_summary": {
+      "scale_decisions": 1,
+      "iterate_decisions": 1,
+      "continue_decisions": 2,
+      "kill_decisions": 0,
+      "human_confirmations_required": 1
+    }
+  },
+  "scoring": {
+    "scale_count": {
+      "type": "exact_match",
+      "expectedPath": "portfolio_summary.scale_decisions",
+      "actualPath": "portfolio_summary.scale_decisions"
+    },
+    "iterate_count": {
+      "type": "exact_match",
+      "expectedPath": "portfolio_summary.iterate_decisions",
+      "actualPath": "portfolio_summary.iterate_decisions"
+    },
+    "decision_structure": {
+      "type": "required_fields",
+      "requiredPaths": [
+        "review_cycle_id",
+        "decisions",
+        "portfolio_summary.scale_decisions",
+        "portfolio_summary.human_confirmations_required"
+      ]
+    }
+  }
+}

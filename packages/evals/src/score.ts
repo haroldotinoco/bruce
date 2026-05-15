@@ -58,6 +58,14 @@ export async function scoreOutput(
       const sim = tokenJaccard(ev, av);
       const th = metric.threshold ?? 0.75;
       scores[metricKey] = sim >= th ? 1 : sim;
+    } else if (metric.type === 'required_fields') {
+      const requiredPaths = metric.requiredPaths ?? [];
+      if (requiredPaths.length === 0) {
+        scores[metricKey] = 1;
+        continue;
+      }
+      const present = requiredPaths.filter((path) => getAtPath(actual, path) !== undefined);
+      scores[metricKey] = present.length / requiredPaths.length;
     }
   }
 

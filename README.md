@@ -15,9 +15,9 @@ pnpm install
 pnpm run build
 ```
 
-Guia passo a passo para a cadeia vertical local (venture → workflows bruce-core e opportunity, Temporal UI, curls): [todo/QUICK_START.md](todo/QUICK_START.md).
+Runbook operacional canônico para ambiente local, autenticação, event bus, workers, dashboard e testes: [docs/operator-golden-path.md](docs/operator-golden-path.md).
 
-Checklist curta do zero (`docker compose down -v`, migrações, dev, curls / Postman): [LOCAL_TEST.md](LOCAL_TEST.md).
+Smoke curto da cadeia vertical local (venture → workflows bruce-core e opportunity, Temporal UI, curls): [todo/QUICK_START.md](todo/QUICK_START.md).
 
 ## Infra local
 
@@ -53,7 +53,7 @@ Variáveis úteis (ex.: `.env` na raiz):
 | `pnpm infra:down` | Para containers        |
 | `pnpm --filter @bruce/contracts run generate` | Gera tipos a partir de `modules/**/*.schema.json` |
 | `pnpm --filter @bruce/db run db:migrate` | Aplica SQL em `packages/db/migrations/` |
-| `pnpm test:integration` | Vitest HTTP E2E opcional (ver `BRUCE_E2E_*` em `todo/QUICK_START.md`) |
+| `pnpm test:integration` | Vitest HTTP E2E opcional (ver `BRUCE_E2E_*` em `docs/operator-golden-path.md`) |
 
 Tipos gerados ficam em `packages/contracts/src/generated/`. Importe com o subpath `@bruce/contracts/generated/...` (veja `exports` em `packages/contracts/package.json`). O pacote raiz `@bruce/contracts` exporta os contratos comuns (`ModuleEvent`, erros, etc.).
 

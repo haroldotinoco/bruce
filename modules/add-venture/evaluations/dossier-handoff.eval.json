@@ -1,0 +1,46 @@
+{
+  "scenario_id": "add_venture_eval_001",
+  "module": "add-venture",
+  "agent_id": "dossier-composer",
+  "title": "Approved dossier is downstream-ready",
+  "description": "Converts the existing ComplianceAI briefing fixture into an approved dossier with artifact refs and downstream next steps.",
+  "tags": ["handoff", "dossier", "smoke"],
+  "input": {
+    "fixture": "fixtures/opportunity-briefing-input.json"
+  },
+  "expected_output": {
+    "venture_id": "v-002-ai-compliance-saas",
+    "opportunity_id": "opp-ai-compliance-v1",
+    "venture_name": "ComplianceAI",
+    "status": "approved",
+    "key_metrics": {
+      "critique_overall_score": 76,
+      "year_1_revenue_target": 3000000
+    },
+    "artifact_refs": {
+      "json_url": "s3://ventures/v-002-ai-compliance-saas/dossier.json"
+    }
+  },
+  "scoring": {
+    "status": {
+      "type": "exact_match",
+      "expectedPath": "status",
+      "actualPath": "status"
+    },
+    "critique_score": {
+      "type": "numeric_range",
+      "expectedPath": "key_metrics.critique_overall_score",
+      "actualPath": "key_metrics.critique_overall_score",
+      "tolerance_percent": 5
+    },
+    "downstream_readiness": {
+      "type": "required_fields",
+      "requiredPaths": [
+        "venture_id",
+        "opportunity_id",
+        "artifact_refs.json_url",
+        "next_steps"
+      ]
+    }
+  }
+}

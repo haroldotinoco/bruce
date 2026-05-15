@@ -31,6 +31,13 @@ export const eventUnexpectedTotal = new Counter({
   registers: [registry],
 });
 
+export const dlqEnqueueFailedTotal = new Counter({
+  name: 'bruce_events_dlq_enqueue_failed_total',
+  help: 'Total failures while copying exhausted inter-module jobs to the DLQ',
+  labelNames: ['source_queue'],
+  registers: [registry],
+});
+
 export function getMetricsRegistry(): Registry {
   return registry;
 }

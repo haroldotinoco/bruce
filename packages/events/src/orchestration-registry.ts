@@ -1,6 +1,15 @@
 import { EVENT_ROUTING_POLICY } from './routing-policy.js';
 
 export type LifecycleModel = 'decentralized_event_saga';
+export type ReadinessSignal = 'ready' | 'partial' | 'mock' | 'missing';
+export type EvalCoverageSignal = 'none' | 'partial' | 'covered';
+export type ObservabilityIdentifier =
+  | 'correlation_id'
+  | 'observability_run_id'
+  | 'temporal_workflow_id'
+  | 'event_id'
+  | 'venture_id'
+  | 'domain_record_id';
 
 export type OrchestrationModuleName =
   | 'opportunity'
@@ -24,6 +33,20 @@ export interface OrchestrationModule {
   emittedEvents: string[];
   handoffContracts: string[];
   runtimeRole: 'source' | 'durable_step' | 'parallel_branch' | 'coordinator';
+  dashboardReadiness: {
+    visibleInNavigation: boolean;
+    generatedManifest: boolean;
+    liveDataSource: ReadinessSignal;
+    evalCoverage: EvalCoverageSignal;
+  };
+  runtimeReadiness: {
+    http: ReadinessSignal;
+    temporalWorker: ReadinessSignal;
+    eventWorker: ReadinessSignal;
+  };
+  observabilityIdentifiers: ObservabilityIdentifier[];
+  correlationRoot: 'correlation_id';
+  handoffEnvelope: 'InterModuleEvent.payload.handoff' | 'InterModuleEvent.payload.handoffs' | 'none';
   joinsOn?: string[];
   notes?: string;
 }
@@ -31,12 +54,47 @@ export interface OrchestrationModule {
 export interface OrchestrationRegistry {
   lifecycleModel: LifecycleModel;
   lifecycleRoot: OrchestrationModuleName;
+  lifecycleCorrelationRoot: 'correlation_id';
+  canonicalHandoffEnvelope: 'ModuleHandoffEnvelope inside InterModuleEvent payload';
   modules: OrchestrationModule[];
+}
+
+const TRACE_IDS: ObservabilityIdentifier[] = [
+  'correlation_id',
+  'observability_run_id',
+  'temporal_workflow_id',
+  'event_id',
+  'venture_id',
+  'domain_record_id',
+];
+
+function dashboardReadiness(
+  liveDataSource: ReadinessSignal,
+  evalCoverage: EvalCoverageSignal = 'partial',
+) {
+  return {
+    visibleInNavigation: true,
+    generatedManifest: true,
+    liveDataSource,
+    evalCoverage,
+  };
+}
+
+function runtimeReadiness(
+  eventWorker: ReadinessSignal,
+): OrchestrationModule['runtimeReadiness'] {
+  return {
+    http: 'ready',
+    temporalWorker: 'ready',
+    eventWorker,
+  };
 }
 
 export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
   lifecycleModel: 'decentralized_event_saga',
   lifecycleRoot: 'opportunity',
+  lifecycleCorrelationRoot: 'correlation_id',
+  canonicalHandoffEnvelope: 'ModuleHandoffEnvelope inside InterModuleEvent payload',
   modules: [
     {
       module: 'opportunity',
@@ -53,6 +111,11 @@ export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
       emittedEvents: ['opportunity.advanced'],
       handoffContracts: ['opportunity-to-venture'],
       runtimeRole: 'source',
+      dashboardReadiness: dashboardReadiness('ready'),
+      runtimeReadiness: runtimeReadiness('missing'),
+      observabilityIdentifiers: TRACE_IDS,
+      correlationRoot: 'correlation_id',
+      handoffEnvelope: 'InterModuleEvent.payload.handoff',
     },
     {
       module: 'add-venture',
@@ -65,6 +128,11 @@ export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
       emittedEvents: ['venture.qualified'],
       handoffContracts: ['opportunity-to-venture', 'venture-to-brand', 'venture-to-builder'],
       runtimeRole: 'durable_step',
+      dashboardReadiness: dashboardReadiness('ready'),
+      runtimeReadiness: runtimeReadiness('ready'),
+      observabilityIdentifiers: TRACE_IDS,
+      correlationRoot: 'correlation_id',
+      handoffEnvelope: 'InterModuleEvent.payload.handoffs',
     },
     {
       module: 'brand-aid',
@@ -77,6 +145,11 @@ export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
       emittedEvents: ['brand-aid.pipeline.completed'],
       handoffContracts: ['venture-to-brand'],
       runtimeRole: 'parallel_branch',
+      dashboardReadiness: dashboardReadiness('mock'),
+      runtimeReadiness: runtimeReadiness('partial'),
+      observabilityIdentifiers: TRACE_IDS,
+      correlationRoot: 'correlation_id',
+      handoffEnvelope: 'InterModuleEvent.payload.handoff',
       notes: 'Completion is a terminal signal unless a future join is introduced.',
     },
     {
@@ -90,6 +163,11 @@ export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
       emittedEvents: ['builder.pipeline.completed'],
       handoffContracts: ['venture-to-builder', 'builder-to-gtm'],
       runtimeRole: 'durable_step',
+      dashboardReadiness: dashboardReadiness('mock'),
+      runtimeReadiness: runtimeReadiness('partial'),
+      observabilityIdentifiers: TRACE_IDS,
+      correlationRoot: 'correlation_id',
+      handoffEnvelope: 'InterModuleEvent.payload.handoff',
     },
     {
       module: 'gtm',
@@ -102,6 +180,11 @@ export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
       emittedEvents: ['gtm.pipeline.completed'],
       handoffContracts: ['builder-to-gtm', 'gtm-to-startup-ops'],
       runtimeRole: 'durable_step',
+      dashboardReadiness: dashboardReadiness('mock'),
+      runtimeReadiness: runtimeReadiness('partial'),
+      observabilityIdentifiers: TRACE_IDS,
+      correlationRoot: 'correlation_id',
+      handoffEnvelope: 'InterModuleEvent.payload.handoff',
       joinsOn: ['builder.pipeline.completed'],
     },
     {
@@ -115,6 +198,11 @@ export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
       emittedEvents: ['startup-ops.pipeline.completed'],
       handoffContracts: ['gtm-to-startup-ops', 'startup-ops-to-portfolio'],
       runtimeRole: 'durable_step',
+      dashboardReadiness: dashboardReadiness('mock'),
+      runtimeReadiness: runtimeReadiness('partial'),
+      observabilityIdentifiers: TRACE_IDS,
+      correlationRoot: 'correlation_id',
+      handoffEnvelope: 'InterModuleEvent.payload.handoff',
     },
     {
       module: 'portfolio',
@@ -127,6 +215,11 @@ export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
       emittedEvents: ['portfolio.pipeline.completed'],
       handoffContracts: ['startup-ops-to-portfolio', 'portfolio-to-memory'],
       runtimeRole: 'durable_step',
+      dashboardReadiness: dashboardReadiness('mock'),
+      runtimeReadiness: runtimeReadiness('partial'),
+      observabilityIdentifiers: TRACE_IDS,
+      correlationRoot: 'correlation_id',
+      handoffEnvelope: 'InterModuleEvent.payload.handoff',
     },
     {
       module: 'bruce-memory',
@@ -139,6 +232,11 @@ export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
       emittedEvents: ['bruce-memory.pipeline.completed'],
       handoffContracts: ['portfolio-to-memory'],
       runtimeRole: 'durable_step',
+      dashboardReadiness: dashboardReadiness('mock'),
+      runtimeReadiness: runtimeReadiness('partial'),
+      observabilityIdentifiers: TRACE_IDS,
+      correlationRoot: 'correlation_id',
+      handoffEnvelope: 'InterModuleEvent.payload.handoff',
     },
     {
       module: 'bruce-core',
@@ -155,6 +253,11 @@ export const ORCHESTRATION_REGISTRY: OrchestrationRegistry = {
         'venture-status-transition',
       ],
       runtimeRole: 'coordinator',
+      dashboardReadiness: dashboardReadiness('mock'),
+      runtimeReadiness: runtimeReadiness('partial'),
+      observabilityIdentifiers: TRACE_IDS,
+      correlationRoot: 'correlation_id',
+      handoffEnvelope: 'InterModuleEvent.payload.handoff',
       notes: 'Core governance remains separate from the Opportunity-to-Memory event saga.',
     },
   ],
@@ -171,6 +274,7 @@ export function getLifecycleEdges(): Array<{
   publisher: OrchestrationModuleName;
   subscribers: OrchestrationModuleName[];
   kind: string;
+  classification: string;
 }> {
   return ORCHESTRATION_REGISTRY.modules.flatMap((publisher) =>
     publisher.emittedEvents.map((eventType) => {
@@ -180,6 +284,7 @@ export function getLifecycleEdges(): Array<{
         publisher: publisher.module,
         subscribers: (policy?.subscribers ?? []) as OrchestrationModuleName[],
         kind: policy?.kind ?? 'unclassified',
+        classification: policy?.classification ?? 'deprecated_or_stub',
       };
     }),
   );
