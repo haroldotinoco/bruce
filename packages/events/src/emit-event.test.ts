@@ -36,6 +36,35 @@ describe('emitEvent', () => {
     });
   });
 
+  it('enriches payloads with traceability identifiers when provided', async () => {
+    const { emitEvent } = await import('./emit-event.js');
+
+    await emitEvent(
+      'opportunity.advanced',
+      'opportunity',
+      { problem_statement: 'Test' },
+      {
+        ventureId: '550e8400-e29b-41d4-a716-446655440000',
+        correlationId: 'corr-1',
+        observabilityRunId: '11111111-1111-4111-8111-111111111111',
+        temporalWorkflowId: 'opp-workflow-1',
+      },
+    );
+
+    const envelope = (mockAdd.mock.calls[0]?.[1] as { envelope: { payload: unknown } })
+      .envelope;
+    expect(envelope.payload).toMatchObject({
+      correlation_id: 'corr-1',
+      observability_run_id: '11111111-1111-4111-8111-111111111111',
+      temporal_workflow_id: 'opp-workflow-1',
+      traceability: {
+        correlation_id: 'corr-1',
+        observability_run_id: '11111111-1111-4111-8111-111111111111',
+        temporal_workflow_id: 'opp-workflow-1',
+      },
+    });
+  });
+
   it('fan-out: venture.qualified targets brand-aid and builder', async () => {
     const { emitEvent } = await import('./emit-event.js');
 

@@ -2,11 +2,14 @@ import { getAgentRunner } from '@bruce/agent-runtime';
 import { withAccountContext } from '@bruce/db';
 import { getEventBus } from '@bruce/events';
 import { logger } from '@bruce/logger';
+export { obsStartRun, obsUpdateStep, obsCompleteRun, obsFailRun } from '@bruce/observability';
 
 export async function runVentureLifecycleStep(params: {
   accountId: string;
   ventureId: string;
   correlationId: string;
+  observabilityRunId?: string;
+  observabilityStepKey?: string;
 }): Promise<unknown> {
   const { accountId, ventureId, correlationId } = params;
   logger.info({ accountId, ventureId }, 'Running venture-lifecycle-manager');
@@ -35,6 +38,8 @@ export async function runVentureLifecycleStep(params: {
       module: 'bruce-core',
       executionId: crypto.randomUUID(),
       correlationId,
+      observabilityRunId: params.observabilityRunId,
+      observabilityStepKey: params.observabilityStepKey,
     }
   );
 
@@ -49,6 +54,8 @@ export async function runModuleDispatchStep(params: {
   accountId: string;
   ventureId: string;
   correlationId: string;
+  observabilityRunId?: string;
+  observabilityStepKey?: string;
 }): Promise<unknown> {
   const { accountId, ventureId, correlationId } = params;
   logger.info({ accountId, ventureId }, 'Running module-dispatcher');
@@ -76,6 +83,8 @@ export async function runModuleDispatchStep(params: {
       module: 'bruce-core',
       executionId: crypto.randomUUID(),
       correlationId,
+      observabilityRunId: params.observabilityRunId,
+      observabilityStepKey: params.observabilityStepKey,
     }
   );
 
@@ -104,6 +113,9 @@ export async function emitVentureCreated(params: {
   accountId: string;
   ventureId: string;
   recordId: string;
+  correlationId: string;
+  observabilityRunId?: string;
+  temporalWorkflowId?: string;
 }): Promise<void> {
   const eventBus = getEventBus();
   await eventBus.emit({
@@ -111,6 +123,21 @@ export async function emitVentureCreated(params: {
     accountId: params.accountId,
     ventureId: params.ventureId,
     sourceModule: 'bruce-core',
-    payload: { record_id: params.recordId },
+    payload: {
+      record_id: params.recordId,
+      correlation_id: params.correlationId,
+      observability_run_id: params.observabilityRunId,
+      temporal_workflow_id: params.temporalWorkflowId,
+      traceability: {
+        correlation_id: params.correlationId,
+        observability_run_id: params.observabilityRunId,
+        temporal_workflow_id: params.temporalWorkflowId,
+      },
+    },
+    metadata: {
+      correlation_id: params.correlationId,
+      observability_run_id: params.observabilityRunId,
+      temporal_workflow_id: params.temporalWorkflowId,
+    },
   });
 }

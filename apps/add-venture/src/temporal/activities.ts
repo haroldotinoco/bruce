@@ -722,6 +722,7 @@ export async function emitVentureStructuringCompleted(params: {
   vol8: unknown;
   correlationId?: string;
   temporalWorkflowId?: string;
+  observabilityRunId?: string;
   projectNickname?: string;
 }): Promise<void> {
   const eventBus = getEventBus();
@@ -773,6 +774,8 @@ export async function emitVentureStructuringCompleted(params: {
     sourceModule: 'add-venture',
     payload: {
       pipeline_id: params.pipelineId,
+      observability_run_id: params.observabilityRunId,
+      temporal_workflow_id: params.temporalWorkflowId,
       output: params.output,
       project_nickname: params.projectNickname,
     },
@@ -794,6 +797,8 @@ export async function emitVentureStructuringCompleted(params: {
     {
       ventureId: params.ventureId,
       correlationId,
+      observabilityRunId: params.observabilityRunId,
+      temporalWorkflowId: params.temporalWorkflowId,
       warnWhenNoSubscribers: false,
     },
   );

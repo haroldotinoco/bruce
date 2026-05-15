@@ -615,6 +615,7 @@ export async function emitOpportunityAdvancedInterModule(params: {
   venture_handoff: Record<string, unknown>;
   themes?: string[];
   temporalWorkflowId?: string;
+  observabilityRunId?: string;
   correlationId?: string;
   projectNickname?: string;
 }): Promise<void> {
@@ -626,6 +627,7 @@ export async function emitOpportunityAdvancedInterModule(params: {
     venture_handoff,
     themes = [],
     temporalWorkflowId,
+    observabilityRunId,
     correlationId,
     projectNickname,
   } = params;
@@ -700,6 +702,8 @@ export async function emitOpportunityAdvancedInterModule(params: {
     {
       account_id: accountId,
       scan_id: scanId,
+      observability_run_id: observabilityRunId,
+      temporal_workflow_id: temporalWorkflowId,
       results,
       venture_handoff: handoffRecord,
       handoff: handoffEnvelope,
@@ -708,6 +712,8 @@ export async function emitOpportunityAdvancedInterModule(params: {
     {
       ventureId: parseVentureUuid(ventureId) ?? ventureId,
       correlationId: handoffEnvelope.metadata.correlation_id,
+      observabilityRunId,
+      temporalWorkflowId,
       warnWhenNoSubscribers: false,
     }
   );

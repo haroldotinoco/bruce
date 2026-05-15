@@ -25,6 +25,7 @@ export const workflowRuns = observabilitySchema.table(
     module: text('module').notNull(),
     workflow_type: text('workflow_type'),
     temporal_workflow_id: text('temporal_workflow_id'),
+    correlation_id: text('correlation_id'),
     account_id: text('account_id').notNull(),
     venture_id: uuid('venture_id'),
     status: text('status').notNull().default('queued'),
@@ -52,6 +53,7 @@ export const workflowRuns = observabilitySchema.table(
     temporalIdx: index('idx_workflow_runs_temporal').on(
       table.temporal_workflow_id,
     ),
+    correlationIdx: index('idx_workflow_runs_correlation').on(table.correlation_id),
   }),
 );
 

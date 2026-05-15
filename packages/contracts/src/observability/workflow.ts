@@ -126,6 +126,8 @@ export interface ActiveWorkflow {
   progress: number;
   steps: WorkflowStep[];
   temporal_workflow_id?: string;
+  correlation_id?: string;
+  id_lineage?: WorkflowIdLineage;
   error_message?: string;
   /** Total LLM usage for this workflow run. */
   llm_usage?: LlmUsageTotals;
@@ -144,4 +146,14 @@ export interface WorkflowRunSummary {
   completed_at?: string;
   progress: number;
   temporal_workflow_id?: string;
+  correlation_id?: string;
+  id_lineage?: WorkflowIdLineage;
+}
+
+export interface WorkflowIdLineage {
+  observability_run_id: string;
+  temporal_workflow_id?: string;
+  correlation_id?: string;
+  account_id?: string;
+  venture_id?: string;
 }

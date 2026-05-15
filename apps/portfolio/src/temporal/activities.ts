@@ -51,6 +51,8 @@ export async function emitPortfolioPipelineCompleted(params: {
   result: unknown;
   agentInput: Record<string, unknown>;
   correlationId: string;
+  observabilityRunId?: string;
+  temporalWorkflowId?: string;
 }): Promise<void> {
   const sourceHandoff =
     params.agentInput.source_handoff && typeof params.agentInput.source_handoff === 'object'
@@ -84,6 +86,8 @@ export async function emitPortfolioPipelineCompleted(params: {
     'portfolio',
     {
       account_id: params.accountId,
+      observability_run_id: params.observabilityRunId,
+      temporal_workflow_id: params.temporalWorkflowId,
       result: params.result,
       source_handoff: sourceHandoff,
       handoffs: {
@@ -94,6 +98,8 @@ export async function emitPortfolioPipelineCompleted(params: {
     {
       ventureId: params.ventureId,
       correlationId: params.correlationId,
+      observabilityRunId: params.observabilityRunId,
+      temporalWorkflowId: params.temporalWorkflowId,
       warnWhenNoSubscribers: false,
     }
   );

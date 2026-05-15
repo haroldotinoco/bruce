@@ -24,6 +24,7 @@ export interface StartWorkflowRunOpts {
   module: string;
   workflowType?: string;
   temporalWorkflowId?: string;
+  correlationId?: string;
   ventureId?: string;
   title: string;
   subtitle?: string;
@@ -98,6 +99,7 @@ export async function startWorkflowRun(
         module: opts.module,
         workflow_type: opts.workflowType ?? null,
         temporal_workflow_id: opts.temporalWorkflowId ?? null,
+        correlation_id: opts.correlationId ?? null,
         account_id: accountId,
         venture_id: ventureId ?? null,
         status: 'running',
@@ -134,6 +136,7 @@ export async function startWorkflowRun(
       module: opts.module,
       workflow_type: opts.workflowType,
       temporal_workflow_id: opts.temporalWorkflowId,
+      correlation_id: opts.correlationId,
       account_id: accountId,
       venture_id: ventureId,
     },

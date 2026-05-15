@@ -32,6 +32,7 @@ export interface ObsStartRunInput {
   module: string;
   workflowType?: string;
   temporalWorkflowId?: string;
+  correlationId?: string;
   ventureId?: string;
   title: string;
   subtitle?: string;
@@ -54,6 +55,7 @@ export async function obsStartRun(input: ObsStartRunInput): Promise<string> {
         module: input.module,
         workflow_type: input.workflowType ?? null,
         temporal_workflow_id: input.temporalWorkflowId ?? null,
+        correlation_id: input.correlationId ?? null,
         account_id: accountId,
         venture_id: ventureId,
         status: 'running',
@@ -86,6 +88,7 @@ export async function obsStartRun(input: ObsStartRunInput): Promise<string> {
       module: input.module,
       workflow_type: input.workflowType,
       temporal_workflow_id: input.temporalWorkflowId,
+      correlation_id: input.correlationId,
       account_id: accountId,
     },
     `[obs] workflow run started: ${input.title}`,

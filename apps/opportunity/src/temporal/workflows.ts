@@ -127,6 +127,7 @@ export async function opportunityScreeningWorkflow(input: {
     module: 'opportunity',
     workflowType: 'opportunityScreeningWorkflow',
     temporalWorkflowId: wfId,
+    correlationId,
     ventureId: venture_id,
     title: themes.length
       ? `Opportunity scan · ${themes.join(' · ')}`
@@ -824,6 +825,7 @@ export async function opportunityScreeningWorkflow(input: {
       venture_handoff: venture_handoff,
       themes,
       temporalWorkflowId: wfId,
+      observabilityRunId: obsRunId,
       correlationId,
       projectNickname,
     });

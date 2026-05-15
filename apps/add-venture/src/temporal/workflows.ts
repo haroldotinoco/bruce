@@ -176,6 +176,7 @@ export async function ventureAdditionWorkflow(input: {
     module: 'add-venture',
     workflowType: 'ventureAdditionWorkflow',
     temporalWorkflowId: wfId,
+    correlationId,
     ventureId: venture_id,
     title: `Add venture · ${ventureName}`,
     subtitle: opportunity_id,
@@ -431,6 +432,7 @@ export async function ventureAdditionWorkflow(input: {
       vol8,
       correlationId,
       temporalWorkflowId: wfId,
+      observabilityRunId: obsRunId,
       projectNickname,
     });
 

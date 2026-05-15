@@ -10,6 +10,11 @@ export {
   listWorkflowRuns,
 } from './workflow-loader.js';
 export {
+  OBSERVABILITY_ID_GLOSSARY,
+  TRACEABILITY_INCIDENT_CHECKLIST,
+} from './id-glossary.js';
+export type { ObservabilityIdGlossaryEntry } from './id-glossary.js';
+export {
   recordLlmUsage,
   getLlmUsageAggregatesForRun,
   getLlmUsageForAccountInRange,

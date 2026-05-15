@@ -53,6 +53,7 @@ describe('startSingleAgentPipelineWorkflow', () => {
             account_id: 'acct-1',
             venture_id: 'venture-1',
             module_name: 'builder',
+            correlation_id: 'corr-1',
           },
         },
       },

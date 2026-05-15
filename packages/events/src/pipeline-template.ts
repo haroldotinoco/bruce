@@ -38,6 +38,7 @@ export interface TemporalWorkflowStarter<TWorkflow> {
           account_id: string;
           venture_id: string;
           module_name: string;
+          correlation_id?: string;
         };
       },
     ): Promise<{ firstExecutionRunId: string }>;
@@ -68,6 +69,7 @@ export async function startSingleAgentPipelineWorkflow<TWorkflow>(
       account_id: params.accountId,
       venture_id: params.ventureId,
       module_name: template.moduleName,
+      correlation_id: params.correlationId,
     },
   });
 

@@ -84,6 +84,7 @@ interface RunRow {
   module: string;
   workflow_type: string | null;
   temporal_workflow_id: string | null;
+  correlation_id: string | null;
   account_id: string;
   venture_id: string | null;
   status: string;
@@ -162,6 +163,8 @@ export async function listWorkflowRuns(
       completed_at: r.completed_at?.toISOString(),
       progress: r.progress,
       temporal_workflow_id: r.temporal_workflow_id ?? undefined,
+      correlation_id: r.correlation_id ?? undefined,
+      id_lineage: buildIdLineage(r),
     }));
   });
 }
@@ -260,8 +263,20 @@ function assembleActiveWorkflow(
     progress: computeProgress(run, steps),
     steps,
     temporal_workflow_id: run.temporal_workflow_id ?? undefined,
+    correlation_id: run.correlation_id ?? undefined,
+    id_lineage: buildIdLineage(run),
     error_message: run.error_message ?? undefined,
     llm_usage: usageAgg?.run,
+  };
+}
+
+function buildIdLineage(run: RunRow) {
+  return {
+    observability_run_id: run.id,
+    temporal_workflow_id: run.temporal_workflow_id ?? undefined,
+    correlation_id: run.correlation_id ?? undefined,
+    account_id: run.account_id,
+    venture_id: run.venture_id ?? undefined,
   };
 }
 

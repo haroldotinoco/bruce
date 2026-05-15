@@ -60,6 +60,7 @@ export async function portfolioPipelineWorkflow(input: {
     module: 'portfolio',
     workflowType: 'portfolioPipelineWorkflow',
     temporalWorkflowId: wfId,
+    correlationId,
     ventureId: venture_id,
     title: `Portfolio pipeline · ${wfId.slice(-8)}`,
     steps: TOP_LEVEL_STEPS,
@@ -102,6 +103,8 @@ export async function portfolioPipelineWorkflow(input: {
       result,
       agentInput: agent_input,
       correlationId,
+      observabilityRunId: obsRunId,
+      temporalWorkflowId: wfId,
     });
 
     const finalResult = { result, observability_run_id: obsRunId };

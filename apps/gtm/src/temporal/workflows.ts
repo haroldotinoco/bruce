@@ -60,6 +60,7 @@ export async function gtmPipelineWorkflow(input: {
     module: 'gtm',
     workflowType: 'gtmPipelineWorkflow',
     temporalWorkflowId: wfId,
+    correlationId,
     ventureId: venture_id,
     title: `GTM pipeline · ${wfId.slice(-8)}`,
     steps: TOP_LEVEL_STEPS,
@@ -102,6 +103,8 @@ export async function gtmPipelineWorkflow(input: {
       result,
       agentInput: agent_input,
       correlationId,
+      observabilityRunId: obsRunId,
+      temporalWorkflowId: wfId,
     });
 
     const finalResult = { result, observability_run_id: obsRunId };

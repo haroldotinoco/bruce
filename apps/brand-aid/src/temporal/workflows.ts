@@ -60,6 +60,7 @@ export async function brandAidPipelineWorkflow(input: {
     module: 'brand-aid',
     workflowType: 'brandAidPipelineWorkflow',
     temporalWorkflowId: wfId,
+    correlationId,
     ventureId: venture_id,
     title: `Brand-aid pipeline · ${wfId.slice(-8)}`,
     steps: TOP_LEVEL_STEPS,
@@ -100,6 +101,9 @@ export async function brandAidPipelineWorkflow(input: {
       accountId: account_id,
       ventureId: venture_id,
       result,
+      correlationId,
+      observabilityRunId: obsRunId,
+      temporalWorkflowId: wfId,
     });
 
     const finalResult = { result, observability_run_id: obsRunId };

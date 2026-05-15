@@ -60,6 +60,7 @@ export async function startupOpsPipelineWorkflow(input: {
     module: 'startup-ops',
     workflowType: 'startupOpsPipelineWorkflow',
     temporalWorkflowId: wfId,
+    correlationId,
     ventureId: venture_id,
     title: `Startup-ops pipeline · ${wfId.slice(-8)}`,
     steps: TOP_LEVEL_STEPS,
@@ -102,6 +103,8 @@ export async function startupOpsPipelineWorkflow(input: {
       result,
       agentInput: agent_input,
       correlationId,
+      observabilityRunId: obsRunId,
+      temporalWorkflowId: wfId,
     });
 
     const finalResult = { result, observability_run_id: obsRunId };

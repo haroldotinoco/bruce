@@ -60,6 +60,7 @@ export async function bruceMemoryPipelineWorkflow(input: {
     module: 'bruce-memory',
     workflowType: 'bruceMemoryPipelineWorkflow',
     temporalWorkflowId: wfId,
+    correlationId,
     ventureId: venture_id,
     title: `Bruce-memory pipeline · ${wfId.slice(-8)}`,
     steps: TOP_LEVEL_STEPS,
@@ -100,6 +101,9 @@ export async function bruceMemoryPipelineWorkflow(input: {
       accountId: account_id,
       ventureId: venture_id,
       result,
+      correlationId,
+      observabilityRunId: obsRunId,
+      temporalWorkflowId: wfId,
     });
 
     const finalResult = { result, observability_run_id: obsRunId };

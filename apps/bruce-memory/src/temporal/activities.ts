@@ -42,12 +42,26 @@ export async function emitBruceMemoryPipelineCompleted(params: {
   accountId: string;
   ventureId: string;
   result: unknown;
+  correlationId?: string;
+  observabilityRunId?: string;
+  temporalWorkflowId?: string;
 }): Promise<void> {
   await emitEvent(
     'bruce-memory.pipeline.completed',
     'bruce-memory',
-    { account_id: params.accountId, result: params.result },
-    { ventureId: params.ventureId, warnWhenNoSubscribers: false }
+    {
+      account_id: params.accountId,
+      observability_run_id: params.observabilityRunId,
+      temporal_workflow_id: params.temporalWorkflowId,
+      result: params.result,
+    },
+    {
+      ventureId: params.ventureId,
+      correlationId: params.correlationId,
+      observabilityRunId: params.observabilityRunId,
+      temporalWorkflowId: params.temporalWorkflowId,
+      warnWhenNoSubscribers: false,
+    }
   );
 }
 
