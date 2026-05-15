@@ -8,10 +8,6 @@ import { logger } from '@bruce/logger';
 
 export function startBruceCoreModuleEventWorker(): void {
   createModuleEventWorker('bruce-core', async (event: InterModuleEvent) => {
-    if (event.event_type !== 'portfolio.pipeline.completed') {
-      return;
-    }
-
     const payload = event.payload as Record<string, unknown>;
     const envelope = resolveModuleHandoffEnvelope(payload, 'bruce-core');
     if (!envelope) {
@@ -32,5 +28,5 @@ export function startBruceCoreModuleEventWorker(): void {
       },
       '[bruce-core] portfolio decision handoff received',
     );
-  });
+  }, { expectedEventTypes: ['portfolio.pipeline.completed'] });
 }

@@ -24,6 +24,13 @@ export const eventProcessingSeconds = new Histogram({
   registers: [registry],
 });
 
+export const eventUnexpectedTotal = new Counter({
+  name: 'bruce_events_unexpected_total',
+  help: 'Total events delivered to a module worker that did not expect the event type',
+  labelNames: ['event_type', 'subscriber'],
+  registers: [registry],
+});
+
 export function getMetricsRegistry(): Registry {
   return registry;
 }

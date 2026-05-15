@@ -8,14 +8,11 @@ import { handleOpportunityAdvancedEvent } from '../services/inter-module-structu
  */
 export function startAddVentureModuleEventWorker(): void {
   createModuleEventWorker('add-venture', async (event: InterModuleEvent) => {
-    if (event.event_type !== 'opportunity.advanced') {
-      return;
-    }
     try {
       await handleOpportunityAdvancedEvent(event);
     } catch (e) {
       logger.error({ e, event_id: event.event_id }, '[add-venture] opportunity.advanced handler failed');
       throw e;
     }
-  });
+  }, { expectedEventTypes: ['opportunity.advanced'] });
 }

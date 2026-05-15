@@ -26,6 +26,12 @@ export {
 } from './billing-events.js';
 export { emitEvent } from './emit-event.js';
 export { DEFAULT_EVENT_ROUTING, resolveSubscribers } from './routing.js';
+export {
+  EVENT_ROUTING_POLICY,
+  getEventRoutingPolicy,
+  isTerminalEvent,
+} from './routing-policy.js';
+export type { EventRoutingKind, EventRoutingPolicy } from './routing-policy.js';
 export { createModuleEventWorker } from './create-module-worker.js';
 export type { DlqJobPayload } from './create-module-worker.js';
 export { startDlqMonitor } from './dlq-monitor.js';
@@ -36,5 +42,6 @@ export {
   eventEmittedTotal,
   eventProcessedTotal,
   eventProcessingSeconds,
+  eventUnexpectedTotal,
   getMetricsRegistry,
 } from './metrics.js';

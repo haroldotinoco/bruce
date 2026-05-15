@@ -5,7 +5,7 @@ import { logger } from '@bruce/logger';
 import { getBullRedisConnection } from './bullmq-connection.js';
 import { bruceQueueNameForSubscriber, getDeadLetterQueue } from './bruce-queues.js';
 import { InterModuleJobDataSchema } from './inter-module-job.js';
-import { eventProcessedTotal, eventProcessingSeconds } from './metrics.js';
+import { eventProcessedTotal, eventProcessingSeconds, eventUnexpectedTotal } from './metrics.js';
 
 export interface DlqJobPayload {
   jobData: unknown;
@@ -17,6 +17,7 @@ export interface DlqJobPayload {
 export function createModuleEventWorker(
   subscriberModule: string,
   handler: (event: InterModuleEvent) => Promise<void>,
+  options?: { expectedEventTypes?: string[] },
 ): Worker {
   const connection = getBullRedisConnection();
   const queueName = bruceQueueNameForSubscriber(subscriberModule);
@@ -40,6 +41,23 @@ export function createModuleEventWorker(
 
       const envelope = envelopeParse.data;
       const start = Date.now();
+      const expectedEventTypes = options?.expectedEventTypes;
+      if (expectedEventTypes?.length && !expectedEventTypes.includes(envelope.event_type)) {
+        eventUnexpectedTotal.labels(envelope.event_type, subscriberModule).inc();
+        logger.error(
+          {
+            event_id: envelope.event_id,
+            event_type: envelope.event_type,
+            expected_event_types: expectedEventTypes,
+            subscriber: subscriberModule,
+            correlation_id: envelope.correlation_id,
+          },
+          'Module event worker received unexpected event type',
+        );
+        throw new UnrecoverableError(
+          `Unexpected event_type ${envelope.event_type} for ${subscriberModule}; expected ${expectedEventTypes.join(', ')}`,
+        );
+      }
 
       try {
         await handler(envelope);

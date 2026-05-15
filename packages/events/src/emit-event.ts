@@ -5,6 +5,7 @@ import { logger } from '@bruce/logger';
 import { getBruceQueueForSubscriber } from './bruce-queues.js';
 import { eventEmittedTotal } from './metrics.js';
 import { resolveSubscribers } from './routing.js';
+import { getEventRoutingPolicy } from './routing-policy.js';
 
 export async function emitEvent(
   eventType: string,
@@ -22,6 +23,7 @@ export async function emitEvent(
   },
 ): Promise<InterModuleEvent> {
   const subscribers = resolveSubscribers(eventType, options?.subscribers);
+  const policy = getEventRoutingPolicy(eventType);
 
   const event: InterModuleEvent = {
     event_id: randomUUID(),
@@ -51,9 +53,17 @@ export async function emitEvent(
   }
 
   if (subscribers.length === 0) {
-    if (options?.warnWhenNoSubscribers !== false) {
+    const nonTerminal = policy?.kind !== 'terminal_signal' && policy?.kind !== 'telemetry';
+    const ciLike = process.env.CI === 'true' || process.env.NODE_ENV !== 'production';
+    const forceWarnForPolicyDrift = nonTerminal && ciLike;
+    if (options?.warnWhenNoSubscribers !== false || forceWarnForPolicyDrift) {
       logger.warn(
-        { event_type: eventType, module, event_id: validated.event_id },
+        {
+          event_type: eventType,
+          module,
+          event_id: validated.event_id,
+          policy_kind: policy?.kind ?? 'undocumented',
+        },
         'emitEvent: no subscribers resolved; nothing enqueued',
       );
     }
