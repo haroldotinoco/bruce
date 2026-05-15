@@ -1,3 +1,4 @@
+import { startSingleAgentPipelineWorkflow } from '@bruce/events';
 import { logger } from '@bruce/logger';
 import { builderPipelineWorkflow } from '../temporal/workflows.js';
 import { BUILDER_TASK_QUEUE } from '../temporal/config.js';
@@ -10,30 +11,16 @@ export async function startBuilderPipeline(params: {
   correlationId?: string;
 }) {
   const client = await getTemporalClient();
-  const workflowId = `builder-${params.accountId}-${params.ventureId}-${Date.now()}`;
   try {
-    const handle = await client.workflow.start(builderPipelineWorkflow, {
-      taskQueue: BUILDER_TASK_QUEUE,
-      workflowId,
-      args: [
-        {
-          account_id: params.accountId,
-          venture_id: params.ventureId,
-          agent_input: params.agentInput,
-          correlation_id: params.correlationId,
-        },
-      ],
-      memo: {
-        account_id: params.accountId,
-        venture_id: params.ventureId,
-        module_name: 'builder',
+    return await startSingleAgentPipelineWorkflow(
+      client,
+      {
+        moduleName: 'builder',
+        taskQueue: BUILDER_TASK_QUEUE,
+        workflow: builderPipelineWorkflow,
       },
-    });
-    return {
-      workflow_id: workflowId,
-      status: 'queued' as const,
-      execution_id: handle.firstExecutionRunId,
-    };
+      params,
+    );
   } catch (error) {
     logger.error({ error }, 'Failed to start builder workflow');
     throw error;

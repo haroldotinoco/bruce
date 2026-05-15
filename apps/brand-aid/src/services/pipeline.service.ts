@@ -1,3 +1,4 @@
+import { startSingleAgentPipelineWorkflow } from '@bruce/events';
 import { logger } from '@bruce/logger';
 import { brandAidPipelineWorkflow } from '../temporal/workflows.js';
 import { BRAND_AID_TASK_QUEUE } from '../temporal/config.js';
@@ -10,30 +11,16 @@ export async function startBrandAidPipeline(params: {
   correlationId?: string;
 }) {
   const client = await getTemporalClient();
-  const workflowId = `brand-aid-${params.accountId}-${params.ventureId}-${Date.now()}`;
   try {
-    const handle = await client.workflow.start(brandAidPipelineWorkflow, {
-      taskQueue: BRAND_AID_TASK_QUEUE,
-      workflowId,
-      args: [
-        {
-          account_id: params.accountId,
-          venture_id: params.ventureId,
-          agent_input: params.agentInput,
-          correlation_id: params.correlationId,
-        },
-      ],
-      memo: {
-        account_id: params.accountId,
-        venture_id: params.ventureId,
-        module_name: 'brand-aid',
+    return await startSingleAgentPipelineWorkflow(
+      client,
+      {
+        moduleName: 'brand-aid',
+        taskQueue: BRAND_AID_TASK_QUEUE,
+        workflow: brandAidPipelineWorkflow,
       },
-    });
-    return {
-      workflow_id: workflowId,
-      status: 'queued' as const,
-      execution_id: handle.firstExecutionRunId,
-    };
+      params,
+    );
   } catch (error) {
     logger.error({ error }, 'Failed to start brand-aid workflow');
     throw error;

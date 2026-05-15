@@ -47,6 +47,11 @@ export const EVENT_ROUTING_POLICY: Record<string, EventRoutingPolicy> = {
     subscribers: [],
     description: 'Bruce-Memory ingestion completion marker; no downstream durable trigger.',
   },
+  'bruce-core.venture.created': {
+    kind: 'terminal_signal',
+    subscribers: [],
+    description: 'Bruce-Core venture creation marker; no default downstream queue subscriber.',
+  },
 };
 
 export function getEventRoutingPolicy(eventType: string): EventRoutingPolicy | undefined {

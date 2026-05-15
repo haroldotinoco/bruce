@@ -27,11 +27,29 @@ export {
 export { emitEvent } from './emit-event.js';
 export { DEFAULT_EVENT_ROUTING, resolveSubscribers } from './routing.js';
 export {
+  getLifecycleEdges,
+  getOrchestrationModule,
+  ORCHESTRATION_REGISTRY,
+} from './orchestration-registry.js';
+export type {
+  LifecycleModel,
+  OrchestrationModule,
+  OrchestrationModuleName,
+  OrchestrationRegistry,
+} from './orchestration-registry.js';
+export {
   EVENT_ROUTING_POLICY,
   getEventRoutingPolicy,
   isTerminalEvent,
 } from './routing-policy.js';
 export type { EventRoutingKind, EventRoutingPolicy } from './routing-policy.js';
+export { startSingleAgentPipelineWorkflow } from './pipeline-template.js';
+export type {
+  PipelineWorkflowStartParams,
+  PipelineWorkflowStartResult,
+  SingleAgentPipelineTemplate,
+  TemporalWorkflowStarter,
+} from './pipeline-template.js';
 export { createModuleEventWorker } from './create-module-worker.js';
 export type { DlqJobPayload } from './create-module-worker.js';
 export { startDlqMonitor } from './dlq-monitor.js';

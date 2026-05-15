@@ -1,3 +1,4 @@
+import { startSingleAgentPipelineWorkflow } from '@bruce/events';
 import { logger } from '@bruce/logger';
 import { portfolioPipelineWorkflow } from '../temporal/workflows.js';
 import { PORTFOLIO_TASK_QUEUE } from '../temporal/config.js';
@@ -10,30 +11,16 @@ export async function startPortfolioPipeline(params: {
   correlationId?: string;
 }) {
   const client = await getTemporalClient();
-  const workflowId = `portfolio-${params.accountId}-${params.ventureId}-${Date.now()}`;
   try {
-    const handle = await client.workflow.start(portfolioPipelineWorkflow, {
-      taskQueue: PORTFOLIO_TASK_QUEUE,
-      workflowId,
-      args: [
-        {
-          account_id: params.accountId,
-          venture_id: params.ventureId,
-          agent_input: params.agentInput,
-          correlation_id: params.correlationId,
-        },
-      ],
-      memo: {
-        account_id: params.accountId,
-        venture_id: params.ventureId,
-        module_name: 'portfolio',
+    return await startSingleAgentPipelineWorkflow(
+      client,
+      {
+        moduleName: 'portfolio',
+        taskQueue: PORTFOLIO_TASK_QUEUE,
+        workflow: portfolioPipelineWorkflow,
       },
-    });
-    return {
-      workflow_id: workflowId,
-      status: 'queued' as const,
-      execution_id: handle.firstExecutionRunId,
-    };
+      params,
+    );
   } catch (error) {
     logger.error({ error }, 'Failed to start portfolio workflow');
     throw error;
