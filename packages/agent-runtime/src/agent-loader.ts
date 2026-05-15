@@ -11,6 +11,7 @@ import type { AgentCapabilities, AgentSpec, ToolDefinition } from './types.js';
 function normalizeCapabilities(raw: unknown): AgentCapabilities {
   const r = raw as Record<string, unknown>;
   const runtime = r.runtime as Record<string, unknown> | undefined;
+  const retryPolicy = normalizeRetryPolicy(r.retry_policy ?? runtime?.retry_policy);
   const rawModel = (runtime?.model as string | null | undefined) ?? (r.model as string | null | undefined);
   const model =
     typeof rawModel === 'string' && rawModel.trim() !== ''
@@ -31,12 +32,59 @@ function normalizeCapabilities(raw: unknown): AgentCapabilities {
     temperature,
     maxTokens,
     stateless: !stateful,
-    retryPolicy: {
-      maxAttempts: 3,
-      backoffMultiplier: 2,
-      initialDelayMs: 1000,
-    },
+    retryPolicy,
   };
+}
+
+function normalizeRetryPolicy(raw: unknown): AgentCapabilities['retryPolicy'] {
+  const fallback = {
+    maxAttempts: 3,
+    backoffMultiplier: 2,
+    initialDelayMs: 1000,
+  };
+
+  if (!raw || typeof raw !== 'object') {
+    return fallback;
+  }
+
+  const policy = raw as Record<string, unknown>;
+  if (typeof policy.maxAttempts === 'number' || typeof policy.max_retries === 'number') {
+    const maxAttempts =
+      typeof policy.maxAttempts === 'number'
+        ? policy.maxAttempts
+        : (policy.max_retries as number) + 1;
+    return {
+      maxAttempts: clampAttempts(maxAttempts),
+      backoffMultiplier:
+        typeof policy.backoffMultiplier === 'number' ? policy.backoffMultiplier : 2,
+      initialDelayMs:
+        typeof policy.initialDelayMs === 'number'
+          ? policy.initialDelayMs
+          : typeof policy.initial_delay_ms === 'number'
+            ? policy.initial_delay_ms
+            : 1000,
+    };
+  }
+
+  const nestedRetryCounts = Object.values(policy)
+    .filter((value): value is Record<string, unknown> => Boolean(value) && typeof value === 'object')
+    .map((value) => value.max_retries)
+    .filter((value): value is number => typeof value === 'number');
+
+  if (nestedRetryCounts.length === 0) {
+    return fallback;
+  }
+
+  return {
+    maxAttempts: clampAttempts(Math.max(...nestedRetryCounts) + 1),
+    backoffMultiplier: 2,
+    initialDelayMs: 1000,
+  };
+}
+
+function clampAttempts(value: number): number {
+  if (!Number.isFinite(value)) return 3;
+  return Math.max(1, Math.min(10, Math.floor(value)));
 }
 
 function parametersToOpenApi(params: Record<string, unknown>): {
@@ -141,6 +189,7 @@ export class AgentLoader {
 
     try {
       const skillPrompt = await this.loadSkillPrompt(agentDir);
+      const constraints = await this.loadConstraints(agentDir);
       const capabilitiesRaw = JSON.parse(await readFile(path.join(agentDir, 'capabilities.json'), 'utf-8'));
       const capabilities = normalizeCapabilities(capabilitiesRaw);
       const inputSchema = await this.loadSchema(agentDir, 'input');
@@ -153,6 +202,7 @@ export class AgentLoader {
         name: (capabilitiesRaw as { name?: string }).name ?? agentId,
         description: (capabilitiesRaw as { purpose?: string }).purpose ?? `Agent ${agentId} in module ${module}`,
         skillPrompt,
+        constraints,
         capabilities,
         inputSchema,
         outputSchema,
@@ -172,6 +222,15 @@ export class AgentLoader {
   private async loadSkillPrompt(agentDir: string): Promise<string> {
     const p = path.join(agentDir, 'SKILL.md');
     return readFile(p, 'utf-8');
+  }
+
+  private async loadConstraints(agentDir: string): Promise<string | null> {
+    const p = path.join(agentDir, 'constraints.md');
+    try {
+      return await readFile(p, 'utf-8');
+    } catch {
+      return null;
+    }
   }
 
   private async loadSchema(agentDir: string, type: 'input' | 'output'): Promise<import('zod').ZodTypeAny> {

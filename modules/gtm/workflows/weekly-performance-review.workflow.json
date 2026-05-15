@@ -1,5 +1,6 @@
 {
   "workflow_id": "weekly-performance-review",
+  "manifest_status": "design",
   "module": "gtm",
   "description": "Weekly governance review: analytics ingestion → interpretation → decision → reporting",
   "version": "1.0",

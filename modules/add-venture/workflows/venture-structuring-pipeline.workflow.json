@@ -1,5 +1,7 @@
 {
   "workflow_id": "venture-structuring-pipeline",
+  "manifest_status": "design",
+  "runtime_alignment": "diverges_from_temporal_implementation",
   "workflow_name": "Venture Structuring Pipeline",
   "description": "Complete sequential 8-volume pipeline with critique loop and conditional branching",
   "version": "1.0",

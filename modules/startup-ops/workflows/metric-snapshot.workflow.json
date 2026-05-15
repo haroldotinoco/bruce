@@ -1,5 +1,6 @@
 {
   "workflow_id": "metric-snapshot",
+  "manifest_status": "design",
   "module": "startup-ops",
   "description": "On-demand metric collection: standalone metrics ingestion for ad-hoc analysis",
   "version": "1.0",

@@ -20,6 +20,7 @@ export interface AgentSpec {
   name: string;
   description: string;
   skillPrompt: string;
+  constraints: string | null;
   capabilities: AgentCapabilities;
   inputSchema: ZodSchema;
   outputSchema: ZodSchema;

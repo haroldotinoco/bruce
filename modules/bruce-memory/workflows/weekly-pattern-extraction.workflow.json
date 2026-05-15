@@ -1,5 +1,6 @@
 {
   "workflow_id": "weekly-pattern-extraction",
+  "manifest_status": "design",
   "module": "bruce-memory",
   "description": "Weekly batch job: clusters recent learnings by semantic similarity and extracts confirmed patterns",
   "trigger": {

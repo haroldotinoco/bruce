@@ -1,5 +1,6 @@
 {
   "workflow_id": "build-pipeline",
+  "manifest_status": "design",
   "name": "MVP Build Pipeline",
   "description": "9-stage sequential pipeline for building, testing, and approving MVP launch",
   "version": "1.0.0",

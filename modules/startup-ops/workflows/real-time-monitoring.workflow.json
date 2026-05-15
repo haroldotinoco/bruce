@@ -1,5 +1,6 @@
 {
   "workflow_id": "real-time-monitoring",
+  "manifest_status": "design",
   "module": "startup-ops",
   "description": "Continuous real-time monitoring: metrics ingestion → anomaly detection with conditional escalation for critical anomalies",
   "version": "1.0",

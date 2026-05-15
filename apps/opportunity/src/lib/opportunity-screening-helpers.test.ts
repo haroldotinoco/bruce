@@ -1,5 +1,8 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { getOpportunityQualityConfig } from '../config/opportunity-quality.js';
+import {
+  describeOpportunityQualityRules,
+  getOpportunityQualityConfig,
+} from '../config/opportunity-quality.js';
 import {
   buildAnalystInputSummary,
   buildFeedbackFromScoring,
@@ -296,9 +299,35 @@ describe('getOpportunityQualityConfig', () => {
     process.env = { ...orig };
   });
 
-  it('reads OPPORTUNITY_PASS_SCORE', () => {
+  it('reads all OPPORTUNITY_* quality env vars', () => {
     process.env.OPPORTUNITY_PASS_SCORE = '65';
+    process.env.OPPORTUNITY_LOW_SCORE_THRESHOLD = '42';
+    process.env.OPPORTUNITY_MAX_IMPROVE_ATTEMPTS = '5';
+    process.env.OPPORTUNITY_MAX_QUALITY_CANDIDATES = '12';
+    process.env.OPPORTUNITY_MINIMUM_ADVANCEMENT_SCORE = '80';
+
     const c = getOpportunityQualityConfig();
-    expect(c.passScore).toBe(65);
+    expect(c).toEqual({
+      passScore: 65,
+      lowScoreThreshold: 42,
+      maxImproveAttempts: 5,
+      maxQualityCandidates: 12,
+      minimumAdvancementScore: 80,
+    });
+  });
+
+  it('describes current quality gate values for operator surfaces', () => {
+    process.env.OPPORTUNITY_PASS_SCORE = '65';
+
+    expect(describeOpportunityQualityRules()).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: 'passScore',
+          env: 'OPPORTUNITY_PASS_SCORE',
+          defaultValue: 70,
+          currentValue: 65,
+        }),
+      ]),
+    );
   });
 });

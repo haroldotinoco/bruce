@@ -1,5 +1,6 @@
 {
   "workflow_id": "kill-process",
+  "manifest_status": "design",
   "name": "Kill Process Workflow",
   "description": "Complete kill process: decision confirmation -> human confirmation -> emit kill event -> learning extraction -> archive state -> update portfolio",
   "trigger": "on-demand",

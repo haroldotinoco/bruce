@@ -1,5 +1,6 @@
 {
   "workflow_id": "opportunity-screening",
+  "manifest_status": "design",
   "module": "opportunity",
   "description": "Single opportunity screening pipeline: scan result → analysis → scoring",
   "version": "1.0",

@@ -1,5 +1,6 @@
 {
   "workflow_id": "rework-loop",
+  "manifest_status": "design",
   "name": "Rework Loop",
   "description": "Triggered when QA fails to route back to correct agent for rework",
   "version": "1.0.0",

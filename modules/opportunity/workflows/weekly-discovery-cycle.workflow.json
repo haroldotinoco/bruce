@@ -1,5 +1,6 @@
 {
   "workflow_id": "weekly-discovery-cycle",
+  "manifest_status": "design",
   "module": "opportunity",
   "description": "Full weekly discovery cycle: scan → analyze → score → rank → output",
   "version": "1.0",

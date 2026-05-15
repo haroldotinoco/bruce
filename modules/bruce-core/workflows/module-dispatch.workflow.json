@@ -1,5 +1,6 @@
 {
   "workflow_id": "module-dispatch",
+  "manifest_status": "design",
   "module": "bruce-core",
   "description": "Generic module dispatch workflow used by module-dispatcher to send ventures to downstream modules with acknowledgment and timeout handling",
   "trigger": {"type": "event", "event": "dispatch.requested"},

@@ -1,5 +1,6 @@
 {
   "workflow_id": "on-demand-query",
+  "manifest_status": "design",
   "module": "bruce-memory",
   "description": "Serves real-time pattern queries from other BruceAI modules",
   "trigger": {

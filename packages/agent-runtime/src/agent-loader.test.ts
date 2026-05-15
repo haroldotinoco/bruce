@@ -14,6 +14,7 @@ describe('AgentLoader', () => {
     expect(spec.module).toBe('opportunity');
     expect(spec.capabilities.provider).toBe('openrouter');
     expect(spec.skillPrompt.length).toBeGreaterThan(10);
+    expect(spec.constraints).toContain('Rate Limiting');
     expect(spec.tools.length).toBeGreaterThanOrEqual(0);
   });
 
@@ -22,5 +23,15 @@ describe('AgentLoader', () => {
     const spec = await loader.loadAgent('bruce-core', 'venture-lifecycle-manager');
     expect(spec.capabilities.provider).toBe('openrouter');
     expect(spec.capabilities.model).toBe('anthropic/claude-sonnet-4.6');
+  });
+
+  it('normalizes nested capability retry policy into executable attempts', async () => {
+    const loader = new AgentLoader(modulesDir);
+    const spec = await loader.loadAgent('bruce-core', 'module-dispatcher');
+    expect(spec.capabilities.retryPolicy).toMatchObject({
+      maxAttempts: 4,
+      backoffMultiplier: 2,
+      initialDelayMs: 1000,
+    });
   });
 });

@@ -1,5 +1,6 @@
 {
   "workflow_id": "brand-creation-pipeline",
+  "manifest_status": "design",
   "name": "Brand Creation Pipeline",
   "description": "9-stage sequential pipeline for creating comprehensive brand identity",
   "version": "1.0.0",

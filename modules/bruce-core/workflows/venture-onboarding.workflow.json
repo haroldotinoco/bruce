@@ -1,5 +1,6 @@
 {
   "workflow_id": "venture-onboarding",
+  "manifest_status": "design",
   "module": "bruce-core",
   "description": "Onboards a new venture from a qualified opportunity through initial screening to AddVenture dispatch",
   "trigger": {"type": "event", "event": "opportunity.advanced"},

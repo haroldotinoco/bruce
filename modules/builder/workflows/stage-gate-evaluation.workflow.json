@@ -1,5 +1,6 @@
 {
   "workflow_id": "stage-gate-evaluation",
+  "manifest_status": "design",
   "name": "Stage Gate Evaluation",
   "description": "Generic gate evaluation workflow for any build stage",
   "version": "1.0.0",

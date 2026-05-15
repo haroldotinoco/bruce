@@ -1,5 +1,6 @@
 {
   "workflow_id": "gate-evaluation",
+  "manifest_status": "design",
   "module": "bruce-core",
   "description": "Generic gate evaluation workflow that collects inputs, evaluates criteria, checks thresholds, routes decisions, and emits gate results",
   "trigger": {"type": "event", "event": "gate.evaluation-requested"},

@@ -1,5 +1,6 @@
 {
   "workflow_id": "weekly-health-check",
+  "manifest_status": "design",
   "module": "startup-ops",
   "description": "Comprehensive weekly health assessment: metrics → health scoring → anomaly detection → recommendations → reporting",
   "version": "1.0",

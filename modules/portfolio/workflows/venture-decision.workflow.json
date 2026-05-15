@@ -1,5 +1,6 @@
 {
   "workflow_id": "venture-decision",
+  "manifest_status": "design",
   "name": "Single Venture Decision Pipeline",
   "description": "Single venture decision pipeline for ad-hoc venture evaluations",
   "trigger": "on-demand",

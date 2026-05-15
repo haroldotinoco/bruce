@@ -17,7 +17,6 @@ import type {
 } from './types.js';
 import type { AgentLoaderLike } from './types.js';
 
-const OUTER_MAX_ATTEMPTS = 3;
 const INNER_LLM_RETRIES = 1;
 
 /** LLM often omits IDs and empty context shells; merge before Zod so validation passes. */
@@ -59,6 +58,11 @@ export class AgentRunner {
     let lastError: Error | null = null;
 
     const spec = await this.loader.loadAgent(module, agentId);
+    const retryPolicy = spec.capabilities.retryPolicy ?? {
+      maxAttempts: 3,
+      backoffMultiplier: 2,
+      initialDelayMs: 1000,
+    };
 
     let validatedInput: unknown;
     try {
@@ -76,10 +80,16 @@ export class AgentRunner {
       };
     }
 
-    for (let attempt = 1; attempt <= OUTER_MAX_ATTEMPTS; attempt++) {
+    for (let attempt = 1; attempt <= retryPolicy.maxAttempts; attempt++) {
       try {
         logger.debug(
-          { module, agentId, attempt, maxAttempts: OUTER_MAX_ATTEMPTS, correlationId: context.correlationId },
+          {
+            module,
+            agentId,
+            attempt,
+            maxAttempts: retryPolicy.maxAttempts,
+            correlationId: context.correlationId,
+          },
           'Executing agent'
         );
 
@@ -130,8 +140,10 @@ export class AgentRunner {
           'Agent execution failed, retrying...'
         );
 
-        if (attempt < OUTER_MAX_ATTEMPTS) {
-          const delayMs = Math.pow(2, attempt - 1) * 1000;
+        if (attempt < retryPolicy.maxAttempts) {
+          const delayMs =
+            Math.pow(retryPolicy.backoffMultiplier, attempt - 1) *
+            retryPolicy.initialDelayMs;
           await new Promise((resolve) => setTimeout(resolve, delayMs));
         }
       }
@@ -139,8 +151,8 @@ export class AgentRunner {
 
     return {
       success: false,
-      error: `Agent execution failed after ${OUTER_MAX_ATTEMPTS} attempts: ${lastError?.message}`,
-      attempts: OUTER_MAX_ATTEMPTS,
+      error: `Agent execution failed after ${retryPolicy.maxAttempts} attempts: ${lastError?.message}`,
+      attempts: retryPolicy.maxAttempts,
       executionTimeMs: Date.now() - startTime,
     };
   }
@@ -155,6 +167,9 @@ export class AgentRunner {
     const userMessage = `Process the following JSON input:\n\n${inputJson}`;
 
     const llm = this.createLlm(spec.capabilities);
+    const systemPrompt = spec.constraints
+      ? `${spec.skillPrompt}\n\n## Runtime Constraints\n\n${spec.constraints}`
+      : spec.skillPrompt;
     const mergeOutput =
       spec.id === 'briefing-interpreter' ? briefingInterpreterMergeOutput(input, context) : undefined;
     const usageContext: LlmUsageContext | undefined =
@@ -185,7 +200,7 @@ export class AgentRunner {
 
     if (spec.tools.length > 0) {
       return await llm.callAgentWithTools(
-        spec.skillPrompt,
+        systemPrompt,
         userMessage,
         spec.tools,
         spec.outputSchema as z.ZodSchema<T>,
@@ -194,7 +209,7 @@ export class AgentRunner {
     }
 
     return await llm.callAgent(
-      spec.skillPrompt,
+      systemPrompt,
       userMessage,
       spec.outputSchema as z.ZodSchema<T>,
       opts

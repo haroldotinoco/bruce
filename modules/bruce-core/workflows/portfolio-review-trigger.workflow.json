@@ -1,5 +1,6 @@
 {
   "workflow_id": "portfolio-review-trigger",
+  "manifest_status": "design",
   "module": "bruce-core",
   "description": "Triggers and coordinates the portfolio review cycle on a schedule or when critical anomalies are detected",
   "trigger": {

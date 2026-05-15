@@ -1,5 +1,6 @@
 {
   "workflow_id": "opportunity-scoring",
+  "manifest_status": "design",
   "module": "opportunity",
   "description": "Score a pre-analyzed opportunity (analysis result → scoring → output score)",
   "version": "1.0",

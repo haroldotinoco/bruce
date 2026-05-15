@@ -1,5 +1,6 @@
 {
   "workflow_id": "campaign-launch",
+  "manifest_status": "design",
   "module": "gtm",
   "description": "Campaign launch pipeline: brief creation → A/B setup → budget allocation → activation → monitoring",
   "version": "1.0",

@@ -1,5 +1,6 @@
 {
   "workflow_id": "anomaly-escalation",
+  "manifest_status": "design",
   "module": "startup-ops",
   "description": "Fast-track urgent escalation workflow: immediate advice for critical anomalies with portfolio notification and human gate",
   "version": "1.0",

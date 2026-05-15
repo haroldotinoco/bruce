@@ -1,5 +1,6 @@
 {
   "workflow_id": "cross-venture-analysis",
+  "manifest_status": "design",
   "module": "bruce-memory",
   "description": "Bi-weekly comparative analysis across all ventures to surface new correlation patterns",
   "trigger": {

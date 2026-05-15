@@ -1,5 +1,6 @@
 {
   "workflow_id": "gtm-strategy",
+  "manifest_status": "design",
   "module": "gtm",
   "description": "GTM strategy definition: channel analysis → selection → content system creation",
   "version": "1.0",

@@ -1,5 +1,6 @@
 {
   "workflow_id": "resource-allocation",
+  "manifest_status": "design",
   "name": "Resource Allocation Decision Workflow",
   "description": "Allocation decision workflow: data collection -> allocation calculation -> human review -> emit allocation updates to bruce-core",
   "trigger": "scheduled",

@@ -1,5 +1,6 @@
 {
   "workflow_id": "portfolio-review-cycle",
+  "manifest_status": "design",
   "name": "Portfolio Review Cycle",
   "description": "Full 2-4 week portfolio review cycle with analysis, risk assessment, allocation planning, governance decisions, human review, reporting, and emission of decisions to bruce-core",
   "trigger": "scheduled",

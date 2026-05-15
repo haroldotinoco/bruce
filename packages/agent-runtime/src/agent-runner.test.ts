@@ -43,6 +43,7 @@ describe('AgentRunner', () => {
     expect(result.success).toBe(true);
     expect(mockLlm.callAgent).toHaveBeenCalled();
     expect(mockLlm.callAgentWithTools).not.toHaveBeenCalled();
+    expect(mockLlm.callAgent.mock.calls[0]?.[0]).toContain('Runtime Constraints');
   });
 
   it('retries up to 3 times on LLM failure', async () => {

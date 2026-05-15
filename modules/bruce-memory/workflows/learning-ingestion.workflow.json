@@ -1,5 +1,6 @@
 {
   "workflow_id": "learning-ingestion",
+  "manifest_status": "design",
   "module": "bruce-memory",
   "description": "Receives a learning record from any module, validates, normalizes, embeds, and stores it",
   "trigger": {

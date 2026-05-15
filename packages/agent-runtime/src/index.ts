@@ -1,5 +1,14 @@
 export { AgentRunner, getAgentRunner } from './agent-runner.js';
 export { AgentLoader, agentLoader, resolveModulesDir } from './agent-loader.js';
+export { buildBehaviorRuleCatalog } from './behavior-catalog.js';
+export type {
+  AgentBehaviorRuleEntry,
+  BehaviorRuleCatalog,
+  ConstraintEnforcement,
+  ModuleBehaviorCatalogEntry,
+  WorkflowBehaviorRuleEntry,
+  WorkflowManifestStatus,
+} from './behavior-catalog.js';
 export { ToolRegistry, getToolRegistry } from './tool-registry.js';
 export type { ToolImplementation, ToolExecutionEnv } from './tool-registry.js';
 export { validateInput, validateOutput, ValidationError } from './validators.js';

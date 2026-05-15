@@ -1,5 +1,6 @@
 {
   "workflow_id": "monthly-intelligence-synthesis",
+  "manifest_status": "design",
   "module": "bruce-memory",
   "description": "Monthly synthesis of all patterns into actionable intelligence snapshot",
   "trigger": {
