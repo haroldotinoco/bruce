@@ -77,13 +77,17 @@ export async function portfolioPipelineWorkflow(input: {
       startedAt: new Date().toISOString(),
     });
 
-    const result = await act.runPortfolioAnalystAgent({
-      accountId: account_id,
-      ventureId: venture_id,
-      agentInput: agent_input,
-      correlationId,
-      observabilityRunId: obsRunId,
-      observabilityStepKey: STEP_PORTFOLIO_ANALYST,
+    const result = await act.runAgentActivity({
+      module: 'portfolio',
+      agentId: 'portfolio-analyst',
+      input: agent_input,
+      context: {
+        accountId: account_id,
+        ventureId: venture_id,
+        correlationId,
+        observabilityRunId: obsRunId,
+        observabilityStepKey: STEP_PORTFOLIO_ANALYST,
+      },
     });
 
     await act.obsUpdateStep({

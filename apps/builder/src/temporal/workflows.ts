@@ -77,13 +77,17 @@ export async function builderPipelineWorkflow(input: {
       startedAt: new Date().toISOString(),
     });
 
-    const result = await act.runSolutionArchitectAgent({
-      accountId: account_id,
-      ventureId: venture_id,
-      agentInput: agent_input,
-      correlationId,
-      observabilityRunId: obsRunId,
-      observabilityStepKey: STEP_SOLUTION_ARCHITECT,
+    const result = await act.runAgentActivity({
+      module: 'builder',
+      agentId: 'solution-architect',
+      input: agent_input,
+      context: {
+        accountId: account_id,
+        ventureId: venture_id,
+        correlationId,
+        observabilityRunId: obsRunId,
+        observabilityStepKey: STEP_SOLUTION_ARCHITECT,
+      },
     });
 
     await act.obsUpdateStep({

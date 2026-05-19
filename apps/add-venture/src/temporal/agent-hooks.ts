@@ -594,25 +594,8 @@ function briefingInterpreterMergeOutput(
     competitive_context: {},
   };
 }
-
-
-
-const addVentureHookAgentIds = new Set([
-  'briefing-interpreter',
-  'opportunity-analyst-vol1',
-  'customer-market-architect',
-  'value-proposition-designer',
-  'business-model-modeler',
-  'gtm-planner',
-  'narrative-strategist',
-  'risk-validation-analyst',
-  'execution-roadmap-planner',
-  'venture-critic',
-  'dossier-composer',
-]);
-
 export function getAddVentureAgentRuntimeHooks(module: string, agentId: string): AgentRuntimeHooks | undefined {
-  if (module !== 'add-venture' || !addVentureHookAgentIds.has(agentId)) return undefined;
+  if (module !== 'add-venture') return undefined;
   return {
     fallbackOutput: (input, context) => addVentureOutputDefaults(agentId, input, context),
     normalizeOutput: (output, input, context) => normalizeAddVentureAgentOutput(agentId, input, context, output),

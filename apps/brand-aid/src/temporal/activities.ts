@@ -17,17 +17,6 @@ const brandAidAgentRunner = new AgentRunner({
   agentLoader: new AgentLoader(undefined, getBrandAidAgentRuntimeHooks),
 });
 
-interface AgentParams {
-  accountId: string;
-  ventureId: string;
-  agentInput: Record<string, unknown>;
-  correlationId: string;
-  observabilityRunId?: string;
-  observabilityStepKey?: string;
-  observabilityParentStepKey?: string;
-  projectNickname?: string;
-}
-
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
 }
@@ -62,79 +51,47 @@ function critiqueScore(critique: unknown): number {
   return typeof overall === 'number' ? Math.round(overall) : 0;
 }
 
-async function runBrandAgent(agentId: string, params: AgentParams): Promise<unknown> {
+export async function runAgentActivity(params: {
+  module: string;
+  agentId: string;
+  input: unknown;
+  context: {
+    accountId: string;
+    ventureId?: string;
+    correlationId: string;
+    observabilityRunId?: string;
+    observabilityStepKey?: string;
+    observabilityParentStepKey?: string;
+    projectNickname?: string;
+  };
+}): Promise<unknown> {
+  logger.info(
+    { accountId: params.context.accountId, ventureId: params.context.ventureId, agentId: params.agentId },
+    'brand-aid: run agent activity',
+  );
+
   const result = await runAgentStep({
-    module: 'brand-aid',
-    agentId,
-    input: params.agentInput,
+    module: params.module,
+    agentId: params.agentId,
+    input: params.input,
     runner: brandAidAgentRunner,
     context: {
-      accountId: params.accountId,
-      ventureId: params.ventureId,
-      module: 'brand-aid',
+      accountId: params.context.accountId,
+      ventureId: params.context.ventureId,
+      module: params.module,
       executionId: crypto.randomUUID(),
-      correlationId: params.correlationId,
-      observabilityRunId: params.observabilityRunId,
-      observabilityStepKey: params.observabilityStepKey,
-      observabilityParentStepKey: params.observabilityParentStepKey,
-      projectNickname: params.projectNickname,
+      correlationId: params.context.correlationId,
+      observabilityRunId: params.context.observabilityRunId,
+      observabilityStepKey: params.context.observabilityStepKey,
+      observabilityParentStepKey: params.context.observabilityParentStepKey,
+      projectNickname: params.context.projectNickname,
     },
   });
 
   if (!result.success) {
-    throw new Error(result.error ?? `${agentId} failed`);
+    throw new Error(result.error ?? `${params.module}/${params.agentId} failed`);
   }
   return result.output;
-}
-
-export async function runMarketAnalystAgent(params: {
-  accountId: string;
-  ventureId: string;
-  agentInput: Record<string, unknown>;
-  correlationId: string;
-  observabilityRunId?: string;
-  observabilityStepKey?: string;
-  observabilityParentStepKey?: string;
-  projectNickname?: string;
-}): Promise<unknown> {
-  const { accountId, ventureId } = params;
-  logger.info({ accountId, ventureId }, 'brand-aid: market-analyst');
-  return runBrandAgent('market-analyst', params);
-}
-
-export async function runBrandStrategistAgent(params: AgentParams): Promise<unknown> {
-  logger.info({ accountId: params.accountId, ventureId: params.ventureId }, 'brand-aid: brand-strategist');
-  return runBrandAgent('brand-strategist', params);
-}
-
-export async function runCreativeDirectorAgent(params: AgentParams): Promise<unknown> {
-  logger.info({ accountId: params.accountId, ventureId: params.ventureId }, 'brand-aid: creative-director');
-  return runBrandAgent('creative-director', params);
-}
-
-export async function runNamingAgent(params: AgentParams): Promise<unknown> {
-  logger.info({ accountId: params.accountId, ventureId: params.ventureId }, 'brand-aid: naming-agent');
-  return runBrandAgent('naming-agent', params);
-}
-
-export async function runVisualSystemDesignerAgent(params: AgentParams): Promise<unknown> {
-  logger.info({ accountId: params.accountId, ventureId: params.ventureId }, 'brand-aid: visual-system-designer');
-  return runBrandAgent('visual-system-designer', params);
-}
-
-export async function runLogoDesignerAgent(params: AgentParams): Promise<unknown> {
-  logger.info({ accountId: params.accountId, ventureId: params.ventureId }, 'brand-aid: logo-designer');
-  return runBrandAgent('logo-designer', params);
-}
-
-export async function runBrandCriticAgent(params: AgentParams): Promise<unknown> {
-  logger.info({ accountId: params.accountId, ventureId: params.ventureId }, 'brand-aid: brand-critic');
-  return runBrandAgent('brand-critic', params);
-}
-
-export async function runBrandBookComposerAgent(params: AgentParams): Promise<unknown> {
-  logger.info({ accountId: params.accountId, ventureId: params.ventureId }, 'brand-aid: brand-book-composer');
-  return runBrandAgent('brand-book-composer', params);
 }
 
 export async function searchMoodboardImages(params: {

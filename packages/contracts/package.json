@@ -12,10 +12,6 @@
     "./observability": {
       "types": "./dist/observability/index.d.ts",
       "import": "./dist/observability/index.js"
-    },
-    "./generated/*": {
-      "types": "./dist/generated/*.d.ts",
-      "import": "./dist/generated/*.js"
     }
   },
   "scripts": {

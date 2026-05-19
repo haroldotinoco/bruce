@@ -13,7 +13,6 @@ import {
 } from '@bruce/handoff';
 import { logger } from '@bruce/logger';
 import { writeDeliverable, writeProjectKnowledgeDoc } from '@bruce/project-store';
-import { getRedisClient } from '@bruce/redis';
 import { getAddVentureAgentRuntimeHooks } from './agent-hooks.js';
 
 const { pipelineRuns, ventureDossiers } = schema;
@@ -280,20 +279,6 @@ export async function persistVentureDossier(params: {
   });
 }
 
-/** @deprecated Kept for backwards compatibility; new callers should use `persistVentureDossier`. */
-export async function persistVenturePipelineState(params: {
-  accountId: string;
-  ventureId: string;
-  output: unknown;
-}): Promise<string> {
-  const { accountId, ventureId, output } = params;
-  logger.info({ accountId, ventureId }, 'persistVenturePipelineState (deprecated) called');
-  return await withAccountContext(accountId, async () => {
-    void output;
-    return crypto.randomUUID();
-  });
-}
-
 export async function markPipelineRunStarted(params: {
   accountId: string;
   pipelineRunId: string;
@@ -422,17 +407,6 @@ export async function emitVentureStructuringCompleted(params: {
       warnWhenNoSubscribers: false,
     },
   );
-}
-
-export async function updatePipelineExecutionState(params: {
-  accountId: string;
-  ventureId: string;
-  step: string;
-  state: unknown;
-}): Promise<void> {
-  const { accountId, ventureId, step, state } = params;
-  const redis = getRedisClient();
-  await redis.set(accountId, 'add-venture', 'pipeline', ventureId, `state:${step}`, state, 3600);
 }
 
 export {

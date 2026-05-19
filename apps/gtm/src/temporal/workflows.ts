@@ -77,13 +77,17 @@ export async function gtmPipelineWorkflow(input: {
       startedAt: new Date().toISOString(),
     });
 
-    const result = await act.runChannelStrategistAgent({
-      accountId: account_id,
-      ventureId: venture_id,
-      agentInput: agent_input,
-      correlationId,
-      observabilityRunId: obsRunId,
-      observabilityStepKey: STEP_CHANNEL_STRATEGIST,
+    const result = await act.runAgentActivity({
+      module: 'gtm',
+      agentId: 'channel-strategist',
+      input: agent_input,
+      context: {
+        accountId: account_id,
+        ventureId: venture_id,
+        correlationId,
+        observabilityRunId: obsRunId,
+        observabilityStepKey: STEP_CHANNEL_STRATEGIST,
+      },
     });
 
     await act.obsUpdateStep({

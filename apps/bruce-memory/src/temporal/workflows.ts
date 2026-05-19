@@ -77,13 +77,17 @@ export async function bruceMemoryPipelineWorkflow(input: {
       startedAt: new Date().toISOString(),
     });
 
-    const result = await act.runLearningIngestionAgent({
-      accountId: account_id,
-      ventureId: venture_id,
-      agentInput: agent_input,
-      correlationId,
-      observabilityRunId: obsRunId,
-      observabilityStepKey: STEP_LEARNING_INGESTION,
+    const result = await act.runAgentActivity({
+      module: 'bruce-memory',
+      agentId: 'learning-ingestion-agent',
+      input: agent_input,
+      context: {
+        accountId: account_id,
+        ventureId: venture_id,
+        correlationId,
+        observabilityRunId: obsRunId,
+        observabilityStepKey: STEP_LEARNING_INGESTION,
+      },
     });
 
     await act.obsUpdateStep({

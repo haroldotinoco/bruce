@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, writeFile } from 'fs/promises';
+import { mkdir, readFile, readdir, rm, writeFile } from 'fs/promises';
 import { compile } from 'json-schema-to-typescript';
 import { dirname, join, relative } from 'path';
 import { fileURLToPath } from 'url';
@@ -34,6 +34,7 @@ async function findSchemas(dir: string, acc: string[] = []): Promise<string[]> {
 
 async function main(): Promise<void> {
   const schemas = await findSchemas(modulesDir);
+  await rm(outRoot, { recursive: true, force: true });
   await mkdir(outRoot, { recursive: true });
 
   let ok = 0;

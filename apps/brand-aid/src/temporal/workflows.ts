@@ -325,15 +325,17 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
     ]);
 
     const [strategy, market] = await Promise.all([
-      act.runBrandStrategistAgent({
-        ...baseAgentParams,
-        agentInput: brandStrategyInput(agent_input),
-        observabilityStepKey: STEP_BRAND_STRATEGY,
+      act.runAgentActivity({
+        module: 'brand-aid',
+        agentId: 'brand-strategist',
+        input: brandStrategyInput(agent_input),
+        context: { ...baseAgentParams, observabilityStepKey: STEP_BRAND_STRATEGY },
       }),
-      act.runMarketAnalystAgent({
-        ...baseAgentParams,
-        agentInput: agent_input,
-        observabilityStepKey: STEP_MARKET_RESEARCH,
+      act.runAgentActivity({
+        module: 'brand-aid',
+        agentId: 'market-analyst',
+        input: agent_input,
+        context: { ...baseAgentParams, observabilityStepKey: STEP_MARKET_RESEARCH },
       }),
     ]);
     stageOutputs.strategy = strategy;
@@ -374,10 +376,11 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
 
     workflowState = { status: 'running', currentStep: STEP_CREATIVE_DIRECTION };
     await markStep(obsRunId, account_id, STEP_CREATIVE_DIRECTION, 'running');
-    const creativeDirection = await act.runCreativeDirectorAgent({
-      ...baseAgentParams,
-      agentInput: creativeDirectionInput(strategy, market, stageOutputs.moodboard, agent_input),
-      observabilityStepKey: STEP_CREATIVE_DIRECTION,
+    const creativeDirection = await act.runAgentActivity({
+      module: 'brand-aid',
+      agentId: 'creative-director',
+      input: creativeDirectionInput(strategy, market, stageOutputs.moodboard, agent_input),
+      context: { ...baseAgentParams, observabilityStepKey: STEP_CREATIVE_DIRECTION },
     });
     stageOutputs.creative_direction = creativeDirection;
     await markStep(obsRunId, account_id, STEP_CREATIVE_DIRECTION, 'done', creativeDirectionObsFields(creativeDirection));
@@ -394,10 +397,11 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
         skipped: { kind: 'text_short', value: 'forced_brand_name' },
       });
     } else {
-      naming = await act.runNamingAgent({
-        ...baseAgentParams,
-        agentInput: namingInput(strategy, creativeDirection, agent_input),
-        observabilityStepKey: STEP_NAMING,
+      naming = await act.runAgentActivity({
+        module: 'brand-aid',
+        agentId: 'naming-agent',
+        input: namingInput(strategy, creativeDirection, agent_input),
+        context: { ...baseAgentParams, observabilityStepKey: STEP_NAMING },
       });
       stageOutputs.naming = naming;
       await markStep(obsRunId, account_id, STEP_NAMING, 'done', {
@@ -415,15 +419,16 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
     for (let iteration = 0; iteration <= maxIterations; iteration++) {
       workflowState = { status: 'running', currentStep: STEP_VISUAL_SYSTEM, critiqueIteration: iteration };
       await markStep(obsRunId, account_id, STEP_VISUAL_SYSTEM, 'running', { iteration: { kind: 'number', value: iteration } });
-      visualSystem = await act.runVisualSystemDesignerAgent({
-        ...baseAgentParams,
-        agentInput: {
+      visualSystem = await act.runAgentActivity({
+        module: 'brand-aid',
+        agentId: 'visual-system-designer',
+        input: {
           creative_direction: creativeDirection,
           brand_archetype: stringValue(asRecord(strategy).primary_archetype, 'Creator'),
           implementation_context: { primary_medium: 'multi-channel', color_model_preference: 'HEX', design_tool: 'agnostic' },
           accessibility_requirements: { wcag_level: 'AA', color_blindness_safe: true },
         },
-        observabilityStepKey: STEP_VISUAL_SYSTEM,
+        context: { ...baseAgentParams, observabilityStepKey: STEP_VISUAL_SYSTEM },
       });
       stageOutputs.visual_system = visualSystem;
       await markStep(obsRunId, account_id, STEP_VISUAL_SYSTEM, 'done', visualSystemObsFields(visualSystem));
@@ -444,9 +449,10 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
 
       workflowState = { status: 'running', currentStep: STEP_LOGO_DESIGN, critiqueIteration: iteration };
       await markStep(obsRunId, account_id, STEP_LOGO_DESIGN, 'running', { iteration: { kind: 'number', value: iteration } });
-      logoConcepts = await act.runLogoDesignerAgent({
-        ...baseAgentParams,
-        agentInput: {
+      logoConcepts = await act.runAgentActivity({
+        module: 'brand-aid',
+        agentId: 'logo-designer',
+        input: {
           creative_direction: creativeDirection,
           brand_name: brandName,
           brand_archetype: stringValue(asRecord(strategy).primary_archetype, 'Creator'),
@@ -454,7 +460,7 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
           logo_requirements: { include_wordmark: true, icon_only_needed: true, primary_use_case: 'multi-channel' },
           logo_studies: logoStudies,
         },
-        observabilityStepKey: STEP_LOGO_DESIGN,
+        context: { ...baseAgentParams, observabilityStepKey: STEP_LOGO_DESIGN },
       });
       stageOutputs.logo_concepts = logoConcepts;
       const logoAssets = await act.storeApprovedLogoAssets({ accountId: account_id, ventureId: venture_id, logoConcepts });
@@ -464,9 +470,10 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
 
       workflowState = { status: 'running', currentStep: STEP_BRAND_CRITIQUE, critiqueIteration: iteration };
       await markStep(obsRunId, account_id, STEP_BRAND_CRITIQUE, 'running', { iteration: { kind: 'number', value: iteration } });
-      critique = await act.runBrandCriticAgent({
-        ...baseAgentParams,
-        agentInput: {
+      critique = await act.runAgentActivity({
+        module: 'brand-aid',
+        agentId: 'brand-critic',
+        input: {
           brand_strategy: strategy,
           visual_system: visualSystem,
           logo_concepts: logoConcepts,
@@ -475,7 +482,7 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
           moodboard: stageOutputs.moodboard,
           logo_studies: logoStudies,
         },
-        observabilityStepKey: STEP_BRAND_CRITIQUE,
+        context: { ...baseAgentParams, observabilityStepKey: STEP_BRAND_CRITIQUE },
       });
       stageOutputs.critique = critique;
       const gate = critiquePassed(critique, passScore);
@@ -530,9 +537,10 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
 
     workflowState = { status: 'running', currentStep: STEP_BRAND_BOOK };
     await markStep(obsRunId, account_id, STEP_BRAND_BOOK, 'running');
-    const brandbook = await act.runBrandBookComposerAgent({
-      ...baseAgentParams,
-      agentInput: {
+    const brandbook = await act.runAgentActivity({
+      module: 'brand-aid',
+      agentId: 'brand-book-composer',
+      input: {
         brand_identity: {
           strategy,
           visual_system: visualSystem,
@@ -551,7 +559,7 @@ export async function brandAidPipelineWorkflow(input: PipelineInput): Promise<un
         brand_name: brandName,
         composition_options: { include_extended_guidelines: true, include_marketing_brief: true, audience: 'all' },
       },
-      observabilityStepKey: STEP_BRAND_BOOK,
+      context: { ...baseAgentParams, observabilityStepKey: STEP_BRAND_BOOK },
     });
     stageOutputs.brandbook = brandbook;
     await markStep(obsRunId, account_id, STEP_BRAND_BOOK, 'done');

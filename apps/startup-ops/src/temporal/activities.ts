@@ -5,39 +5,39 @@ import {
   createValidatedModuleHandoffEnvelope,
   validateStartupOpsToPortfolioHandoff,
 } from '@bruce/handoff';
-import { logger } from '@bruce/logger';
 import { getRedisClient } from '@bruce/redis';
 
-export async function runMetricsIngestionAgent(params: {
-  accountId: string;
-  ventureId: string;
-  agentInput: Record<string, unknown>;
-  correlationId: string;
-  observabilityRunId?: string;
-  observabilityStepKey?: string;
-  observabilityParentStepKey?: string;
+export async function runAgentActivity(params: {
+  module: string;
+  agentId: string;
+  input: unknown;
+  context: {
+    accountId: string;
+    ventureId?: string;
+    correlationId: string;
+    observabilityRunId?: string;
+    observabilityStepKey?: string;
+    observabilityParentStepKey?: string;
+  };
 }): Promise<unknown> {
-  const { accountId, ventureId, agentInput, correlationId } = params;
-  logger.info({ accountId, ventureId }, 'startup-ops: metrics-ingestion-agent');
-
   const result = await runAgentStep({
-    module: 'startup-ops',
-    agentId: 'metrics-ingestion-agent',
-    input: agentInput,
+    module: params.module,
+    agentId: params.agentId,
+    input: params.input,
     context: {
-      accountId,
-      ventureId,
-      module: 'startup-ops',
+      accountId: params.context.accountId,
+      ventureId: params.context.ventureId,
+      module: params.module,
       executionId: crypto.randomUUID(),
-      correlationId,
-      observabilityRunId: params.observabilityRunId,
-      observabilityStepKey: params.observabilityStepKey,
-      observabilityParentStepKey: params.observabilityParentStepKey,
+      correlationId: params.context.correlationId,
+      observabilityRunId: params.context.observabilityRunId,
+      observabilityStepKey: params.context.observabilityStepKey,
+      observabilityParentStepKey: params.context.observabilityParentStepKey,
     },
   });
 
   if (!result.success) {
-    throw new Error(result.error ?? 'metrics-ingestion-agent failed');
+    throw new Error(result.error ?? `${params.module}/${params.agentId} failed`);
   }
   return result.output;
 }

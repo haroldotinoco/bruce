@@ -77,13 +77,17 @@ export async function startupOpsPipelineWorkflow(input: {
       startedAt: new Date().toISOString(),
     });
 
-    const result = await act.runMetricsIngestionAgent({
-      accountId: account_id,
-      ventureId: venture_id,
-      agentInput: agent_input,
-      correlationId,
-      observabilityRunId: obsRunId,
-      observabilityStepKey: STEP_METRICS_INGESTION,
+    const result = await act.runAgentActivity({
+      module: 'startup-ops',
+      agentId: 'metrics-ingestion-agent',
+      input: agent_input,
+      context: {
+        accountId: account_id,
+        ventureId: venture_id,
+        correlationId,
+        observabilityRunId: obsRunId,
+        observabilityStepKey: STEP_METRICS_INGESTION,
+      },
     });
 
     await act.obsUpdateStep({
