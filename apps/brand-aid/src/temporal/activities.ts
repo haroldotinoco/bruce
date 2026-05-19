@@ -1,4 +1,4 @@
-import { getAgentRunner } from '@bruce/agent-runtime';
+import { AgentLoader, AgentRunner, runAgentStep } from '@bruce/agent-runtime';
 import { emitEvent } from '@bruce/events';
 import { logger } from '@bruce/logger';
 import { getRedisClient } from '@bruce/redis';
@@ -11,6 +11,11 @@ import {
   type StoredAsset,
 } from '../services/provider-clients.js';
 import { packageIdFor, saveBrandPackage, type BrandAidPackage } from '../services/package-store.js';
+import { getBrandAidAgentRuntimeHooks } from './agent-hooks.js';
+
+const brandAidAgentRunner = new AgentRunner({
+  agentLoader: new AgentLoader(undefined, getBrandAidAgentRuntimeHooks),
+});
 
 interface AgentParams {
   accountId: string;
@@ -58,12 +63,12 @@ function critiqueScore(critique: unknown): number {
 }
 
 async function runBrandAgent(agentId: string, params: AgentParams): Promise<unknown> {
-  const runner = getAgentRunner();
-  const result = await runner.run(
-    'brand-aid',
+  const result = await runAgentStep({
+    module: 'brand-aid',
     agentId,
-    params.agentInput,
-    {
+    input: params.agentInput,
+    runner: brandAidAgentRunner,
+    context: {
       accountId: params.accountId,
       ventureId: params.ventureId,
       module: 'brand-aid',
@@ -73,8 +78,8 @@ async function runBrandAgent(agentId: string, params: AgentParams): Promise<unkn
       observabilityStepKey: params.observabilityStepKey,
       observabilityParentStepKey: params.observabilityParentStepKey,
       projectNickname: params.projectNickname,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throw new Error(result.error ?? `${agentId} failed`);

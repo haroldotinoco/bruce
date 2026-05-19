@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { getAgentRunner } from '@bruce/agent-runtime';
+import { runAgentStep } from '@bruce/agent-runtime';
 import { validateOpportunityToVentureHandoff } from '@bruce/handoff';
 import { logger } from '@bruce/logger';
 import {
@@ -17,19 +17,18 @@ export interface SynthesizedOpportunityPack {
 }
 
 async function runSynthesizerAgent(input: Record<string, unknown>): Promise<Record<string, unknown>> {
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'bootstrap',
-    'handoff-synthesizer',
+  const result = await runAgentStep({
+    module: 'bootstrap',
+    agentId: 'handoff-synthesizer',
     input,
-    {
+    context: {
       accountId: stringValue(input.account_id, 'bootstrap'),
       ventureId: stringValue(input.venture_id),
       module: 'bootstrap',
       executionId: randomUUID(),
       correlationId: stringValue(input.correlation_id, randomUUID()),
     },
-  );
+  });
   if (!result.success || result.output == null) {
     throw new Error(result.error ?? 'Handoff synthesizer agent failed');
   }

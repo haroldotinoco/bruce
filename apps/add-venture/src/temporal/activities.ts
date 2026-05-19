@@ -1,5 +1,5 @@
 import { and, eq, sql } from 'drizzle-orm';
-import { getAgentRunner } from '@bruce/agent-runtime';
+import { AgentLoader, AgentRunner, runAgentStep } from '@bruce/agent-runtime';
 import { schema, withAccountContext } from '@bruce/db';
 import { emitEvent, getEventBus } from '@bruce/events';
 import {
@@ -14,8 +14,12 @@ import {
 import { logger } from '@bruce/logger';
 import { writeDeliverable, writeProjectKnowledgeDoc } from '@bruce/project-store';
 import { getRedisClient } from '@bruce/redis';
+import { getAddVentureAgentRuntimeHooks } from './agent-hooks.js';
 
 const { pipelineRuns, ventureDossiers } = schema;
+const addVentureAgentRunner = new AgentRunner({
+  agentLoader: new AgentLoader(undefined, getAddVentureAgentRuntimeHooks),
+});
 
 type RecordLike = Record<string, unknown>;
 
@@ -23,51 +27,19 @@ function asRecord(x: unknown): RecordLike {
   return x && typeof x === 'object' ? (x as RecordLike) : {};
 }
 
-function withForcedBrandNaming(input: RecordLike, forcedBrandName?: string): RecordLike {
-  const forced = forcedBrandName?.trim();
-  if (!forced) return input;
-  return {
-    ...input,
-    forced_brand_name: forced,
-    brand_naming_constraints: `Use "${forced}" as the official venture/product/brand name. Do not invent alternative names or taglines.`,
-  };
-}
-
-function applyForcedBrandToVol3(output: unknown, forced: string): unknown {
-  const vol = asRecord(output);
-  const positioning = asRecord(vol.positioning_statement);
-  return {
-    ...vol,
-    positioning_statement: { ...positioning, product_name: forced },
-  };
-}
-
-function applyForcedBrandToVol6(output: unknown, forced: string): unknown {
-  const vol = asRecord(output);
-  const taglines = Array.isArray(vol.tagline_candidates)
-    ? vol.tagline_candidates.filter((item): item is string => typeof item === 'string' && item !== forced)
-    : [];
-  return {
-    ...vol,
-    one_liner: forced,
-    tagline_candidates: [forced, ...taglines].slice(0, 5),
-  };
-}
-
-function buildBriefing(
-  ventureId: string,
-  opportunityId: string,
-  briefingResult: unknown,
-): RecordLike {
-  const br = asRecord(briefingResult);
-  return {
-    venture_id: ventureId,
-    opportunity_id: opportunityId,
-    problem_context: (br.problem_context as object) ?? { interpreted: br },
-    market_context: (br.market_context as object) ?? {},
-    customer_context: (br.customer_context as object) ?? {},
-    key_assumptions: Array.isArray(br.key_assumptions) ? br.key_assumptions : [],
-    data_gaps: Array.isArray(br.data_gaps) ? br.data_gaps : [],
+export interface RunAgentActivityParams {
+  module: string;
+  agentId: string;
+  input: unknown;
+  context: {
+    accountId: string;
+    ventureId?: string;
+    executionId?: string;
+    correlationId: string;
+    observabilityRunId?: string;
+    observabilityStepKey?: string;
+    observabilityParentStepKey?: string;
+    projectNickname?: string;
   };
 }
 
@@ -75,428 +47,34 @@ function buildBriefing(
 // Agent activities
 // =============================================================
 
-export async function runBriefingInterpreter(params: {
-  accountId: string;
-  ventureId: string;
-  opportunityId: string;
-  opportunity: Record<string, unknown>;
-  correlationId: string;
-  observabilityRunId?: string;
-  observabilityStepKey?: string;
-  observabilityParentStepKey?: string;
-  projectNickname?: string;
-}): Promise<unknown> {
-  const { accountId, ventureId, opportunityId, opportunity, correlationId } = params;
-  logger.info({ accountId, ventureId }, 'Running briefing-interpreter');
-
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'add-venture',
-    'briefing-interpreter',
-    {
-      opportunity: {
-        opportunity_id: opportunityId,
-        title: String(opportunity.title ?? 'Untitled'),
-        problem_statement: String(
-          opportunity.problem_statement ?? opportunity.description ?? '',
-        ),
-        target_segment: String(
-          opportunity.target_segment ??
-            opportunity.market_segment ??
-            opportunity.segment ??
-            '',
-        ),
-        market_size_estimate: opportunity.market_size_estimate as
-          | Record<string, unknown>
-          | undefined,
-        competition_landscape: opportunity.competition_landscape as
-          | Record<string, unknown>
-          | undefined,
-        problem_analysis: opportunity.problem_analysis as
-          | Record<string, unknown>
-          | undefined,
-        analysis_quality: opportunity.analysis_quality as
-          | Record<string, unknown>
-          | undefined,
-      },
-      portfolio_context: {},
-    },
-    {
-      accountId,
-      ventureId,
-      module: 'add-venture',
-      executionId: crypto.randomUUID(),
-      correlationId,
-      observabilityRunId: params.observabilityRunId,
-      observabilityStepKey: params.observabilityStepKey,
-      observabilityParentStepKey: params.observabilityParentStepKey,
-      projectNickname: params.projectNickname,
-    },
+export async function runAgentActivity(params: RunAgentActivityParams): Promise<unknown> {
+  logger.info(
+    { accountId: params.context.accountId, module: params.module, agentId: params.agentId },
+    'Running agent activity',
   );
 
-  if (!result.success) {
-    throw new Error(`Briefing interpreter failed: ${result.error}`);
-  }
-
-  return result.output;
-}
-
-export async function runOpportunityAnalystVol1(params: {
-  accountId: string;
-  ventureId: string;
-  opportunityId: string;
-  briefingResult: unknown;
-  correlationId: string;
-  observabilityRunId?: string;
-  observabilityStepKey?: string;
-  observabilityParentStepKey?: string;
-  projectNickname?: string;
-}): Promise<unknown> {
-  const { accountId, ventureId, opportunityId, briefingResult, correlationId } = params;
-  logger.info({ accountId, ventureId }, 'Running opportunity-analyst-vol1');
-
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'add-venture',
-    'opportunity-analyst-vol1',
-    {
-      briefing: buildBriefing(ventureId, opportunityId, briefingResult),
-      analysis_parameters: { depth_level: 'standard' },
+  const result = await runAgentStep({
+    module: params.module,
+    agentId: params.agentId,
+    input: params.input,
+    runner: addVentureAgentRunner,
+    context: {
+      accountId: params.context.accountId,
+      ventureId: params.context.ventureId,
+      module: params.module,
+      executionId: params.context.executionId ?? crypto.randomUUID(),
+      correlationId: params.context.correlationId,
+      observabilityRunId: params.context.observabilityRunId,
+      observabilityStepKey: params.context.observabilityStepKey,
+      observabilityParentStepKey: params.context.observabilityParentStepKey,
+      projectNickname: params.context.projectNickname,
     },
-    {
-      accountId,
-      ventureId,
-      module: 'add-venture',
-      executionId: crypto.randomUUID(),
-      correlationId,
-      observabilityRunId: params.observabilityRunId,
-      observabilityStepKey: params.observabilityStepKey,
-      observabilityParentStepKey: params.observabilityParentStepKey,
-      projectNickname: params.projectNickname,
-    },
-  );
-
-  if (!result.success) {
-    throw new Error(`Opportunity analyst vol1 failed: ${result.error}`);
-  }
-
-  return result.output;
-}
-
-interface VolActivityParams {
-  accountId: string;
-  ventureId: string;
-  opportunityId: string;
-  correlationId: string;
-  observabilityRunId?: string;
-  observabilityStepKey?: string;
-  observabilityParentStepKey?: string;
-  projectNickname?: string;
-  forcedBrandName?: string;
-}
-
-async function runVolAgent(
-  agentId: string,
-  input: unknown,
-  params: VolActivityParams,
-): Promise<unknown> {
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run('add-venture', agentId, input, {
-    accountId: params.accountId,
-    ventureId: params.ventureId,
-    module: 'add-venture',
-    executionId: crypto.randomUUID(),
-    correlationId: params.correlationId,
-    observabilityRunId: params.observabilityRunId,
-    observabilityStepKey: params.observabilityStepKey,
-    observabilityParentStepKey: params.observabilityParentStepKey,
-    projectNickname: params.projectNickname,
   });
+
   if (!result.success) {
-    throw new Error(`${agentId} failed: ${result.error}`);
+    throw new Error(result.error ?? `${params.module}/${params.agentId} failed`);
   }
-  return result.output;
-}
 
-export async function runCustomerMarketArchitect(
-  params: VolActivityParams & { briefing: unknown; vol1: unknown },
-): Promise<unknown> {
-  logger.info({ accountId: params.accountId }, 'Running customer-market-architect');
-  return runVolAgent(
-    'customer-market-architect',
-    {
-      venture_id: params.ventureId,
-      opportunity_id: params.opportunityId,
-      briefing: asRecord(params.briefing),
-      vol_1_opportunity: asRecord(params.vol1),
-    },
-    params,
-  );
-}
-
-export async function runValuePropositionDesigner(
-  params: VolActivityParams & {
-    briefing: unknown;
-    vol1: unknown;
-    vol2: unknown;
-  },
-): Promise<unknown> {
-  logger.info({ accountId: params.accountId }, 'Running value-proposition-designer');
-  const output = await runVolAgent(
-    'value-proposition-designer',
-    withForcedBrandNaming(
-      {
-        venture_id: params.ventureId,
-        opportunity_id: params.opportunityId,
-        briefing: asRecord(params.briefing),
-        vol_1_opportunity: asRecord(params.vol1),
-        vol_2_customer_market: asRecord(params.vol2),
-      },
-      params.forcedBrandName,
-    ),
-    params,
-  );
-  const forced = params.forcedBrandName?.trim();
-  return forced ? applyForcedBrandToVol3(output, forced) : output;
-}
-
-export async function runBusinessModelModeler(
-  params: VolActivityParams & {
-    briefing: unknown;
-    vol1: unknown;
-    vol2: unknown;
-    vol3: unknown;
-  },
-): Promise<unknown> {
-  logger.info({ accountId: params.accountId }, 'Running business-model-modeler');
-  return runVolAgent(
-    'business-model-modeler',
-    {
-      venture_id: params.ventureId,
-      opportunity_id: params.opportunityId,
-      briefing: asRecord(params.briefing),
-      vol_1_opportunity: asRecord(params.vol1),
-      vol_2_customer_market: asRecord(params.vol2),
-      vol_3_value_proposition: asRecord(params.vol3),
-    },
-    params,
-  );
-}
-
-export async function runGtmPlanner(
-  params: VolActivityParams & {
-    briefing: unknown;
-    vol1: unknown;
-    vol2: unknown;
-    vol3: unknown;
-    vol4: unknown;
-  },
-): Promise<unknown> {
-  logger.info({ accountId: params.accountId }, 'Running gtm-planner');
-  return runVolAgent(
-    'gtm-planner',
-    {
-      venture_id: params.ventureId,
-      opportunity_id: params.opportunityId,
-      briefing: asRecord(params.briefing),
-      vol_1_opportunity: asRecord(params.vol1),
-      vol_2_customer_market: asRecord(params.vol2),
-      vol_3_value_proposition: asRecord(params.vol3),
-      vol_4_business_model: asRecord(params.vol4),
-    },
-    params,
-  );
-}
-
-export async function runNarrativeStrategist(
-  params: VolActivityParams & {
-    briefing: unknown;
-    vol1: unknown;
-    vol2: unknown;
-    vol3: unknown;
-    vol5: unknown;
-  },
-): Promise<unknown> {
-  logger.info({ accountId: params.accountId }, 'Running narrative-strategist');
-  const output = await runVolAgent(
-    'narrative-strategist',
-    withForcedBrandNaming(
-      {
-        venture_id: params.ventureId,
-        opportunity_id: params.opportunityId,
-        briefing: asRecord(params.briefing),
-        vol_1_opportunity: asRecord(params.vol1),
-        vol_2_customer_market: asRecord(params.vol2),
-        vol_3_value_proposition: asRecord(params.vol3),
-        vol_5_gtm: asRecord(params.vol5),
-      },
-      params.forcedBrandName,
-    ),
-    params,
-  );
-  const forced = params.forcedBrandName?.trim();
-  return forced ? applyForcedBrandToVol6(output, forced) : output;
-}
-
-export async function runRiskValidationAnalyst(
-  params: VolActivityParams & {
-    vol1: unknown;
-    vol2: unknown;
-    vol3: unknown;
-    vol4: unknown;
-    vol5: unknown;
-    vol6: unknown;
-  },
-): Promise<unknown> {
-  logger.info({ accountId: params.accountId }, 'Running risk-validation-analyst');
-  return runVolAgent(
-    'risk-validation-analyst',
-    {
-      venture_id: params.ventureId,
-      opportunity_id: params.opportunityId,
-      vol_1_opportunity: asRecord(params.vol1),
-      vol_2_customer_market: asRecord(params.vol2),
-      vol_3_value_proposition: asRecord(params.vol3),
-      vol_4_business_model: asRecord(params.vol4),
-      vol_5_gtm: asRecord(params.vol5),
-      vol_6_narrative: asRecord(params.vol6),
-    },
-    params,
-  );
-}
-
-export async function runExecutionRoadmapPlanner(
-  params: VolActivityParams & {
-    vol1: unknown;
-    vol2: unknown;
-    vol3: unknown;
-    vol4: unknown;
-    vol5: unknown;
-    vol7: unknown;
-  },
-): Promise<unknown> {
-  logger.info({ accountId: params.accountId }, 'Running execution-roadmap-planner');
-  return runVolAgent(
-    'execution-roadmap-planner',
-    {
-      venture_id: params.ventureId,
-      opportunity_id: params.opportunityId,
-      vol_1_opportunity: asRecord(params.vol1),
-      vol_2_customer_market: asRecord(params.vol2),
-      vol_3_value_proposition: asRecord(params.vol3),
-      vol_4_business_model: asRecord(params.vol4),
-      vol_5_gtm: asRecord(params.vol5),
-      vol_7_risk_validation: asRecord(params.vol7),
-    },
-    params,
-  );
-}
-
-export async function runVentureCritic(params: {
-  accountId: string;
-  ventureId: string;
-  vol1: unknown;
-  vol2: unknown;
-  vol3: unknown;
-  vol4: unknown;
-  vol5: unknown;
-  vol6: unknown;
-  vol7: unknown;
-  vol8: unknown;
-  correlationId: string;
-  observabilityRunId?: string;
-  observabilityStepKey?: string;
-  observabilityParentStepKey?: string;
-  projectNickname?: string;
-}): Promise<unknown> {
-  logger.info({ accountId: params.accountId }, 'Running venture-critic');
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'add-venture',
-    'venture-critic',
-    {
-      venture_id: params.ventureId,
-      vol_1_opportunity: asRecord(params.vol1),
-      vol_2_customer_market: asRecord(params.vol2),
-      vol_3_value_proposition: asRecord(params.vol3),
-      vol_4_business_model: asRecord(params.vol4),
-      vol_5_gtm: asRecord(params.vol5),
-      vol_6_narrative: asRecord(params.vol6),
-      vol_7_risk_validation: asRecord(params.vol7),
-      vol_8_execution_roadmap: asRecord(params.vol8),
-    },
-    {
-      accountId: params.accountId,
-      ventureId: params.ventureId,
-      module: 'add-venture',
-      executionId: crypto.randomUUID(),
-      correlationId: params.correlationId,
-      observabilityRunId: params.observabilityRunId,
-      observabilityStepKey: params.observabilityStepKey,
-      observabilityParentStepKey: params.observabilityParentStepKey,
-      projectNickname: params.projectNickname,
-    },
-  );
-  if (!result.success) {
-    throw new Error(`venture-critic failed: ${result.error}`);
-  }
-  return result.output;
-}
-
-export async function runDossierComposer(params: {
-  accountId: string;
-  ventureId: string;
-  opportunityId: string;
-  ventureName: string;
-  vol1: unknown;
-  vol2: unknown;
-  vol3: unknown;
-  vol4: unknown;
-  vol5: unknown;
-  vol6: unknown;
-  vol7: unknown;
-  vol8: unknown;
-  critique: unknown;
-  correlationId: string;
-  observabilityRunId?: string;
-  observabilityStepKey?: string;
-  observabilityParentStepKey?: string;
-  projectNickname?: string;
-}): Promise<unknown> {
-  logger.info({ accountId: params.accountId }, 'Running dossier-composer');
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'add-venture',
-    'dossier-composer',
-    {
-      venture_id: params.ventureId,
-      opportunity_id: params.opportunityId,
-      venture_name: params.ventureName,
-      vol_1_opportunity: asRecord(params.vol1),
-      vol_2_customer_market: asRecord(params.vol2),
-      vol_3_value_proposition: asRecord(params.vol3),
-      vol_4_business_model: asRecord(params.vol4),
-      vol_5_gtm: asRecord(params.vol5),
-      vol_6_narrative: asRecord(params.vol6),
-      vol_7_risk_validation: asRecord(params.vol7),
-      vol_8_execution_roadmap: asRecord(params.vol8),
-      critique_result: asRecord(params.critique),
-    },
-    {
-      accountId: params.accountId,
-      ventureId: params.ventureId,
-      module: 'add-venture',
-      executionId: crypto.randomUUID(),
-      correlationId: params.correlationId,
-      observabilityRunId: params.observabilityRunId,
-      observabilityStepKey: params.observabilityStepKey,
-      observabilityParentStepKey: params.observabilityParentStepKey,
-      projectNickname: params.projectNickname,
-    },
-  );
-  if (!result.success) {
-    throw new Error(`dossier-composer failed: ${result.error}`);
-  }
   return result.output;
 }
 

@@ -2,11 +2,16 @@ import { access, readFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 import { constants as fsConstants } from 'fs';
+import { getAgentSchemaEntry } from '@bruce/schemas';
 import { getDefaultFallbackAgentModel, resolveOpenRouterModelId } from '@bruce/llm';
 import { logger } from '@bruce/logger';
-import { jsonSchemaToZod } from './json-schema-zod.js';
 import { AgentNotFoundError } from './errors.js';
-import type { AgentCapabilities, AgentSpec, ToolDefinition } from './types.js';
+import type {
+  AgentCapabilities,
+  AgentRuntimeHookResolver,
+  AgentSpec,
+  ToolDefinition,
+} from './types.js';
 
 function normalizeCapabilities(raw: unknown): AgentCapabilities {
   const r = raw as Record<string, unknown>;
@@ -168,15 +173,25 @@ export function resolveModulesDir(): string {
 export class AgentLoader {
   private modulesDir: string;
   private cache: Map<string, AgentSpec> = new Map();
+  private runtimeHookResolver?: AgentRuntimeHookResolver;
 
-  constructor(modulesDir: string = resolveModulesDir()) {
+  constructor(
+    modulesDir: string = resolveModulesDir(),
+    runtimeHookResolver?: AgentRuntimeHookResolver,
+  ) {
     this.modulesDir = modulesDir;
+    this.runtimeHookResolver = runtimeHookResolver;
   }
 
   async loadAgent(module: string, agentId: string): Promise<AgentSpec> {
     const cacheKey = `${module}:${agentId}`;
     if (this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey)!;
+    }
+
+    const schemaEntry = getAgentSchemaEntry(module, agentId);
+    if (!schemaEntry) {
+      throw new AgentNotFoundError(module, agentId);
     }
 
     const agentDir = path.join(this.modulesDir, module, 'agents', agentId);
@@ -188,13 +203,13 @@ export class AgentLoader {
     }
 
     try {
-      const skillPrompt = await this.loadSkillPrompt(agentDir);
-      const constraints = await this.loadConstraints(agentDir);
-      const capabilitiesRaw = JSON.parse(await readFile(path.join(agentDir, 'capabilities.json'), 'utf-8'));
+      const skillPrompt = await this.loadSkillPrompt(schemaEntry.skillPath);
+      const constraints = await this.loadConstraints(schemaEntry.constraintsPath);
+      const capabilitiesRaw = JSON.parse(
+        await readFile(path.join(this.modulesDir, schemaEntry.capabilitiesPath), 'utf-8'),
+      );
       const capabilities = normalizeCapabilities(capabilitiesRaw);
-      const inputSchema = await this.loadSchema(agentDir, 'input');
-      const outputSchema = await this.loadSchema(agentDir, 'output');
-      const tools = await this.loadTools(agentDir);
+      const tools = await this.loadTools(schemaEntry.toolsPath);
 
       const spec: AgentSpec = {
         id: agentId,
@@ -204,9 +219,10 @@ export class AgentLoader {
         skillPrompt,
         constraints,
         capabilities,
-        inputSchema,
-        outputSchema,
+        inputSchema: schemaEntry.inputSchema,
+        outputSchema: schemaEntry.outputSchema,
         tools,
+        runtimeHooks: this.runtimeHookResolver?.(module, agentId),
       };
 
       this.cache.set(cacheKey, spec);
@@ -219,13 +235,13 @@ export class AgentLoader {
     }
   }
 
-  private async loadSkillPrompt(agentDir: string): Promise<string> {
-    const p = path.join(agentDir, 'SKILL.md');
+  private async loadSkillPrompt(relativePath: string): Promise<string> {
+    const p = path.join(this.modulesDir, relativePath);
     return readFile(p, 'utf-8');
   }
 
-  private async loadConstraints(agentDir: string): Promise<string | null> {
-    const p = path.join(agentDir, 'constraints.md');
+  private async loadConstraints(relativePath: string): Promise<string | null> {
+    const p = path.join(this.modulesDir, relativePath);
     try {
       return await readFile(p, 'utf-8');
     } catch {
@@ -233,15 +249,8 @@ export class AgentLoader {
     }
   }
 
-  private async loadSchema(agentDir: string, type: 'input' | 'output'): Promise<import('zod').ZodTypeAny> {
-    const p = path.join(agentDir, `${type}.schema.json`);
-    const content = await readFile(p, 'utf-8');
-    const schemaJson = JSON.parse(content);
-    return jsonSchemaToZod(schemaJson);
-  }
-
-  private async loadTools(agentDir: string): Promise<ToolDefinition[]> {
-    const p = path.join(agentDir, 'tools.json');
+  private async loadTools(relativePath: string): Promise<ToolDefinition[]> {
+    const p = path.join(this.modulesDir, relativePath);
     try {
       const content = await readFile(p, 'utf-8');
       return normalizeTools(JSON.parse(content));

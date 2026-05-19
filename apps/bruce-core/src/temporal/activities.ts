@@ -1,4 +1,4 @@
-import { getAgentRunner } from '@bruce/agent-runtime';
+import { runAgentStep } from '@bruce/agent-runtime';
 import { withAccountContext } from '@bruce/db';
 import { getEventBus } from '@bruce/events';
 import { logger } from '@bruce/logger';
@@ -14,11 +14,10 @@ export async function runVentureLifecycleStep(params: {
   const { accountId, ventureId, correlationId } = params;
   logger.info({ accountId, ventureId }, 'Running venture-lifecycle-manager');
 
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'bruce-core',
-    'venture-lifecycle-manager',
-    {
+  const result = await runAgentStep({
+    module: 'bruce-core',
+    agentId: 'venture-lifecycle-manager',
+    input: {
       venture_id: ventureId,
       trigger_type: 'module_completed',
       module_completion: {
@@ -32,7 +31,7 @@ export async function runVentureLifecycleStep(params: {
       },
       correlation_id: correlationId,
     },
-    {
+    context: {
       accountId,
       ventureId,
       module: 'bruce-core',
@@ -40,8 +39,8 @@ export async function runVentureLifecycleStep(params: {
       correlationId,
       observabilityRunId: params.observabilityRunId,
       observabilityStepKey: params.observabilityStepKey,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throw new Error(`Venture lifecycle failed: ${result.error}`);
@@ -60,11 +59,10 @@ export async function runModuleDispatchStep(params: {
   const { accountId, ventureId, correlationId } = params;
   logger.info({ accountId, ventureId }, 'Running module-dispatcher');
 
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'bruce-core',
-    'module-dispatcher',
-    {
+  const result = await runAgentStep({
+    module: 'bruce-core',
+    agentId: 'module-dispatcher',
+    input: {
       venture_id: ventureId,
       stage: 'GENERATED',
       modules: ['opportunity'],
@@ -77,7 +75,7 @@ export async function runModuleDispatchStep(params: {
       parallelization_allowed: false,
       correlation_id: correlationId,
     },
-    {
+    context: {
       accountId,
       ventureId,
       module: 'bruce-core',
@@ -85,8 +83,8 @@ export async function runModuleDispatchStep(params: {
       correlationId,
       observabilityRunId: params.observabilityRunId,
       observabilityStepKey: params.observabilityStepKey,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throw new Error(`Module dispatch failed: ${result.error}`);

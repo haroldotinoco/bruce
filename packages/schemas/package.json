@@ -1,0 +1,21 @@
+{
+  "name": "@bruce/schemas",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "generate": "node scripts/generate-schemas.mjs",
+    "build": "pnpm run generate && tsc",
+    "type-check": "pnpm run generate && tsc --noEmit",
+    "lint": "eslint src --ext .ts --max-warnings 0",
+    "clean": "rm -rf dist src/generated"
+  },
+  "dependencies": {
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  }
+}

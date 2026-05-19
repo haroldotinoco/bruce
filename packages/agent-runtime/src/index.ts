@@ -1,4 +1,4 @@
-export { AgentRunner, getAgentRunner } from './agent-runner.js';
+export { AgentRunner } from './agent-runner.js';
 export { AgentLoader, agentLoader, resolveModulesDir } from './agent-loader.js';
 export { buildBehaviorRuleCatalog } from './behavior-catalog.js';
 export type {
@@ -12,12 +12,14 @@ export type {
 export { ToolRegistry, getToolRegistry } from './tool-registry.js';
 export type { ToolImplementation, ToolExecutionEnv } from './tool-registry.js';
 export { validateInput, validateOutput, ValidationError } from './validators.js';
-export { jsonSchemaToZod } from './json-schema-zod.js';
+export { runAgentStep, type RunAgentStepParams } from './run-agent-step.js';
 export type {
   AgentSpec,
   AgentCapabilities,
   ExecutionContext,
   AgentExecutionResult,
+  AgentRuntimeHooks,
+  AgentRuntimeHookResolver,
   ToolDefinition,
   AgentRunnerDeps,
 } from './types.js';

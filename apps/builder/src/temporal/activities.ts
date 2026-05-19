@@ -1,4 +1,4 @@
-import { getAgentRunner } from '@bruce/agent-runtime';
+import { runAgentStep } from '@bruce/agent-runtime';
 import { emitEvent } from '@bruce/events';
 import {
   buildBuilderToGtmHandoff,
@@ -20,12 +20,11 @@ export async function runSolutionArchitectAgent(params: {
   const { accountId, ventureId, agentInput, correlationId } = params;
   logger.info({ accountId, ventureId }, 'builder: solution-architect');
 
-  const runner = getAgentRunner();
-  const result = await runner.run(
-    'builder',
-    'solution-architect',
-    agentInput,
-    {
+  const result = await runAgentStep({
+    module: 'builder',
+    agentId: 'solution-architect',
+    input: agentInput,
+    context: {
       accountId,
       ventureId,
       module: 'builder',
@@ -34,8 +33,8 @@ export async function runSolutionArchitectAgent(params: {
       observabilityRunId: params.observabilityRunId,
       observabilityStepKey: params.observabilityStepKey,
       observabilityParentStepKey: params.observabilityParentStepKey,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throw new Error(result.error ?? 'solution-architect failed');

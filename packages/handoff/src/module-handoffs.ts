@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 
 const BruceModuleNameSchema = z.enum([
@@ -461,7 +462,7 @@ export function createModuleHandoffEnvelope(params: {
 }): ModuleHandoffEnvelope {
   const now = new Date().toISOString();
   return ModuleHandoffEnvelopeSchema.parse({
-    handoff_id: crypto.randomUUID(),
+    handoff_id: randomUUID(),
     from_module: params.fromModule,
     to_module: params.toModule,
     venture_id: params.ventureId,

@@ -6,6 +6,8 @@
     "paths": {
       "@bruce/contracts": ["packages/contracts/src/index.ts"],
       "@bruce/contracts/generated/*": ["packages/contracts/src/generated/*"],
+      "@bruce/schemas": ["packages/schemas/src/index.ts"],
+      "@bruce/schemas/*": ["packages/schemas/src/*"],
       "@bruce/db": ["packages/db/src/index.ts"],
       "@bruce/llm": ["packages/llm/src/index.ts"],
       "@bruce/redis": ["packages/redis/src/index.ts"],

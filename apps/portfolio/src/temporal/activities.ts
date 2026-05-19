@@ -1,4 +1,4 @@
-import { getAgentRunner } from '@bruce/agent-runtime';
+import { runAgentStep } from '@bruce/agent-runtime';
 import { emitEvent } from '@bruce/events';
 import {
   buildBruceMemoryInputFromPortfolioDecisionHandoff,
@@ -22,12 +22,11 @@ export async function runPortfolioAnalystAgent(params: {
   const { accountId, ventureId, agentInput, correlationId } = params;
   logger.info({ accountId, ventureId }, 'portfolio: portfolio-analyst');
 
-  const runner = getAgentRunner();
-  const result = await runner.run(
-    'portfolio',
-    'portfolio-analyst',
-    agentInput,
-    {
+  const result = await runAgentStep({
+    module: 'portfolio',
+    agentId: 'portfolio-analyst',
+    input: agentInput,
+    context: {
       accountId,
       ventureId,
       module: 'portfolio',
@@ -36,8 +35,8 @@ export async function runPortfolioAnalystAgent(params: {
       observabilityRunId: params.observabilityRunId,
       observabilityStepKey: params.observabilityStepKey,
       observabilityParentStepKey: params.observabilityParentStepKey,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throw new Error(result.error ?? 'portfolio-analyst failed');

@@ -17,6 +17,7 @@
     "@bruce/llm": "workspace:*",
     "@bruce/logger": "workspace:*",
     "@bruce/project-store": "workspace:*",
+    "@bruce/schemas": "workspace:*",
     "@temporalio/activity": "^1.16.0",
     "@bruce/redis": "workspace:*",
     "@bruce/storage": "workspace:*",

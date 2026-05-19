@@ -51,11 +51,12 @@ Variáveis úteis (ex.: `.env` na raiz):
 | `pnpm type-check` | Typecheck em workspaces|
 | `pnpm lint`       | ESLint                 |
 | `pnpm infra:down` | Para containers        |
+| `pnpm --filter @bruce/schemas run generate` | Gera schemas Zod e registry de agentes a partir de `modules/*/agents/*/{input,output}.schema.json` |
 | `pnpm --filter @bruce/contracts run generate` | Gera tipos a partir de `modules/**/*.schema.json` |
 | `pnpm --filter @bruce/db run db:migrate` | Aplica SQL em `packages/db/migrations/` |
 | `pnpm test:integration` | Vitest HTTP E2E opcional (ver `BRUCE_E2E_*` em `docs/operator-golden-path.md`) |
 
-Tipos gerados ficam em `packages/contracts/src/generated/`. Importe com o subpath `@bruce/contracts/generated/...` (veja `exports` em `packages/contracts/package.json`). O pacote raiz `@bruce/contracts` exporta os contratos comuns (`ModuleEvent`, erros, etc.).
+Schemas e tipos de agent input/output ficam em `@bruce/schemas`, gerados em `packages/schemas/src/generated/` a partir dos JSON Schemas visíveis em `modules/*/agents/*`. Contratos não-agent continuam em `packages/contracts/src/generated/`; o pacote raiz `@bruce/contracts` exporta os contratos comuns (`ModuleEvent`, erros, etc.).
 
 Event bus: por padrão usa memória; para Redis Pub/Sub defina `BRUCE_EVENT_BUS=redis` e `REDIS_URL`.
 

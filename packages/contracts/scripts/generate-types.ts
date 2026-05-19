@@ -21,7 +21,13 @@ async function findSchemas(dir: string, acc: string[] = []): Promise<string[]> {
   for (const e of entries) {
     const full = join(dir, e.name);
     if (e.isDirectory()) await findSchemas(full, acc);
-    else if (e.name.endsWith('.schema.json')) acc.push(full);
+    else if (e.name.endsWith('.schema.json')) {
+      const rel = relative(modulesDir, full).replace(/\\/g, '/');
+      if (/\/agents\/[^/]+\/(?:input|output)\.schema\.json$/.test(rel)) {
+        continue;
+      }
+      acc.push(full);
+    }
   }
   return acc;
 }

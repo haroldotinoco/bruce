@@ -1,4 +1,4 @@
-import { getAgentRunner } from '@bruce/agent-runtime';
+import { runAgentStep } from '@bruce/agent-runtime';
 import { emitEvent } from '@bruce/events';
 import {
   buildGtmToStartupOpsHandoff,
@@ -20,12 +20,11 @@ export async function runChannelStrategistAgent(params: {
   const { accountId, ventureId, agentInput, correlationId } = params;
   logger.info({ accountId, ventureId }, 'gtm: channel-strategist');
 
-  const runner = getAgentRunner();
-  const result = await runner.run(
-    'gtm',
-    'channel-strategist',
-    agentInput,
-    {
+  const result = await runAgentStep({
+    module: 'gtm',
+    agentId: 'channel-strategist',
+    input: agentInput,
+    context: {
       accountId,
       ventureId,
       module: 'gtm',
@@ -34,8 +33,8 @@ export async function runChannelStrategistAgent(params: {
       observabilityRunId: params.observabilityRunId,
       observabilityStepKey: params.observabilityStepKey,
       observabilityParentStepKey: params.observabilityParentStepKey,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throw new Error(result.error ?? 'channel-strategist failed');

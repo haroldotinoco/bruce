@@ -1,6 +1,6 @@
 import { ApplicationFailure } from '@temporalio/common';
 import { and, eq, sql } from 'drizzle-orm';
-import { getAgentRunner } from '@bruce/agent-runtime';
+import { runAgentStep } from '@bruce/agent-runtime';
 import { schema, withAccountContext } from '@bruce/db';
 import { emitEvent, getEventBus } from '@bruce/events';
 import {
@@ -336,12 +336,11 @@ export async function runMarketScannerAgent(params: {
 
   const payload = { ...base, supplemental_live_search: supplemental };
 
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'opportunity',
-    'market-scanner',
-    payload,
-    {
+  const result = await runAgentStep({
+    module: 'opportunity',
+    agentId: 'market-scanner',
+    input: payload,
+    context: {
       accountId,
       ventureId,
       module: 'opportunity',
@@ -351,8 +350,8 @@ export async function runMarketScannerAgent(params: {
       observabilityStepKey: params.observabilityStepKey,
       observabilityParentStepKey: params.observabilityParentStepKey,
       projectNickname: params.projectNickname,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throwAgentRunFailure('Market scanner', result.error);
@@ -380,12 +379,11 @@ export async function runOpportunityAnalystAgent(params: {
   const { accountId, ventureId, marketScannerOutput, correlationId, qualityFeedback } = params;
   logger.info({ accountId, ventureId, qualityRetry: Boolean(qualityFeedback) }, 'Running opportunity-analyst agent');
 
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'opportunity',
-    'opportunity-analyst',
-    opportunityAnalystPayload(marketScannerOutput, qualityFeedback),
-    {
+  const result = await runAgentStep({
+    module: 'opportunity',
+    agentId: 'opportunity-analyst',
+    input: opportunityAnalystPayload(marketScannerOutput, qualityFeedback),
+    context: {
       accountId,
       ventureId,
       module: 'opportunity',
@@ -395,8 +393,8 @@ export async function runOpportunityAnalystAgent(params: {
       observabilityStepKey: params.observabilityStepKey,
       observabilityParentStepKey: params.observabilityParentStepKey,
       projectNickname: params.projectNickname,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throwAgentRunFailure('Opportunity analyst', result.error);
@@ -419,12 +417,11 @@ export async function runScoringAgent(params: {
   const { accountId, ventureId, analystOutput, correlationId, scanThemes } = params;
   logger.info({ accountId, ventureId }, 'Running scoring agent');
 
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'opportunity',
-    'scoring-agent',
-    scoringPayloadFromSingleAnalyst(analystOutput, { scanThemes }),
-    {
+  const result = await runAgentStep({
+    module: 'opportunity',
+    agentId: 'scoring-agent',
+    input: scoringPayloadFromSingleAnalyst(analystOutput, { scanThemes }),
+    context: {
       accountId,
       ventureId,
       module: 'opportunity',
@@ -434,8 +431,8 @@ export async function runScoringAgent(params: {
       observabilityStepKey: params.observabilityStepKey,
       observabilityParentStepKey: params.observabilityParentStepKey,
       projectNickname: params.projectNickname,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throwAgentRunFailure('Scoring agent', result.error);
@@ -458,12 +455,11 @@ export async function runPrioritizationAgent(params: {
   const { accountId, ventureId, scoredOutput, correlationId, minimumAdvancementScore } = params;
   logger.info({ accountId, ventureId }, 'Running prioritization agent');
 
-  const agentRunner = getAgentRunner();
-  const result = await agentRunner.run(
-    'opportunity',
-    'prioritization-agent',
-    prioritizationPayload(scoredOutput, minimumAdvancementScore),
-    {
+  const result = await runAgentStep({
+    module: 'opportunity',
+    agentId: 'prioritization-agent',
+    input: prioritizationPayload(scoredOutput, minimumAdvancementScore),
+    context: {
       accountId,
       ventureId,
       module: 'opportunity',
@@ -473,8 +469,8 @@ export async function runPrioritizationAgent(params: {
       observabilityStepKey: params.observabilityStepKey,
       observabilityParentStepKey: params.observabilityParentStepKey,
       projectNickname: params.projectNickname,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throwAgentRunFailure('Prioritization agent', result.error);

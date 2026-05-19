@@ -25,7 +25,19 @@ export interface AgentSpec {
   inputSchema: ZodSchema;
   outputSchema: ZodSchema;
   tools: ToolDefinition[];
+  runtimeHooks?: AgentRuntimeHooks;
 }
+
+export interface AgentRuntimeHooks {
+  fallbackOutput?(input: unknown, context: ExecutionContext): Record<string, unknown> | undefined;
+  normalizeInput?(input: unknown, context: ExecutionContext): unknown;
+  normalizeOutput?(output: unknown, input: unknown, context: ExecutionContext): unknown;
+}
+
+export type AgentRuntimeHookResolver = (
+  module: string,
+  agentId: string,
+) => AgentRuntimeHooks | undefined;
 
 export interface ToolDefinition {
   name: string;

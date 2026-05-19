@@ -15,11 +15,11 @@ describe('buildBehaviorRuleCatalog', () => {
     );
 
     expect(workflow).toMatchObject({
-      manifestStatus: 'design',
-      runtimeAlignment: 'diverges_from_temporal_implementation',
+      manifestStatus: 'runtime',
+      runtimeAlignment: 'mirrors_apps_add_venture_temporal_pipeline_definition',
     });
     expect(workflow?.retryPolicies).toBeGreaterThan(0);
-    expect(workflow?.escalationStates).toBeGreaterThan(0);
+    expect(workflow?.failurePolicies).toBeGreaterThan(0);
   });
 
   it('requires every workflow manifest to declare a status', () => {

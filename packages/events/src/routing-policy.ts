@@ -31,6 +31,12 @@ export const EVENT_ROUTING_POLICY: Record<string, EventRoutingPolicy> = {
     subscribers: [],
     description: 'Brand-Aid completion marker; Builder is the current GTM prerequisite.',
   },
+  'brand-aid.brand-ready': {
+    kind: 'terminal_signal',
+    classification: 'terminal_lifecycle_signal',
+    subscribers: [],
+    description: 'Brand-Aid brand package readiness marker; no default downstream queue subscriber.',
+  },
   'builder.pipeline.completed': {
     kind: 'durable_trigger',
     classification: 'durable_downstream_trigger',

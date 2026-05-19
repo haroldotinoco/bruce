@@ -1,4 +1,4 @@
-import { getAgentRunner } from '@bruce/agent-runtime';
+import { runAgentStep } from '@bruce/agent-runtime';
 import { emitEvent } from '@bruce/events';
 import { logger } from '@bruce/logger';
 import { getRedisClient } from '@bruce/redis';
@@ -15,12 +15,11 @@ export async function runLearningIngestionAgent(params: {
   const { accountId, ventureId, agentInput, correlationId } = params;
   logger.info({ accountId, ventureId }, 'bruce-memory: learning-ingestion-agent');
 
-  const runner = getAgentRunner();
-  const result = await runner.run(
-    'bruce-memory',
-    'learning-ingestion-agent',
-    agentInput,
-    {
+  const result = await runAgentStep({
+    module: 'bruce-memory',
+    agentId: 'learning-ingestion-agent',
+    input: agentInput,
+    context: {
       accountId,
       ventureId,
       module: 'bruce-memory',
@@ -29,8 +28,8 @@ export async function runLearningIngestionAgent(params: {
       observabilityRunId: params.observabilityRunId,
       observabilityStepKey: params.observabilityStepKey,
       observabilityParentStepKey: params.observabilityParentStepKey,
-    }
-  );
+    },
+  });
 
   if (!result.success) {
     throw new Error(result.error ?? 'learning-ingestion-agent failed');
