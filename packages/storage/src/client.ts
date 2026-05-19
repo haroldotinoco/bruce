@@ -1,6 +1,8 @@
 import {
+  CreateBucketCommand,
   DeleteObjectCommand,
   GetObjectCommand,
+  HeadBucketCommand,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
@@ -15,9 +17,16 @@ export interface StorageConfig {
   secretAccessKey: string;
 }
 
+function isMissingBucketError(error: unknown): boolean {
+  const err = error as { name?: string; Code?: string; $metadata?: { httpStatusCode?: number } };
+  const code = err.name ?? err.Code;
+  return err.$metadata?.httpStatusCode === 404 || code === 'NotFound' || code === 'NoSuchBucket';
+}
+
 export class StorageClient {
   private s3: S3Client;
   private bucket: string;
+  private bucketReady: Promise<void> | null = null;
 
   constructor(config: StorageConfig) {
     this.bucket = config.bucket;
@@ -36,6 +45,38 @@ export class StorageClient {
     return `${module}/${accountId}/${resourceId}/${filename}`;
   }
 
+  private async ensureBucket(): Promise<void> {
+    if (process.env.STORAGE_AUTO_CREATE_BUCKET === 'false') {
+      return;
+    }
+    if (!this.bucketReady) {
+      this.bucketReady = this.createBucketIfMissing();
+    }
+    await this.bucketReady;
+  }
+
+  private async createBucketIfMissing(): Promise<void> {
+    try {
+      await this.s3.send(new HeadBucketCommand({ Bucket: this.bucket }));
+      return;
+    } catch (error) {
+      if (!isMissingBucketError(error)) {
+        throw error;
+      }
+    }
+
+    try {
+      await this.s3.send(new CreateBucketCommand({ Bucket: this.bucket }));
+      logger.info({ bucket: this.bucket }, 'Created storage bucket');
+    } catch (error) {
+      const name = (error as { name?: string }).name;
+      if (name === 'BucketAlreadyOwnedByYou' || name === 'BucketAlreadyExists') {
+        return;
+      }
+      throw error;
+    }
+  }
+
   async upload(
     module: string,
     accountId: string,
@@ -47,6 +88,7 @@ export class StorageClient {
     const key = this.makeKey(module, accountId, resourceId, filename);
 
     try {
+      await this.ensureBucket();
       await this.s3.send(
         new PutObjectCommand({
           Bucket: this.bucket,

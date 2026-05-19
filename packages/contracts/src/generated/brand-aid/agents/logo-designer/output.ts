@@ -177,5 +177,26 @@ export interface LogoConceptsOutput {
     };
     [k: string]: unknown;
   };
+  /**
+   * Stored references to raster logo studies generated before final SVG production.
+   */
+  exploratory_studies?: {
+    id?: string;
+    label?: string;
+    url?: string;
+    storage_key?: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Auto-approved SVG logo asset selected after critique passes.
+   */
+  approved_logo?: {
+    id?: string;
+    label?: string;
+    url?: string;
+    storage_key?: string;
+    mime_type?: string;
+    [k: string]: unknown;
+  };
   [k: string]: unknown;
 }

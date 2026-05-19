@@ -296,17 +296,7 @@ function prioritizationPayload(
   scoredOutput: unknown,
   minimumAdvancementScore: number
 ): Record<string, unknown> {
-  let rows: Array<Record<string, unknown>>;
-  if (scoredOutput && typeof scoredOutput === 'object') {
-    const o = scoredOutput as Record<string, unknown>;
-    if (Array.isArray(o.scored_opportunities)) {
-      rows = o.scored_opportunities as Array<Record<string, unknown>>;
-    } else {
-      rows = scoredOpportunitiesFromOutput(scoredOutput);
-    }
-  } else {
-    rows = scoredOpportunitiesFromOutput(scoredOutput);
-  }
+  const rows = scoredOpportunitiesFromOutput(scoredOutput);
   return {
     scored_opportunities: rows,
     prioritization_context: {

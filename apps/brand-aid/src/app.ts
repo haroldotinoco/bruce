@@ -6,7 +6,9 @@ import { logger } from '@bruce/logger';
 import { errorHandler } from './middleware/error-handler.js';
 import { syncLogContextAccountMiddleware } from './middleware/logging.js';
 import { brandAidOpenApi } from './openapi.js';
+import { bootstrapRoutes } from './routes/bootstrap.js';
 import { jobRoutes } from './routes/jobs.js';
+import { packageRoutes } from './routes/packages.js';
 import { pipelineRoutes } from './routes/pipeline.js';
 import { workflowsRoutes } from './routes/workflows.js';
 
@@ -35,9 +37,11 @@ app.use('*', async (c, next) => {
 });
 app.use('*', syncLogContextAccountMiddleware);
 
+app.route('/bootstrap', bootstrapRoutes);
 app.route('/pipeline', pipelineRoutes);
 app.route('/jobs', jobRoutes);
 app.route('/workflows', workflowsRoutes);
+app.route('/packages', packageRoutes);
 app.onError(errorHandler);
 app.notFound((c) => c.json({ error: 'Not Found' }, 404));
 export default app;

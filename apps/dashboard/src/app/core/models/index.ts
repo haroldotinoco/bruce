@@ -52,6 +52,44 @@ export interface RestartDownstreamResponse {
   poll_url?: string;
 }
 
+export interface ForceHandoffRequest {
+  force: true;
+  reason: string;
+  target_module?: string;
+  source_step_id?: string;
+}
+
+export interface ForceHandoffResponse {
+  status: 'emitted';
+  event_type: string;
+  source_module: ModuleId;
+  target_modules: ModuleId[];
+  forced_from_run_id: string;
+  forced_from_temporal_workflow_id?: string;
+}
+
+export interface StartFromPromptRequest {
+  prompt: string;
+  venture_id?: string;
+  venture_name?: string;
+  forced_brand_name?: string;
+  project_nickname?: string;
+}
+
+export interface StartFromPromptResponse {
+  venture_id: string;
+  correlation_id: string;
+  workflow_id: string;
+  execution_id?: string;
+  poll_url?: string;
+  synthetic: {
+    opportunity_scan_id?: string;
+    opportunity_observability_run_id?: string;
+    add_venture_pipeline_run_id?: string | null;
+    add_venture_observability_run_id?: string;
+  };
+}
+
 export interface Opportunity {
   id: string;
   problem_statement: string;

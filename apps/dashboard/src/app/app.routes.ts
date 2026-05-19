@@ -33,6 +33,13 @@ export const routes: Routes = [
       import('./features/brand-aid/brand-aid.component').then((m) => m.BrandAidComponent),
   },
   {
+    path: 'brand-aid/package/:packageId',
+    loadComponent: () =>
+      import('./features/brand-aid/brand-aid-package-detail.component').then(
+        (m) => m.BrandAidPackageDetailComponent,
+      ),
+  },
+  {
     path: 'builder',
     loadComponent: () =>
       import('./features/builder/builder.component').then((m) => m.BuilderComponent),

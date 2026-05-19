@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { ADD_VENTURE_DS, AddVentureDossier } from '../../core/data-sources/tokens';
 import { DataModeService } from '../../core/data-sources/data-mode.service';
@@ -12,6 +13,8 @@ import { WorkflowConstellationCardComponent } from '../../shared/workflow/workfl
 import { RelativeTimePipe } from '../../shared/pipes/relative-time.pipe';
 import { ScoreColorPipe } from '../../shared/pipes/score-color.pipe';
 import { ModuleRollbackButtonComponent } from '../../shared/ui/module-rollback-button.component';
+import { StartFromPromptDialogComponent } from '../../shared/bootstrap/start-from-prompt-dialog.component';
+import { ToastService } from '../../shared/ui/toast.service';
 
 @Component({
   selector: 'app-add-venture',
@@ -28,6 +31,7 @@ import { ModuleRollbackButtonComponent } from '../../shared/ui/module-rollback-b
     RelativeTimePipe,
     ScoreColorPipe,
     ModuleRollbackButtonComponent,
+    StartFromPromptDialogComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -40,12 +44,19 @@ import { ModuleRollbackButtonComponent } from '../../shared/ui/module-rollback-b
     >
       <div actions>
         <app-module-rollback-button moduleId="add-venture"></app-module-rollback-button>
-        <button class="btn btn-primary" disabled>
-          <lucide-icon name="plus" [size]="12"></lucide-icon>
-          New dossier
+        <button class="btn btn-primary" type="button" (click)="startFromPromptOpen.set(true)">
+          <lucide-icon name="play" [size]="12"></lucide-icon>
+          Start from here
         </button>
       </div>
     </app-page-header>
+
+    <app-start-from-prompt-dialog
+      *ngIf="startFromPromptOpen()"
+      moduleId="add-venture"
+      (closed)="startFromPromptOpen.set(false)"
+      (started)="onStartedFromPrompt($event)"
+    />
 
     <app-workflow-constellation-card moduleId="add-venture"></app-workflow-constellation-card>
 
@@ -290,10 +301,13 @@ import { ModuleRollbackButtonComponent } from '../../shared/ui/module-rollback-b
 export class AddVentureComponent implements OnInit {
   private readonly ds = inject(ADD_VENTURE_DS);
   private readonly mode = inject(DataModeService);
+  private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   readonly dossiers = signal<AddVentureDossier[]>([]);
   readonly loading = signal(true);
   readonly isLive = computed(() => this.mode.isLive('add-venture'));
+  readonly startFromPromptOpen = signal(false);
 
   readonly agents = [
     { name: 'business-model-modeler', role: 'maps canvases', status: 'idle' },
@@ -328,5 +342,10 @@ export class AddVentureComponent implements OnInit {
       this.dossiers.set(rows);
       this.loading.set(false);
     });
+  }
+
+  onStartedFromPrompt(event: { workflowId: string; ventureId: string }): void {
+    this.toast.success('Pipeline started', `Workflow ${event.workflowId}`);
+    void this.router.navigate(['/workflow', 'add-venture', event.workflowId]);
   }
 }

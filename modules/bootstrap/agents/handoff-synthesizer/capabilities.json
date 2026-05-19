@@ -1,0 +1,16 @@
+{
+  "name": "handoff-synthesizer",
+  "purpose": "Synthesize pipeline-shaped opportunity and venture dossier artifacts from an operator prompt for start-from-here bootstrap flows",
+  "input_types": ["operator_prompt", "target_module", "venture_context"],
+  "output_types": ["synthetic_opportunity_pack", "synthetic_dossier_pack"],
+  "external_dependencies": [],
+  "stateful": false,
+  "runtime": {
+    "provider": "openrouter",
+    "model": null,
+    "api_key_ref": "OPENROUTER_API_KEY",
+    "temperature": 0.4,
+    "max_tokens": 8192,
+    "description": "Structured JSON synthesis for bootstrap handoffs"
+  }
+}

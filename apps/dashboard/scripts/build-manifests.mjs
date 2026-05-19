@@ -33,7 +33,9 @@ const RUNTIME_READINESS = {
   'add-venture': readiness('live', 'real', 'Primary dashboard flow can use the live service when a token is configured.', {
     event_worker: 'ready',
   }),
-  'brand-aid': readiness('mock', 'mock', 'Visible in navigation, but dashboard content is mock-backed.'),
+  'brand-aid': readiness('live', 'real', 'Primary dashboard flow can use the live service when a token is configured.',{
+    event_worker: 'ready',
+  }),
   builder: readiness('mock', 'mock', 'Visible in navigation, but dashboard content is mock-backed.'),
   gtm: readiness('mock', 'mock', 'Visible in navigation, but dashboard content is mock-backed.'),
   'startup-ops': readiness('mock', 'mock', 'Visible in navigation, but dashboard content is mock-backed.'),

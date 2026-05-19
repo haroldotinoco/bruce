@@ -230,87 +230,502 @@ export interface NamingCandidatesOutput {
   /**
    * All generated candidates with brief scores
    *
-   * @minItems 10
+   * @minItems 5
+   * @maxItems 12
    */
-  all_candidates: [
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    {
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    },
-    ...{
-      name?: string;
-      approach?: string;
-      rationale?: string;
-      domain_status?: string;
-      [k: string]: unknown;
-    }[]
-  ];
+  all_candidates:
+    | [
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        }
+      ]
+    | [
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        }
+      ]
+    | [
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        }
+      ]
+    | [
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        }
+      ]
+    | [
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        }
+      ]
+    | [
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        }
+      ]
+    | [
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        }
+      ]
+    | [
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        },
+        {
+          name?: string;
+          approach?: string;
+          rationale?: string;
+          domain_status?: string;
+          [k: string]: unknown;
+        }
+      ];
   /**
    * Explanation of how candidates were scored against criteria
    */

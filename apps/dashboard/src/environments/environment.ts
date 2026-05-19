@@ -19,7 +19,7 @@ export const environment: EnvConfig = {
     opportunity: 'real',
     'bruce-core': 'mock',
     'add-venture': 'real',
-    'brand-aid': 'mock',
+    'brand-aid': 'real',
     builder: 'mock',
     gtm: 'mock',
     'startup-ops': 'mock',

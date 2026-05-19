@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Handoff Synthesizer Input",
+  "type": "object",
+  "required": ["prompt", "target_module", "venture_id"],
+  "properties": {
+    "prompt": {
+      "type": "string",
+      "minLength": 20,
+      "description": "Operator description of the venture idea"
+    },
+    "target_module": {
+      "type": "string",
+      "enum": ["add-venture", "brand-aid"]
+    },
+    "venture_id": {
+      "type": "string",
+      "description": "Venture UUID"
+    },
+    "venture_name": {
+      "type": "string"
+    },
+    "synthesis_phase": {
+      "type": "string",
+      "enum": ["opportunity", "dossier"],
+      "description": "Which artifact pack to generate in this call"
+    },
+    "opportunity_handoff": {
+      "type": "object",
+      "description": "Prior opportunity pack when synthesizing dossier"
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Schema validation errors from a previous attempt"
+    }
+  }
+}

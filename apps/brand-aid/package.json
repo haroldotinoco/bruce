@@ -18,6 +18,7 @@
   "dependencies": {
     "@bruce/agent-runtime": "workspace:*",
     "@bruce/auth": "workspace:*",
+    "@bruce/bootstrap": "workspace:*",
     "@bruce/contracts": "workspace:*",
     "@bruce/db": "workspace:*",
     "@bruce/env": "workspace:*",
@@ -25,7 +26,9 @@
     "@bruce/handoff": "workspace:*",
     "@bruce/logger": "workspace:*",
     "@bruce/observability": "workspace:*",
+    "@bruce/project-store": "workspace:*",
     "@bruce/redis": "workspace:*",
+    "@bruce/storage": "workspace:*",
     "@hono/node-server": "^1.19.13",
     "@hono/zod-validator": "^0.7.6",
     "@temporalio/activity": "^1.16.0",

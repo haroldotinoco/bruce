@@ -23,6 +23,10 @@
         "visual_system": { "type": "object" },
         "logo": { "type": "object" },
         "naming": { "type": "object" },
+        "moodboard": { "type": "object" },
+        "logo_studies": { "type": "array", "items": { "type": "object" } },
+        "approved_logo": { "type": "object" },
+        "brand_imagery": { "type": "array", "items": { "type": "object" } },
         "usage_guidelines": { "type": "object" }
       }
     },
@@ -56,6 +60,21 @@
           }
         },
         "critique_score": { "type": "integer" }
+      }
+    },
+    "asset_manifest": {
+      "type": "array",
+      "description": "Stored logo, imagery, token, and brandbook asset references. URLs must refer to retained storage assets, not ephemeral provider URLs.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string" },
+          "label": { "type": "string" },
+          "url": { "type": "string" },
+          "storage_key": { "type": "string" },
+          "mime_type": { "type": "string" }
+        }
       }
     }
   }

@@ -99,6 +99,78 @@ interface RunRow {
   updated_at: Date;
 }
 
+export interface WorkflowRunRecord {
+  id: string;
+  module: string;
+  workflow_type?: string;
+  temporal_workflow_id?: string;
+  correlation_id?: string;
+  account_id: string;
+  venture_id?: string;
+  status: WorkflowRunStatus;
+  title: string;
+  subtitle?: string;
+  progress: number;
+  started_at: string;
+  completed_at?: string;
+  result_json: unknown;
+  error_message?: string;
+}
+
+function toWorkflowRunRecord(r: RunRow): WorkflowRunRecord {
+  return {
+    id: r.id,
+    module: r.module,
+    workflow_type: r.workflow_type ?? undefined,
+    temporal_workflow_id: r.temporal_workflow_id ?? undefined,
+    correlation_id: r.correlation_id ?? undefined,
+    account_id: r.account_id,
+    venture_id: r.venture_id ?? undefined,
+    status: normalizeRunStatus(r.status),
+    title: r.title,
+    subtitle: r.subtitle ?? undefined,
+    progress: r.progress,
+    started_at: r.started_at.toISOString(),
+    completed_at: r.completed_at?.toISOString(),
+    result_json: r.result_json,
+    error_message: r.error_message ?? undefined,
+  };
+}
+
+export async function getWorkflowRunRecord(
+  accountId: string,
+  runId: string,
+): Promise<WorkflowRunRecord | null> {
+  return await withAccountContext(accountId, async (tx) => {
+    const [run] = await tx
+      .select()
+      .from(workflowRuns)
+      .where(and(eq(workflowRuns.id, runId), eq(workflowRuns.account_id, accountId)))
+      .limit(1);
+    return run ? toWorkflowRunRecord(run as unknown as RunRow) : null;
+  });
+}
+
+export async function getWorkflowRunRecordByTemporalId(
+  accountId: string,
+  temporalWorkflowId: string,
+): Promise<WorkflowRunRecord | null> {
+  return await withAccountContext(accountId, async (tx) => {
+    const [run] = await tx
+      .select()
+      .from(workflowRuns)
+      .where(
+        and(
+          eq(workflowRuns.account_id, accountId),
+          eq(workflowRuns.temporal_workflow_id, temporalWorkflowId),
+        ),
+      )
+      .orderBy(desc(workflowRuns.started_at))
+      .limit(1);
+    return run ? toWorkflowRunRecord(run as unknown as RunRow) : null;
+  });
+}
+
 export async function getWorkflowRunByTemporalId(
   accountId: string,
   temporalWorkflowId: string,

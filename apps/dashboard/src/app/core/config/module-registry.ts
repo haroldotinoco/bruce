@@ -24,7 +24,7 @@ export const MODULE_REGISTRY: ModuleMeta[] = [
     icon: 'shield-check',
     order: 0,
     route: '/bruce-core',
-    realAvailable: false,
+    realAvailable: true,
   },
   {
     id: 'opportunity',
@@ -60,7 +60,7 @@ export const MODULE_REGISTRY: ModuleMeta[] = [
     icon: 'palette',
     order: 3,
     route: '/brand-aid',
-    realAvailable: false,
+    realAvailable: true,
   },
   {
     id: 'builder',

@@ -11,7 +11,12 @@
         "strategy": { "type": "object" },
         "visual_system": { "type": "object" },
         "logo_concepts": { "type": "object" },
-        "naming_candidates": { "type": "object" }
+        "naming_candidates": { "type": "object" },
+        "moodboard": { "type": "object" },
+        "logo_studies": { "type": "array", "items": { "type": "object" } },
+        "approved_logo": { "type": "object" },
+        "brand_imagery": { "type": "array", "items": { "type": "object" } },
+        "asset_manifest": { "type": "array", "items": { "type": "object" } }
       }
     },
     "brand_critique": {

@@ -11,6 +11,8 @@
         "distinctiveness": { "type": "integer", "minimum": 0, "maximum": 100 },
         "visual_coherence": { "type": "integer", "minimum": 0, "maximum": 100 },
         "naming_quality": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "moodboard_fit": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "logo_study_quality": { "type": "integer", "minimum": 0, "maximum": 100 },
         "overall": { "type": "integer", "minimum": 0, "maximum": 100 }
       }
     },

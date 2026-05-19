@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import type {
   ActiveWorkflow,
+  ForceHandoffRequest,
+  ForceHandoffResponse,
   LogValue,
   StepLogEntry,
   WorkflowStep,
@@ -629,5 +631,19 @@ export class WorkflowMockDataSource implements IWorkflowDataSource {
 
   get(workflowId: string): Observable<ActiveWorkflow | null> {
     return of(this.cache.get(workflowId) ?? null);
+  }
+
+  forceHandoff(
+    moduleId: ModuleId,
+    workflowId: string,
+    _body: ForceHandoffRequest,
+  ): Observable<ForceHandoffResponse> {
+    return of({
+      status: 'emitted',
+      event_type: `${moduleId}.mock.force_handoff`,
+      source_module: moduleId,
+      target_modules: [],
+      forced_from_run_id: workflowId,
+    });
   }
 }

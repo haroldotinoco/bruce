@@ -18,6 +18,21 @@ export interface BrandBookComposerInput {
     naming_candidates?: {
       [k: string]: unknown;
     };
+    moodboard?: {
+      [k: string]: unknown;
+    };
+    logo_studies?: {
+      [k: string]: unknown;
+    }[];
+    approved_logo?: {
+      [k: string]: unknown;
+    };
+    brand_imagery?: {
+      [k: string]: unknown;
+    }[];
+    asset_manifest?: {
+      [k: string]: unknown;
+    }[];
     [k: string]: unknown;
   };
   /**

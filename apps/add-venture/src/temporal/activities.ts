@@ -23,6 +23,37 @@ function asRecord(x: unknown): RecordLike {
   return x && typeof x === 'object' ? (x as RecordLike) : {};
 }
 
+function withForcedBrandNaming(input: RecordLike, forcedBrandName?: string): RecordLike {
+  const forced = forcedBrandName?.trim();
+  if (!forced) return input;
+  return {
+    ...input,
+    forced_brand_name: forced,
+    brand_naming_constraints: `Use "${forced}" as the official venture/product/brand name. Do not invent alternative names or taglines.`,
+  };
+}
+
+function applyForcedBrandToVol3(output: unknown, forced: string): unknown {
+  const vol = asRecord(output);
+  const positioning = asRecord(vol.positioning_statement);
+  return {
+    ...vol,
+    positioning_statement: { ...positioning, product_name: forced },
+  };
+}
+
+function applyForcedBrandToVol6(output: unknown, forced: string): unknown {
+  const vol = asRecord(output);
+  const taglines = Array.isArray(vol.tagline_candidates)
+    ? vol.tagline_candidates.filter((item): item is string => typeof item === 'string' && item !== forced)
+    : [];
+  return {
+    ...vol,
+    one_liner: forced,
+    tagline_candidates: [forced, ...taglines].slice(0, 5),
+  };
+}
+
 function buildBriefing(
   ventureId: string,
   opportunityId: string,
@@ -161,6 +192,7 @@ interface VolActivityParams {
   observabilityStepKey?: string;
   observabilityParentStepKey?: string;
   projectNickname?: string;
+  forcedBrandName?: string;
 }
 
 async function runVolAgent(
@@ -210,17 +242,22 @@ export async function runValuePropositionDesigner(
   },
 ): Promise<unknown> {
   logger.info({ accountId: params.accountId }, 'Running value-proposition-designer');
-  return runVolAgent(
+  const output = await runVolAgent(
     'value-proposition-designer',
-    {
-      venture_id: params.ventureId,
-      opportunity_id: params.opportunityId,
-      briefing: asRecord(params.briefing),
-      vol_1_opportunity: asRecord(params.vol1),
-      vol_2_customer_market: asRecord(params.vol2),
-    },
+    withForcedBrandNaming(
+      {
+        venture_id: params.ventureId,
+        opportunity_id: params.opportunityId,
+        briefing: asRecord(params.briefing),
+        vol_1_opportunity: asRecord(params.vol1),
+        vol_2_customer_market: asRecord(params.vol2),
+      },
+      params.forcedBrandName,
+    ),
     params,
   );
+  const forced = params.forcedBrandName?.trim();
+  return forced ? applyForcedBrandToVol3(output, forced) : output;
 }
 
 export async function runBusinessModelModeler(
@@ -281,19 +318,24 @@ export async function runNarrativeStrategist(
   },
 ): Promise<unknown> {
   logger.info({ accountId: params.accountId }, 'Running narrative-strategist');
-  return runVolAgent(
+  const output = await runVolAgent(
     'narrative-strategist',
-    {
-      venture_id: params.ventureId,
-      opportunity_id: params.opportunityId,
-      briefing: asRecord(params.briefing),
-      vol_1_opportunity: asRecord(params.vol1),
-      vol_2_customer_market: asRecord(params.vol2),
-      vol_3_value_proposition: asRecord(params.vol3),
-      vol_5_gtm: asRecord(params.vol5),
-    },
+    withForcedBrandNaming(
+      {
+        venture_id: params.ventureId,
+        opportunity_id: params.opportunityId,
+        briefing: asRecord(params.briefing),
+        vol_1_opportunity: asRecord(params.vol1),
+        vol_2_customer_market: asRecord(params.vol2),
+        vol_3_value_proposition: asRecord(params.vol3),
+        vol_5_gtm: asRecord(params.vol5),
+      },
+      params.forcedBrandName,
+    ),
     params,
   );
+  const forced = params.forcedBrandName?.trim();
+  return forced ? applyForcedBrandToVol6(output, forced) : output;
 }
 
 export async function runRiskValidationAnalyst(

@@ -30,5 +30,19 @@ export interface LogoDesignerInput {
     primary_use_case?: "web" | "print" | "merchandise" | "multi-channel";
     [k: string]: unknown;
   };
+  /**
+   * Exploratory Ideogram raster logo studies used as reference only; final logo output remains SVG/vector-first.
+   */
+  logo_studies?: {
+    id?: string;
+    label?: string;
+    url?: string;
+    storage_key?: string;
+    source_url?: string;
+    metadata?: {
+      [k: string]: unknown;
+    };
+    [k: string]: unknown;
+  }[];
   [k: string]: unknown;
 }

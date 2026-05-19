@@ -31,6 +31,18 @@ export interface BrandBookOutput {
     naming?: {
       [k: string]: unknown;
     };
+    moodboard?: {
+      [k: string]: unknown;
+    };
+    logo_studies?: {
+      [k: string]: unknown;
+    }[];
+    approved_logo?: {
+      [k: string]: unknown;
+    };
+    brand_imagery?: {
+      [k: string]: unknown;
+    }[];
     usage_guidelines?: {
       [k: string]: unknown;
     };
@@ -63,5 +75,17 @@ export interface BrandBookOutput {
     critique_score?: number;
     [k: string]: unknown;
   };
+  /**
+   * Stored logo, imagery, token, and brandbook asset references. URLs must refer to retained storage assets, not ephemeral provider URLs.
+   */
+  asset_manifest?: {
+    id?: string;
+    type?: string;
+    label?: string;
+    url?: string;
+    storage_key?: string;
+    mime_type?: string;
+    [k: string]: unknown;
+  }[];
   [k: string]: unknown;
 }

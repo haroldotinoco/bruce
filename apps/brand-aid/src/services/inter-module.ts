@@ -37,11 +37,14 @@ export async function handleVentureQualified(event: InterModuleEvent): Promise<v
     throw new Error(`venture-to-brand handoff invalid: ${validation.errors?.join('; ')}`);
   }
   const agentInput = buildBrandAidAgentInputFromVentureToBrandHandoff(validation.normalized);
+  const projectNickname =
+    typeof event.payload.project_nickname === 'string' ? event.payload.project_nickname : undefined;
   await startBrandAidPipeline({
     accountId: accountKey,
     ventureId,
     agentInput,
     correlationId: event.correlation_id,
+    projectNickname,
   });
   logger.info({ venture_id: ventureId }, '[brand-aid] pipeline started from venture.qualified');
 }

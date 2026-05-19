@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import type { IWorkflowDataSource } from './tokens';
-import type { ActiveWorkflow, WorkflowRunSummary } from '../models';
+import type { ActiveWorkflow, ForceHandoffRequest, ForceHandoffResponse, WorkflowRunSummary } from '../models';
 import type { ModuleId } from '../config/env.types';
 import { DataModeService } from './data-mode.service';
 import { WorkflowMockDataSource } from '../../mocks/factories/workflow.mock';
@@ -52,6 +52,18 @@ export class WorkflowDataSourceRouter implements IWorkflowDataSource {
       : (['opportunity', 'add-venture', 'brand-aid', 'builder', 'gtm', 'portfolio', 'startup-ops', 'bruce-memory', 'bruce-core'] as ModuleId[]);
 
     return this.tryGet(candidates, runId);
+  }
+
+  forceHandoff(
+    moduleId: ModuleId,
+    workflowId: string,
+    body: ForceHandoffRequest,
+  ): Observable<ForceHandoffResponse> {
+    return this.api.post<ForceHandoffResponse>(
+      moduleId,
+      `/workflows/${encodeURIComponent(workflowId)}/force-handoff`,
+      body,
+    );
   }
 
   private tryGet(modules: ModuleId[], runId: string): Observable<ActiveWorkflow | null> {

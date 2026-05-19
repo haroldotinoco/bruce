@@ -17,6 +17,7 @@ import {
 } from './tokens';
 import { OpportunityDataSourceRouter } from './opportunity.router';
 import { AddVentureDataSourceRouter } from './add-venture.router';
+import { BrandAidDataSourceRouter } from './brand-aid.router';
 import { WorkflowDataSourceRouter } from './workflow.router';
 import { BruceCoreMockDataSource } from '../../mocks/factories/ventures.mock';
 import {
@@ -39,7 +40,7 @@ export const dataSourceProviders: Provider[] = [
   { provide: OPPORTUNITY_DS, useExisting: OpportunityDataSourceRouter },
   { provide: BRUCE_CORE_DS, useExisting: BruceCoreMockDataSource },
   { provide: ADD_VENTURE_DS, useExisting: AddVentureDataSourceRouter },
-  { provide: BRAND_AID_DS, useExisting: BrandAidMockDataSource },
+  { provide: BRAND_AID_DS, useExisting: BrandAidDataSourceRouter },
   { provide: BUILDER_DS, useExisting: BuilderMockDataSource },
   { provide: GTM_DS, useExisting: GtmMockDataSource },
   { provide: STARTUP_OPS_DS, useExisting: StartupOpsMockDataSource },

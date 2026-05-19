@@ -26,6 +26,7 @@ import type { ActiveWorkflow, AgentCapability, WorkflowStep } from '../../core/m
 import { normalizeLucideStepIcon } from '../../shared/workflow/lucide-step-icon';
 import { DashboardPrefsService } from '../../core/config/dashboard-prefs.service';
 import { DASHBOARD_POLL_INTERVAL_MS } from '../../core/config/polling';
+import { ToastService } from '../../shared/ui/toast.service';
 
 @Component({
   selector: 'app-workflow-detail',
@@ -50,6 +51,15 @@ import { DASHBOARD_POLL_INTERVAL_MS } from '../../core/config/polling';
       icon="workflow"
     >
       <div actions>
+        <button
+          class="btn danger"
+          type="button"
+          *ngIf="canForceHandoff()"
+          (click)="openForceHandoff()"
+        >
+          <lucide-icon name="send" [size]="12"></lucide-icon>
+          Force handoff
+        </button>
         <a class="btn" [routerLink]="['/', moduleId()]" *ngIf="moduleId()">
           <lucide-icon name="arrow-right" [size]="12" style="transform: rotate(180deg)"></lucide-icon>
           Back to module
@@ -165,6 +175,51 @@ import { DASHBOARD_POLL_INTERVAL_MS } from '../../core/config/polling';
         </div>
       </ng-container>
     </ng-template>
+
+    <div class="modal-backdrop" *ngIf="forceDialogOpen()" (click)="closeForceHandoff()">
+      <section class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-head">
+          <div>
+            <div class="eyebrow">Manual override</div>
+            <h2>Force handoff to next module</h2>
+          </div>
+          <button class="icon-btn" type="button" (click)="closeForceHandoff()">×</button>
+        </div>
+        <p class="muted small">
+          This re-emits the official inter-module event with a new event id. Use it when a
+          workflow has enough output to continue, even if a gate or score blocked the automatic path.
+        </p>
+        <label class="field">
+          <span>Reason</span>
+          <textarea
+            rows="4"
+            [value]="forceReason()"
+            (input)="forceReason.set($any($event.target).value)"
+            placeholder="Explain why this run should advance manually"
+          ></textarea>
+        </label>
+        <label class="check">
+          <input
+            type="checkbox"
+            [checked]="forceOverrideAcknowledged()"
+            (change)="forceOverrideAcknowledged.set($any($event.target).checked)"
+          />
+          <span>Force even if the gate/score did not pass.</span>
+        </label>
+        <p class="error-text" *ngIf="forceError()">{{ forceError() }}</p>
+        <div class="modal-actions">
+          <button class="btn" type="button" (click)="closeForceHandoff()">Cancel</button>
+          <button
+            class="btn danger"
+            type="button"
+            [disabled]="forceSubmitting()"
+            (click)="submitForceHandoff()"
+          >
+            {{ forceSubmitting() ? 'Emitting...' : 'Emit force handoff' }}
+          </button>
+        </div>
+      </section>
+    </div>
   `,
   styles: [
     `
@@ -310,6 +365,88 @@ import { DASHBOARD_POLL_INTERVAL_MS } from '../../core/config/polling';
       .mono {
         font-family: 'JetBrains Mono', monospace;
       }
+      .btn.danger {
+        color: var(--err);
+        border-color: color-mix(in srgb, var(--err) 40%, var(--border));
+      }
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: grid;
+        place-items: center;
+        background: rgb(0 0 0 / 60%);
+        padding: 20px;
+      }
+      .modal {
+        width: min(560px, 100%);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--bg-1);
+        box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
+        padding: 18px;
+      }
+      .modal-head,
+      .modal-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .modal-head h2 {
+        margin: 4px 0 0;
+        font-size: 18px;
+      }
+      .eyebrow {
+        color: var(--fg-2);
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+      .icon-btn {
+        border: 1px solid var(--border);
+        background: var(--bg-2);
+        color: var(--fg-1);
+        border-radius: 10px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+      }
+      .field {
+        display: grid;
+        gap: 8px;
+        margin-top: 16px;
+        color: var(--fg-1);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      textarea {
+        resize: vertical;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--bg-2);
+        color: var(--fg-0);
+        padding: 10px;
+        font: inherit;
+      }
+      .check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        color: var(--fg-1);
+        font-size: 12px;
+      }
+      .error-text {
+        color: var(--err);
+        font-size: 12px;
+        margin: 12px 0 0;
+      }
+      .modal-actions {
+        justify-content: flex-end;
+        margin-top: 18px;
+      }
     `,
   ],
 })
@@ -320,12 +457,18 @@ export class WorkflowDetailComponent implements OnInit, OnDestroy {
   private readonly workflowDs = inject(WORKFLOW_DS);
   private readonly agentsDs = inject(AGENTS_DS);
   private readonly prefs = inject(DashboardPrefsService);
+  private readonly toast = inject(ToastService);
   private readonly autoRefresh$ = toObservable(this.prefs.autoRefreshEnabled);
 
   readonly workflow = signal<ActiveWorkflow | null>(null);
   readonly agents = signal<AgentCapability[]>([]);
   readonly loading = signal<boolean>(true);
   readonly selectedStepId = signal<string | null>(null);
+  readonly forceDialogOpen = signal<boolean>(false);
+  readonly forceReason = signal<string>('');
+  readonly forceOverrideAcknowledged = signal<boolean>(false);
+  readonly forceSubmitting = signal<boolean>(false);
+  readonly forceError = signal<string | null>(null);
 
   readonly moduleId = computed<ModuleId | null>(() => this.workflow()?.module ?? null);
 
@@ -386,6 +529,65 @@ export class WorkflowDetailComponent implements OnInit, OnDestroy {
       return 'done · with retries';
     }
     return step.status;
+  }
+
+  canForceHandoff(): boolean {
+    const wf = this.workflow();
+    return !!wf && (wf.status === 'completed' || wf.status === 'failed');
+  }
+
+  openForceHandoff(): void {
+    this.forceReason.set('');
+    this.forceOverrideAcknowledged.set(false);
+    this.forceError.set(null);
+    this.forceDialogOpen.set(true);
+  }
+
+  closeForceHandoff(): void {
+    if (this.forceSubmitting()) return;
+    this.forceDialogOpen.set(false);
+  }
+
+  submitForceHandoff(): void {
+    const wf = this.workflow();
+    const moduleId = this.moduleId();
+    const reason = this.forceReason().trim();
+    if (!wf || !moduleId) return;
+    if (!reason) {
+      this.forceError.set('Reason is required.');
+      return;
+    }
+    if (!this.forceOverrideAcknowledged()) {
+      this.forceError.set('Confirm that this should advance even if a gate/score did not pass.');
+      return;
+    }
+    this.forceSubmitting.set(true);
+    this.forceError.set(null);
+    this.workflowDs
+      .forceHandoff(moduleId, wf.id, {
+        force: true,
+        reason,
+        source_step_id: this.selectedStepId() ?? undefined,
+      })
+      .subscribe({
+        next: (res) => {
+          this.forceSubmitting.set(false);
+          this.forceDialogOpen.set(false);
+          this.toast.success(
+            'Force handoff emitted',
+            `${res.event_type} -> ${res.target_modules.join(', ') || 'downstream'}`,
+          );
+          this.workflowDs.get(wf.id, moduleId).subscribe((fresh) => {
+            if (fresh) this.workflow.set(fresh);
+          });
+        },
+        error: (e) => {
+          this.forceSubmitting.set(false);
+          const msg = e?.error?.error ?? e?.message ?? 'Force handoff failed.';
+          this.forceError.set(msg);
+          this.toast.error('Force handoff failed', msg);
+        },
+      });
   }
 
   ngOnInit(): void {

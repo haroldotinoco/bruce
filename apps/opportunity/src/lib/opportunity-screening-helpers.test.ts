@@ -290,6 +290,37 @@ describe('scoredOpportunitiesRowsFromMany', () => {
     ]);
     expect(rows.length).toBe(2);
   });
+
+  it('filters and canonicalizes mixed scored_opportunities rows for prioritization', () => {
+    const rows = scoredOpportunitiesRowsFromMany([
+      {
+        scored_opportunities: [
+          { opportunity_id: 'a', total_score: 75.4, title: 'T1', tags: ['ai'] },
+          75,
+          { opportunity_id: 'b', total_score: 70, opportunity_title: 'T2' },
+          70,
+        ],
+      },
+    ]);
+
+    expect(rows).toEqual([
+      expect.objectContaining({
+        opportunity_id: 'a',
+        title: 'T1',
+        total_score: 75,
+        recommendation: 'reconsider',
+        tags: ['ai'],
+      }),
+      expect.objectContaining({
+        opportunity_id: 'b',
+        title: 'T2',
+        total_score: 70,
+        recommendation: 'reconsider',
+        tags: [],
+      }),
+    ]);
+    expect(rows.every((row) => row && typeof row === 'object' && !Array.isArray(row))).toBe(true);
+  });
 });
 
 describe('getOpportunityQualityConfig', () => {

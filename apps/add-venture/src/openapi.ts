@@ -22,6 +22,13 @@ export const addVentureOpenApi = {
         responses: { '202': { description: 'Workflow started' } },
       },
     },
+    '/bootstrap/start-from-prompt': {
+      post: {
+        summary: 'Synthesize opportunity artifacts from prompt and start structuring',
+        security: [{ bearerAuth: [] }],
+        responses: { '202': { description: 'Bootstrap started' }, '403': { description: 'Disabled' } },
+      },
+    },
     '/jobs/{id}': {
       get: {
         summary: 'Poll Temporal workflow status',

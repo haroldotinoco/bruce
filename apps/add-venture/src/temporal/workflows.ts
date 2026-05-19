@@ -37,7 +37,6 @@ export const queryState = defineQuery<VentureAdditionState>('state');
 
 const act = proxyActivities<typeof Activities>({
   startToCloseTimeout: '20 minutes',
-  heartbeatTimeout: '1 minute',
   retry: {
     initialInterval: '1 second',
     maximumInterval: '1 minute',
@@ -152,6 +151,7 @@ export async function ventureAdditionWorkflow(input: {
   correlation_id?: string;
   project_nickname?: string;
   pipeline_run_id?: string;
+  forced_brand_name?: string;
 }): Promise<unknown> {
   const {
     account_id,
@@ -161,13 +161,20 @@ export async function ventureAdditionWorkflow(input: {
     correlation_id,
     project_nickname: projectNickname,
     pipeline_run_id: pipelineRunId,
+    forced_brand_name: forcedBrandName,
   } = input;
   const correlationId = correlation_id ?? uuid4();
   const wfId = workflowInfo().workflowId;
+  const forcedName =
+    typeof forcedBrandName === 'string' && forcedBrandName.trim().length > 0
+      ? forcedBrandName.trim()
+      : '';
   const ventureName =
-    typeof opportunity.title === 'string' && opportunity.title.length > 0
+    forcedName ||
+    (typeof opportunity.title === 'string' && opportunity.title.length > 0
       ? opportunity.title
-      : `Venture ${wfId.slice(-6)}`;
+      : `Venture ${wfId.slice(-6)}`);
+  let activeStep: string | null = null;
 
   setHandler(queryState, () => workflowState);
 
@@ -184,15 +191,17 @@ export async function ventureAdditionWorkflow(input: {
   });
 
   const setStepRunning = (key: string) =>
+    (activeStep = key,
     act.obsUpdateStep({
       runId: obsRunId,
       accountId: account_id,
       key,
       status: 'running',
       startedAt: new Date().toISOString(),
-    });
+    }));
 
   const setStepDone = (key: string, fields?: Record<string, unknown>) =>
+    (activeStep = activeStep === key ? null : activeStep,
     act.obsUpdateStep({
       runId: obsRunId,
       accountId: account_id,
@@ -200,7 +209,7 @@ export async function ventureAdditionWorkflow(input: {
       status: 'done',
       finishedAt: new Date().toISOString(),
       ...(fields ? { fields: fields as never } : {}),
-    });
+    }));
 
   try {
     if (pipelineRunId) {
@@ -267,6 +276,7 @@ export async function ventureAdditionWorkflow(input: {
       observabilityRunId: obsRunId,
       observabilityStepKey: STEP_VOL3,
       projectNickname,
+      forcedBrandName: forcedName || undefined,
     });
     await setStepDone(STEP_VOL3);
 
@@ -323,6 +333,7 @@ export async function ventureAdditionWorkflow(input: {
       observabilityRunId: obsRunId,
       observabilityStepKey: STEP_VOL6,
       projectNickname,
+      forcedBrandName: forcedName || undefined,
     });
     await setStepDone(STEP_VOL6);
 
@@ -459,6 +470,26 @@ export async function ventureAdditionWorkflow(input: {
     return finalResult;
   } catch (error) {
     const errorMessage = (error as Error).message;
+    if (activeStep) {
+      await act.obsUpdateStep({
+        runId: obsRunId,
+        accountId: account_id,
+        key: activeStep,
+        status: 'failed',
+        finishedAt: new Date().toISOString(),
+        fields: {
+          error: { kind: 'text_long', value: errorMessage },
+        },
+      });
+      await act.obsStepEvent({
+        runId: obsRunId,
+        accountId: account_id,
+        stepKey: activeStep,
+        level: 'error',
+        message: errorMessage,
+      });
+      activeStep = null;
+    }
     if (pipelineRunId) {
       await act.markPipelineRunFailed({
         accountId: account_id,

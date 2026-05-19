@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { seededRandom, pick, daysAgoIso, withLatency } from '../latency';
 import type {
   IAddVentureDataSource,
@@ -78,6 +79,22 @@ export class BrandAidMockDataSource implements IBrandAidDataSource {
       score: 55 + Math.floor(rand() * 40),
     }));
     return withLatency(rows);
+  }
+
+  getPackage(id: string): Observable<BrandPackage> {
+    return this.listPackages().pipe(
+      map((packages) => packages.find((pkg) => pkg.id === id) ?? packages[0] ?? {
+        id,
+        venture_name: 'Brand package',
+        status: 'generating',
+        updated_at: new Date().toISOString(),
+        names: [],
+        palette: [],
+        moodboard: [],
+        logos: 0,
+        score: 0,
+      }),
+    );
   }
 }
 

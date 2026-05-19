@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Handoff Synthesizer Output",
+  "type": "object",
+  "required": ["synthesis_phase"],
+  "properties": {
+    "synthesis_phase": {
+      "type": "string",
+      "enum": ["opportunity", "dossier"]
+    },
+    "venture_handoff": {
+      "type": "object",
+      "description": "opportunity-to-venture shaped payload"
+    },
+    "scan_results": {
+      "type": "object",
+      "properties": {
+        "ranked_opportunities": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "prioritization_timestamp": { "type": "string" }
+      }
+    },
+    "dossier": {
+      "type": "object",
+      "description": "dossier-composer shaped final dossier when phase is dossier"
+    }
+  }
+}

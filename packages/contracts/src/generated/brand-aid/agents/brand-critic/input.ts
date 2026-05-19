@@ -32,6 +32,18 @@ export interface BrandCriticInput {
   market_analysis?: {
     [k: string]: unknown;
   };
+  /**
+   * Curated visual clusters and source references used to assess moodboard fit
+   */
+  moodboard?: {
+    [k: string]: unknown;
+  };
+  /**
+   * Exploratory raster logo studies generated before final SVG production
+   */
+  logo_studies?: {
+    [k: string]: unknown;
+  }[];
   evaluation_criteria?: {
     strategic_alignment_weight?: number;
     distinctiveness_weight?: number;

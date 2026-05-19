@@ -24,6 +24,15 @@
       "type": "object",
       "description": "Market analysis for competitive positioning reference"
     },
+    "moodboard": {
+      "type": "object",
+      "description": "Curated visual clusters and source references used to assess moodboard fit"
+    },
+    "logo_studies": {
+      "type": "array",
+      "description": "Exploratory raster logo studies generated before final SVG production",
+      "items": { "type": "object" }
+    },
     "evaluation_criteria": {
       "type": "object",
       "properties": {

@@ -7,6 +7,8 @@ export interface BrandCritiqueOutput {
     distinctiveness?: number;
     visual_coherence?: number;
     naming_quality?: number;
+    moodboard_fit?: number;
+    logo_study_quality?: number;
     overall?: number;
     [k: string]: unknown;
   };

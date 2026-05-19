@@ -8,6 +8,7 @@ import { syncLogContextAccountMiddleware } from './middleware/logging.js';
 import { addVentureOpenApi } from './openapi.js';
 import { dossierRoutes } from './routes/dossiers.js';
 import { jobRoutes } from './routes/jobs.js';
+import { bootstrapRoutes } from './routes/bootstrap.js';
 import { structuringRoutes } from './routes/structuring.js';
 import { workflowsRoutes } from './routes/workflows.js';
 
@@ -55,6 +56,7 @@ app.use('*', async (c, next) => {
 
 app.use('*', syncLogContextAccountMiddleware);
 
+app.route('/bootstrap', bootstrapRoutes);
 app.route('/structuring', structuringRoutes);
 app.route('/dossiers', dossierRoutes);
 app.route('/jobs', jobRoutes);

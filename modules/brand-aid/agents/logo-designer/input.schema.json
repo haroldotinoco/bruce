@@ -35,6 +35,21 @@
         "icon_only_needed": { "type": "boolean", "default": true },
         "primary_use_case": { "type": "string", "enum": ["web", "print", "merchandise", "multi-channel"] }
       }
+    },
+    "logo_studies": {
+      "type": "array",
+      "description": "Exploratory Ideogram raster logo studies used as reference only; final logo output remains SVG/vector-first.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "url": { "type": "string" },
+          "storage_key": { "type": "string" },
+          "source_url": { "type": "string" },
+          "metadata": { "type": "object" }
+        }
+      }
     }
   }
 }

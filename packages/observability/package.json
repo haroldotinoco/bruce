@@ -20,6 +20,8 @@
   "dependencies": {
     "@bruce/contracts": "workspace:*",
     "@bruce/db": "workspace:*",
+    "@bruce/events": "workspace:*",
+    "@bruce/handoff": "workspace:*",
     "@bruce/logger": "workspace:*",
     "drizzle-orm": "^0.29.0"
   },

@@ -59,6 +59,7 @@ export async function startVentureStructuringWorkflow(params: {
   opportunity: Record<string, unknown>;
   correlationId?: string;
   projectNickname?: string;
+  forcedBrandName?: string;
 }) {
   const client = await getTemporalClient();
   const workflowId = `add-venture-${params.accountId}-${params.ventureId}-${Date.now()}`;
@@ -89,6 +90,7 @@ export async function startVentureStructuringWorkflow(params: {
           correlation_id: params.correlationId,
           project_nickname: params.projectNickname,
           pipeline_run_id: pipelineRunId ?? undefined,
+          forced_brand_name: params.forcedBrandName?.trim() || undefined,
         },
       ],
       memo: {

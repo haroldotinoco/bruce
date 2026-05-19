@@ -16,7 +16,7 @@
     "model": null,
     "api_key_ref": "OPENROUTER_API_KEY",
     "temperature": 0.8,
-    "max_tokens": 4096,
+    "max_tokens": 8192,
     "fallback_provider": null,
     "fallback_model": null
   }

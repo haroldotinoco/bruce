@@ -47,6 +47,9 @@ importers:
       '@bruce/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@bruce/bootstrap':
+        specifier: workspace:*
+        version: link:../../packages/bootstrap
       '@bruce/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
@@ -111,6 +114,9 @@ importers:
       typescript:
         specifier: ^5.3.0
         version: 5.9.3
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.39)(less@4.2.2)(sass@1.85.0)(terser@5.46.1)
 
   apps/api-gateway:
     dependencies:
@@ -145,6 +151,9 @@ importers:
       '@bruce/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@bruce/bootstrap':
+        specifier: workspace:*
+        version: link:../../packages/bootstrap
       '@bruce/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
@@ -166,9 +175,15 @@ importers:
       '@bruce/observability':
         specifier: workspace:*
         version: link:../../packages/observability
+      '@bruce/project-store':
+        specifier: workspace:*
+        version: link:../../packages/project-store
       '@bruce/redis':
         specifier: workspace:*
         version: link:../../packages/redis
+      '@bruce/storage':
+        specifier: workspace:*
+        version: link:../../packages/storage
       '@hono/node-server':
         specifier: ^1.19.13
         version: 1.19.13(hono@4.12.12)
@@ -847,6 +862,43 @@ importers:
         specifier: ^2.1.0
         version: 2.1.9(@types/node@20.19.39)(less@4.2.2)(sass@1.85.0)(terser@5.46.1)
 
+  packages/bootstrap:
+    dependencies:
+      '@bruce/agent-runtime':
+        specifier: workspace:*
+        version: link:../agent-runtime
+      '@bruce/db':
+        specifier: workspace:*
+        version: link:../db
+      '@bruce/handoff':
+        specifier: workspace:*
+        version: link:../handoff
+      '@bruce/logger':
+        specifier: workspace:*
+        version: link:../logger
+      '@bruce/observability':
+        specifier: workspace:*
+        version: link:../observability
+      '@bruce/project-store':
+        specifier: workspace:*
+        version: link:../project-store
+      drizzle-orm:
+        specifier: ^0.29.0
+        version: 0.29.5(@opentelemetry/api@1.9.1)(@types/pg@8.20.0)(pg@8.20.0)(react@19.2.5)
+      zod:
+        specifier: ^3.25.76
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20.10.0
+        version: 20.19.39
+      typescript:
+        specifier: ^5.3.0
+        version: 5.7.3
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.39)(less@4.2.2)(sass@1.85.0)(terser@5.46.1)
+
   packages/contracts:
     dependencies:
       zod:
@@ -1046,6 +1098,12 @@ importers:
       '@bruce/db':
         specifier: workspace:*
         version: link:../db
+      '@bruce/events':
+        specifier: workspace:*
+        version: link:../events
+      '@bruce/handoff':
+        specifier: workspace:*
+        version: link:../handoff
       '@bruce/logger':
         specifier: workspace:*
         version: link:../logger

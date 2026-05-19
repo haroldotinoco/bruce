@@ -20,8 +20,9 @@ Creative generation with scoring and validation
 
 ## Limits
 
-- Generate 15-25 candidate names per execution
-- Score only top 10-12 against all criteria
+- Generate 8-12 candidate names per execution
+- Score only top 5 against all criteria (full scores in `top_candidates` only)
+- Keep `all_candidates` brief: `name`, `approach`, `domain_status` only — no duplicate scoring blocks
 - Do not conduct deep domain/trademark searches (flag for manual verification)
 - Time limit: 25 minutes
 - Output length: naming-candidates object, max 2500 words

@@ -16,6 +16,8 @@ import type {
   TemporalRun,
   AgentCapability,
   ActiveWorkflow,
+  ForceHandoffRequest,
+  ForceHandoffResponse,
 } from '../models';
 import type { ModuleId } from '../config/env.types';
 
@@ -67,17 +69,45 @@ export const ADD_VENTURE_DS = new InjectionToken<IAddVentureDataSource>('ADD_VEN
 
 export interface IBrandAidDataSource {
   listPackages(): Observable<BrandPackage[]>;
+  getPackage(id: string): Observable<BrandPackage>;
 }
+
+export interface BrandMoodboardReference {
+  id: string;
+  title: string;
+  image_url: string;
+  thumbnail_url?: string;
+  link?: string;
+  domain?: string;
+  source?: string;
+  persisted_url?: string;
+}
+
+export interface BrandMoodboardCluster {
+  label: string;
+  rationale: string;
+  references: BrandMoodboardReference[];
+}
+
 export interface BrandPackage {
   id: string;
+  venture_id?: string;
   venture_name: string;
-  status: 'generating' | 'ready' | 'archived';
+  status: 'generating' | 'ready' | 'failed' | 'archived';
   updated_at: string;
   names: string[];
   palette: string[];
-  moodboard: { label: string; color: string }[];
+  moodboard: { label: string; color: string; image_url?: string; source_domain?: string; link?: string }[];
+  moodboard_clusters?: BrandMoodboardCluster[];
+  moodboard_limitations?: string;
+  logo_studies?: { label: string; url?: string }[];
+  approved_logo?: { label: string; url?: string };
+  brand_imagery?: { label: string; url?: string }[];
+  export_links?: { label: string; url: string }[];
   logos: number;
   score: number;
+  error?: string;
+  stage_outputs?: Record<string, unknown>;
 }
 export const BRAND_AID_DS = new InjectionToken<IBrandAidDataSource>('BRAND_AID_DS');
 
@@ -197,5 +227,10 @@ export const AGENTS_DS = new InjectionToken<IAgentsDataSource>('AGENTS_DS');
 export interface IWorkflowDataSource {
   activeForModule(moduleId: ModuleId): Observable<ActiveWorkflow[]>;
   get(workflowId: string, moduleHint?: ModuleId): Observable<ActiveWorkflow | null>;
+  forceHandoff(
+    moduleId: ModuleId,
+    workflowId: string,
+    body: ForceHandoffRequest,
+  ): Observable<ForceHandoffResponse>;
 }
 export const WORKFLOW_DS = new InjectionToken<IWorkflowDataSource>('WORKFLOW_DS');

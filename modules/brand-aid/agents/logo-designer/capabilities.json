@@ -17,7 +17,7 @@
   "stateful": false,
   "runtime": {
     "provider": "openrouter",
-    "model": "google/gemma-4-26b-a4b-it:free",
+    "model": null,
     "api_key_ref": "OPENROUTER_API_KEY",
     "temperature": 0.8,
     "max_tokens": 8192,

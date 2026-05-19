@@ -7,13 +7,25 @@ export {
 export {
   getWorkflowRun,
   getWorkflowRunByTemporalId,
+  getWorkflowRunRecord,
+  getWorkflowRunRecordByTemporalId,
   listWorkflowRuns,
 } from './workflow-loader.js';
+export type { WorkflowRunRecord } from './workflow-loader.js';
 export {
   LIFECYCLE_CORRELATION_POLICY,
   OBSERVABILITY_ID_GLOSSARY,
   TRACEABILITY_INCIDENT_CHECKLIST,
 } from './id-glossary.js';
+export {
+  forceHandoffFromWorkflow,
+  resolveForceHandoffRoute,
+  ForceHandoffError,
+} from './force-handoff.js';
+export type {
+  ForceHandoffRequest,
+  ForceHandoffResponse,
+} from './force-handoff.js';
 export type { ObservabilityIdGlossaryEntry } from './id-glossary.js';
 export { standardJobErrorResponse } from './job-status.js';
 export type { StandardJobErrorResponse, StandardJobStatus } from './job-status.js';

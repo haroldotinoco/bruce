@@ -670,39 +670,71 @@ export function buildFeedbackFromScoring(scoredOutput: unknown): string {
  * Maps a single scoring-agent output (or batch-shaped object) to prioritization rows.
  * Duplicated from activities for use in Temporal workflows (no activities import).
  */
+function canonicalPrioritizationRow(row: unknown, fallbackIndex: number): Record<string, unknown> | null {
+  if (!row || typeof row !== 'object' || Array.isArray(row)) return null;
+
+  const r = row as Record<string, unknown>;
+  const title =
+    typeof r.title === 'string' && r.title.trim()
+      ? r.title
+      : typeof r.opportunity_title === 'string' && r.opportunity_title.trim()
+        ? r.opportunity_title
+        : 'Scored opportunity';
+  const score = typeof r.total_score === 'number' && Number.isFinite(r.total_score)
+    ? Math.round(r.total_score)
+    : 0;
+  const recommendation = typeof r.recommendation === 'string' && r.recommendation.trim()
+    ? r.recommendation
+    : 'reconsider';
+  const discoveryDate =
+    typeof r.discovery_date === 'string' && r.discovery_date.trim()
+      ? r.discovery_date
+      : typeof r.scoring_timestamp === 'string' && r.scoring_timestamp.trim()
+        ? r.scoring_timestamp
+        : new Date().toISOString();
+
+  return {
+    opportunity_id:
+      typeof r.opportunity_id === 'string' && r.opportunity_id.trim()
+        ? r.opportunity_id
+        : `00000000-0000-4000-8000-${String(fallbackIndex + 1).padStart(12, '0')}`,
+    title,
+    total_score: score,
+    recommendation,
+    discovery_date: discoveryDate,
+    tags: Array.isArray(r.tags) ? r.tags : [],
+  };
+}
+
+function canonicalPrioritizationRows(rows: unknown[]): Array<Record<string, unknown>> {
+  return rows.flatMap((row, index) => {
+    const canonical = canonicalPrioritizationRow(row, index);
+    return canonical ? [canonical] : [];
+  });
+}
+
 export function scoredOpportunitiesFromOutput(scored: unknown): Array<Record<string, unknown>> {
+  if (Array.isArray(scored)) {
+    const rows = canonicalPrioritizationRows(scored);
+    if (rows.length > 0) return rows;
+  }
   if (scored && typeof scored === 'object') {
     const s = scored as Record<string, unknown>;
     if (Array.isArray(s.scored_opportunities)) {
-      return s.scored_opportunities as Array<Record<string, unknown>>;
+      const rows = canonicalPrioritizationRows(s.scored_opportunities);
+      if (rows.length > 0) return rows;
     }
     if (Array.isArray(s.opportunities)) {
-      return s.opportunities as Array<Record<string, unknown>>;
+      const rows = canonicalPrioritizationRows(s.opportunities);
+      if (rows.length > 0) return rows;
     }
     if (
       typeof s.opportunity_id === 'string' ||
       typeof s.total_score === 'number' ||
       typeof s.scoring_timestamp === 'string'
     ) {
-      const title =
-        typeof s.title === 'string'
-          ? s.title
-          : typeof s.opportunity_title === 'string'
-            ? s.opportunity_title
-            : 'Scored opportunity';
-      return [
-        {
-          opportunity_id:
-            typeof s.opportunity_id === 'string' ? s.opportunity_id : '00000000-0000-4000-8000-000000000001',
-          title,
-          total_score: typeof s.total_score === 'number' ? s.total_score : 0,
-          recommendation: s.recommendation ?? 'reconsider',
-          discovery_date:
-            typeof s.scoring_timestamp === 'string' ? s.scoring_timestamp : new Date().toISOString(),
-          dimensions: s.dimensions,
-          tags: Array.isArray(s.tags) ? s.tags : [],
-        },
-      ];
+      const row = canonicalPrioritizationRow(s, 0);
+      if (row) return [row];
     }
   }
   return [
